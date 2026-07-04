@@ -296,7 +296,11 @@ export default function App() {
             <div className="section-label">$ ls projects/</div>
             <div className="projects-grid">
               {projects.map((p, i) => (
-                <GlowCard key={p.title}>
+                <Reveal
+                  key={p.title}
+                  className={`pj-item ${i % 2 === 0 ? "from-left" : "from-right"}`}
+                >
+                <GlowCard>
                   <article className="card-body project-card">
                     <div className="pj-head">
                       <span className="pj-num">{String(i + 1).padStart(2, "0")}</span>
@@ -363,6 +367,7 @@ export default function App() {
                     </div>
                   </article>
                 </GlowCard>
+                </Reveal>
               ))}
             </div>
           </Reveal>
