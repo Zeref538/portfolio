@@ -1282,8 +1282,17 @@ nav {
 }
 
 /* ---------- about ---------- */
-.about-text { max-width: 720px; }
-.about-text p { color: var(--text-muted); margin-bottom: 18px; font-size: 16px; }
+.about-text { max-width: 780px; }
+.about-text p {
+  color: var(--text-muted);
+  margin-bottom: 22px;
+  font-size: 18.5px;
+  line-height: 1.75;
+  text-align: justify;
+}
+
+/* the ScrollReveal statement paragraph inherits the justify too */
+.about-text .scroll-reveal-text { text-align: justify; }
 
 /* ---------- contact / footer ---------- */
 .contact { text-align: center; }
