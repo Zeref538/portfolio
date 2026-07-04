@@ -115,8 +115,9 @@ nav {
   height: 64px;
   padding: 0 12px 0 28px;
   border-radius: 18px;
-  background: rgba(10, 12, 18, 0.82);
-  backdrop-filter: blur(14px);
+  /* higher opacity lets us halve the blur radius — backdrop blur repaints on every scroll frame */
+  background: rgba(10, 12, 18, 0.92);
+  backdrop-filter: blur(7px);
   border: 1px solid var(--border);
 }
 
