@@ -452,6 +452,19 @@ nav {
   50% { opacity: 0; }
 }
 
+/* Download CV: fills white on hover */
+.btn-cv {
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.25s ease;
+}
+
+.btn-cv:hover,
+.btn-cv:focus-visible {
+  background: #fff;
+  border-color: #fff;
+  color: #100a1e;
+  transform: translateY(-2px);
+}
+
 .hero-status {
   font-family: var(--font-mono);
   display: inline-flex;

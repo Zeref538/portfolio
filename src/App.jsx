@@ -254,7 +254,7 @@ export default function App() {
                 staggerDuration={0.025}
                 splitLevelClassName="rotating-role-split"
                 transition={{ type: "spring", damping: 30, stiffness: 400 }}
-                  rotationInterval={2800}
+                  rotationInterval={4200}
                 />
               </span>
             </span>
@@ -264,7 +264,7 @@ export default function App() {
             <Magnet padding={60} magnetStrength={4}>
               <a href={`mailto:${profile.email}`} className="btn btn-primary">Get in Touch</a>
             </Magnet>
-            <a href="/cv.pdf" className="btn btn-ghost" download>
+            <a href="/cv.pdf" className="btn btn-ghost btn-cv" download>
               Download CV
             </a>
           </div>
