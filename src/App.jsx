@@ -12,6 +12,7 @@ import { profile, experience, projects, skills, certifications, education } from
 import GitHubActivity from "./components/GitHubActivity.jsx";
 import PhoneShowcase from "./components/PhoneShowcase.jsx";
 import ContactForm from "./components/ContactForm.jsx";
+import StatusBar from "./components/StatusBar.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
 import { LuEye, LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuDownload } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
@@ -146,6 +147,8 @@ export default function App() {
         </div>
       </nav>
 
+      <StatusBar section={activeSection} />
+
       <aside className="section-rail" aria-label="Section progress" ref={railRef}>
         {NAV.map(([label, href], i) => {
           const activeIdx = NAV.findIndex(([, h]) => h === activeSection);
@@ -165,6 +168,10 @@ export default function App() {
           <div className="hero-status">
             <span className="dot" />
             training — ML Engineering Intern @ FlyRank AI
+          </div>
+          <div className="boot-log" aria-hidden="true">
+            <span>[ ok ] modules loaded — cv · ml · data</span>
+            <span>[ ok ] models warm · pipeline ready</span>
           </div>
           <TypedPrompt text="zeref@portfolio:~$ whoami" />
           <h1>
@@ -241,6 +248,7 @@ export default function App() {
         <section id="about">
           <Reveal className="container">
             <div className="section-label">$ cat about.md</div>
+            <div className="section-out"># rendering bio — 3 blocks</div>
             <div className="about-text">
               <ScrollReveal
                 baseOpacity={0.1}
@@ -258,6 +266,7 @@ export default function App() {
         <section id="experience">
           <Reveal className="container">
             <div className="section-label">$ git log --career</div>
+            <div className="section-out"># {experience.length} commits on branch career/main</div>
             <div className="timeline" ref={timelineRef}>
               {experience.map((exp, idx) => (
                 <div
@@ -296,6 +305,7 @@ export default function App() {
         <section id="projects">
           <Reveal className="container">
             <div className="section-label">$ ls projects/</div>
+            <div className="section-out"># {projects.length} repos · 2 live deployments</div>
             <div className="projects-grid">
               {projects.map((p, i) => (
                 <Reveal
@@ -383,6 +393,7 @@ export default function App() {
         <section id="github">
           <Reveal className="container">
             <div className="section-label">$ git log --github</div>
+            <div className="section-out"># live — streaming from api.github.com</div>
             <GitHubActivity />
           </Reveal>
         </section>
@@ -390,6 +401,7 @@ export default function App() {
         <section id="skills">
           <Reveal className="container">
             <div className="section-label">$ nvidia-smi --skills</div>
+            <div className="section-out"># {skills.reduce((n, g) => n + g.items.length, 0)} packages installed across {skills.length} groups</div>
             {skills.map((g) => (
               <div className="stack-group" key={g.group}>
                 <h3 className="stack-group-title">{g.group}</h3>
@@ -409,6 +421,7 @@ export default function App() {
         <section id="certifications">
           <Reveal className="container">
             <div className="section-label">$ ls certs/</div>
+            <div className="section-out"># {certifications.length} credentials · all verified ✓</div>
             <div className="cert-filters">
               <button
                 type="button"
@@ -479,6 +492,7 @@ export default function App() {
         <section id="education">
           <Reveal className="container">
             <div className="section-label">$ cat education.txt</div>
+            <div className="section-out"># {education.length} records · 2011 → 2027</div>
             <div className="timeline-h">
               {[...education].reverse().map((ed) => (
                 <div className="timeline-h-item" key={ed.school}>
@@ -504,6 +518,7 @@ export default function App() {
         <section id="contact" className="contact">
           <Reveal className="container">
             <div className="section-label" style={{ justifyContent: "center" }}>$ ssh zeref@contact</div>
+            <div className="section-out" style={{ textAlign: "center" }}># connection open · awaiting message</div>
             <ScrollFloat
               animationDuration={1}
               ease="back.inOut(2)"
