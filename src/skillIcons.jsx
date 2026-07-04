@@ -1,8 +1,6 @@
 // Maps each skill name in data.js to a real SVG logo in its brand color.
 // Brands: Simple Icons (react-icons/si) · Concepts: Lucide (react-icons/lu)
 import {
-  SiGoogle,
-  SiCisco,
   SiPython,
   SiOnnx,
   SiR,
@@ -53,19 +51,25 @@ const ICONS = {
   "Agile": [LuKanban, "#22d3ee"],
 };
 
-// certification issuers (Oracle/AWS logos aren't in Simple Icons — themed glyphs)
-const ISSUERS = {
-  "Google": [SiGoogle, "#4285F4"],
-  "Cisco": [SiCisco, "#1BA0D7"],
-  "AWS": [LuCloud, "#FF9900"],
-  "Oracle": [LuDatabase, "#F80000"],
+// certification issuers — official brand logos served from public/logos/
+const ISSUER_LOGOS = {
+  "Google": "/logos/google.svg",
+  "Cisco": "/logos/cisco.svg",
+  "AWS": "/logos/aws.svg",
+  "Oracle": "/logos/oracle.svg",
 };
 
 export function IssuerIcon({ issuer }) {
-  const entry = ISSUERS[issuer];
-  if (!entry) return null;
-  const [Icon, color] = entry;
-  return <Icon className="issuer-icon" style={{ color }} aria-hidden="true" />;
+  const src = ISSUER_LOGOS[issuer];
+  if (!src) return null;
+  return (
+    <img
+      className="issuer-icon"
+      src={src}
+      alt={`${issuer} logo`}
+      loading="lazy"
+    />
+  );
 }
 
 export function SkillIcon({ name }) {

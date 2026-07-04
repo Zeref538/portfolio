@@ -809,7 +809,9 @@ nav {
   background: var(--accent-dim);
 }
 
-.cert-filter .issuer-icon { width: 15px; height: 15px; }
+/* issuer logos are mixed square/wordmark shapes — size by height, keep aspect */
+.issuer-icon { object-fit: contain; width: auto; }
+.cert-filter .issuer-icon { height: 16px; max-width: 44px; }
 
 .cert-count {
   font-size: 11px;
@@ -864,7 +866,7 @@ nav {
   box-sizing: border-box;
 }
 
-.badge-art .issuer-icon { width: 26px; height: 26px; }
+.badge-art .issuer-icon { height: 26px; max-width: 80px; }
 
 .badge-art-name {
   color: #1f2733;
@@ -904,7 +906,7 @@ nav {
   padding: 4px 11px;
 }
 
-.badge-issuer .issuer-icon { width: 13px; height: 13px; }
+.badge-issuer .issuer-icon { height: 14px; max-width: 38px; }
 
 .cert-meta { font-family: var(--font-mono); color: var(--text-muted); font-size: 12px; white-space: nowrap; }
 
