@@ -21,6 +21,7 @@ import { LuEye, LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuDownload, LuMail
 import { SiGithub } from "react-icons/si";
 
 const NAV = [
+  ["Home", "#home"],
   ["About", "#about"],
   ["Experience", "#experience"],
   ["Projects", "#projects"],
@@ -153,11 +154,11 @@ export default function App() {
               <SiGithub />
             </a>
             <a
-              href="/resume.pdf"
+              href="/cv.pdf"
               className="nav-icon"
               download
-              aria-label="Download resume"
-              title="Download resume"
+              aria-label="Download CV"
+              title="Download CV"
             >
               <LuDownload />
             </a>
@@ -189,7 +190,7 @@ export default function App() {
         })}
       </aside>
 
-      <header className="hero">
+      <header className="hero" id="home">
         <div className="container">
           <div className="hero-status">
             <span className="dot" />
@@ -263,8 +264,8 @@ export default function App() {
             <Magnet padding={60} magnetStrength={4}>
               <a href={`mailto:${profile.email}`} className="btn btn-primary">Get in Touch</a>
             </Magnet>
-            <a href="/resume.pdf" className="btn btn-ghost" download>
-              Download Resume
+            <a href="/cv.pdf" className="btn btn-ghost" download>
+              Download CV
             </a>
           </div>
         </div>
