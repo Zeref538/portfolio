@@ -308,17 +308,32 @@ export default function App() {
                     <div className="pj-title-row">
                       <span className="pj-logo">{p.title.charAt(0)}</span>
                       <h3>{p.title}</h3>
-                      {p.link && (
-                        <a
-                          href={p.link}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="pj-open"
-                          aria-label={`Open ${p.title}`}
-                        >
-                          <LuArrowUpRight />
-                        </a>
-                      )}
+                      <span className="pj-actions">
+                        {p.link && (
+                          <a
+                            href={p.link}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="pj-open"
+                            aria-label={`${p.title} source on GitHub`}
+                            title="Source code"
+                          >
+                            <SiGithub />
+                          </a>
+                        )}
+                        {p.demo && (
+                          <a
+                            href={p.demo}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="pj-open pj-open-demo"
+                            aria-label={`${p.title} live demo`}
+                            title="Live demo"
+                          >
+                            <LuArrowUpRight />
+                          </a>
+                        )}
+                      </span>
                     </div>
                     <p className="project-desc">{p.description}</p>
                     <div className="pj-shot">
@@ -330,16 +345,16 @@ export default function App() {
                           {p.metric && <span className="pj-shot-metric">▸ {p.metric}</span>}
                         </div>
                       )}
-                      {p.link && (
+                      {(p.demo || p.link) && (
                         <a
-                          href={p.link}
+                          href={p.demo || p.link}
                           target="_blank"
                           rel="noreferrer"
                           className="pj-explore"
                           aria-label={`Explore ${p.title}`}
                         >
                           <LuEye />
-                          <span>open to explore</span>
+                          <span>{p.demo ? "open live demo" : "view source"}</span>
                         </a>
                       )}
                     </div>

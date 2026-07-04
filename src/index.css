@@ -602,8 +602,13 @@ nav {
   border: 1px solid rgba(139, 92, 246, 0.35);
 }
 
-.pj-open {
+.pj-actions {
   margin-left: auto;
+  display: inline-flex;
+  gap: 8px;
+}
+
+.pj-open {
   width: 34px;
   height: 34px;
   display: flex;
@@ -616,6 +621,13 @@ nav {
 }
 
 .pj-open:hover { color: var(--accent); border-color: var(--accent); transform: translate(2px, -2px); }
+.pj-open svg { width: 16px; height: 16px; }
+
+.pj-open-demo {
+  color: var(--accent-2);
+  border-color: rgba(34, 211, 238, 0.4);
+}
+.pj-open-demo:hover { color: var(--accent-2); border-color: var(--accent-2); }
 
 /* screenshot area */
 .pj-shot {

@@ -59,6 +59,7 @@ export const projects = [
     date: "2025 — 2026",
     image: "", // e.g. "/projects/acra.png" (put file in public/projects/)
     link: "https://github.com/Zeref538/ACRA",
+    demo: "https://acra-sandy.vercel.app/dashboard",
   },
   {
     title: "CafèSync — Smart Coffee Shop Operations",
@@ -71,6 +72,7 @@ export const projects = [
     date: "2025",
     image: "",
     link: "https://github.com/Zeref538/CafeSync",
+    demo: "https://cafesync-3b25a.web.app/station/management",
   },
   {
     title: "CLICKSILOG — Self-Ordering & Kitchen Display",
@@ -83,6 +85,7 @@ export const projects = [
     date: "2025",
     image: "",
     link: "https://github.com/Zeref538/ClickSilog",
+    demo: "",
   },
 ];
 
