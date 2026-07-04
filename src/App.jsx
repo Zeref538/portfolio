@@ -10,6 +10,7 @@ import RotatingText from "./components/RotatingText.jsx";
 import { useEffect, useRef, useState } from "react";
 import { profile, experience, projects, skills, certifications, education } from "./data.js";
 import GitHubActivity from "./components/GitHubActivity.jsx";
+import PhoneShowcase from "./components/PhoneShowcase.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
 import { LuEye, LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuDownload } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
@@ -341,7 +342,12 @@ export default function App() {
                     </div>
                     <p className="project-desc">{p.description}</p>
                     <div className="pj-shot">
-                      {p.image ? (
+                      {p.screens?.length ? (
+                        <PhoneShowcase
+                          screens={p.screens}
+                          alts={[`${p.title} menu`, `${p.title} item`, `${p.title} cart`]}
+                        />
+                      ) : p.image ? (
                         <img src={p.image} alt={`${p.title} screenshot`} loading="lazy" />
                       ) : (
                         <div className="pj-shot-ph">

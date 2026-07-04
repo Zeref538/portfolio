@@ -83,6 +83,12 @@ export const projects = [
     image: "",
     link: "https://github.com/Zeref538/ClickSilog",
     demo: "",
+    // animated phone showcase — save the screenshots in public/projects/clicksilog/
+    screens: [
+      "/projects/clicksilog/menu.png",
+      "/projects/clicksilog/item.png",
+      "/projects/clicksilog/cart.png",
+    ],
   },
 ];
 
