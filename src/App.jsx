@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { profile, experience, projects, skills, certifications, education } from "./data.js";
 import GitHubActivity from "./components/GitHubActivity.jsx";
 import PhoneShowcase from "./components/PhoneShowcase.jsx";
+import ContactForm from "./components/ContactForm.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
 import { LuEye, LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuDownload } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
@@ -516,8 +517,9 @@ export default function App() {
               Open to ML/AI engineering internships and entry-level roles —
               especially in accessibility and civic tech. Based in {profile.location}.
             </p>
-            <div className="hero-actions" style={{ justifyContent: "center" }}>
-              <a href={`mailto:${profile.email}`} className="btn btn-primary">
+            <ContactForm />
+            <div className="hero-actions contact-links" style={{ justifyContent: "center" }}>
+              <a href={`mailto:${profile.email}`} className="btn btn-ghost">
                 {profile.email}
               </a>
               {profile.links.map((l) => (
