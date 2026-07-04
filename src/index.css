@@ -458,7 +458,7 @@ nav {
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  color: var(--accent);
+  color: var(--text);
   background: var(--accent-dim);
   border: 1px solid rgba(139, 92, 246, 0.25);
   border-radius: 999px;
