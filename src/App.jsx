@@ -547,7 +547,7 @@ export default function App() {
             <ContactForm />
             <div className="hero-actions contact-links" style={{ justifyContent: "center" }}>
               <a href={`mailto:${profile.email}`} className="btn btn-ghost">
-                {profile.email}
+                Email
               </a>
               {profile.links.map((l) => (
                 <a key={l.label} href={l.url} target="_blank" rel="noreferrer" className="btn btn-ghost">
