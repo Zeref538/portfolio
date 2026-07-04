@@ -202,27 +202,28 @@ footer { padding-bottom: 46px !important; }
 /* ---------- nav (floating pill bar) ---------- */
 nav {
   position: fixed;
-  top: 16px;
+  top: 0;
   left: 0;
-  right: 0;
+  bottom: 0;
+  width: 68px;
   z-index: 100;
-  padding: 0 24px;
+  background: rgba(8, 10, 15, 0.9);
+  border-right: 1px solid var(--border);
 }
 
 .nav-bar {
-  max-width: 880px;
-  margin: 0 auto;
+  height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
-  height: 64px;
-  padding: 0 12px 0 28px;
-  border-radius: 18px;
-  /* higher opacity lets us halve the blur radius — backdrop blur repaints on every scroll frame */
-  background: rgba(10, 12, 18, 0.92);
-  backdrop-filter: blur(7px);
-  border: 1px solid var(--border);
+  padding: 20px 0 44px; /* bottom clears the status bar */
+}
+
+/* push page content clear of the sidebar */
+@media (min-width: 769px) {
+  body { padding-left: 68px; }
+  .statusbar { left: 68px; }
 }
 
 .nav-logo {
@@ -235,8 +236,40 @@ nav {
 
 .nav-actions {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
+}
+
+.nav-icon-cta {
+  color: #100a1e;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.nav-icon-cta:hover {
+  color: #100a1e;
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+}
+
+/* mobile: sidebar becomes a slim top bar */
+@media (max-width: 768px) {
+  nav {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    width: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-bar {
+    flex-direction: row;
+    height: 56px;
+    padding: 0 16px;
+  }
+  .nav-actions { flex-direction: row; gap: 10px; }
 }
 
 .nav-icon {
@@ -253,37 +286,6 @@ nav {
 
 .nav-icon svg { width: 17px; height: 17px; }
 .nav-icon:hover { color: var(--text); border-color: var(--accent); }
-
-.nav-resume {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-heading);
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-muted);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 9px 18px;
-  transition: color 0.2s ease, border-color 0.2s ease;
-}
-
-.nav-resume svg { width: 15px; height: 15px; }
-.nav-resume:hover { color: var(--accent); border-color: var(--accent); }
-
-.nav-cta {
-  font-family: var(--font-heading);
-  font-size: 14px;
-  font-weight: 600;
-  color: #100a1e;
-  background: #fff;
-  border-radius: 999px;
-  padding: 10px 22px;
-  white-space: nowrap;
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.nav-cta:hover { transform: translateY(-1px); background: #ede9fe; }
 
 /* ---------- section rail (right-side progress) ---------- */
 .section-rail {
@@ -1503,7 +1505,6 @@ footer {
   .timeline-item.left { padding-right: 0; }
   .timeline-item.left .timeline-marker,
   .timeline-item.right .timeline-marker { left: 0; right: auto; width: 13px; height: 13px; }
-  .nav-resume { display: none; } /* keep GitHub + CTA on small screens */
 }
 
 @media (prefers-reduced-motion: reduce) {

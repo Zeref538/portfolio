@@ -14,7 +14,7 @@ import PhoneShowcase from "./components/PhoneShowcase.jsx";
 import ContactForm from "./components/ContactForm.jsx";
 import StatusBar from "./components/StatusBar.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
-import { LuEye, LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuDownload } from "react-icons/lu";
+import { LuEye, LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuDownload, LuMail } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
 
 const NAV = [
@@ -134,14 +134,26 @@ export default function App() {
               rel="noreferrer"
               className="nav-icon"
               aria-label="GitHub profile"
+              title="GitHub"
             >
               <SiGithub />
             </a>
-            <a href="/resume.pdf" className="nav-resume" download>
-              <LuDownload /> Resume
+            <a
+              href="/resume.pdf"
+              className="nav-icon"
+              download
+              aria-label="Download resume"
+              title="Download resume"
+            >
+              <LuDownload />
             </a>
-            <a href={`mailto:${profile.email}`} className="nav-cta">
-              Get in Touch
+            <a
+              href={`mailto:${profile.email}`}
+              className="nav-icon nav-icon-cta"
+              aria-label="Get in touch"
+              title="Get in touch"
+            >
+              <LuMail />
             </a>
           </div>
         </div>
