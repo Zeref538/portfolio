@@ -50,7 +50,6 @@ export const experience = [
 export const projects = [
   {
     title: "ACRA — Adaptive Color Re-Encoding Algorithm",
-    subtitle: "Daltonism-aware accessibility · Thesis / ML Lead",
     description:
       "CNN-powered system that detects color-critical regions in public signage and re-encodes them for color vision deficiency without altering original design. Trained YOLOv8m on a custom 5-class dataset (33,774 annotated boxes) reaching 0.740 mAP50, and built the core re-encoding algorithm: CLAHE → CIELAB → Fuzzy C-Means → CIEDE2000 conflict detection → constrained optimization. Deployed via FastAPI + ONNX with Supabase (RLS, 24h auto-delete).",
     tags: ["YOLOv8", "Computer Vision", "FastAPI", "ONNX", "Supabase", "React"],
@@ -63,7 +62,6 @@ export const projects = [
   },
   {
     title: "CafèSync — Smart Coffee Shop Operations",
-    subtitle: "Real-time ops platform with AI insights",
     description:
       "Centralized coffee shop management for orders, inventory, and sales analytics. Node.js backend synced live via Firebase Firestore (zero-refresh multi-screen updates), PayMongo payments, and a Python AI insights layer generating operational alerts — ingredient reorder triggers and staffing recommendations from order-volume forecasting.",
     tags: ["Node.js", "Firebase", "Python", "Forecasting", "PayMongo"],
@@ -76,7 +74,6 @@ export const projects = [
   },
   {
     title: "CLICKSILOG — Self-Ordering & Kitchen Display",
-    subtitle: "Digital workflow for a local restaurant",
     description:
       "Self-ordering and kitchen display system replacing manual order-taking. Built the order-routing logic linking customer orders to a real-time Kitchen Display System, integrated PayMongo for online payments, and automated inventory deduction on each order — keeping ordering, kitchen, and stock fully in sync.",
     tags: ["JavaScript", "Node.js", "Express", "REST APIs", "React"],
@@ -89,47 +86,46 @@ export const projects = [
   },
 ];
 
-// level: 0–100, rendered as a terminal-style utilization bar
 export const skills = [
   {
     group: "AI / Machine Learning",
     items: [
-      { name: "Python", level: 90 },
-      { name: "YOLOv8", level: 85 },
-      { name: "CNNs", level: 80 },
-      { name: "Model Evaluation", level: 85 },
-      { name: "ONNX", level: 70 },
-      { name: "Forecasting", level: 70 },
+      "Python",
+      "YOLOv8",
+      "CNNs",
+      "Model Evaluation",
+      "ONNX",
+      "Forecasting",
     ],
   },
   {
     group: "Data",
     items: [
-      { name: "SQL", level: 80 },
-      { name: "R", level: 65 },
-      { name: "Tableau", level: 70 },
-      { name: "PostgreSQL", level: 75 },
-      { name: "Data Analysis", level: 85 },
-      { name: "Regression", level: 75 },
+      "SQL",
+      "R",
+      "Tableau",
+      "PostgreSQL",
+      "Data Analysis",
+      "Regression",
     ],
   },
   {
     group: "Engineering",
     items: [
-      { name: "FastAPI", level: 80 },
-      { name: "React", level: 75 },
-      { name: "Node.js", level: 75 },
-      { name: "Supabase", level: 75 },
-      { name: "Firebase", level: 70 },
-      { name: "REST APIs", level: 85 },
+      "FastAPI",
+      "React",
+      "Node.js",
+      "Supabase",
+      "Firebase",
+      "REST APIs",
     ],
   },
   {
     group: "Other",
     items: [
-      { name: "Cybersecurity", level: 65 },
-      { name: "Cloud (GCP · AWS · OCI)", level: 60 },
-      { name: "Agile", level: 70 },
+      "Cybersecurity",
+      "Cloud (GCP · AWS · OCI)",
+      "Agile",
     ],
   },
 ];

@@ -788,7 +788,6 @@ nav {
 }
 
 .stack-tile:hover .stack-tile-name { color: var(--text); }
-.skill-group li:last-child { border-bottom: none; }
 
 /* ---------- certifications (badge wall) ---------- */
 .cert-filters {

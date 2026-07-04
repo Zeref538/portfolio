@@ -388,9 +388,9 @@ export default function App() {
                 <h3 className="stack-group-title">{g.group}</h3>
                 <div className="stack-grid">
                   {g.items.map((s, i) => (
-                    <div className="stack-tile" key={s.name} style={{ "--i": i }}>
-                      <SkillIcon name={s.name} />
-                      <span className="stack-tile-name">{s.name}</span>
+                    <div className="stack-tile" key={s} style={{ "--i": i }}>
+                      <SkillIcon name={s} />
+                      <span className="stack-tile-name">{s}</span>
                     </div>
                   ))}
                 </div>
