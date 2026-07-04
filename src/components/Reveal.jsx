@@ -8,13 +8,17 @@ export default function Reveal({ children, as: Tag = "div", className = "", ...r
 
   useEffect(() => {
     const el = ref.current;
+    // Hysteresis: enter at 15% visible, reset only when fully off-screen.
+    // A single toggle threshold flickers when scroll sits near the boundary.
     const io = new IntersectionObserver(
       ([entry]) => {
-        el.classList.toggle("visible", entry.isIntersecting);
+        if (entry.intersectionRatio >= 0.15) {
+          el.classList.add("visible");
+        } else if (!entry.isIntersecting) {
+          el.classList.remove("visible");
+        }
       },
-      // enter at 12% visible; the negative margin resets it only once
-      // the section is well past the edge, avoiding flicker at boundaries
-      { threshold: 0.12, rootMargin: "-5% 0px -5% 0px" }
+      { threshold: [0, 0.15] }
     );
     io.observe(el);
     return () => io.disconnect();
