@@ -1,11 +1,10 @@
 import { useRef, useEffect } from 'react';
 import './Noise.css';
 
-// Film-grain overlay. Perf-tuned vs the stock version: 256px buffer
-// (stretched by the GPU) instead of 1024, slower refresh, and the loop
-// pauses when the tab is hidden.
+// Film-grain overlay — static by default (patternRefreshInterval 0 = draw
+// once, no animation loop). Pass an interval > 0 to re-enable live flicker.
 const Noise = ({
-  patternRefreshInterval = 4,
+  patternRefreshInterval = 0,
   patternAlpha = 12
 }) => {
   const grainRef = useRef(null);
@@ -37,8 +36,8 @@ const Noise = ({
       ctx.putImageData(imageData, 0, 0);
     };
 
-    if (reducedMotion) {
-      drawGrain(); // static grain, no flicker
+    if (reducedMotion || !patternRefreshInterval) {
+      drawGrain(); // static grain, no flicker, zero per-frame cost
       return;
     }
 

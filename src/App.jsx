@@ -124,23 +124,14 @@ export default function App() {
     <>
       <Cursor />
       <ParticleField />
-      <Noise patternAlpha={12} patternRefreshInterval={4} />
+      <Noise patternAlpha={10} />
       {/* zIndex -20 (+100 for page target = 80) keeps nav/rail/statusbar sharp above the veil */}
       <GradualBlur
         target="page"
         position="bottom"
-        height="6rem"
-        strength={2}
-        divCount={4}
-        curve="bezier"
-        zIndex={-20}
-      />
-      <GradualBlur
-        target="page"
-        position="top"
-        height="4rem"
+        height="5rem"
         strength={1.5}
-        divCount={3}
+        divCount={2}
         curve="bezier"
         zIndex={-20}
       />
