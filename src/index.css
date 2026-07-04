@@ -924,6 +924,88 @@ nav {
 
 .badge-verify:hover { color: var(--accent); border-color: var(--accent); }
 
+/* ---------- github activity ---------- */
+.gh-activity { display: flex; flex-direction: column; gap: 24px; }
+
+.gh-top { display: flex; flex-direction: column; gap: 16px; }
+
+.gh-chart-link {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  transition: border-color 0.25s ease;
+}
+
+.gh-chart-link:hover { border-color: rgba(139, 92, 246, 0.5); }
+
+.gh-chart { width: 100%; height: auto; display: block; }
+
+.gh-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.gh-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 7px 15px;
+}
+
+.gh-stat svg { width: 15px; height: 15px; color: var(--accent); }
+
+.gh-log {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  font-family: var(--font-mono);
+}
+
+.gh-log-title {
+  font-size: 13px;
+  color: var(--accent-2);
+  margin-bottom: 12px;
+}
+
+.gh-commit {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  min-width: 0;
+  transition: background 0.15s ease;
+}
+
+.gh-commit:hover { background: rgba(139, 92, 246, 0.06); }
+
+.gh-commit-icon { width: 15px; height: 15px; color: var(--accent); flex-shrink: 0; }
+.gh-sha { color: var(--accent-2); flex-shrink: 0; }
+.gh-msg {
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  flex: 1;
+}
+.gh-repo { color: var(--text-muted); flex-shrink: 0; }
+.gh-when { color: var(--text-muted); flex-shrink: 0; font-size: 12px; }
+
+@media (max-width: 640px) {
+  .gh-repo { display: none; }
+}
+
 /* ---------- education (horizontal timeline, oldest → newest) ---------- */
 .timeline-h {
   position: relative;

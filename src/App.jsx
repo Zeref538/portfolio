@@ -9,6 +9,7 @@ import BorderGlow from "./components/BorderGlow.jsx";
 import RotatingText from "./components/RotatingText.jsx";
 import { useEffect, useRef, useState } from "react";
 import { profile, experience, projects, skills, certifications, education } from "./data.js";
+import GitHubActivity from "./components/GitHubActivity.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
 import { LuEye, LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuDownload } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
@@ -17,6 +18,7 @@ const NAV = [
   ["About", "#about"],
   ["Experience", "#experience"],
   ["Projects", "#projects"],
+  ["GitHub", "#github"],
   ["Skills", "#skills"],
   ["Certifications", "#certifications"],
   ["Contact", "#contact"],
@@ -348,6 +350,13 @@ export default function App() {
                 </GlowCard>
               ))}
             </div>
+          </Reveal>
+        </section>
+
+        <section id="github">
+          <Reveal className="container">
+            <div className="section-label">$ git log --github</div>
+            <GitHubActivity />
           </Reveal>
         </section>
 
