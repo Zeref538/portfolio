@@ -1277,12 +1277,6 @@ nav {
 .contact h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 16px; }
 .contact p { color: var(--text-muted); max-width: 480px; margin: 0 auto 36px; }
 
-.footer-exit {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--accent-2);
-  opacity: 0.8;
-}
 
 /* ---------- contact form ---------- */
 .contact-form {
@@ -1379,12 +1373,79 @@ nav {
   .cf-row { grid-template-columns: 1fr; }
 }
 
-footer {
+/* ---------- footer (terminal sign-off) ---------- */
+footer.ft {
   border-top: 1px solid var(--border);
-  padding: 28px 0;
-  text-align: center;
-  color: var(--text-muted);
+  padding: 44px 0 28px;
   font-size: 13px;
+}
+
+.ft-terminal {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  line-height: 2;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 28px;
+}
+
+.ft-prompt { color: var(--accent); }
+.ft-dim { color: var(--text-muted); }
+.ft-ok { color: var(--accent-2); }
+.ft-uptime { color: var(--text); font-variant-numeric: tabular-nums; }
+
+.ft-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  color: var(--text-muted);
+}
+
+.ft-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ft-links a {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.ft-links a:hover { color: var(--text); }
+.ft-links svg { width: 17px; height: 17px; }
+
+.ft-mail {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+}
+
+.ft-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text-muted);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.ft-top:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+.ft-top svg { width: 14px; height: 14px; }
+
+@media (max-width: 640px) {
+  .ft-bottom { flex-direction: column; align-items: flex-start; }
 }
 
 /* ---------- reveal on scroll ---------- */

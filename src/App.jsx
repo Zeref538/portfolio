@@ -12,6 +12,7 @@ import { profile, experience, projects, skills, certifications, education } from
 import GitHubActivity from "./components/GitHubActivity.jsx";
 import PhoneShowcase from "./components/PhoneShowcase.jsx";
 import ContactForm from "./components/ContactForm.jsx";
+import FooterTerminal from "./components/FooterTerminal.jsx";
 import StatusBar from "./components/StatusBar.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
 import { LuEye, LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuDownload, LuMail } from "react-icons/lu";
@@ -559,13 +560,7 @@ export default function App() {
         </section>
       </main>
 
-      <footer>
-        <div className="container">
-          <span className="footer-exit">process exited with code 0</span>
-          <br />
-          © {new Date().getFullYear()} {profile.name} · Built with React + Vite
-        </div>
-      </footer>
+      <FooterTerminal />
     </>
   );
 }
