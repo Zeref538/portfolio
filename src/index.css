@@ -849,21 +849,20 @@ nav {
   border-radius: 10px;
   background: #f6f7f9;
   border: 1px solid var(--border);
-  min-height: 170px;
+  aspect-ratio: 4 / 3; /* uniform cover size across all cards */
   justify-content: center;
+  overflow: hidden;
 }
 
-/* real badge image — covers the styled placeholder; hides itself if missing */
+/* real badge image — fills the frame edge-to-edge (no letterboxing) */
 .badge-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   background: #f6f7f9;
   border-radius: 10px;
-  padding: 12px;
-  box-sizing: border-box;
 }
 
 .badge-art .issuer-icon { height: 26px; max-width: 80px; }
