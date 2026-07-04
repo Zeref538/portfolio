@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 
-// Fades sections in on scroll via IntersectionObserver (one-shot, cheap).
+// Fades sections in on scroll via IntersectionObserver.
+// Re-triggers: the class toggles off when the section leaves the viewport,
+// so entrances replay when scrolling back (in either direction).
 export default function Reveal({ children, as: Tag = "div", className = "", ...rest }) {
   const ref = useRef(null);
 
@@ -8,12 +10,11 @@ export default function Reveal({ children, as: Tag = "div", className = "", ...r
     const el = ref.current;
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add("visible");
-          io.disconnect();
-        }
+        el.classList.toggle("visible", entry.isIntersecting);
       },
-      { threshold: 0.12 }
+      // enter at 12% visible; the negative margin resets it only once
+      // the section is well past the edge, avoiding flicker at boundaries
+      { threshold: 0.12, rootMargin: "-5% 0px -5% 0px" }
     );
     io.observe(el);
     return () => io.disconnect();

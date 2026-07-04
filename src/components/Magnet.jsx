@@ -1,5 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
+// Magnetic pull toward the cursor. Writes transforms straight to the DOM node
+// (no React state) so mousemove never triggers re-renders.
 const Magnet = ({
   children,
   padding = 100,
@@ -11,45 +13,62 @@ const Magnet = ({
   innerClassName = '',
   ...props
 }) => {
-  const [isActive, setIsActive] = useState(false);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   const magnetRef = useRef(null);
+  const innerRef = useRef(null);
 
   useEffect(() => {
+    const inner = innerRef.current;
+    if (!inner) return;
+
     if (disabled) {
-      setPosition({ x: 0, y: 0 });
+      inner.style.transform = 'translate3d(0, 0, 0)';
       return;
     }
 
-    const handleMouseMove = e => {
-      if (!magnetRef.current) return;
+    let active = false;
+    let raf = null;
+    let lastEvent = null;
 
-      const { left, top, width, height } = magnetRef.current.getBoundingClientRect();
+    const apply = () => {
+      raf = null;
+      const wrap = magnetRef.current;
+      const e = lastEvent;
+      if (!wrap || !e) return;
+
+      const { left, top, width, height } = wrap.getBoundingClientRect();
       const centerX = left + width / 2;
       const centerY = top + height / 2;
-
       const distX = Math.abs(centerX - e.clientX);
       const distY = Math.abs(centerY - e.clientY);
 
-      if (distX < width / 2 + padding && distY < height / 2 + padding) {
-        setIsActive(true);
-
+      const inRange = distX < width / 2 + padding && distY < height / 2 + padding;
+      if (inRange) {
+        if (!active) {
+          active = true;
+          inner.style.transition = activeTransition;
+        }
         const offsetX = (e.clientX - centerX) / magnetStrength;
         const offsetY = (e.clientY - centerY) / magnetStrength;
-        setPosition({ x: offsetX, y: offsetY });
-      } else {
-        setIsActive(false);
-        setPosition({ x: 0, y: 0 });
+        inner.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0)`;
+      } else if (active) {
+        active = false;
+        inner.style.transition = inactiveTransition;
+        inner.style.transform = 'translate3d(0, 0, 0)';
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    const handleMouseMove = e => {
+      lastEvent = e;
+      // coalesce to one layout read per frame
+      if (raf == null) raf = requestAnimationFrame(apply);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+      if (raf != null) cancelAnimationFrame(raf);
     };
-  }, [padding, disabled, magnetStrength]);
-
-  const transitionStyle = isActive ? activeTransition : inactiveTransition;
+  }, [padding, disabled, magnetStrength, activeTransition, inactiveTransition]);
 
   return (
     <div
@@ -59,10 +78,11 @@ const Magnet = ({
       {...props}
     >
       <div
+        ref={innerRef}
         className={innerClassName}
         style={{
-          transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
-          transition: transitionStyle,
+          transform: 'translate3d(0, 0, 0)',
+          transition: inactiveTransition,
           willChange: 'transform'
         }}
       >

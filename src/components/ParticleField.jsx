@@ -39,7 +39,20 @@ export default function ParticleField() {
       }
     };
 
+    let idleFrames = 0;
+
     const frame = () => {
+      // pause the loop entirely once the cursor is gone and dots have settled
+      if (mouse.x === -9999) {
+        idleFrames++;
+        if (idleFrames > 30) {
+          drawStatic();
+          raf = null;
+          return;
+        }
+      } else {
+        idleFrames = 0;
+      }
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
       for (const d of dots) {
         const dx = mouse.x - d.ox;
@@ -74,7 +87,12 @@ export default function ParticleField() {
       return () => window.removeEventListener("resize", onResizeStatic);
     }
 
-    const onMove = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; };
+    const onMove = (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      // wake the loop if it paused while idle
+      if (running && raf === null) raf = requestAnimationFrame(frame);
+    };
     const onLeave = () => { mouse.x = -9999; mouse.y = -9999; };
     const onResize = () => build();
     const onVisibility = () => {

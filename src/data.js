@@ -55,7 +55,10 @@ export const projects = [
       "CNN-powered system that detects color-critical regions in public signage and re-encodes them for color vision deficiency without altering original design. Trained YOLOv8m on a custom 5-class dataset (33,774 annotated boxes) reaching 0.740 mAP50, and built the core re-encoding algorithm: CLAHE → CIELAB → Fuzzy C-Means → CIEDE2000 conflict detection → constrained optimization. Deployed via FastAPI + ONNX with Supabase (RLS, 24h auto-delete).",
     tags: ["YOLOv8", "Computer Vision", "FastAPI", "ONNX", "Supabase", "React"],
     metric: "0.740 mAP50",
-    link: "",
+    category: "Computer Vision · Thesis",
+    date: "2025 — 2026",
+    image: "", // e.g. "/projects/acra.png" (put file in public/projects/)
+    link: "https://github.com/Zeref538/ACRA",
   },
   {
     title: "CafèSync — Smart Coffee Shop Operations",
@@ -64,7 +67,10 @@ export const projects = [
       "Centralized coffee shop management for orders, inventory, and sales analytics. Node.js backend synced live via Firebase Firestore (zero-refresh multi-screen updates), PayMongo payments, and a Python AI insights layer generating operational alerts — ingredient reorder triggers and staffing recommendations from order-volume forecasting.",
     tags: ["Node.js", "Firebase", "Python", "Forecasting", "PayMongo"],
     metric: "Live multi-screen sync",
-    link: "",
+    category: "Full-Stack Platform",
+    date: "2025",
+    image: "",
+    link: "https://github.com/Zeref538/CafeSync",
   },
   {
     title: "CLICKSILOG — Self-Ordering & Kitchen Display",
@@ -73,48 +79,151 @@ export const projects = [
       "Self-ordering and kitchen display system replacing manual order-taking. Built the order-routing logic linking customer orders to a real-time Kitchen Display System, integrated PayMongo for online payments, and automated inventory deduction on each order — keeping ordering, kitchen, and stock fully in sync.",
     tags: ["JavaScript", "Node.js", "Express", "REST APIs", "React"],
     metric: "End-to-end order sync",
-    link: "",
+    category: "Web App",
+    date: "2025",
+    image: "",
+    link: "https://github.com/Zeref538/ClickSilog",
   },
 ];
 
+// level: 0–100, rendered as a terminal-style utilization bar
 export const skills = [
   {
     group: "AI / Machine Learning",
-    items: ["Python", "YOLOv8 / Object Detection", "CNNs", "Model Evaluation (mAP, P/R)", "ONNX Deployment", "Forecasting"],
+    items: [
+      { name: "Python", level: 90 },
+      { name: "YOLOv8", level: 85 },
+      { name: "CNNs", level: 80 },
+      { name: "Model Evaluation", level: 85 },
+      { name: "ONNX", level: 70 },
+      { name: "Forecasting", level: 70 },
+    ],
   },
   {
     group: "Data",
-    items: ["SQL", "R", "Tableau", "PostgreSQL", "Data Cleaning & Analysis", "Regression Modeling"],
+    items: [
+      { name: "SQL", level: 80 },
+      { name: "R", level: 65 },
+      { name: "Tableau", level: 70 },
+      { name: "PostgreSQL", level: 75 },
+      { name: "Data Analysis", level: 85 },
+      { name: "Regression", level: 75 },
+    ],
   },
   {
     group: "Engineering",
-    items: ["FastAPI", "React", "Node.js / Express", "Supabase", "Firebase", "REST APIs"],
+    items: [
+      { name: "FastAPI", level: 80 },
+      { name: "React", level: 75 },
+      { name: "Node.js", level: 75 },
+      { name: "Supabase", level: 75 },
+      { name: "Firebase", level: 70 },
+      { name: "REST APIs", level: 85 },
+    ],
   },
   {
     group: "Other",
-    items: ["Cybersecurity & Network Defense", "Cloud (GCP, AWS, OCI)", "Agile Project Management"],
+    items: [
+      { name: "Cybersecurity", level: 65 },
+      { name: "Cloud (GCP · AWS · OCI)", level: 60 },
+      { name: "Agile", level: 70 },
+    ],
   },
 ];
 
+// url: public verify link (enables the "Verify Badge" button)
+// image: badge artwork — save the PNG in public/certs/ with the filename below
 export const certifications = [
-  { name: "Google Advanced Data Analytics Professional Certificate", issuer: "Google", year: "2026" },
-  { name: "Google AI Professional Certificate", issuer: "Google", year: "2026" },
-  { name: "AWS AI Practitioner", issuer: "Amazon Web Services", year: "2026" },
-  { name: "Cisco Certified Support Technician — Cybersecurity", issuer: "Cisco", year: "2026" },
-  { name: "Google Project Management Professional Certificate", issuer: "Google", year: "2026" },
-  { name: "Oracle Cloud Infrastructure Certified AI Foundations Associate", issuer: "Oracle", year: "2025" },
-  { name: "Google Data Analytics Professional Certificate", issuer: "Google", year: "2025" },
-  { name: "Google Cybersecurity Professional Certificate", issuer: "Google", year: "2025" },
+  {
+    name: "Google Advanced Data Analytics Professional Certificate",
+    issuer: "Google",
+    year: "2026",
+    url: "https://www.coursera.org/account/accomplishments/specialization/2HF46JKGRGU9",
+    image: "/certs/advanced-data-analytics.jpeg",
+  },
+  {
+    name: "Google AI Professional Certificate",
+    issuer: "Google",
+    year: "2026",
+    url: "https://www.coursera.org/account/accomplishments/professional-cert/certificate/Z09O6H72G4CX",
+    image: "/certs/google-ai.jpeg",
+  },
+  {
+    name: "AWS AI Practitioner",
+    issuer: "AWS",
+    year: "2026",
+    url: "https://www.udacity.com/certificate/e/4e7cbba8-2c4d-11f1-a1ae-434577b9e921",
+    image: "/certs/aws-ai.png",
+  },
+  {
+    name: "Cisco Certified Support Technician — Cybersecurity",
+    issuer: "Cisco",
+    year: "2026",
+    url: "https://www.credly.com/badges/42e85a15-aaac-4481-8f59-9ee5e679ef00/linked_in_profile",
+    image: "/certs/ccst-cybersecurity.png",
+  },
+  {
+    name: "Google Project Management Professional Certificate",
+    issuer: "Google",
+    year: "2026",
+    url: "https://www.coursera.org/account/accomplishments/specialization/OVWHUIPY22YS",
+    image: "", // no badge image yet — drop one in public/certs/ and set the path
+  },
+  {
+    name: "Oracle Cloud Infrastructure Certified AI Foundations Associate",
+    issuer: "Oracle",
+    year: "2025",
+    url: "https://catalog-education.oracle.com/ords/certview/sharebadge?id=016F034CEE51B778CA019B17844681C3281C47DC3872217B0B5C4FCC1017255F",
+    image: "/certs/oci-ai-foundations.png",
+  },
+  {
+    name: "Google Data Analytics Professional Certificate",
+    issuer: "Google",
+    year: "2025",
+    url: "https://www.coursera.org/account/accomplishments/verify/U7SVUTS082OA",
+    image: "/certs/data-analytics.jpeg",
+  },
+  {
+    name: "Google Cybersecurity Professional Certificate",
+    issuer: "Google",
+    year: "2025",
+    url: "https://www.coursera.org/account/accomplishments/specialization/PW3PERYUBRH0",
+    image: "/certs/cybersecurity.jpg",
+  },
 ];
 
-export const education = {
-  school: "Our Lady of Fatima University",
-  degree: "BS Computer Science",
-  period: "2023 — 2027",
-  highlights: [
-    "Dean's Lister 2023–2026",
-    "2nd Place — Python Programming Competition",
-    "3rd Place — Database Designing Competition",
-    "3rd Place — C Programming Competition",
-  ],
-};
+export const education = [
+  {
+    school: "Our Lady of Fatima University",
+    degree: "BS Computer Science",
+    period: "2023 — 2027",
+    location: "",
+    highlights: [
+      "Dean's Lister 2023–2026",
+      "2nd Place — Python Programming Competition",
+      "3rd Place — Database Designing Competition",
+      "3rd Place — C Programming Competition",
+    ],
+  },
+  {
+    school: "First City Providential College, Inc.",
+    degree: "Senior High School — STEM Strand",
+    period: "SY 2021 — 2023",
+    location: "San Jose del Monte",
+    highlights: ["With Honors"],
+  },
+  {
+    school: "Saint Charles Academy",
+    degree: "Junior High School",
+    period: "SY 2017 — 2021",
+    location: "San Carlos City",
+    highlights: [],
+  },
+  {
+    school: "Central I Elementary School",
+    degree: "Elementary",
+    period: "2011 — 2017",
+    location: "San Carlos City",
+    highlights: [],
+  },
+];

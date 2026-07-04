@@ -32,8 +32,8 @@ export default function Cursor() {
     const loop = () => {
       rx += (mx - rx) * 0.18;
       ry += (my - ry) * 0.18;
-      const half = ring.offsetWidth / 2;
-      ring.style.transform = `translate(${rx - half}px, ${ry - half}px)`;
+      // -50% self-translate centers the ring without reading offsetWidth (layout) every frame
+      ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
       raf = requestAnimationFrame(loop);
     };
 
