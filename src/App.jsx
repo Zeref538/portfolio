@@ -13,6 +13,8 @@ import GitHubActivity from "./components/GitHubActivity.jsx";
 import PhoneShowcase from "./components/PhoneShowcase.jsx";
 import ContactForm from "./components/ContactForm.jsx";
 import FooterTerminal from "./components/FooterTerminal.jsx";
+import GradualBlur from "./components/GradualBlur.jsx";
+import Noise from "./components/Noise.jsx";
 import StatusBar from "./components/StatusBar.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
 import { LuEye, LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuDownload, LuMail } from "react-icons/lu";
@@ -122,6 +124,26 @@ export default function App() {
     <>
       <Cursor />
       <ParticleField />
+      <Noise patternAlpha={12} patternRefreshInterval={4} />
+      {/* zIndex -20 (+100 for page target = 80) keeps nav/rail/statusbar sharp above the veil */}
+      <GradualBlur
+        target="page"
+        position="bottom"
+        height="6rem"
+        strength={2}
+        divCount={4}
+        curve="bezier"
+        zIndex={-20}
+      />
+      <GradualBlur
+        target="page"
+        position="top"
+        height="4rem"
+        strength={1.5}
+        divCount={3}
+        curve="bezier"
+        zIndex={-20}
+      />
 
       <nav>
         <div className="nav-bar">
