@@ -907,7 +907,12 @@ button.nav-icon {
   transform: none;
 }
 
-.pj3-overlay { overflow-y: auto; }
+.pj3-overlay {
+  overflow-y: auto;
+  scrollbar-width: none; /* firefox */
+  -ms-overflow-style: none; /* legacy edge */
+}
+.pj3-overlay::-webkit-scrollbar { display: none; } /* chrome/safari */
 .pj3-overlay h3 { font-size: 17px; }
 
 .pj3-meta {

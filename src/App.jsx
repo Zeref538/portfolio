@@ -303,7 +303,7 @@ export default function App() {
           <p className="tagline">{profile.tagline}</p>
           <div className="hero-actions">
             <Magnet padding={60} magnetStrength={4}>
-              <a href={`mailto:${profile.email}`} className="btn btn-primary">Get in Touch</a>
+              <a href="#contact" className="btn btn-primary">Get in Touch</a>
             </Magnet>
             <a href="/cv.pdf" className="btn btn-ghost btn-cv" download>
               Download CV
@@ -570,14 +570,7 @@ export default function App() {
             </p>
             <ContactForm />
             <div className="contact-links">
-              <a
-                href={`mailto:${profile.email}`}
-                className="contact-icon"
-                aria-label="Email"
-                data-label="Email"
-              >
-                <LuMail />
-              </a>
+              <CopyEmailButton email={profile.email} className="contact-icon" labelIdle="Email" />
               {profile.links.map((l) => (
                 <a
                   key={l.label}
@@ -591,6 +584,16 @@ export default function App() {
                   {l.label === "GitHub" ? <SiGithub /> : <LuLinkedin />}
                 </a>
               ))}
+              <a
+                href="https://www.kaggle.com/johnandreimartinez"
+                target="_blank"
+                rel="noreferrer"
+                className="contact-icon"
+                aria-label="Kaggle"
+                data-label="Kaggle"
+              >
+                <SiKaggle />
+              </a>
             </div>
           </Reveal>
         </section>
