@@ -65,7 +65,7 @@ function CyclingCover({ images, alt }) {
   const [idx, setIdx] = useState(0);
   useEffect(() => {
     if (!images || images.length < 2) return;
-    const id = setInterval(() => setIdx((i) => (i + 1) % images.length), 3800);
+    const id = setInterval(() => setIdx((i) => (i + 1) % images.length), 4600);
     return () => clearInterval(id);
   }, [images]);
   if (!images?.length) return null;
@@ -343,7 +343,7 @@ export default function App() {
             <div className="projects-grid">
               {projects.map((p, i) => (
                 <Reveal key={p.title} className="pj-item" style={{ "--i": i }}>
-                  <GlowCard className="pj3-glow" borderRadius={22}>
+                  <GlowCard className="pj3-glow" borderRadius={30}>
                     <article className="pj3">
                       {/* cover: screenshot / gif of the live app */}
                       <div className="pj3-cover">
