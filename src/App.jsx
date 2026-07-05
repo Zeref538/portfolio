@@ -6,6 +6,7 @@ import ScrollReveal from "./components/ScrollReveal.jsx";
 import Magnet from "./components/Magnet.jsx";
 import BorderGlow from "./components/BorderGlow.jsx";
 import RotatingText from "./components/RotatingText.jsx";
+import TrueFocus from "./components/TrueFocus.jsx";
 import { useEffect, useRef, useState } from "react";
 import { profile, experience, projects, skills, certifications, education } from "./data.js";
 import GitHubActivity from "./components/GitHubActivity.jsx";
@@ -40,48 +41,6 @@ const GLOW_CARD_PROPS = {
   coneSpread: 25,
   colors: ["#8b5cf6", "#22d3ee", "#a78bfa"],
 };
-
-// CRT decode: characters scramble through glitch glyphs, then lock in
-// left-to-right. Replays on hover. Self-contained re-renders only.
-const SCRAMBLE_SET = "!<>-_\\/[]{}=+*^?#010101▓▒░";
-
-function Decode({ text, className = "" }) {
-  const [display, setDisplay] = useState(text);
-  const rafRef = useRef(null);
-
-  const run = () => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    cancelAnimationFrame(rafRef.current);
-    let frame = 0;
-    const step = () => {
-      frame++;
-      const locked = Math.floor(frame / 4); // ~15 chars/sec lock-in
-      let out = "";
-      for (let i = 0; i < text.length; i++) {
-        if (text[i] === " ") { out += " "; continue; }
-        out += i < locked
-          ? text[i]
-          : SCRAMBLE_SET[(Math.random() * SCRAMBLE_SET.length) | 0];
-      }
-      setDisplay(out);
-      if (locked < text.length) rafRef.current = requestAnimationFrame(step);
-      else setDisplay(text);
-    };
-    rafRef.current = requestAnimationFrame(step);
-  };
-
-  useEffect(() => {
-    run();
-    return () => cancelAnimationFrame(rafRef.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text]);
-
-  return (
-    <span className={className} onMouseEnter={run}>
-      {display}
-    </span>
-  );
-}
 
 function TypedPrompt({ text }) {
   const [n, setN] = useState(0);
@@ -252,15 +211,16 @@ export default function App() {
             <span>[ ok ] models warm · pipeline ready</span>
           </div>
           <TypedPrompt text="zeref@portfolio:~$ whoami" />
+          <TrueFocus
+            sentence={profile.name}
+            manualMode={false}
+            blurAmount={4}
+            borderColor="#8b5cf6"
+            glowColor="rgba(139, 92, 246, 0.6)"
+            animationDuration={0.5}
+            pauseBetweenAnimations={1.4}
+          />
           <h1>
-            <span className="crt-name">
-              <Decode text={profile.name.split(" ").slice(0, -1).join(" ")} />{" "}
-              <Decode
-                text={profile.name.split(" ").slice(-1)[0]}
-                className="accent"
-              />
-            </span>
-            <br />
             <span className="role-line">
               Aspiring{" "}
               <span className="rotating-slot">

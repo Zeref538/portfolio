@@ -501,28 +501,23 @@ nav {
 
 .hero h1 .accent { color: var(--accent); }
 
-/* CRT name: phosphor terminal face + chromatic glow + rare flicker */
-.crt-name {
-  font-family: "VT323", var(--font-mono);
-  font-weight: 400;
-  font-size: 1.22em;
-  line-height: 0.95;
-  letter-spacing: 0.015em;
-  text-shadow:
-    1.5px 0 rgba(34, 211, 238, 0.35),
-    -1.5px 0 rgba(139, 92, 246, 0.4),
-    0 0 22px rgba(139, 92, 246, 0.3);
-  animation: crt-flicker 7s steps(1) infinite;
+/* name: blocky CRT pixel face inside TrueFocus */
+.hero .focus-container {
+  justify-content: flex-start;
+  gap: 0.7em;
+  margin-bottom: 22px;
 }
 
-@keyframes crt-flicker {
-  0%, 100% { opacity: 1; }
-  91.5% { opacity: 1; }
-  92% { opacity: 0.82; }
-  92.5% { opacity: 1; }
-  96% { opacity: 0.93; }
-  96.5% { opacity: 1; }
+.hero .focus-word {
+  font-family: "Press Start 2P", var(--font-mono);
+  font-weight: 400;
+  font-size: clamp(1.4rem, 4.2vw, 2.9rem);
+  line-height: 1.25;
+  color: var(--text);
+  text-shadow: 0 0 18px rgba(139, 92, 246, 0.35);
 }
+
+.hero .focus-word:last-child { color: var(--accent); }
 
 /* rotating role line — fixed slot so the layout never shifts */
 .role-line {
