@@ -134,11 +134,9 @@ export const skills = [
       "PyTorch",
       "TensorFlow",
       "scikit-learn",
-      "YOLOv8",
+      "CNNs",
       "Hugging Face",
       "Kaggle",
-      "Pandas",
-      "NumPy",
     ],
   },
   {

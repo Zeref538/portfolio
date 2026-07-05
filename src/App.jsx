@@ -379,12 +379,12 @@ export default function App() {
                         </div>
                         <div className="pj3-links">
                           {p.demo && (
-                            <a href={p.demo} target="_blank" rel="noreferrer">
+                            <a className="pj3-btn-demo" href={p.demo} target="_blank" rel="noreferrer">
                               <LuArrowUpRight /> live demo
                             </a>
                           )}
                           {p.link && (
-                            <a href={p.link} target="_blank" rel="noreferrer">
+                            <a className="pj3-btn-source" href={p.link} target="_blank" rel="noreferrer">
                               <SiGithub /> source
                             </a>
                           )}
