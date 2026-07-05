@@ -220,6 +220,12 @@ nav {
   background: rgba(10, 12, 18, 0.92);
   backdrop-filter: blur(7px);
   border: 1px solid var(--border);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.nav-bar:hover {
+  transform: scale(1.06);
+  border-color: rgba(139, 92, 246, 0.45);
 }
 
 /* divider between logo and actions */
@@ -501,24 +507,6 @@ nav {
 
 .hero h1 .accent { color: var(--accent); }
 
-/* name: blocky CRT pixel face inside TrueFocus */
-.hero .focus-container {
-  justify-content: flex-start;
-  gap: 0.7em;
-  margin-bottom: 22px;
-}
-
-.hero .focus-word {
-  font-family: "Press Start 2P", var(--font-mono);
-  font-weight: 400;
-  font-size: clamp(1.4rem, 4.2vw, 2.9rem);
-  line-height: 1.25;
-  color: var(--text);
-  text-shadow: 0 0 18px rgba(139, 92, 246, 0.35);
-}
-
-.hero .focus-word:last-child { color: var(--accent); }
-
 /* rotating role line — fixed slot so the layout never shifts */
 .role-line {
   display: flex;
@@ -639,15 +627,14 @@ nav {
   padding-bottom: 48px;
 }
 
-.timeline-item.left { padding-right: 22px; }
-.timeline-item.right { margin-left: 50%; padding-left: 22px; }
+.timeline-item.left { padding-right: 24px; }
+.timeline-item.right { margin-left: 50%; padding-left: 24px; }
 
-/* career cards grow slightly on hover */
-.timeline-card {
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+/* hover: card gently enlarges */
+.timeline-item .border-glow-card {
+  transition: transform 0.3s ease;
 }
-
-.timeline-card:hover {
+.timeline-item .border-glow-card:hover {
   transform: translate3d(0, 0, 0.01px) scale(1.03);
 }
 

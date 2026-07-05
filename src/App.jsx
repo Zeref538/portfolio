@@ -6,7 +6,6 @@ import ScrollReveal from "./components/ScrollReveal.jsx";
 import Magnet from "./components/Magnet.jsx";
 import BorderGlow from "./components/BorderGlow.jsx";
 import RotatingText from "./components/RotatingText.jsx";
-import TrueFocus from "./components/TrueFocus.jsx";
 import { useEffect, useRef, useState } from "react";
 import { profile, experience, projects, skills, certifications, education } from "./data.js";
 import GitHubActivity from "./components/GitHubActivity.jsx";
@@ -17,7 +16,7 @@ import GradualBlur from "./components/GradualBlur.jsx";
 import Noise from "./components/Noise.jsx";
 import StatusBar from "./components/StatusBar.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
-import { LuEye, LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuSend, LuLinkedin } from "react-icons/lu";
+import { LuEye, LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuMessageSquare, LuLinkedin } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
 
 const NAV = [
@@ -41,6 +40,51 @@ const GLOW_CARD_PROPS = {
   coneSpread: 25,
   colors: ["#8b5cf6", "#22d3ee", "#a78bfa"],
 };
+
+// Terminal decode effect: glyphs scramble then lock in left-to-right.
+// Writes to the DOM directly (no re-renders); replays on hover.
+function DecryptText({ text, className = "" }) {
+  const ref = useRef(null);
+  const runningRef = useRef(false);
+
+  const run = () => {
+    const el = ref.current;
+    if (!el || runningRef.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    runningRef.current = true;
+    const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ<>_/[]{}#$%&*+=";
+    let frame = 0;
+    const id = setInterval(() => {
+      const revealed = Math.floor(frame / 2);
+      el.textContent = text
+        .split("")
+        .map((ch, i) => {
+          if (ch === " ") return " ";
+          if (i < revealed) return ch;
+          return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+        })
+        .join("");
+      frame++;
+      if (revealed >= text.length) {
+        clearInterval(id);
+        el.textContent = text;
+        runningRef.current = false;
+      }
+    }, 28);
+  };
+
+  useEffect(() => {
+    const t = setTimeout(run, 250); // decode on load
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [text]);
+
+  return (
+    <span ref={ref} className={className} onMouseEnter={run}>
+      {text}
+    </span>
+  );
+}
 
 function TypedPrompt({ text }) {
   const [n, setN] = useState(0);
@@ -174,11 +218,11 @@ export default function App() {
             </a>
             <a
               href={`mailto:${profile.email}`}
-              className="nav-icon nav-icon-cta"
+              className="nav-icon"
               aria-label="Get in touch"
               title="Get in touch"
             >
-              <LuSend />
+              <LuMessageSquare />
             </a>
           </div>
         </div>
@@ -211,16 +255,10 @@ export default function App() {
             <span>[ ok ] models warm · pipeline ready</span>
           </div>
           <TypedPrompt text="zeref@portfolio:~$ whoami" />
-          <TrueFocus
-            sentence={profile.name}
-            manualMode={false}
-            blurAmount={4}
-            borderColor="#8b5cf6"
-            glowColor="rgba(139, 92, 246, 0.6)"
-            animationDuration={0.5}
-            pauseBetweenAnimations={1.4}
-          />
           <h1>
+            <DecryptText text={profile.name.split(" ").slice(0, -1).join(" ")} />{" "}
+            <DecryptText className="accent" text={profile.name.split(" ").slice(-1)[0]} />
+            <br />
             <span className="role-line">
               Aspiring{" "}
               <span className="rotating-slot">
