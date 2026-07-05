@@ -423,7 +423,7 @@ export default function App() {
             </div>
             <div className="certs-grid">
               {visibleCerts.map((c) => (
-                <GlowCard key={c.name}>
+                <GlowCard key={c.name} className="cert-glow">
                   <div className="badge-card">
                     <div className="badge-art">
                       <IssuerIcon issuer={c.issuer} />

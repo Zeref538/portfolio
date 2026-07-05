@@ -1309,6 +1309,21 @@ nav {
   gap: 18px;
 }
 
+/* hover: grow the whole card (overlapping neighbors) and reveal the full,
+   uncropped certificate instead of the cover-fitted thumbnail */
+.cert-glow {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+  height: 100%;
+}
+.cert-glow:hover {
+  transform: translate3d(0, 0, 0.01px) scale(1.32);
+  z-index: 6;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+}
+.cert-glow:hover .badge-img {
+  object-fit: contain;
+}
+
 .badge-card {
   display: flex;
   flex-direction: column;
