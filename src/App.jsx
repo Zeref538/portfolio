@@ -182,7 +182,6 @@ export default function App() {
       </nav>
 
       <StatusBar section={activeSection} />
-      <ChatWidget />
 
       <aside className="section-rail" aria-label="Section progress" ref={railRef}>
         {NAV.map(([label, href], i) => {
@@ -254,17 +253,24 @@ export default function App() {
         <section id="about">
           <Reveal className="container">
             <div className="section-label">$ cat about.md</div>
-            <div className="section-out"># rendering bio — 3 blocks</div>
-            <div className="about-text">
-              <ScrollReveal
-                baseOpacity={0.1}
-                enableBlur
-                baseRotation={3}
-                blurStrength={4}
-              >
-                {profile.about[0]}
-              </ScrollReveal>
-              {profile.about.slice(1).map((p, i) => <p key={i}>{p}</p>)}
+            <div className="section-out"># rendering bio — 3 blocks · zeref-bot attached</div>
+            <div className="about-grid">
+              <div className="about-text">
+                <ScrollReveal
+                  baseOpacity={0.1}
+                  enableBlur
+                  baseRotation={3}
+                  blurStrength={4}
+                >
+                  {profile.about[0]}
+                </ScrollReveal>
+                {profile.about.slice(1).map((p, i) => <p key={i}>{p}</p>)}
+              </div>
+              <div className="about-chat">
+                <GlowCard>
+                  <ChatWidget />
+                </GlowCard>
+              </div>
             </div>
           </Reveal>
         </section>

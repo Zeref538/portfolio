@@ -6,8 +6,9 @@ const GREETING =
 
 const SUGGESTIONS = ["what is ACRA?", "top skills?", "is he open to work?"];
 
+// Terminal-style chat grounded on the portfolio, powered by /api/chat
+// (Vercel serverless → Azure OpenAI). Rendered embedded in the About section.
 export default function ChatWidget() {
-  const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([{ role: "assistant", content: GREETING }]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -17,11 +18,7 @@ export default function ChatWidget() {
   useEffect(() => {
     const el = bodyRef.current;
     if (el) el.scrollTop = el.scrollHeight;
-  }, [messages, busy, open]);
-
-  useEffect(() => {
-    if (open) inputRef.current?.focus();
-  }, [open]);
+  }, [messages, busy]);
 
   const send = async (text) => {
     const content = (text ?? input).trim();
@@ -49,66 +46,60 @@ export default function ChatWidget() {
   };
 
   return (
-    <>
-      <button
-        className={`chat-fab ${open ? "chat-fab-open" : ""}`}
-        onClick={() => setOpen((v) => !v)}
-        aria-label={open ? "Close chat" : "Chat with zeref-bot"}
-      >
-        {open ? "×" : ">_"}
-      </button>
+    <div className="chat-terminal" role="region" aria-label="zeref-bot chat">
+      <div className="chat-head">
+        <span className="chat-traffic">
+          <i /><i /><i />
+        </span>
+        <span className="chat-title">zeref-bot</span>
+        <span className="chat-model">gpt-5-mini · azure</span>
+        <span className="chat-live">
+          <span className="chat-dot" /> online
+        </span>
+      </div>
 
-      {open && (
-        <div className="chat-panel" role="dialog" aria-label="zeref-bot chat">
-          <div className="chat-head">
-            <span className="chat-dot" />
-            zeref-bot <span className="chat-model">· azure openai</span>
+      <div className="chat-body" ref={bodyRef}>
+        {messages.map((m, i) => (
+          <div key={i} className={`chat-msg chat-${m.role}`}>
+            <span className="chat-prefix">{m.role === "user" ? "you $" : "bot #"}</span>
+            {m.content}
           </div>
-
-          <div className="chat-body" ref={bodyRef}>
-            {messages.map((m, i) => (
-              <div key={i} className={`chat-msg chat-${m.role}`}>
-                <span className="chat-prefix">{m.role === "user" ? "you $" : "bot #"}</span>
-                {m.content}
-              </div>
+        ))}
+        {busy && (
+          <div className="chat-msg chat-assistant">
+            <span className="chat-prefix">bot #</span>
+            <span className="chat-typing">
+              <i /><i /><i />
+            </span>
+          </div>
+        )}
+        {messages.length === 1 && (
+          <div className="chat-suggestions">
+            {SUGGESTIONS.map((s) => (
+              <button key={s} onClick={() => send(s)}>{s}</button>
             ))}
-            {busy && (
-              <div className="chat-msg chat-assistant">
-                <span className="chat-prefix">bot #</span>
-                <span className="chat-typing">
-                  <i /><i /><i />
-                </span>
-              </div>
-            )}
-            {messages.length === 1 && (
-              <div className="chat-suggestions">
-                {SUGGESTIONS.map((s) => (
-                  <button key={s} onClick={() => send(s)}>{s}</button>
-                ))}
-              </div>
-            )}
           </div>
+        )}
+      </div>
 
-          <form
-            className="chat-input"
-            onSubmit={(e) => {
-              e.preventDefault();
-              send();
-            }}
-          >
-            <span className="chat-prompt">$</span>
-            <input
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="ask about john…"
-              maxLength={400}
-              disabled={busy}
-            />
-            <button type="submit" disabled={busy || !input.trim()}>↵</button>
-          </form>
-        </div>
-      )}
-    </>
+      <form
+        className="chat-input"
+        onSubmit={(e) => {
+          e.preventDefault();
+          send();
+        }}
+      >
+        <span className="chat-prompt">$</span>
+        <input
+          ref={inputRef}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="ask about john…"
+          maxLength={400}
+          disabled={busy}
+        />
+        <button type="submit" disabled={busy || !input.trim()}>↵</button>
+      </form>
+    </div>
   );
 }
