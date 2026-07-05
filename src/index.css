@@ -942,46 +942,21 @@ nav {
 
 .pj3-links {
   display: flex;
-  gap: 12px;
+  gap: 20px;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 13.5px;
 }
 
 .pj3-links a {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 9px 16px;
-  border-radius: 10px;
-  font-weight: 600;
-  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  gap: 7px;
+  color: var(--accent-2);
+  transition: color 0.2s ease;
 }
 
-/* primary — live demo */
-.pj3-links a.pj3-btn-demo {
-  color: #0b0d12;
-  background: var(--accent-2);
-  border: 1px solid var(--accent-2);
-}
-.pj3-links a.pj3-btn-demo:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(34, 211, 238, 0.35);
-}
-
-/* secondary — source */
-.pj3-links a.pj3-btn-source {
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-}
-.pj3-links a.pj3-btn-source:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent);
-  background: rgba(139, 92, 246, 0.14);
-  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.25);
-}
-
-.pj3-links svg { width: 15px; height: 15px; }
+.pj3-links a:hover { color: var(--text); }
+.pj3-links svg { width: 14px; height: 14px; }
 
 .project-card { display: flex; flex-direction: column; gap: 16px; }
 .project-card h3 { font-size: 21px; }
