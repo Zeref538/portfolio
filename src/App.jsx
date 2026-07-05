@@ -17,13 +17,11 @@ import { LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuMessageSqua
 import { SiGithub } from "react-icons/si";
 
 const NAV = [
-  ["Home", "#home"],
   ["About", "#about"],
   ["Experience", "#experience"],
   ["Projects", "#projects"],
-  ["GitHub", "#github"],
-  ["Skills", "#skills"],
   ["Certifications", "#certifications"],
+  ["Skills", "#skills"],
   ["Contact", "#contact"],
 ];
 
@@ -369,26 +367,6 @@ export default function App() {
           </Reveal>
         </section>
 
-        <section id="skills">
-          <Reveal className="container">
-            <div className="section-label">$ nvidia-smi --skills</div>
-            <div className="section-out"># {skills.reduce((n, g) => n + g.items.length, 0)} packages installed across {skills.length} groups</div>
-            {skills.map((g) => (
-              <div className="stack-group" key={g.group}>
-                <h3 className="stack-group-title">{g.group}</h3>
-                <div className="stack-grid">
-                  {g.items.map((s, i) => (
-                    <div className="stack-tile" key={s} style={{ "--i": i }}>
-                      <SkillIcon name={s} />
-                      <span className="stack-tile-name">{s}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </Reveal>
-        </section>
-
         <section id="certifications">
           <Reveal className="container">
             <div className="section-label">$ ls certs/</div>
@@ -457,6 +435,26 @@ export default function App() {
                 </GlowCard>
               ))}
             </div>
+          </Reveal>
+        </section>
+
+        <section id="skills">
+          <Reveal className="container">
+            <div className="section-label">$ nvidia-smi --skills</div>
+            <div className="section-out"># {skills.reduce((n, g) => n + g.items.length, 0)} packages installed across {skills.length} groups</div>
+            {skills.map((g) => (
+              <div className="stack-group" key={g.group}>
+                <h3 className="stack-group-title">{g.group}</h3>
+                <div className="stack-grid">
+                  {g.items.map((s, i) => (
+                    <div className="stack-tile" key={s} style={{ "--i": i }}>
+                      <SkillIcon name={s} />
+                      <span className="stack-tile-name">{s}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
           </Reveal>
         </section>
 
