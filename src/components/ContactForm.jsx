@@ -6,11 +6,13 @@ import { profile } from "../data.js";
 // confirms once via an activation email). Falls back to mailto on failure.
 export default function ContactForm() {
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [errorDetail, setErrorDetail] = useState("");
 
   const onSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
     setStatus("sending");
+    setErrorDetail("");
     try {
       const res = await fetch(`https://formsubmit.co/ajax/${profile.email}`, {
         method: "POST",
@@ -24,14 +26,25 @@ export default function ContactForm() {
           _captcha: "false",
         }),
       });
-      const data = await res.json();
-      if (data.success === "true" || data.success === true) {
+
+      let data = null;
+      try {
+        data = await res.json();
+      } catch {
+        // non-JSON response from FormSubmit — fall through with data=null
+      }
+
+      if (res.ok && data && (data.success === "true" || data.success === true)) {
         setStatus("sent");
         form.reset();
       } else {
+        // surface FormSubmit's own message — usually explains *why*
+        // (most common: the form needs one-time activation via email)
+        setErrorDetail(data?.message || `request failed (${res.status})`);
         setStatus("error");
       }
-    } catch {
+    } catch (err) {
+      setErrorDetail(err?.message || "network error");
       setStatus("error");
     }
   };
@@ -75,7 +88,7 @@ export default function ContactForm() {
       </button>
       {status === "error" && (
         <p className="cf-error" role="alert">
-          <LuTriangleAlert /> couldn't send — email me directly at{" "}
+          <LuTriangleAlert /> couldn't send{errorDetail ? `: ${errorDetail}` : ""} — email me directly at{" "}
           <a href={`mailto:${profile.email}`}>{profile.email}</a>
         </p>
       )}

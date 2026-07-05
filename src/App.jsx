@@ -14,7 +14,7 @@ import Noise from "./components/Noise.jsx";
 import StatusBar from "./components/StatusBar.jsx";
 import ChatWidget, { ChatDial } from "./components/ChatWidget.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
-import { LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuMessageSquare, LuLinkedin, LuMail } from "react-icons/lu";
+import { LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuMessageSquare, LuLinkedin } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
 
 const NAV = [
@@ -364,28 +364,23 @@ export default function App() {
 
                       {/* hover: full details */}
                       <div className="pj3-overlay">
-                        <div className="pj3-overlay-head">
-                          <h3>{p.title.split("—")[0].trim()}</h3>
-                          {p.metric && <span className="pj3-badge">{p.metric}</span>}
-                        </div>
-                        <span className="pj3-meta">{p.category} · {p.date}</span>
+                        <h3>{p.title.split("—")[0].trim()}</h3>
+                        <span className="pj3-meta">{p.category} · {p.date}{p.metric ? ` · ${p.metric}` : ""}</span>
                         <p className="pj3-desc">{p.description}</p>
-                        <div className="pj3-section-label">// what I built</div>
                         <ul className="pj3-highlights">
                           {p.highlights.map((h) => <li key={h}>{h}</li>)}
                         </ul>
-                        <div className="pj3-section-label">// tech stack</div>
                         <div className="tags pj3-tags">
                           {p.tags.map((t) => <span className="tag" key={t}>{t}</span>)}
                         </div>
                         <div className="pj3-links">
                           {p.demo && (
-                            <a className="pj3-btn-demo" href={p.demo} target="_blank" rel="noreferrer">
+                            <a href={p.demo} target="_blank" rel="noreferrer">
                               <LuArrowUpRight /> live demo
                             </a>
                           )}
                           {p.link && (
-                            <a className="pj3-btn-source" href={p.link} target="_blank" rel="noreferrer">
+                            <a href={p.link} target="_blank" rel="noreferrer">
                               <SiGithub /> source
                             </a>
                           )}
@@ -534,26 +529,13 @@ export default function App() {
               especially in accessibility and civic tech. Based in {profile.location}.
             </p>
             <ContactForm />
-            <div className="contact-socials">
-              <a
-                href={`mailto:${profile.email}`}
-                className="contact-social"
-                aria-label="Email"
-                data-label="Email"
-              >
-                <LuMail />
+            <div className="hero-actions contact-links" style={{ justifyContent: "center" }}>
+              <a href={`mailto:${profile.email}`} className="btn btn-ghost">
+                Email
               </a>
               {profile.links.map((l) => (
-                <a
-                  key={l.label}
-                  href={l.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="contact-social"
-                  aria-label={l.label}
-                  data-label={l.label}
-                >
-                  {l.label === "GitHub" ? <SiGithub /> : <LuLinkedin />}
+                <a key={l.label} href={l.url} target="_blank" rel="noreferrer" className="btn btn-ghost">
+                  {l.label}
                 </a>
               ))}
             </div>
