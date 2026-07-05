@@ -501,6 +501,29 @@ nav {
 
 .hero h1 .accent { color: var(--accent); }
 
+/* CRT name: phosphor terminal face + chromatic glow + rare flicker */
+.crt-name {
+  font-family: "VT323", var(--font-mono);
+  font-weight: 400;
+  font-size: 1.22em;
+  line-height: 0.95;
+  letter-spacing: 0.015em;
+  text-shadow:
+    1.5px 0 rgba(34, 211, 238, 0.35),
+    -1.5px 0 rgba(139, 92, 246, 0.4),
+    0 0 22px rgba(139, 92, 246, 0.3);
+  animation: crt-flicker 7s steps(1) infinite;
+}
+
+@keyframes crt-flicker {
+  0%, 100% { opacity: 1; }
+  91.5% { opacity: 1; }
+  92% { opacity: 0.82; }
+  92.5% { opacity: 1; }
+  96% { opacity: 0.93; }
+  96.5% { opacity: 1; }
+}
+
 /* rotating role line — fixed slot so the layout never shifts */
 .role-line {
   display: flex;
@@ -621,8 +644,17 @@ nav {
   padding-bottom: 48px;
 }
 
-.timeline-item.left { padding-right: 40px; }
-.timeline-item.right { margin-left: 50%; padding-left: 40px; }
+.timeline-item.left { padding-right: 22px; }
+.timeline-item.right { margin-left: 50%; padding-left: 22px; }
+
+/* career cards grow slightly on hover */
+.timeline-card {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.timeline-card:hover {
+  transform: translate3d(0, 0, 0.01px) scale(1.03);
+}
 
 .timeline-item:last-child { padding-bottom: 0; }
 

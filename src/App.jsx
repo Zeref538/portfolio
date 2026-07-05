@@ -1,7 +1,6 @@
 import Cursor from "./components/Cursor.jsx";
 import ParticleField from "./components/ParticleField.jsx";
 import Reveal from "./components/Reveal.jsx";
-import Shuffle from "./components/Shuffle.jsx";
 import ScrollFloat from "./components/ScrollFloat.jsx";
 import ScrollReveal from "./components/ScrollReveal.jsx";
 import Magnet from "./components/Magnet.jsx";
@@ -41,6 +40,48 @@ const GLOW_CARD_PROPS = {
   coneSpread: 25,
   colors: ["#8b5cf6", "#22d3ee", "#a78bfa"],
 };
+
+// CRT decode: characters scramble through glitch glyphs, then lock in
+// left-to-right. Replays on hover. Self-contained re-renders only.
+const SCRAMBLE_SET = "!<>-_\\/[]{}=+*^?#010101▓▒░";
+
+function Decode({ text, className = "" }) {
+  const [display, setDisplay] = useState(text);
+  const rafRef = useRef(null);
+
+  const run = () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    cancelAnimationFrame(rafRef.current);
+    let frame = 0;
+    const step = () => {
+      frame++;
+      const locked = Math.floor(frame / 4); // ~15 chars/sec lock-in
+      let out = "";
+      for (let i = 0; i < text.length; i++) {
+        if (text[i] === " ") { out += " "; continue; }
+        out += i < locked
+          ? text[i]
+          : SCRAMBLE_SET[(Math.random() * SCRAMBLE_SET.length) | 0];
+      }
+      setDisplay(out);
+      if (locked < text.length) rafRef.current = requestAnimationFrame(step);
+      else setDisplay(text);
+    };
+    rafRef.current = requestAnimationFrame(step);
+  };
+
+  useEffect(() => {
+    run();
+    return () => cancelAnimationFrame(rafRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [text]);
+
+  return (
+    <span className={className} onMouseEnter={run}>
+      {display}
+    </span>
+  );
+}
 
 function TypedPrompt({ text }) {
   const [n, setN] = useState(0);
@@ -212,37 +253,13 @@ export default function App() {
           </div>
           <TypedPrompt text="zeref@portfolio:~$ whoami" />
           <h1>
-            <Shuffle
-              tag="span"
-              text={profile.name.split(" ").slice(0, -1).join(" ")}
-              textAlign="left"
-              shuffleDirection="right"
-              duration={0.35}
-              animationMode="evenodd"
-              shuffleTimes={1}
-              ease="power3.out"
-              stagger={0.03}
-              threshold={0.1}
-              triggerOnce={true}
-              triggerOnHover
-              respectReducedMotion={true}
-            />{" "}
-            <Shuffle
-              tag="span"
-              className="accent"
-              text={profile.name.split(" ").slice(-1)[0]}
-              textAlign="left"
-              shuffleDirection="right"
-              duration={0.35}
-              animationMode="evenodd"
-              shuffleTimes={1}
-              ease="power3.out"
-              stagger={0.03}
-              threshold={0.1}
-              triggerOnce={true}
-              triggerOnHover
-              respectReducedMotion={true}
-            />
+            <span className="crt-name">
+              <Decode text={profile.name.split(" ").slice(0, -1).join(" ")} />{" "}
+              <Decode
+                text={profile.name.split(" ").slice(-1)[0]}
+                className="accent"
+              />
+            </span>
             <br />
             <span className="role-line">
               Aspiring{" "}
