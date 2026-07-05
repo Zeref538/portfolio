@@ -1346,19 +1346,62 @@ button.nav-icon {
   gap: 18px;
 }
 
-/* hover: grow the whole card (overlapping neighbors) and reveal the full,
-   uncropped certificate instead of the cover-fitted thumbnail */
+/* small lift on hover — the actual enlarged view is portaled to
+   document.body (see .cert-preview below), since border-glow-card sets its
+   own transform and would otherwise become the containing block for any
+   position:fixed descendant, breaking true viewport-centered positioning */
 .cert-glow {
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   height: 100%;
 }
 .cert-glow:hover {
-  transform: translate3d(0, 0, 0.01px) scale(1.32);
-  z-index: 6;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
 }
-.cert-glow:hover .badge-img {
+
+/* portaled preview: real viewport-fixed positioning, immune to grid clipping */
+.cert-preview {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.cert-preview-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 7, 10, 0.8);
+  backdrop-filter: blur(3px);
+  animation: cert-fade-in 0.25s ease;
+}
+
+.cert-preview-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(90vw, 780px);
+  height: auto;
+  max-height: 88vh;
   object-fit: contain;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(139, 92, 246, 0.45);
+  animation: cert-zoom-in 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes cert-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes cert-zoom-in {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.85); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cert-preview-img,
+  .cert-preview-backdrop { animation: none; }
 }
 
 .badge-card {

@@ -7,6 +7,7 @@ import Magnet from "./components/Magnet.jsx";
 import BorderGlow from "./components/BorderGlow.jsx";
 import RotatingText from "./components/RotatingText.jsx";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { profile, experience, projects, skills, certifications, education } from "./data.js";
 import ContactForm from "./components/ContactForm.jsx";
 import GradualBlur from "./components/GradualBlur.jsx";
@@ -15,7 +16,7 @@ import StatusBar from "./components/StatusBar.jsx";
 import ChatWidget, { ChatDial } from "./components/ChatWidget.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
 import { LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuLinkedin, LuMail, LuCheck } from "react-icons/lu";
-import { SiGithub, SiKaggle } from "react-icons/si";
+import { SiGithub } from "react-icons/si";
 
 const NAV = [
   ["About", "#about"],
@@ -58,6 +59,83 @@ function GlowCard({ className = "", children, ...rest }) {
     <BorderGlow {...GLOW_CARD_PROPS} className={className} {...rest}>
       {children}
     </BorderGlow>
+  );
+}
+
+// Kaggle's "K" app-icon mark — not in simple-icons (which only ships the
+// old wordmark logotype), so it's hand-built: a rounded bar + two
+// round-capped diagonal strokes meeting at a point, like the real mark.
+function KaggleMark(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <rect x="4" y="2" width="4" height="20" rx="2" fill="currentColor" />
+      <path
+        d="M9 12.5L18.5 4M9 12.5L18.5 21"
+        stroke="currentColor"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+// Certification card. The badge thumbnail is small by design (uniform grid),
+// so on hover we portal a large, uncropped preview straight into
+// document.body — a plain CSS transform-scale would center itself on the
+// *card* (border-glow-card sets its own transform, which makes it the
+// containing block for any position:fixed descendant), not the viewport.
+// Portaling escapes that entirely, so the preview always centers on screen
+// and is never clipped, regardless of which grid column the card sits in.
+function CertCard({ c }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <GlowCard
+      className="cert-glow"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className="badge-card">
+        <div className="badge-art">
+          <IssuerIcon issuer={c.issuer} />
+          <span className="badge-art-name">{c.name}</span>
+          <LuBadgeCheck className="badge-check" />
+          <span className="badge-art-label">completion badge</span>
+          {c.image && (
+            <img
+              className="badge-img"
+              src={c.image}
+              alt={`${c.name} badge`}
+              loading="lazy"
+              onError={(e) => { e.target.style.display = "none"; }}
+            />
+          )}
+        </div>
+        <span className="cert-name">{c.name}</span>
+        <div className="badge-meta">
+          <span className="badge-issuer">
+            <IssuerIcon issuer={c.issuer} />
+            {c.issuer}
+          </span>
+          <span className="cert-meta">{c.year}</span>
+        </div>
+        {c.url && (
+          <a href={c.url} target="_blank" rel="noreferrer" className="badge-verify">
+            <LuExternalLink /> Verify
+          </a>
+        )}
+      </div>
+
+      {hovered && c.image &&
+        createPortal(
+          <div className="cert-preview" aria-hidden="true">
+            <div className="cert-preview-backdrop" />
+            <img className="cert-preview-img" src={c.image} alt={`${c.name} — full certificate`} />
+          </div>,
+          document.body
+        )}
+    </GlowCard>
   );
 }
 
@@ -226,7 +304,7 @@ export default function App() {
                 aria-label="Kaggle profile"
                 data-label="Kaggle"
               >
-                <SiKaggle />
+                <KaggleMark />
               </a>
               <a
                 href="/cv.pdf"
@@ -463,43 +541,7 @@ export default function App() {
             </div>
             <div className="certs-grid">
               {visibleCerts.map((c) => (
-                <GlowCard key={c.name} className="cert-glow">
-                  <div className="badge-card">
-                    <div className="badge-art">
-                      <IssuerIcon issuer={c.issuer} />
-                      <span className="badge-art-name">{c.name}</span>
-                      <LuBadgeCheck className="badge-check" />
-                      <span className="badge-art-label">completion badge</span>
-                      {c.image && (
-                        <img
-                          className="badge-img"
-                          src={c.image}
-                          alt={`${c.name} badge`}
-                          loading="lazy"
-                          onError={(e) => { e.target.style.display = "none"; }}
-                        />
-                      )}
-                    </div>
-                    <span className="cert-name">{c.name}</span>
-                    <div className="badge-meta">
-                      <span className="badge-issuer">
-                        <IssuerIcon issuer={c.issuer} />
-                        {c.issuer}
-                      </span>
-                      <span className="cert-meta">{c.year}</span>
-                    </div>
-                    {c.url && (
-                      <a
-                        href={c.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="badge-verify"
-                      >
-                        <LuExternalLink /> Verify
-                      </a>
-                    )}
-                  </div>
-                </GlowCard>
+                <CertCard key={c.name} c={c} />
               ))}
             </div>
           </Reveal>
@@ -592,7 +634,7 @@ export default function App() {
                 aria-label="Kaggle"
                 data-label="Kaggle"
               >
-                <SiKaggle />
+                <KaggleMark />
               </a>
             </div>
           </Reveal>
