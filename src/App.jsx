@@ -363,12 +363,17 @@ export default function App() {
 
                       {/* hover: full details */}
                       <div className="pj3-overlay">
-                        <h3>{p.title.split("—")[0].trim()}</h3>
-                        <span className="pj3-meta">{p.category} · {p.date}{p.metric ? ` · ${p.metric}` : ""}</span>
+                        <div className="pj3-overlay-head">
+                          <h3>{p.title.split("—")[0].trim()}</h3>
+                          {p.metric && <span className="pj3-badge">{p.metric}</span>}
+                        </div>
+                        <span className="pj3-meta">{p.category} · {p.date}</span>
                         <p className="pj3-desc">{p.description}</p>
+                        <div className="pj3-section-label">// what I built</div>
                         <ul className="pj3-highlights">
                           {p.highlights.map((h) => <li key={h}>{h}</li>)}
                         </ul>
+                        <div className="pj3-section-label">// tech stack</div>
                         <div className="tags pj3-tags">
                           {p.tags.map((t) => <span className="tag" key={t}>{t}</span>)}
                         </div>
