@@ -14,7 +14,7 @@ import Noise from "./components/Noise.jsx";
 import StatusBar from "./components/StatusBar.jsx";
 import ChatWidget, { ChatDial } from "./components/ChatWidget.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
-import { LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuMessageSquare, LuLinkedin } from "react-icons/lu";
+import { LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuMessageSquare, LuLinkedin, LuMail } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
 
 const NAV = [
@@ -529,13 +529,26 @@ export default function App() {
               especially in accessibility and civic tech. Based in {profile.location}.
             </p>
             <ContactForm />
-            <div className="hero-actions contact-links" style={{ justifyContent: "center" }}>
-              <a href={`mailto:${profile.email}`} className="btn btn-ghost">
-                Email
+            <div className="contact-links">
+              <a
+                href={`mailto:${profile.email}`}
+                className="contact-icon"
+                aria-label="Email"
+                data-label="Email"
+              >
+                <LuMail />
               </a>
               {profile.links.map((l) => (
-                <a key={l.label} href={l.url} target="_blank" rel="noreferrer" className="btn btn-ghost">
-                  {l.label}
+                <a
+                  key={l.label}
+                  href={l.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="contact-icon"
+                  aria-label={l.label}
+                  data-label={l.label}
+                >
+                  {l.label === "GitHub" ? <SiGithub /> : <LuLinkedin />}
                 </a>
               ))}
             </div>
