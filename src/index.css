@@ -24,6 +24,9 @@ html {
   scroll-behavior: smooth;
 }
 
+/* anchors the document-spanning noise overlay */
+#root { position: relative; }
+
 section {
   scroll-margin-top: 88px; /* clear the floating nav */
 }

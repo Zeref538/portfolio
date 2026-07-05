@@ -1,9 +1,9 @@
+/* spans the whole document (not the viewport), so grain scrolls with content */
 .noise-overlay {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
+  position: absolute;
+  inset: 0;
   pointer-events: none;
-  z-index: 190; /* above content, below the scanline vignette (200) */
+  z-index: 190;
+  background-repeat: repeat;
+  image-rendering: pixelated;
 }
