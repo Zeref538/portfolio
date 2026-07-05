@@ -56,9 +56,14 @@ export const projects = [
     metric: "0.740 mAP50",
     category: "Computer Vision · Thesis",
     date: "2025 — 2026",
-    image: "", // e.g. "/projects/acra.png" (put file in public/projects/)
+    image: "/projects/acra.png", // save a screenshot or GIF of the live app here
     link: "https://github.com/Zeref538/ACRA",
     demo: "https://acra-sandy.vercel.app/dashboard",
+    highlights: [
+      "Trained YOLOv8m on 33,774 custom-annotated boxes → 0.740 mAP50",
+      "Built the re-encoding core: CLAHE → CIELAB → Fuzzy C-Means → CIEDE2000",
+      "Deployed FastAPI + ONNX inference with Supabase RLS & 24h auto-delete",
+    ],
   },
   {
     title: "CafèSync — Smart Coffee Shop Operations",
@@ -68,9 +73,14 @@ export const projects = [
     metric: "Live multi-screen sync",
     category: "Full-Stack Platform",
     date: "2025",
-    image: "",
+    image: "/projects/cafesync.png",
     link: "https://github.com/Zeref538/CafeSync",
     demo: "https://cafesync-3b25a.web.app/station/management",
+    highlights: [
+      "Zero-refresh multi-screen sync with Firestore realtime listeners",
+      "Python AI insights: ingredient reorder triggers & staffing forecasts",
+      "PayMongo payment integration with live sales analytics",
+    ],
   },
   {
     title: "CLICKSILOG — Self-Ordering & Kitchen Display",
@@ -80,9 +90,14 @@ export const projects = [
     metric: "End-to-end order sync",
     category: "Web App",
     date: "2025",
-    image: "",
+    image: "/projects/clicksilog/menu.png",
     link: "https://github.com/Zeref538/ClickSilog",
     demo: "",
+    highlights: [
+      "Order routing from customer screen to real-time Kitchen Display",
+      "Automated inventory deduction on every confirmed order",
+      "Role-based flows: Customer, Kitchen, Cashier, Admin",
+    ],
     // animated phone showcase — save the screenshots in public/projects/clicksilog/
     screens: [
       "/projects/clicksilog/menu.png",

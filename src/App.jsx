@@ -9,14 +9,13 @@ import RotatingText from "./components/RotatingText.jsx";
 import { useEffect, useRef, useState } from "react";
 import { profile, experience, projects, skills, certifications, education } from "./data.js";
 import GitHubActivity from "./components/GitHubActivity.jsx";
-import PhoneShowcase from "./components/PhoneShowcase.jsx";
 import ContactForm from "./components/ContactForm.jsx";
 import FooterTerminal from "./components/FooterTerminal.jsx";
 import GradualBlur from "./components/GradualBlur.jsx";
 import Noise from "./components/Noise.jsx";
 import StatusBar from "./components/StatusBar.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
-import { LuEye, LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuMessageSquare, LuLinkedin } from "react-icons/lu";
+import { LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuMessageSquare, LuLinkedin } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
 
 const NAV = [
@@ -360,82 +359,53 @@ export default function App() {
             <div className="section-out"># {projects.length} repos · 2 live deployments</div>
             <div className="projects-grid">
               {projects.map((p, i) => (
-                <Reveal
-                  key={p.title}
-                  className={`pj-item ${i % 2 === 0 ? "from-left" : "from-right"}`}
-                >
-                <GlowCard>
-                  <article className="card-body project-card">
-                    <div className="pj-head">
-                      <span className="pj-num">{String(i + 1).padStart(2, "0")}</span>
-                      <span className="pj-dash" />
-                      <span className="pj-cat">{p.category}</span>
-                      <span className="pj-dash" />
-                      <span className="pj-date">{p.date}</span>
-                    </div>
-                    <div className="pj-title-row">
-                      <span className="pj-logo">{p.title.charAt(0)}</span>
-                      <h3>{p.title}</h3>
-                      <span className="pj-actions">
-                        {p.link && (
-                          <a
-                            href={p.link}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="pj-open"
-                            aria-label={`${p.title} source on GitHub`}
-                            title="Source code"
-                          >
-                            <SiGithub />
-                          </a>
-                        )}
-                        {p.demo && (
-                          <a
-                            href={p.demo}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="pj-open pj-open-demo"
-                            aria-label={`${p.title} live demo`}
-                            title="Live demo"
-                          >
-                            <LuArrowUpRight />
-                          </a>
-                        )}
-                      </span>
-                    </div>
-                    <p className="project-desc">{p.description}</p>
-                    <div className="pj-shot">
-                      {p.screens?.length ? (
-                        <PhoneShowcase
-                          screens={p.screens}
-                          alts={[`${p.title} menu`, `${p.title} item`, `${p.title} cart`]}
-                        />
-                      ) : p.image ? (
-                        <img src={p.image} alt={`${p.title} screenshot`} loading="lazy" />
-                      ) : (
-                        <div className="pj-shot-ph">
+                <Reveal key={p.title} className="pj-item" style={{ "--i": i }}>
+                  <GlowCard className="pj3-glow">
+                    <article className="pj3">
+                      {/* cover: screenshot / gif of the live app */}
+                      <div className="pj3-cover">
+                        <div className="pj3-ph">
                           <span className="pj-shot-mono">{p.title.split(" ")[0]}</span>
                           {p.metric && <span className="pj-shot-metric">▸ {p.metric}</span>}
                         </div>
-                      )}
-                      {(p.demo || p.link) && (
-                        <a
-                          href={p.demo || p.link}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="pj-explore"
-                          aria-label={`Explore ${p.title}`}
-                        >
-                          <LuEye />
-                          <span>{p.demo ? "open live demo" : "view source"}</span>
-                        </a>
-                      )}
-                    </div>
-                    <div className="tags">
-                      {p.tags.map((t) => <span className="tag" key={t}>{t}</span>)}
-                    </div>
-                  </article>
-                </GlowCard>
+                        {p.image && (
+                          <img
+                            src={p.image}
+                            alt={`${p.title} preview`}
+                            loading="lazy"
+                            onError={(e) => { e.target.style.display = "none"; }}
+                          />
+                        )}
+                        <div className="pj3-caption">
+                          <h3>{p.title.split("—")[0].trim()}</h3>
+                          <span>{p.category} · {p.date}</span>
+                        </div>
+                      </div>
+
+                      {/* hover: full details */}
+                      <div className="pj3-overlay">
+                        <h3>{p.title.split("—")[0].trim()}</h3>
+                        <ul className="pj3-highlights">
+                          {p.highlights.map((h) => <li key={h}>{h}</li>)}
+                        </ul>
+                        <div className="tags pj3-tags">
+                          {p.tags.map((t) => <span className="tag" key={t}>{t}</span>)}
+                        </div>
+                        <div className="pj3-links">
+                          {p.demo && (
+                            <a href={p.demo} target="_blank" rel="noreferrer">
+                              <LuArrowUpRight /> live demo
+                            </a>
+                          )}
+                          {p.link && (
+                            <a href={p.link} target="_blank" rel="noreferrer">
+                              <SiGithub /> source
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </article>
+                  </GlowCard>
                 </Reveal>
               ))}
             </div>
