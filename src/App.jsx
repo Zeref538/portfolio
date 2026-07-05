@@ -8,9 +8,7 @@ import BorderGlow from "./components/BorderGlow.jsx";
 import RotatingText from "./components/RotatingText.jsx";
 import { useEffect, useRef, useState } from "react";
 import { profile, experience, projects, skills, certifications, education } from "./data.js";
-import GitHubActivity from "./components/GitHubActivity.jsx";
 import ContactForm from "./components/ContactForm.jsx";
-import FooterTerminal from "./components/FooterTerminal.jsx";
 import GradualBlur from "./components/GradualBlur.jsx";
 import Noise from "./components/Noise.jsx";
 import StatusBar from "./components/StatusBar.jsx";
@@ -181,50 +179,52 @@ export default function App() {
       />
 
       <nav>
-        <div className="nav-bar">
-          <a href="#" className="nav-logo">
-            zeref<span>.</span>
-          </a>
-          <div className="nav-actions">
-            <a
-              href="https://github.com/Zeref538"
-              target="_blank"
-              rel="noreferrer"
-              className="nav-icon"
-              aria-label="GitHub profile"
-              title="GitHub"
-            >
-              <SiGithub />
+        <BorderGlow {...GLOW_CARD_PROPS} borderRadius={18} className="nav-glow">
+          <div className="nav-bar">
+            <a href="#" className="nav-logo">
+              zeref<span>.</span>
             </a>
-            <a
-              href="https://linkedin.com/in/john-andrei-martinez-499a0b343"
-              target="_blank"
-              rel="noreferrer"
-              className="nav-icon"
-              aria-label="LinkedIn profile"
-              title="LinkedIn"
-            >
-              <LuLinkedin />
-            </a>
-            <a
-              href="/cv.pdf"
-              className="nav-icon"
-              download
-              aria-label="Download CV"
-              title="Download CV"
-            >
-              <LuFileText />
-            </a>
-            <a
-              href={`mailto:${profile.email}`}
-              className="nav-icon"
-              aria-label="Get in touch"
-              title="Get in touch"
-            >
-              <LuMessageSquare />
-            </a>
+            <div className="nav-actions">
+              <a
+                href="https://github.com/Zeref538"
+                target="_blank"
+                rel="noreferrer"
+                className="nav-icon"
+                aria-label="GitHub profile"
+                data-label="GitHub"
+              >
+                <SiGithub />
+              </a>
+              <a
+                href="https://linkedin.com/in/john-andrei-martinez-499a0b343"
+                target="_blank"
+                rel="noreferrer"
+                className="nav-icon"
+                aria-label="LinkedIn profile"
+                data-label="LinkedIn"
+              >
+                <LuLinkedin />
+              </a>
+              <a
+                href="/cv.pdf"
+                className="nav-icon"
+                download
+                aria-label="Download CV"
+                data-label="Download CV"
+              >
+                <LuFileText />
+              </a>
+              <a
+                href={`mailto:${profile.email}`}
+                className="nav-icon"
+                aria-label="Get in touch"
+                data-label="Get in Touch"
+              >
+                <LuMessageSquare />
+              </a>
+            </div>
           </div>
-        </div>
+        </BorderGlow>
       </nav>
 
       <StatusBar section={activeSection} />
@@ -412,14 +412,6 @@ export default function App() {
           </Reveal>
         </section>
 
-        <section id="github">
-          <Reveal className="container">
-            <div className="section-label">$ git log --github</div>
-            <div className="section-out"># live — streaming from api.github.com</div>
-            <GitHubActivity />
-          </Reveal>
-        </section>
-
         <section id="skills">
           <Reveal className="container">
             <div className="section-label">$ nvidia-smi --skills</div>
@@ -569,7 +561,6 @@ export default function App() {
         </section>
       </main>
 
-      <FooterTerminal />
     </>
   );
 }
