@@ -15,8 +15,8 @@ export const profile = {
     { label: "LinkedIn", url: "https://linkedin.com/in/john-andrei-martinez-499a0b343" },
   ],
   about: [
-    "I'm a Computer Science undergraduate at Our Lady of Fatima University with a growing focus on AI/ML, particularly computer vision and accessibility-driven solutions.",
-    "I'm currently leading the development of ACRA (Adaptive Color Re-Encoding Algorithm), a thesis system that uses YOLOv8m for semantic region detection to enhance color accessibility in public visual materials for individuals with color vision deficiency — spanning the full pipeline: dataset annotation, model training and evaluation (Precision, Recall, mAP50/50-95 under ISO/IEC 25010), and deployment with FastAPI, Supabase, and React.",
+    "I'm a Computer Science undergraduate at Our Lady of Fatima University focused on AI/ML — and I like shipping complete systems, not just models.",
+    "My recent work spans computer vision, data analytics, and full-stack products: a YOLOv8-powered color-accessibility tool, a smart coffee-shop platform with AI demand insights, a self-ordering kitchen display system, and the Azure OpenAI chatbot living on this very page. I handle the whole pipeline — data, training, evaluation, deployment.",
     "I'm actively seeking internship and entry-level opportunities in Machine Learning / AI Engineering where I can apply real-world model development experience to meaningful, impact-driven problems — especially in accessibility and civic tech.",
   ],
 };
@@ -57,6 +57,7 @@ export const projects = [
     category: "Computer Vision · Thesis",
     date: "2025 — 2026",
     image: "/projects/acra.jpg",
+    images: ["/projects/acra.jpg", "/projects/acra-2.jpg", "/projects/acra-3.jpg"],
     link: "https://github.com/Zeref538/ACRA",
     demo: "https://acra-sandy.vercel.app/dashboard",
     highlights: [
@@ -74,6 +75,7 @@ export const projects = [
     category: "Full-Stack Platform",
     date: "2025",
     image: "/projects/cafesync.jpg",
+    images: ["/projects/cafesync.jpg", "/projects/cafesync-2.jpg", "/projects/cafesync-3.jpg"],
     link: "https://github.com/Zeref538/CafeSync",
     demo: "https://cafesync-3b25a.web.app/station/management",
     highlights: [
@@ -91,6 +93,11 @@ export const projects = [
     category: "Web App",
     date: "2025",
     image: "/projects/clicksilog/menu.jpg",
+    images: [
+      "/projects/clicksilog/menu.jpg",
+      "/projects/clicksilog/kds-2.jpg",
+      "/projects/clicksilog/kds-3.jpg",
+    ],
     link: "https://github.com/Zeref538/ClickSilog",
     demo: "",
     highlights: [
@@ -98,11 +105,23 @@ export const projects = [
       "Automated inventory deduction on every confirmed order",
       "Role-based flows: Customer, Kitchen, Cashier, Admin",
     ],
-    // animated phone showcase — save the screenshots in public/projects/clicksilog/
-    screens: [
-      "/projects/clicksilog/menu.png",
-      "/projects/clicksilog/item.png",
-      "/projects/clicksilog/cart.png",
+  },
+  {
+    title: "Portfolio — ML Terminal Website",
+    description:
+      "This site. A React + Vite portfolio with an 'ML terminal' personality — boot log, CRT scanlines, tmux-style status bar — plus zeref-bot: a grounded Azure OpenAI (gpt-5-mini) chatbot served through a rate-limited Vercel serverless function that answers recruiter questions about me from live site data.",
+    tags: ["React", "Vite", "Azure OpenAI", "Vercel", "GSAP"],
+    metric: "Azure OpenAI chatbot",
+    category: "Web · AI",
+    date: "2026",
+    image: "/projects/portfolio.jpg",
+    images: ["/projects/portfolio.jpg"],
+    link: "https://github.com/Zeref538/portfolio",
+    demo: "https://johnandrei.vercel.app",
+    highlights: [
+      "zeref-bot: Azure OpenAI behind a Vercel serverless function with per-IP rate limiting",
+      "Terminal identity: boot log, CRT scanlines, session status bar",
+      "Perf-tuned animations: rAF-throttled scroll effects, vendor chunk splitting",
     ],
   },
 ];
@@ -115,15 +134,16 @@ export const skills = [
       "PyTorch",
       "TensorFlow",
       "scikit-learn",
-      "OpenCV",
       "YOLOv8",
+      "Hugging Face",
+      "Kaggle",
       "Pandas",
       "NumPy",
     ],
   },
   {
     group: "Data",
-    items: ["SQL", "PostgreSQL", "MongoDB", "Tableau"],
+    items: ["SQL", "PostgreSQL", "MongoDB", "Tableau", "Power BI"],
   },
   {
     group: "Engineering",
@@ -135,11 +155,12 @@ export const skills = [
       "FastAPI",
       "Docker",
       "Firebase",
+      "Supabase",
     ],
   },
   {
-    group: "Tools",
-    items: ["Git", "GitHub", "Figma"],
+    group: "Cloud & Tools",
+    items: ["Azure", "Vercel", "Git", "GitHub", "Figma"],
   },
 ];
 
@@ -150,14 +171,14 @@ export const certifications = [
     name: "Google Advanced Data Analytics Professional Certificate",
     issuer: "Google",
     year: "2026",
-    url: "https://www.coursera.org/account/accomplishments/specialization/2HF46JKGRGU9",
+    url: "https://www.coursera.org/account/accomplishments/specialization/PW3PERYUBRH0",
     image: "/certs/advanced-data-analytics.jpeg",
   },
   {
-    name: "Google AI Professional Certificate",
+    name: "Google Advanced Data Analytics Capstone",
     issuer: "Google",
     year: "2026",
-    url: "https://www.coursera.org/account/accomplishments/professional-cert/certificate/Z09O6H72G4CX",
+    url: "https://www.coursera.org/account/accomplishments/verify/U7SVUTS082OA",
     image: "/certs/google-ai.jpeg",
   },
   {
@@ -192,14 +213,14 @@ export const certifications = [
     name: "Google Data Analytics Professional Certificate",
     issuer: "Google",
     year: "2025",
-    url: "https://www.coursera.org/account/accomplishments/verify/U7SVUTS082OA",
+    url: "https://www.coursera.org/account/accomplishments/specialization/2HF46JKGRGU9",
     image: "/certs/data-analytics.jpeg",
   },
   {
     name: "Google Cybersecurity Professional Certificate",
     issuer: "Google",
     year: "2025",
-    url: "https://www.coursera.org/account/accomplishments/specialization/PW3PERYUBRH0",
+    url: "https://www.coursera.org/account/accomplishments/professional-cert/certificate/Z09O6H72G4CX",
     image: "/certs/cybersecurity.jpg",
   },
 ];
@@ -212,6 +233,8 @@ export const education = [
     location: "",
     highlights: [
       "Dean's Lister 2023–2026",
+      "Technical Member — English Society",
+      "Member — Junior Philippines Computer Studies Directorate",
       "2nd Place — Python Programming Competition",
       "3rd Place — Database Designing Competition",
       "3rd Place — C Programming Competition",

@@ -52,12 +52,33 @@ function TypedPrompt({ text }) {
   );
 }
 
-function GlowCard({ className = "", children }) {
+function GlowCard({ className = "", children, ...rest }) {
   return (
-    <BorderGlow {...GLOW_CARD_PROPS} className={className}>
+    <BorderGlow {...GLOW_CARD_PROPS} className={className} {...rest}>
       {children}
     </BorderGlow>
   );
+}
+
+// cross-fades through a project's screenshots so covers don't sit static
+function CyclingCover({ images, alt }) {
+  const [idx, setIdx] = useState(0);
+  useEffect(() => {
+    if (!images || images.length < 2) return;
+    const id = setInterval(() => setIdx((i) => (i + 1) % images.length), 3800);
+    return () => clearInterval(id);
+  }, [images]);
+  if (!images?.length) return null;
+  return images.map((src, i) => (
+    <img
+      key={src}
+      src={src}
+      alt={alt}
+      loading="lazy"
+      className={`pj3-img ${i === idx ? "pj3-img-on" : ""}`}
+      onError={(e) => { e.target.style.display = "none"; }}
+    />
+  ));
 }
 
 export default function App() {
@@ -322,7 +343,7 @@ export default function App() {
             <div className="projects-grid">
               {projects.map((p, i) => (
                 <Reveal key={p.title} className="pj-item" style={{ "--i": i }}>
-                  <GlowCard className="pj3-glow">
+                  <GlowCard className="pj3-glow" borderRadius={22}>
                     <article className="pj3">
                       {/* cover: screenshot / gif of the live app */}
                       <div className="pj3-cover">
@@ -330,14 +351,10 @@ export default function App() {
                           <span className="pj-shot-mono">{p.title.split(" ")[0]}</span>
                           {p.metric && <span className="pj-shot-metric">▸ {p.metric}</span>}
                         </div>
-                        {p.image && (
-                          <img
-                            src={p.image}
-                            alt={`${p.title} preview`}
-                            loading="lazy"
-                            onError={(e) => { e.target.style.display = "none"; }}
-                          />
-                        )}
+                        <CyclingCover
+                          images={p.images?.length ? p.images : p.image ? [p.image] : []}
+                          alt={`${p.title} preview`}
+                        />
                         <div className="pj3-caption">
                           <h3>{p.title.split("—")[0].trim()}</h3>
                           <span>{p.category} · {p.date}</span>

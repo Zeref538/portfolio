@@ -35,7 +35,9 @@ import {
   SiGithub,
   SiFigma,
   SiNotion,
+  SiKaggle,
 } from "react-icons/si";
+import { VscAzure } from "react-icons/vsc";
 import {
   LuBrain,
   LuScanSearch,
@@ -49,6 +51,7 @@ import {
   LuShieldCheck,
   LuCloud,
   LuKanban,
+  LuChartPie,
 } from "react-icons/lu";
 
 // [Icon, official brand color] — concept glyphs use theme colors
@@ -75,6 +78,9 @@ const ICONS = {
   "Express.js": [SiExpress, "#e6edf3"],
   "Docker": [SiDocker, "#2496ED"],
   "Vercel": [SiVercel, "#e6edf3"],
+  "Azure": [VscAzure, "#0078D4"],
+  "Kaggle": [SiKaggle, "#20BEFF"],
+  "Power BI": [LuChartPie, "#F2C811"],
   "Git": [SiGit, "#F05032"],
   "GitHub": [SiGithub, "#e6edf3"],
   "Figma": [SiFigma, "#F24E1E"],

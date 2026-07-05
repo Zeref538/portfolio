@@ -822,6 +822,13 @@ nav {
 
 .pj-item:hover .pj3-cover img { transform: scale(1.06); }
 
+/* cycling screenshots: stacked, cross-faded */
+.pj3-img {
+  opacity: 0;
+  transition: opacity 0.9s ease, transform 0.5s ease;
+}
+.pj3-img-on { opacity: 1; }
+
 .pj3-caption {
   position: absolute;
   left: 0;
