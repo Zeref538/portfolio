@@ -38,51 +38,6 @@ const GLOW_CARD_PROPS = {
   colors: ["#8b5cf6", "#22d3ee", "#a78bfa"],
 };
 
-// Terminal decode effect: glyphs scramble then lock in left-to-right.
-// Writes to the DOM directly (no re-renders); replays on hover.
-function DecryptText({ text, className = "" }) {
-  const ref = useRef(null);
-  const runningRef = useRef(false);
-
-  const run = () => {
-    const el = ref.current;
-    if (!el || runningRef.current) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    runningRef.current = true;
-    const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ<>_/[]{}#$%&*+=";
-    let frame = 0;
-    const id = setInterval(() => {
-      const revealed = Math.floor(frame / 2);
-      el.textContent = text
-        .split("")
-        .map((ch, i) => {
-          if (ch === " ") return " ";
-          if (i < revealed) return ch;
-          return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
-        })
-        .join("");
-      frame++;
-      if (revealed >= text.length) {
-        clearInterval(id);
-        el.textContent = text;
-        runningRef.current = false;
-      }
-    }, 28);
-  };
-
-  useEffect(() => {
-    const t = setTimeout(run, 250); // decode on load
-    return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text]);
-
-  return (
-    <span ref={ref} className={className} onMouseEnter={run}>
-      {text}
-    </span>
-  );
-}
-
 function TypedPrompt({ text }) {
   const [n, setN] = useState(0);
   useEffect(() => {
@@ -255,8 +210,8 @@ export default function App() {
           </div>
           <TypedPrompt text="zeref@portfolio:~$ whoami" />
           <h1>
-            <DecryptText text={profile.name.split(" ").slice(0, -1).join(" ")} />{" "}
-            <DecryptText className="accent" text={profile.name.split(" ").slice(-1)[0]} />
+            <span className="name-anim">{profile.name.split(" ").slice(0, -1).join(" ")}</span>{" "}
+            <span className="name-anim name-accent">{profile.name.split(" ").slice(-1)[0]}</span>
             <br />
             <span className="role-line">
               Aspiring{" "}
@@ -385,6 +340,8 @@ export default function App() {
                       {/* hover: full details */}
                       <div className="pj3-overlay">
                         <h3>{p.title.split("—")[0].trim()}</h3>
+                        <span className="pj3-meta">{p.category} · {p.date}{p.metric ? ` · ${p.metric}` : ""}</span>
+                        <p className="pj3-desc">{p.description}</p>
                         <ul className="pj3-highlights">
                           {p.highlights.map((h) => <li key={h}>{h}</li>)}
                         </ul>
@@ -507,25 +464,25 @@ export default function App() {
           <Reveal className="container">
             <div className="section-label">$ cat education.txt</div>
             <div className="section-out"># {education.length} records · 2011 → 2027</div>
-            <div className="timeline-h">
-              {[...education].reverse().map((ed) => (
-                <div className="timeline-h-item" key={ed.school}>
-                  <div className="timeline-marker" />
-                  <GlowCard>
-                    <div className="card-body">
-                      <div className="timeline-period">{ed.period}</div>
-                      <h3 className="edu-school">{ed.school}</h3>
-                      <div className="exp-company">{ed.degree}</div>
-                      {ed.highlights.length > 0 && (
-                        <div className="edu-highlights">
-                          {ed.highlights.map((h) => <span className="tag" key={h}>{h}</span>)}
-                        </div>
-                      )}
+            {education.map((ed) => (
+              <GlowCard key={ed.school}>
+                <div className="card-body edu-card">
+                  <div className="edu-main">
+                    <div className="timeline-period">{ed.period}</div>
+                    <h3 className="edu-school-big">{ed.school}</h3>
+                    <div className="edu-degree">{ed.degree}</div>
+                  </div>
+                  {ed.highlights.length > 0 && (
+                    <div className="edu-side">
+                      <div className="edu-side-label"># honors & awards</div>
+                      <div className="edu-highlights">
+                        {ed.highlights.map((h) => <span className="tag" key={h}>{h}</span>)}
+                      </div>
                     </div>
-                  </GlowCard>
+                  )}
                 </div>
-              ))}
-            </div>
+              </GlowCard>
+            ))}
           </Reveal>
         </section>
 
