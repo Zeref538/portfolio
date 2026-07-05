@@ -1,6 +1,27 @@
 import { useEffect, useRef, useState } from "react";
 import "./ChatWidget.css";
 
+// Floating dial (bottom-right) that pops the same terminal open anywhere on the page
+export function ChatDial() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button
+        className={`chat-fab ${open ? "chat-fab-open" : ""}`}
+        onClick={() => setOpen((v) => !v)}
+        aria-label={open ? "Close chat" : "Chat with zeref-bot"}
+      >
+        {open ? "×" : ">_"}
+      </button>
+      {open && (
+        <div className="chat-dial-panel" role="dialog" aria-label="zeref-bot chat">
+          <ChatWidget />
+        </div>
+      )}
+    </>
+  );
+}
+
 const GREETING =
   "hi! i'm zeref-bot — ask me anything about John: projects, skills, experience, availability.";
 

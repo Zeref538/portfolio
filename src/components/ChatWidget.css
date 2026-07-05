@@ -160,6 +160,59 @@
 .chat-input button:not(:disabled):hover { background: #8b5cf6; color: #fff; }
 .chat-input button:disabled { opacity: 0.35; cursor: default; }
 
+/* -- floating dial (bottom-right) -- */
+.chat-fab {
+  position: fixed;
+  right: 22px;
+  bottom: 46px; /* clears the statusbar */
+  z-index: 300;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid rgba(139, 92, 246, 0.45);
+  background: rgba(13, 17, 23, 0.92);
+  color: #a78bfa;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45), 0 0 18px rgba(139, 92, 246, 0.18);
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+.chat-fab:hover {
+  transform: scale(1.1);
+  background: #8b5cf6;
+  color: #fff;
+  box-shadow: 0 6px 28px rgba(139, 92, 246, 0.45);
+}
+.chat-fab-open { font-size: 1.4rem; line-height: 1; }
+
+.chat-dial-panel {
+  position: fixed;
+  right: 22px;
+  bottom: 108px;
+  z-index: 300;
+  width: min(360px, calc(100vw - 44px));
+  height: min(480px, calc(100vh - 180px));
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  border-radius: 12px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.55), 0 0 24px rgba(139, 92, 246, 0.12);
+  animation: chat-pop 0.22s ease;
+  overflow: hidden;
+}
+.chat-dial-panel .chat-terminal { flex: 1; min-height: 0; }
+@keyframes chat-pop {
+  from { opacity: 0; transform: translateY(14px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 768px) {
+  .chat-fab { right: 14px; bottom: 40px; width: 46px; height: 46px; }
+  .chat-dial-panel { right: 14px; bottom: 96px; }
+}
+
 /* -- About section two-column layout -- */
 .about-grid {
   display: grid;

@@ -12,7 +12,7 @@ import ContactForm from "./components/ContactForm.jsx";
 import GradualBlur from "./components/GradualBlur.jsx";
 import Noise from "./components/Noise.jsx";
 import StatusBar from "./components/StatusBar.jsx";
-import ChatWidget from "./components/ChatWidget.jsx";
+import ChatWidget, { ChatDial } from "./components/ChatWidget.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
 import { LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuMessageSquare, LuLinkedin } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
@@ -182,6 +182,7 @@ export default function App() {
       </nav>
 
       <StatusBar section={activeSection} />
+      <ChatDial />
 
       <aside className="section-rail" aria-label="Section progress" ref={railRef}>
         {NAV.map(([label, href], i) => {

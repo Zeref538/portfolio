@@ -56,7 +56,7 @@ export const projects = [
     metric: "0.740 mAP50",
     category: "Computer Vision · Thesis",
     date: "2025 — 2026",
-    image: "/projects/acra.png", // save a screenshot or GIF of the live app here
+    image: "/projects/acra.jpg",
     link: "https://github.com/Zeref538/ACRA",
     demo: "https://acra-sandy.vercel.app/dashboard",
     highlights: [
@@ -73,7 +73,7 @@ export const projects = [
     metric: "Live multi-screen sync",
     category: "Full-Stack Platform",
     date: "2025",
-    image: "/projects/cafesync.png",
+    image: "/projects/cafesync.jpg",
     link: "https://github.com/Zeref538/CafeSync",
     demo: "https://cafesync-3b25a.web.app/station/management",
     highlights: [
@@ -90,7 +90,7 @@ export const projects = [
     metric: "End-to-end order sync",
     category: "Web App",
     date: "2025",
-    image: "/projects/clicksilog/menu.png",
+    image: "/projects/clicksilog/menu.jpg",
     link: "https://github.com/Zeref538/ClickSilog",
     demo: "",
     highlights: [
