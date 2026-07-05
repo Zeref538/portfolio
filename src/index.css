@@ -330,6 +330,16 @@ nav {
   .nav-bar::before { display: none; }
   .nav-actions { flex-direction: row; gap: 10px; }
   .nav-icon::after { display: none; } /* side tooltips don't fit the top bar */
+  /* ...except the copy-email confirmation — worth the space, it's the only
+     feedback a tap gives on mobile since there's no hover state */
+  .nav-icon.is-copied::after {
+    display: block;
+    left: auto;
+    right: 0;
+    top: calc(100% + 8px);
+    transform: translateY(-4px);
+  }
+  .nav-icon.is-copied::after { opacity: 1; transform: translateY(0); }
 }
 
 .nav-icon {
@@ -354,6 +364,28 @@ nav {
   border-color: var(--accent);
   transform: scale(1.12);
   box-shadow: 0 0 14px rgba(139, 92, 246, 0.55);
+}
+
+/* copy-email confirmation: reset button chrome + force the tooltip to show
+   without needing hover, tinted cyan so it reads as a distinct "success" */
+button.nav-icon {
+  font: inherit;
+  cursor: pointer;
+  appearance: none;
+}
+
+.nav-icon.is-copied {
+  color: #100a1e;
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+  box-shadow: 0 0 14px rgba(34, 211, 238, 0.55);
+}
+
+.nav-icon.is-copied::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+  color: var(--accent-2);
+  border-color: var(--accent-2);
 }
 
 /* ---------- section rail (right-side progress) ---------- */

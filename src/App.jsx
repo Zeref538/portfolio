@@ -14,8 +14,8 @@ import Noise from "./components/Noise.jsx";
 import StatusBar from "./components/StatusBar.jsx";
 import ChatWidget, { ChatDial } from "./components/ChatWidget.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
-import { LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuMessageSquare, LuLinkedin, LuMail } from "react-icons/lu";
-import { SiGithub } from "react-icons/si";
+import { LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuLinkedin, LuMail, LuCheck } from "react-icons/lu";
+import { SiGithub, SiKaggle } from "react-icons/si";
 
 const NAV = [
   ["About", "#about"],
@@ -58,6 +58,43 @@ function GlowCard({ className = "", children, ...rest }) {
     <BorderGlow {...GLOW_CARD_PROPS} className={className} {...rest}>
       {children}
     </BorderGlow>
+  );
+}
+
+// copies the email to the clipboard and flips the icon + tooltip to a
+// confirmation for a couple seconds so the user knows it worked
+function CopyEmailButton({ email, className = "", labelIdle = "Copy Email" }) {
+  const [copied, setCopied] = useState(false);
+
+  const onClick = async (e) => {
+    e.preventDefault();
+    try {
+      await navigator.clipboard.writeText(email);
+    } catch {
+      // clipboard API unavailable/blocked — fall back to a temp textarea
+      const ta = document.createElement("textarea");
+      ta.value = email;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); } catch { /* ignore */ }
+      document.body.removeChild(ta);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`${className} ${copied ? "is-copied" : ""}`}
+      aria-label={copied ? "Email copied" : labelIdle}
+      data-label={copied ? "Copied!" : labelIdle}
+    >
+      {copied ? <LuCheck /> : <LuMail />}
+    </button>
   );
 }
 
@@ -182,6 +219,16 @@ export default function App() {
                 <LuLinkedin />
               </a>
               <a
+                href="https://www.kaggle.com/johnandreimartinez"
+                target="_blank"
+                rel="noreferrer"
+                className="nav-icon"
+                aria-label="Kaggle profile"
+                data-label="Kaggle"
+              >
+                <SiKaggle />
+              </a>
+              <a
                 href="/cv.pdf"
                 className="nav-icon"
                 download
@@ -190,14 +237,7 @@ export default function App() {
               >
                 <LuFileText />
               </a>
-              <a
-                href={`mailto:${profile.email}`}
-                className="nav-icon"
-                aria-label="Get in touch"
-                data-label="Get in Touch"
-              >
-                <LuMessageSquare />
-              </a>
+              <CopyEmailButton email={profile.email} className="nav-icon" />
             </div>
           </div>
         </BorderGlow>
