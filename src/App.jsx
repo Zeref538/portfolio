@@ -17,7 +17,7 @@ import GradualBlur from "./components/GradualBlur.jsx";
 import Noise from "./components/Noise.jsx";
 import StatusBar from "./components/StatusBar.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
-import { LuEye, LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuDownload, LuMail } from "react-icons/lu";
+import { LuEye, LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuSend, LuLinkedin } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
 
 const NAV = [
@@ -154,13 +154,23 @@ export default function App() {
               <SiGithub />
             </a>
             <a
+              href="https://linkedin.com/in/john-andrei-martinez-499a0b343"
+              target="_blank"
+              rel="noreferrer"
+              className="nav-icon"
+              aria-label="LinkedIn profile"
+              title="LinkedIn"
+            >
+              <LuLinkedin />
+            </a>
+            <a
               href="/cv.pdf"
               className="nav-icon"
               download
               aria-label="Download CV"
               title="Download CV"
             >
-              <LuDownload />
+              <LuFileText />
             </a>
             <a
               href={`mailto:${profile.email}`}
@@ -168,7 +178,7 @@ export default function App() {
               aria-label="Get in touch"
               title="Get in touch"
             >
-              <LuMail />
+              <LuSend />
             </a>
           </div>
         </div>
