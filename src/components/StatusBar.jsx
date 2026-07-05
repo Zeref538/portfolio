@@ -19,7 +19,7 @@ export default function StatusBar({ section }) {
       <span className="sb-cell sb-mode">OPEN TO WORK</span>
       <span className="sb-cell sb-path">~{section ? `/${section.replace("#", "")}` : ""}</span>
       <span className="sb-fill" />
-      <span className="sb-cell sb-meta">bulacan, ph</span>
+      <span className="sb-cell sb-meta">⚡ react · vite</span>
       <span className="sb-cell sb-clock">session {mm}:{ss}</span>
     </div>
   );
