@@ -1346,62 +1346,19 @@ button.nav-icon {
   gap: 18px;
 }
 
-/* small lift on hover — the actual enlarged view is portaled to
-   document.body (see .cert-preview below), since border-glow-card sets its
-   own transform and would otherwise become the containing block for any
-   position:fixed descendant, breaking true viewport-centered positioning */
+/* gentle enlarge on hover */
 .cert-glow {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
   height: 100%;
 }
 .cert-glow:hover {
-  transform: translateY(-4px);
+  transform: translate3d(0, 0, 0.01px) scale(1.06);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
-}
-
-/* portaled preview: real viewport-fixed positioning, immune to grid clipping */
-.cert-preview {
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  pointer-events: none;
-}
-
-.cert-preview-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(5, 7, 10, 0.6);
-  backdrop-filter: blur(2px);
-  animation: cert-fade-in 0.25s ease;
-}
-
-.cert-preview-img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: min(60vw, 480px);
-  height: auto;
-  max-height: 65vh;
-  object-fit: contain;
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(139, 92, 246, 0.45);
-  animation: cert-zoom-in 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@keyframes cert-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes cert-zoom-in {
-  from { opacity: 0; transform: translate(-50%, -50%) scale(0.85); }
-  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  z-index: 5;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cert-preview-img,
-  .cert-preview-backdrop { animation: none; }
+  .cert-glow:hover { transform: none; }
 }
 
 .badge-card {

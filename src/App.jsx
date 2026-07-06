@@ -7,7 +7,6 @@ import Magnet from "./components/Magnet.jsx";
 import BorderGlow from "./components/BorderGlow.jsx";
 import RotatingText from "./components/RotatingText.jsx";
 import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import { profile, experience, projects, skills, certifications, education } from "./data.js";
 import ContactForm from "./components/ContactForm.jsx";
 import GradualBlur from "./components/GradualBlur.jsx";
@@ -79,22 +78,10 @@ function KaggleMark(props) {
   );
 }
 
-// Certification card. The badge thumbnail is small by design (uniform grid),
-// so on hover we portal a large, uncropped preview straight into
-// document.body — a plain CSS transform-scale would center itself on the
-// *card* (border-glow-card sets its own transform, which makes it the
-// containing block for any position:fixed descendant), not the viewport.
-// Portaling escapes that entirely, so the preview always centers on screen
-// and is never clipped, regardless of which grid column the card sits in.
+// Certification card — enlarges gently on hover (no full-screen preview).
 function CertCard({ c }) {
-  const [hovered, setHovered] = useState(false);
-
   return (
-    <GlowCard
-      className="cert-glow"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
+    <GlowCard className="cert-glow">
       <div className="badge-card">
         <div className="badge-art">
           <IssuerIcon issuer={c.issuer} />
@@ -125,15 +112,6 @@ function CertCard({ c }) {
           </a>
         )}
       </div>
-
-      {hovered && c.image &&
-        createPortal(
-          <div className="cert-preview" aria-hidden="true">
-            <div className="cert-preview-backdrop" />
-            <img className="cert-preview-img" src={c.image} alt={`${c.name} — full certificate`} />
-          </div>,
-          document.body
-        )}
     </GlowCard>
   );
 }
