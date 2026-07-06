@@ -64,15 +64,15 @@ function GlowCard({ className = "", children, ...rest }) {
 // Kaggle's "K" app-icon mark — not in simple-icons (which only ships the
 // old wordmark logotype), so it's hand-built: a rounded bar + two
 // round-capped diagonal strokes meeting at a point, like the real mark.
+// Official Kaggle "K" glyph, recolored to currentColor so it inherits the
+// theme (grey → white on the violet hover fill) like the other nav icons.
 function KaggleMark(props) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <rect x="2" y="1" width="5.5" height="22" rx="2.75" fill="currentColor" />
+    <svg viewBox="0 0 512 512" role="img" aria-label="Kaggle" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path
-        d="M9 12L21 3M9 12L21 21"
-        stroke="currentColor"
-        strokeWidth="5"
-        strokeLinecap="round"
+        fill="currentColor"
+        d="M106,103c-.06,.3-.3,.4-.8,.4h-8c-.5,0-.9-.2-1.3-.6L82.746,86.028l-3.655,3.477v13c0,.6-.3,.9-.9,.9h-6.152c-.6,0-.9-.3-.9-.9V44c0-.6,.3-.9,.9-.9h6.1c.6,0,.9,.3,.9,.9v36l15.692-15.87c.416-.415,.832-.624,1.248-.624h8.204c.356,0,.593,.149,.713,.445c.119,.4,.1,.6-.1,.8L88,81C106,102,106,103,106,103"
+        transform="scale(5.5,5.5) translate(-40-30)"
       />
     </svg>
   );
