@@ -31,6 +31,21 @@
 .chat-traffic i:nth-child(1) { background: rgba(255, 95, 87, 0.75); }
 .chat-traffic i:nth-child(2) { background: rgba(254, 188, 46, 0.75); }
 .chat-traffic i:nth-child(3) { background: rgba(40, 200, 64, 0.75); }
+
+/* functional traffic-light buttons (windowed mode only — the dial popup) */
+.chat-traffic-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+.chat-traffic-dot:hover { transform: scale(1.25); filter: brightness(1.35); }
+.chat-dot-red { background: rgba(255, 95, 87, 0.9); }
+.chat-dot-yellow { background: rgba(254, 188, 46, 0.9); }
+.chat-dot-green { background: rgba(40, 200, 64, 0.9); }
 .chat-title { color: #e6e6e6; font-weight: 600; }
 .chat-model { color: rgba(230, 230, 230, 0.4); font-size: 0.68rem; }
 .chat-live {
@@ -206,6 +221,42 @@
 @keyframes chat-pop {
   from { opacity: 0; transform: translateY(14px) scale(0.97); }
   to { opacity: 1; transform: none; }
+}
+
+/* minimize: collapse the panel itself to just the header bar's height */
+.chat-dial-panel {
+  transition: height 0.25s ease;
+}
+.chat-dial-panel:has(.chat-min) {
+  height: auto;
+}
+
+/* fullscreen: portaled to <body>, centered, well clear of any ancestor's
+   stacking context or containing-block quirks */
+.chat-fullscreen-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(5, 7, 10, 0.92);
+  animation: chat-fullscreen-fade-in 0.2s ease;
+}
+.chat-terminal.chat-full {
+  width: min(760px, 92vw);
+  height: min(82vh, 760px);
+  min-height: 0;
+  border-radius: 14px;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.7);
+}
+@keyframes chat-fullscreen-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chat-fullscreen-overlay { animation: none; }
 }
 
 @media (max-width: 768px) {

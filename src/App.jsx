@@ -68,13 +68,12 @@ function GlowCard({ className = "", children, ...rest }) {
 function KaggleMark(props) {
   return (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <rect x="4" y="2" width="4" height="20" rx="2" fill="currentColor" />
+      <rect x="2" y="1" width="5.5" height="22" rx="2.75" fill="currentColor" />
       <path
-        d="M9 12.5L18.5 4M9 12.5L18.5 21"
+        d="M9 12L21 3M9 12L21 21"
         stroke="currentColor"
-        strokeWidth="4"
+        strokeWidth="5"
         strokeLinecap="round"
-        strokeLinejoin="round"
       />
     </svg>
   );

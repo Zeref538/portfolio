@@ -1370,8 +1370,8 @@ button.nav-icon {
 .cert-preview-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(5, 7, 10, 0.8);
-  backdrop-filter: blur(3px);
+  background: rgba(5, 7, 10, 0.6);
+  backdrop-filter: blur(2px);
   animation: cert-fade-in 0.25s ease;
 }
 
@@ -1379,9 +1379,9 @@ button.nav-icon {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: min(90vw, 780px);
+  width: min(60vw, 480px);
   height: auto;
-  max-height: 88vh;
+  max-height: 65vh;
   object-fit: contain;
   border-radius: 14px;
   background: #fff;
