@@ -1260,6 +1260,18 @@ button.nav-icon {
   justify-items: stretch;
 }
 
+/* each tile is wrapped in a BorderGlow card (.stack-glow); the card provides
+   the surface + edge glow, so the tile itself is just the inner layout */
+.stack-glow {
+  height: 100%;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease;
+}
+.stack-glow:hover {
+  transform: translate3d(0, 0, 0.01px) scale(1.07);
+  box-shadow: 0 10px 28px rgba(139, 92, 246, 0.2);
+  z-index: 5;
+}
+
 .stack-tile {
   display: flex;
   flex-direction: column;
@@ -1267,16 +1279,8 @@ button.nav-icon {
   justify-content: center;
   gap: 10px;
   padding: 20px 10px 16px;
-  border-radius: 14px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-.stack-tile:hover {
-  transform: translateY(-4px);
-  border-color: rgba(139, 92, 246, 0.5);
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.15);
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .stack-tile .skill-icon {
@@ -1290,9 +1294,14 @@ button.nav-icon {
   color: var(--text-muted);
   text-align: center;
   line-height: 1.3;
+  transition: color 0.25s ease;
 }
 
-.stack-tile:hover .stack-tile-name { color: var(--text); }
+.stack-glow:hover .stack-tile-name { color: var(--text); }
+
+@media (prefers-reduced-motion: reduce) {
+  .stack-glow:hover { transform: none; }
+}
 
 /* ---------- certifications (badge wall) ---------- */
 .cert-filters {
@@ -1575,6 +1584,17 @@ button.nav-icon {
 .timeline-h-item .border-glow-card { height: 100%; }
 
 /* single wide education card */
+.edu-glow {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+}
+.edu-glow:hover {
+  transform: translate3d(0, 0, 0.01px) scale(1.02);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+@media (prefers-reduced-motion: reduce) {
+  .edu-glow:hover { transform: none; }
+}
+
 .edu-card {
   display: flex;
   align-items: flex-start;

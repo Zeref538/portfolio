@@ -533,10 +533,12 @@ export default function App() {
                 <h3 className="stack-group-title">{g.group}</h3>
                 <div className="stack-grid">
                   {g.items.map((s, i) => (
-                    <div className="stack-tile" key={s} style={{ "--i": i }}>
-                      <SkillIcon name={s} />
-                      <span className="stack-tile-name">{s}</span>
-                    </div>
+                    <GlowCard key={s} className="stack-glow">
+                      <div className="stack-tile" style={{ "--i": i }}>
+                        <SkillIcon name={s} />
+                        <span className="stack-tile-name">{s}</span>
+                      </div>
+                    </GlowCard>
                   ))}
                 </div>
               </div>
@@ -549,7 +551,7 @@ export default function App() {
             <div className="section-label">$ cat education.txt</div>
             <div className="section-out"># {education.length} records · 2011 → 2027</div>
             {education.map((ed) => (
-              <GlowCard key={ed.school}>
+              <GlowCard key={ed.school} className="edu-glow">
                 <div className="card-body edu-card">
                   <div className="edu-main">
                     <div className="timeline-period">{ed.period}</div>
