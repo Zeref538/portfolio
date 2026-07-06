@@ -231,6 +231,52 @@
   height: auto;
 }
 
+/* when the minimized chip is draggable, let it move outside the panel box:
+   drop the panel's own chrome so only the terminal chip is visible/movable */
+.chat-dial-panel:has(.chat-draggable) {
+  overflow: visible;
+  border: none;
+  box-shadow: none;
+}
+.chat-head-drag { cursor: grab; touch-action: none; user-select: none; }
+.chat-head-drag:active { cursor: grabbing; }
+.chat-terminal.chat-draggable {
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), 0 0 20px rgba(139, 92, 246, 0.15);
+  overflow: hidden;
+}
+
+/* embedded "exit" → slim reopen pill */
+.chat-reopen {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background: #0d1117;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 12px;
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.chat-reopen:hover { border-color: var(--accent); color: var(--text); }
+.chat-reopen-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22d3ee;
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.8);
+}
+
+/* embedded chat: when minimized, don't stretch to the text column's height */
+.about-chat:has(.chat-min),
+.about-chat:has(.chat-reopen) { align-self: start; }
+.about-chat:has(.chat-min) > .border-glow-card,
+.about-chat:has(.chat-min) .border-glow-inner { height: auto; }
+
 /* fullscreen: portaled to <body>, centered, well clear of any ancestor's
    stacking context or containing-block quirks */
 .chat-fullscreen-overlay {

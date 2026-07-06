@@ -2028,8 +2028,9 @@ html, body { overflow-x: hidden; max-width: 100%; }
   .section-label { font-size: 17px; letter-spacing: 0.04em; }
   .section-out { font-size: 12px; margin: -22px 0 30px; }
 
-  /* collapse to a single left rail on small screens */
+  /* collapse to a single left rail on small screens (track + progress fill) */
   .timeline::before { left: 8px; transform: none; }
+  .timeline::after { left: 8px; transform: scaleY(var(--tl-progress, 0)); }
   .timeline-item,
   .timeline-item.right { width: 100%; margin-left: 0; padding-left: 32px; padding-right: 0; }
   .timeline-item.left { padding-right: 0; }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import "./ChatWidget.css";
 
@@ -32,22 +32,26 @@ const SUGGESTIONS = ["what is ACRA?", "top skills?", "is he open to work?"];
 // (Vercel serverless → Azure OpenAI). Rendered embedded in the About section,
 // and again (windowed) inside the floating ChatDial popup.
 //
-// `windowed` + `onClose` only get passed from ChatDial — the embedded About
-// instance keeps the traffic lights purely decorative, since "close" has no
-// meaning for a widget that's part of the page layout.
+// Traffic lights are functional in BOTH modes:
+//   red    → windowed: close the dial · embedded: collapse to a reopen pill
+//   yellow → minimize to the header bar (and, when windowed, drag-to-move)
+//   green  → toggle full-screen overlay
 export default function ChatWidget({ windowed = false, onClose }) {
   const [messages, setMessages] = useState([{ role: "assistant", content: GREETING }]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [minimized, setMinimized] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
+  const [closed, setClosed] = useState(false); // embedded-only "exit" state
+  const [pos, setPos] = useState(null); // drag offset {x,y} when minimized
   const bodyRef = useRef(null);
   const inputRef = useRef(null);
+  const dragRef = useRef(null);
 
   useEffect(() => {
     const el = bodyRef.current;
     if (el) el.scrollTop = el.scrollHeight;
-  }, [messages, busy]);
+  }, [messages, busy, minimized]);
 
   const send = async (text) => {
     const content = (text ?? input).trim();
@@ -60,7 +64,6 @@ export default function ChatWidget({ windowed = false, onClose }) {
       const r = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // greeting is client-only; send real turns
         body: JSON.stringify({ messages: next.slice(1) }),
       });
       const data = await r.json().catch(() => ({}));
@@ -74,38 +77,83 @@ export default function ChatWidget({ windowed = false, onClose }) {
     }
   };
 
+  const onClose_ = () => {
+    if (windowed && onClose) onClose();
+    else setClosed(true);
+  };
+
+  // drag the minimized chip by its header (windowed only)
+  const onHeaderPointerDown = useCallback(
+    (e) => {
+      if (!windowed || !minimized) return;
+      if (e.target.closest(".chat-traffic-dot")) return; // don't drag when hitting a button
+      const start = { x: e.clientX, y: e.clientY };
+      const base = pos || { x: 0, y: 0 };
+      dragRef.current = { start, base };
+      e.currentTarget.setPointerCapture?.(e.pointerId);
+
+      const move = (ev) => {
+        if (!dragRef.current) return;
+        setPos({
+          x: dragRef.current.base.x + (ev.clientX - dragRef.current.start.x),
+          y: dragRef.current.base.y + (ev.clientY - dragRef.current.start.y),
+        });
+      };
+      const up = () => {
+        dragRef.current = null;
+        window.removeEventListener("pointermove", move);
+        window.removeEventListener("pointerup", up);
+      };
+      window.addEventListener("pointermove", move);
+      window.addEventListener("pointerup", up);
+    },
+    [windowed, minimized, pos]
+  );
+
+  // embedded "exit" state → a slim pill that reopens the chat
+  if (closed) {
+    return (
+      <button className="chat-reopen" onClick={() => setClosed(false)}>
+        <span className="chat-reopen-dot" /> zeref-bot — click to reopen
+      </button>
+    );
+  }
+
+  const dragStyle =
+    windowed && minimized && pos ? { transform: `translate(${pos.x}px, ${pos.y}px)` } : undefined;
+
   const terminal = (
     <div
-      className={`chat-terminal ${minimized ? "chat-min" : ""} ${fullscreen ? "chat-full" : ""}`}
+      className={`chat-terminal ${minimized ? "chat-min" : ""} ${fullscreen ? "chat-full" : ""} ${
+        windowed && minimized ? "chat-draggable" : ""
+      }`}
       role="region"
       aria-label="zeref-bot chat"
+      style={dragStyle}
     >
-      <div className="chat-head">
+      <div
+        className={`chat-head ${windowed && minimized ? "chat-head-drag" : ""}`}
+        onPointerDown={onHeaderPointerDown}
+      >
         <span className="chat-traffic">
-          {windowed ? (
-            <>
-              <button
-                type="button"
-                className="chat-traffic-dot chat-dot-red"
-                aria-label="Close chat"
-                onClick={onClose}
-              />
-              <button
-                type="button"
-                className="chat-traffic-dot chat-dot-yellow"
-                aria-label={minimized ? "Restore chat" : "Minimize chat"}
-                onClick={() => setMinimized((m) => !m)}
-              />
-              <button
-                type="button"
-                className="chat-traffic-dot chat-dot-green"
-                aria-label={fullscreen ? "Exit full screen" : "Full screen"}
-                onClick={() => setFullscreen((f) => !f)}
-              />
-            </>
-          ) : (
-            <><i /><i /><i /></>
-          )}
+          <button
+            type="button"
+            className="chat-traffic-dot chat-dot-red"
+            aria-label="Close chat"
+            onClick={onClose_}
+          />
+          <button
+            type="button"
+            className="chat-traffic-dot chat-dot-yellow"
+            aria-label={minimized ? "Restore chat" : "Minimize chat"}
+            onClick={() => setMinimized((m) => !m)}
+          />
+          <button
+            type="button"
+            className="chat-traffic-dot chat-dot-green"
+            aria-label={fullscreen ? "Exit full screen" : "Full screen"}
+            onClick={() => setFullscreen((f) => !f)}
+          />
         </span>
         <span className="chat-title">zeref-bot</span>
         <span className="chat-model">gpt-5-mini · azure</span>
@@ -164,9 +212,7 @@ export default function ChatWidget({ windowed = false, onClose }) {
   );
 
   // fullscreen: portal straight to <body> so the overlay is genuinely
-  // viewport-fixed, not scoped inside the dial panel's own stacking context
-  // (same reasoning as CertCard's preview — avoids relying on z-index
-  // ordering to "win" against ancestors).
+  // viewport-fixed, not scoped inside an ancestor's stacking/transform context.
   if (fullscreen) {
     return createPortal(
       <div className="chat-fullscreen-overlay">{terminal}</div>,
