@@ -1263,7 +1263,7 @@ button.nav-icon {
 /* each tile is wrapped in a BorderGlow card (.stack-glow); the card provides
    the surface + edge glow, so the tile itself is just the inner layout */
 .stack-glow {
-  height: 100%;
+  aspect-ratio: 1 / 1; /* perfect square box */
   transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease;
 }
 .stack-glow:hover {
@@ -1272,15 +1272,21 @@ button.nav-icon {
   z-index: 5;
 }
 
+/* the BorderGlow inner wrapper defaults to overflow:auto, which flashes a
+   scrollbar while the icon/font load — pin it hidden inside skill tiles */
+.stack-glow .border-glow-inner { overflow: hidden; }
+
 .stack-tile {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 20px 10px 16px;
+  padding: 14px 8px;
   height: 100%;
+  width: 100%;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .stack-tile .skill-icon {
@@ -2003,8 +2009,25 @@ footer.ft {
 }
 
 /* ---------- responsive ---------- */
+
+/* never allow sideways scrolling on any device */
+html, body { overflow-x: hidden; max-width: 100%; }
+
+/* tablet & below */
+@media (max-width: 900px) {
+  section { padding: 80px 0; }
+  .section-label { font-size: 19px; margin-bottom: 32px; }
+  .hero { padding: 104px 0 56px; }
+}
+
 @media (max-width: 768px) {
-  section { padding: 72px 0; }
+  section { padding: 64px 0; }
+  .container { padding: 0 18px; }
+  .hero { padding: 96px 0 48px; min-height: auto; }
+  .hero-inner { gap: 32px; }
+  .section-label { font-size: 17px; letter-spacing: 0.04em; }
+  .section-out { font-size: 12px; margin: -22px 0 30px; }
+
   /* collapse to a single left rail on small screens */
   .timeline::before { left: 8px; transform: none; }
   .timeline-item,
@@ -2012,6 +2035,30 @@ footer.ft {
   .timeline-item.left { padding-right: 0; }
   .timeline-item.left .timeline-marker,
   .timeline-item.right .timeline-marker { left: 0; right: auto; width: 13px; height: 13px; }
+
+  /* the education card's scroll-progress line hugs the left on mobile */
+  .edu-card { padding: 24px 20px; }
+
+  /* skill tiles: a touch smaller so more fit per row */
+  .stack-grid { grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 12px; }
+}
+
+/* phones */
+@media (max-width: 480px) {
+  section { padding: 56px 0; }
+  .container { padding: 0 14px; }
+  .hero { padding: 88px 0 40px; }
+  .hero .tagline { font-size: 15.5px; }
+  .btn { padding: 12px 20px; font-size: 13px; }
+  .hero-actions { width: 100%; }
+  .hero-actions .btn, .hero-actions .magnet { flex: 1 1 auto; justify-content: center; }
+  .about-text p { font-size: 16px; }
+  .stack-grid { grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 10px; }
+  .stack-tile { padding: 10px 6px; gap: 7px; }
+  .stack-tile .skill-icon { width: 26px; height: 26px; }
+  .cert-filters { gap: 8px; }
+  .certs-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .contact-links { flex-wrap: wrap; }
 }
 
 @media (prefers-reduced-motion: reduce) {
