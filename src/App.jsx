@@ -14,7 +14,7 @@ import Noise from "./components/Noise.jsx";
 import StatusBar from "./components/StatusBar.jsx";
 import ChatWidget, { ChatDial } from "./components/ChatWidget.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
-import { LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuLinkedin, LuMail, LuCheck } from "react-icons/lu";
+import { LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuLinkedin, LuMail, LuCheck, LuPhone } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
 
 const NAV = [
@@ -116,19 +116,19 @@ function CertCard({ c }) {
   );
 }
 
-// copies the email to the clipboard and flips the icon + tooltip to a
-// confirmation for a couple seconds so the user knows it worked
-function CopyEmailButton({ email, className = "", labelIdle = "Copy Email" }) {
+// copies a value (email, phone) to the clipboard and flips the icon + tooltip
+// to a confirmation for a couple seconds so the user knows it worked
+function CopyButton({ value, className = "", labelIdle = "Copy", icon = <LuMail /> }) {
   const [copied, setCopied] = useState(false);
 
   const onClick = async (e) => {
     e.preventDefault();
     try {
-      await navigator.clipboard.writeText(email);
+      await navigator.clipboard.writeText(value);
     } catch {
       // clipboard API unavailable/blocked — fall back to a temp textarea
       const ta = document.createElement("textarea");
-      ta.value = email;
+      ta.value = value;
       ta.style.position = "fixed";
       ta.style.opacity = "0";
       document.body.appendChild(ta);
@@ -145,10 +145,10 @@ function CopyEmailButton({ email, className = "", labelIdle = "Copy Email" }) {
       type="button"
       onClick={onClick}
       className={`${className} ${copied ? "is-copied" : ""}`}
-      aria-label={copied ? "Email copied" : labelIdle}
+      aria-label={copied ? "Copied" : labelIdle}
       data-label={copied ? "Copied!" : labelIdle}
     >
-      {copied ? <LuCheck /> : <LuMail />}
+      {copied ? <LuCheck /> : icon}
     </button>
   );
 }
@@ -292,7 +292,13 @@ export default function App() {
               >
                 <LuFileText />
               </a>
-              <CopyEmailButton email={profile.email} className="nav-icon" />
+              <CopyButton value={profile.email} className="nav-icon" labelIdle="Copy Email" />
+              <CopyButton
+                value="09934466975"
+                className="nav-icon"
+                labelIdle="Copy Phone"
+                icon={<LuPhone />}
+              />
             </div>
           </div>
         </BorderGlow>
@@ -591,7 +597,13 @@ export default function App() {
             </p>
             <ContactForm />
             <div className="contact-links">
-              <CopyEmailButton email={profile.email} className="contact-icon" labelIdle="Email" />
+              <CopyButton value={profile.email} className="contact-icon" labelIdle="Email" />
+              <CopyButton
+                value="09934466975"
+                className="contact-icon"
+                labelIdle="Phone"
+                icon={<LuPhone />}
+              />
               {profile.links.map((l) => (
                 <a
                   key={l.label}
