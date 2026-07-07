@@ -67,6 +67,24 @@ export const projects = [
     ],
   },
   {
+    title: "Smart Scheduling System",
+    description:
+      "Desktop class-scheduling platform in Java that auto-generates a conflict-free weekly timetable from courses, professors, rooms, and sections. A constraint-driven engine searches candidate day/time/room combinations and validates each against professor double-booking, room clashes, load balancing, and room optimization — with a live generation log and one-click CSV export.",
+    tags: ["Java 21", "Swing", "MySQL", "JDBC", "Algorithms"],
+    metric: "Conflict-free in seconds",
+    category: "Desktop App · Algorithms",
+    date: "2026",
+    image: "/projects/scheduler-1.jpg",
+    images: ["/projects/scheduler-1.jpg", "/projects/scheduler-2.jpg", "/projects/scheduler-3.jpg"],
+    link: "https://github.com/Zeref538/smart-scheduling-system",
+    demo: "",
+    highlights: [
+      "Constraint engine: avoids professor, room & time-slot conflicts",
+      "Configurable strategies — load balancing, room optimization, lunch breaks",
+      "Interface-driven backend, SHA-256 auth, full CRUD over MySQL/JDBC",
+    ],
+  },
+  {
     title: "CafèSync — Smart Coffee Shop Operations",
     description:
       "Centralized coffee shop management for orders, inventory, and sales analytics. Node.js backend synced live via Firebase Firestore (zero-refresh multi-screen updates), PayMongo payments, and a Python AI insights layer generating operational alerts — ingredient reorder triggers and staffing recommendations from order-volume forecasting.",
