@@ -239,6 +239,13 @@ export const certifications = [
     url: "https://www.coursera.org/account/accomplishments/professional-cert/certificate/Z09O6H72G4CX",
     image: "/certs/cybersecurity.jpg",
   },
+  {
+    name: "Building RAG Apps Using MongoDB",
+    issuer: "MongoDB",
+    year: "2026",
+    url: "https://www.credly.com/badges/9c5941b9-a0c2-4736-926b-1a83aba0d210/public_url",
+    image: "/certs/rag-mongodb.jpg",
+  },
 ];
 
 export const education = [

@@ -115,7 +115,17 @@ const ISSUER_LOGOS = {
   "Oracle": "/logos/oracle.svg",
 };
 
+// issuers whose logo comes from react-icons instead of a file [Icon, color]
+const ISSUER_ICONS = {
+  "MongoDB": [SiMongodb, "#47A248"],
+};
+
 export function IssuerIcon({ issuer }) {
+  const entry = ISSUER_ICONS[issuer];
+  if (entry) {
+    const [Icon, color] = entry;
+    return <Icon className="issuer-icon" style={{ color }} aria-label={`${issuer} logo`} />;
+  }
   const src = ISSUER_LOGOS[issuer];
   if (!src) return null;
   return (
