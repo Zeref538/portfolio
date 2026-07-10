@@ -36,6 +36,9 @@ import {
   SiFigma,
   SiNotion,
   SiKaggle,
+  SiLangchain,
+  SiRender,
+  SiGooglecloud,
 } from "react-icons/si";
 import { VscAzure } from "react-icons/vsc";
 import {
@@ -52,6 +55,7 @@ import {
   LuCloud,
   LuKanban,
   LuChartPie,
+  LuLayers,
 } from "react-icons/lu";
 
 // [Icon, official brand color] — concept glyphs use theme colors
@@ -78,6 +82,10 @@ const ICONS = {
   "Express.js": [SiExpress, "#e6edf3"],
   "Docker": [SiDocker, "#2496ED"],
   "Vercel": [SiVercel, "#e6edf3"],
+  "Render": [SiRender, "#e6edf3"],
+  "Google Cloud": [SiGooglecloud, "#4285F4"],
+  "LangChain": [SiLangchain, "#e6edf3"],
+  "RAG": [LuLayers, "#22d3ee"],
   "Azure": [VscAzure, "#0078D4"],
   "Kaggle": [SiKaggle, "#20BEFF"],
   "Power BI": [LuChartPie, "#F2C811"],

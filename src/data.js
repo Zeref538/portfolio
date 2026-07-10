@@ -49,6 +49,24 @@ export const experience = [
 
 export const projects = [
   {
+    title: "Aegix AI — Contract Compliance Screening",
+    description:
+      "RAG system that screens Philippine employment contracts against the Labor Code, grading every clause Compliant / Non-compliant / Vague / Missing with a statutory citation and plain-English reason. Contracts are segmented and judged by two LangChain LCEL chains with structured output, over a MongoDB Atlas vector-search knowledge base of curated statute rules. Verdicts stream live via Server-Sent Events as parallel workers finish.",
+    tags: ["RAG", "LangChain", "Azure OpenAI", "MongoDB Vector Search", "FastAPI", "React 19"],
+    metric: "84.5% verdict accuracy",
+    category: "AI · RAG · Full-Stack",
+    date: "2026",
+    image: "/projects/aegix-1.jpg",
+    images: ["/projects/aegix-1.jpg", "/projects/aegix-2.jpg", "/projects/aegix-3.jpg"],
+    link: "https://github.com/Zeref538/aegix-ai",
+    demo: "https://aegix-ai-zeref.vercel.app",
+    highlights: [
+      "RAG pipeline: LangChain LCEL + structured output over MongoDB Atlas $vectorSearch",
+      "Live SSE streaming — parallel clause workers cut a 9-clause run ~128s → ~62s",
+      "Evaluated on 18 labeled contracts: 100% recall, 94.8% citation accuracy",
+    ],
+  },
+  {
     title: "ACRA — Adaptive Color Re-Encoding Algorithm",
     description:
       "CNN-powered system that detects color-critical regions in public signage and re-encodes them for color vision deficiency without altering original design. Trained YOLOv8m on a custom 5-class dataset (33,774 annotated boxes) reaching 0.740 mAP50, and built the core re-encoding algorithm: CLAHE → CIELAB → Fuzzy C-Means → CIEDE2000 conflict detection → constrained optimization. Deployed via FastAPI + ONNX with Supabase (RLS, 24h auto-delete).",
@@ -152,6 +170,8 @@ export const skills = [
       "PyTorch",
       "TensorFlow",
       "scikit-learn",
+      "LangChain",
+      "RAG",
       "CNNs",
       "Hugging Face",
       "Kaggle",
@@ -176,7 +196,7 @@ export const skills = [
   },
   {
     group: "Cloud & Tools",
-    items: ["Azure", "Vercel", "Git", "GitHub", "Figma"],
+    items: ["Azure", "Google Cloud", "Vercel", "Render", "Git", "GitHub", "Figma"],
   },
 ];
 
