@@ -1255,15 +1255,15 @@ button.nav-icon {
 
 .stack-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(94px, 1fr));
+  gap: 12px;
   justify-items: stretch;
 }
 
 /* each tile is wrapped in a BorderGlow card (.stack-glow); the card provides
    the surface + edge glow, so the tile itself is just the inner layout */
 .stack-glow {
-  aspect-ratio: 1 / 1; /* perfect square box */
+  aspect-ratio: 4 / 3; /* slightly wider than tall — less dead space */
   transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease;
 }
 .stack-glow:hover {
@@ -1281,8 +1281,8 @@ button.nav-icon {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 14px 8px;
+  gap: 8px;
+  padding: 10px 8px;
   height: 100%;
   width: 100%;
   box-sizing: border-box;

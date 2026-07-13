@@ -85,6 +85,24 @@ export const projects = [
     ],
   },
   {
+    title: "Solmara Resort & Villas — AI-Concierge Booking Platform",
+    description:
+      "A modern-luxury resort platform with Selene, a RAG concierge grounded in a curated knowledge base (rooms, rates, events, policies) via Azure OpenAI embeddings + chat, with an offline extractive fallback. Full booking flow with live availability, conflict detection (no double-booking), 15-minute payment holds, and Stripe Checkout (PHP). The concierge answers live availability questions straight from the booking system and doubles as a time-blocked itinerary planner.",
+    tags: ["React", "Node.js", "Azure OpenAI RAG", "Stripe", "GSAP"],
+    metric: "AI concierge + live booking",
+    category: "Full-Stack · AI Concierge",
+    date: "2026",
+    image: "/projects/solmara-1.jpg",
+    images: ["/projects/solmara-1.jpg", "/projects/solmara-2.jpg", "/projects/solmara-3.jpg"],
+    link: "https://github.com/Zeref538/Solmara-Resort",
+    demo: "https://solmara-resort-zeref.vercel.app",
+    highlights: [
+      "Selene RAG concierge: Azure OpenAI embeddings + chat over a curated KB, offline fallback",
+      "Booking engine: live availability, conflict detection, 15-min payment holds, confirmation codes",
+      "Stripe Checkout (PHP) with redirect verification + webhook; concierge answers live availability",
+    ],
+  },
+  {
     title: "CafèSync — Smart Coffee Shop Operations",
     description:
       "Centralized coffee shop management for orders, inventory, and sales analytics. Node.js backend synced live via Firebase Firestore (zero-refresh multi-screen updates), PayMongo payments, and a Python AI insights layer generating operational alerts — ingredient reorder triggers and staffing recommendations from order-volume forecasting.",
@@ -190,6 +208,7 @@ export const skills = [
       "Node.js",
       "FastAPI",
       "Docker",
+      "Stripe",
       "Firebase",
       "Supabase",
     ],
