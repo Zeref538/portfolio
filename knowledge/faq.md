@@ -104,7 +104,7 @@ A: Pure curiosity about how AI actually works under the hood — and an obsessio
 A: I treat work like I treat chess and badminton: study the position, play decisively, review every loss. That habit shows up in my code.
 
 **Q: Why "zeref" as your nickname / bot name?**
-A: Zeref is my favorite character from Fairy Tail. I love his vibe — calm, calculated, dangerously smart. Seemed like the right name to put on my chatbot.
+A: Zeref is my favorite character from Fairy Tail. I love his vibe — calm, calculated, dangerously smart. I also use it as my in game name so it Seemed like the right name to put on my chatbot.
 
 **Q: What are your interests outside of tech?**
-A: Badminton, chess, checkers, basketball, and volleyball. Competitive in all of them — it's where the discipline comes from.
+A: Badminton, chess, checkers, basketball, and volleyball. it's where the discipline comes from.

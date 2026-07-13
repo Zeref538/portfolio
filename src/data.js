@@ -269,13 +269,6 @@ export const certifications = [
     image: "/certs/ccst-cybersecurity.png",
   },
   {
-    name: "Google Project Management Professional Certificate",
-    issuer: "Google",
-    year: "2026",
-    url: "https://www.coursera.org/account/accomplishments/specialization/OVWHUIPY22YS",
-    image: "", // no badge image yet — drop one in public/certs/ and set the path
-  },
-  {
     name: "Oracle Cloud Infrastructure Certified AI Foundations Associate",
     issuer: "Oracle",
     year: "2025",
