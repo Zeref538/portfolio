@@ -156,15 +156,31 @@ function CopyButton({ value, className = "", labelIdle = "Copy", icon = <LuMail 
 // cross-fades through a project's screenshots so covers don't sit static
 function CyclingCover({ images, alt }) {
   const [idx, setIdx] = useState(0);
+  const ref = useRef(null);
+  // only cross-fade while the card is actually on screen — keeps 8 cards from
+  // each running a timer + image swap in the background
   useEffect(() => {
     if (!images || images.length < 2) return;
-    const id = setInterval(() => setIdx((i) => (i + 1) % images.length), 4600);
-    return () => clearInterval(id);
+    const host = ref.current?.parentNode;
+    let id = null;
+    const start = () => { if (id == null) id = setInterval(() => setIdx((i) => (i + 1) % images.length), 4600); };
+    const stop = () => { if (id != null) { clearInterval(id); id = null; } };
+    if (!host || typeof IntersectionObserver === "undefined") {
+      start();
+      return stop;
+    }
+    const io = new IntersectionObserver(
+      ([e]) => (e.isIntersecting ? start() : stop()),
+      { threshold: 0.1 }
+    );
+    io.observe(host);
+    return () => { io.disconnect(); stop(); };
   }, [images]);
   if (!images?.length) return null;
   return images.map((src, i) => (
     <img
       key={src}
+      ref={i === 0 ? ref : undefined}
       src={src}
       alt={alt}
       loading="lazy"
@@ -241,7 +257,7 @@ export default function App() {
         position="bottom"
         height="5rem"
         strength={1.5}
-        divCount={2}
+        divCount={1}
         curve="bezier"
         zIndex={-20}
       />

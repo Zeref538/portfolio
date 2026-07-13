@@ -5,7 +5,9 @@ import './Noise.css';
 // background tile on an element spanning the whole document, so the pattern
 // changes as you scroll. refreshMs > 0 re-randomizes the tile occasionally
 // (very subtle life); 0 = fully static.
-const Noise = ({ patternAlpha = 12, refreshMs = 1600 }) => {
+// refreshMs default 0 = fully static grain: paints once, no periodic toDataURL /
+// full-page repaint (the animated re-randomize was a recurring scroll hitch).
+const Noise = ({ patternAlpha = 12, refreshMs = 0 }) => {
   const ref = useRef(null);
 
   useEffect(() => {

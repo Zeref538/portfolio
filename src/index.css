@@ -1271,7 +1271,7 @@ button.nav-icon {
 /* each tile is wrapped in a BorderGlow card (.stack-glow); the card provides
    the surface + edge glow, so the tile itself is just the inner layout */
 .stack-glow {
-  aspect-ratio: 4 / 3; /* slightly wider than tall — less dead space */
+  aspect-ratio: 1 / 1; /* perfect square */
   transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease;
 }
 .stack-glow:hover {
