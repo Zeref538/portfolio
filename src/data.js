@@ -252,7 +252,7 @@ export const certifications = [
     issuer: "Google",
     year: "2026",
     url: "https://www.coursera.org/account/accomplishments/verify/U7SVUTS082OA",
-    image: "/certs/google-ai.jpeg",
+    image: "/certs/capstone-data-analytics.jpeg",
   },
   {
     name: "AWS AI Practitioner",
