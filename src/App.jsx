@@ -441,7 +441,7 @@ export default function App() {
         <section id="projects">
           <Reveal className="container">
             <div className="section-label">$ ls projects/</div>
-            <div className="section-out"># {projects.length} repos · 2 live deployments</div>
+            <div className="section-out"># {projects.length} repos · {projects.filter((p) => p.demo).length} live deployments</div>
             <div className="projects-grid">
               {projects.map((p, i) => (
                 <Reveal key={p.title} className="pj-item" style={{ "--i": i }}>

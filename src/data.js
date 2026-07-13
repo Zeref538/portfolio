@@ -121,24 +121,6 @@ export const projects = [
     ],
   },
   {
-    title: "CafèSync — Smart Coffee Shop Operations",
-    description:
-      "Centralized coffee shop management for orders, inventory, and sales analytics. Node.js backend synced live via Firebase Firestore (zero-refresh multi-screen updates), PayMongo payments, and a Python AI insights layer generating operational alerts — ingredient reorder triggers and staffing recommendations from order-volume forecasting.",
-    tags: ["Node.js", "Firebase", "Python", "Forecasting", "PayMongo"],
-    metric: "Live multi-screen sync",
-    category: "Full-Stack Platform",
-    date: "2025",
-    image: "/projects/cafesync.jpg",
-    images: ["/projects/cafesync.jpg", "/projects/cafesync-2.jpg", "/projects/cafesync-3.jpg"],
-    link: "https://github.com/Zeref538/CafeSync",
-    demo: "https://cafesync-3b25a.web.app/station/management",
-    highlights: [
-      "Zero-refresh multi-screen sync with Firestore realtime listeners",
-      "Python AI insights: ingredient reorder triggers & staffing forecasts",
-      "PayMongo payment integration with live sales analytics",
-    ],
-  },
-  {
     title: "Portfolio — ML Terminal Website",
     description:
       "This site. A React + Vite portfolio with an 'ML terminal' personality — boot log, CRT scanlines, tmux-style status bar — plus zeref-bot: a grounded Azure OpenAI (gpt-5-mini) chatbot served through a rate-limited Vercel serverless function that answers recruiter questions about me from live site data.",
@@ -154,6 +136,24 @@ export const projects = [
       "zeref-bot: Azure OpenAI behind a Vercel serverless function with per-IP rate limiting",
       "Terminal identity: boot log, CRT scanlines, session status bar",
       "Perf-tuned animations: rAF-throttled scroll effects, vendor chunk splitting",
+    ],
+  },
+  {
+    title: "CafèSync — Smart Coffee Shop Operations",
+    description:
+      "Centralized coffee shop management for orders, inventory, and sales analytics. Node.js backend synced live via Firebase Firestore (zero-refresh multi-screen updates), PayMongo payments, and a Python AI insights layer generating operational alerts — ingredient reorder triggers and staffing recommendations from order-volume forecasting.",
+    tags: ["Node.js", "Firebase", "Python", "Forecasting", "PayMongo"],
+    metric: "Live multi-screen sync",
+    category: "Full-Stack Platform",
+    date: "2025",
+    image: "/projects/cafesync.jpg",
+    images: ["/projects/cafesync.jpg", "/projects/cafesync-2.jpg", "/projects/cafesync-3.jpg"],
+    link: "https://github.com/Zeref538/CafeSync",
+    demo: "https://cafesync-3b25a.web.app/station/management",
+    highlights: [
+      "Zero-refresh multi-screen sync with Firestore realtime listeners",
+      "Python AI insights: ingredient reorder triggers & staffing forecasts",
+      "PayMongo payment integration with live sales analytics",
     ],
   },
   {
