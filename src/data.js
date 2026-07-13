@@ -106,7 +106,7 @@ export const projects = [
     title: "Solmara Resort & Villas — AI-Concierge Booking Platform",
     description:
       "A modern-luxury resort platform with Selene, a RAG concierge grounded in a curated knowledge base (rooms, rates, events, policies) via Azure OpenAI embeddings + chat, with an offline extractive fallback. Full booking flow with live availability, conflict detection (no double-booking), 15-minute payment holds, and Stripe Checkout (PHP). The concierge answers live availability questions straight from the booking system and doubles as a time-blocked itinerary planner.",
-    tags: ["React", "Node.js", "Azure OpenAI RAG", "Stripe", "GSAP"],
+    tags: ["React", "Node.js", "RAG", "Azure OpenAI", "Stripe"],
     metric: "AI concierge + live booking",
     category: "Full-Stack · AI Concierge",
     date: "2026",
@@ -123,9 +123,9 @@ export const projects = [
   {
     title: "Portfolio — ML Terminal Website",
     description:
-      "This site. A React + Vite portfolio with an 'ML terminal' personality — boot log, CRT scanlines, tmux-style status bar — plus zeref-bot: a grounded Azure OpenAI (gpt-5-mini) chatbot served through a rate-limited Vercel serverless function that answers recruiter questions about me from live site data.",
-    tags: ["React", "Vite", "Azure OpenAI", "Vercel", "GSAP"],
-    metric: "Azure OpenAI chatbot",
+      "This site. A React + Vite portfolio with an 'ML terminal' personality — boot log, CRT scanlines, tmux-style status bar — plus zeref-bot: a RAG chatbot (Azure OpenAI gpt-5-mini) that embeds each question and retrieves over a vector index of the whole site — projects, READMEs, and a recruiter FAQ — through a rate-limited Vercel serverless function.",
+    tags: ["React", "RAG", "Azure OpenAI", "Vite", "Vercel"],
+    metric: "RAG chatbot",
     category: "Web · AI",
     date: "2026",
     image: "/projects/portfolio.jpg",
@@ -133,7 +133,7 @@ export const projects = [
     link: "https://github.com/Zeref538/portfolio",
     demo: "https://johnandrei.vercel.app",
     highlights: [
-      "zeref-bot: Azure OpenAI behind a Vercel serverless function with per-IP rate limiting",
+      "zeref-bot: RAG over an embedded index of the site (cosine retrieval, top-6 chunks), per-IP rate limited",
       "Terminal identity: boot log, CRT scanlines, session status bar",
       "Perf-tuned animations: rAF-throttled scroll effects, vendor chunk splitting",
     ],
