@@ -67,6 +67,24 @@ export const projects = [
     ],
   },
   {
+    title: "Hangin' — PH Air-Quality Forecasting Dashboard",
+    description:
+      "Forecasts PM2.5 for Philippine cities 1–24 hours ahead and translates it into plain-language health advice — unlike existing PH trackers that only show the current reading. One pooled scikit-learn model (HistGradientBoosting) across 5 metros, trained on ~1.9 years of free Open-Meteo air-quality + weather history, backtested honestly against a naive persistence baseline. A scheduled job re-fetches data and republishes live forecasts to an interactive React dashboard with a heatmap, AQI health gauge, and a model-performance panel.",
+    tags: ["Python", "scikit-learn", "Time-Series", "Open-Meteo", "React"],
+    metric: "+15–23% MAE vs. naive",
+    category: "ML · Forecasting · Dashboard",
+    date: "2026",
+    image: "/projects/hangin-1.jpg",
+    images: ["/projects/hangin-1.jpg", "/projects/hangin-2.jpg", "/projects/hangin-3.jpg"],
+    link: "https://github.com/Zeref538/hangin",
+    demo: "https://hangin-zeref.vercel.app",
+    highlights: [
+      "Pooled HistGradientBoosting over 5 metros, ~1.9 yrs of free Open-Meteo data",
+      "Honest backtest: beats naive persistence by +15–23% MAE at the 6–24h horizons",
+      "Hourly GitHub Actions refresh republishes live 1/6/12/24h forecasts + EPA-AQI health advice",
+    ],
+  },
+  {
     title: "ACRA — Adaptive Color Re-Encoding Algorithm",
     description:
       "CNN-powered system that detects color-critical regions in public signage and re-encodes them for color vision deficiency without altering original design. Trained YOLOv8m on a custom 5-class dataset (33,774 annotated boxes) reaching 0.740 mAP50, and built the core re-encoding algorithm: CLAHE → CIELAB → Fuzzy C-Means → CIEDE2000 conflict detection → constrained optimization. Deployed via FastAPI + ONNX with Supabase (RLS, 24h auto-delete).",
