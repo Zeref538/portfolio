@@ -66,11 +66,11 @@ export default function ContactForm() {
       <div className="cf-row">
         <label className="cf-field">
           <span className="cf-label">name</span>
-          <input name="name" type="text" required autoComplete="name" placeholder="Jane Recruiter" />
+          <input name="name" type="text" required autoComplete="name" placeholder="John Andrei Martinez" />
         </label>
         <label className="cf-field">
           <span className="cf-label">email</span>
-          <input name="email" type="email" required autoComplete="email" placeholder="jane@company.com" />
+          <input name="email" type="email" required autoComplete="email" placeholder="martinezjandrei8425@gmail.com" />
         </label>
       </div>
       <label className="cf-field">
