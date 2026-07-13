@@ -241,6 +241,13 @@ export const skills = [
 // image: badge artwork — save the PNG in public/certs/ with the filename below
 export const certifications = [
   {
+    name: "Google AI Professional Certificate",
+    issuer: "Google",
+    year: "2026",
+    url: "https://www.coursera.org/account/accomplishments/specialization/OVWHUIPY22YS",
+    image: "/certs/google-ai-pro.jpeg",
+  },
+  {
     name: "Google Advanced Data Analytics Professional Certificate",
     issuer: "Google",
     year: "2026",
