@@ -1988,6 +1988,12 @@ footer.ft {
   border-radius: 50%;
   z-index: 9999;
   will-change: transform;
+  /* start offscreen; JS only drives these on mouse devices */
+  transform: translate(-100px, -100px);
+  display: none;
+}
+@media (pointer: fine) {
+  .cursor-dot, .cursor-ring { display: block; }
 }
 .cursor-dot {
   width: 7px;
@@ -2066,6 +2072,15 @@ html, body { overflow-x: hidden; max-width: 100%; }
   .cert-filters { gap: 8px; }
   .certs-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
   .contact-links { flex-wrap: wrap; }
+}
+
+/* touch devices: hover is "sticky" (a tap latches :hover), so hover-driven
+   scale/zoom effects fight scrolling — disable them where hover isn't real */
+@media (hover: none) {
+  .pj-item:hover .pj3-glow { transform: none; box-shadow: none; }
+  .pj-item:hover .pj3-img-on { transform: none; }
+  .pj-item:hover .pj3-cover img { transform: none; }
+  .stack-glow:hover { transform: none; box-shadow: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

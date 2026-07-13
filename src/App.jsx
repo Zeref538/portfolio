@@ -464,7 +464,14 @@ export default function App() {
                   <GlowCard className="pj3-glow" borderRadius={30}>
                     {(() => {
                       const href = p.demo || p.link;
-                      const open = () => href && window.open(href, "_blank", "noopener,noreferrer");
+                      const open = () => {
+                        if (!href) return;
+                        // touch: tapping focuses the card and reveals the overlay
+                        // (:focus-within) instead of yanking the user to a new tab —
+                        // the overlay's demo/source links handle navigation there
+                        if (window.matchMedia("(hover: none)").matches) return;
+                        window.open(href, "_blank", "noopener,noreferrer");
+                      };
                       return (
                     <article
                       className="pj3"
