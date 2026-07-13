@@ -462,7 +462,23 @@ export default function App() {
               {projects.map((p, i) => (
                 <Reveal key={p.title} className="pj-item" style={{ "--i": i }}>
                   <GlowCard className="pj3-glow" borderRadius={30}>
-                    <article className="pj3">
+                    {(() => {
+                      const href = p.demo || p.link;
+                      const open = () => href && window.open(href, "_blank", "noopener,noreferrer");
+                      return (
+                    <article
+                      className="pj3"
+                      role={href ? "link" : undefined}
+                      tabIndex={href ? 0 : undefined}
+                      onClick={open}
+                      onKeyDown={(e) => {
+                        if (href && (e.key === "Enter" || e.key === " ")) {
+                          e.preventDefault();
+                          open();
+                        }
+                      }}
+                      style={href ? { cursor: "pointer" } : undefined}
+                    >
                       {/* cover: screenshot / gif of the live app */}
                       <div className="pj3-cover">
                         <div className="pj3-ph">
@@ -492,18 +508,20 @@ export default function App() {
                         </div>
                         <div className="pj3-links">
                           {p.demo && (
-                            <a href={p.demo} target="_blank" rel="noreferrer">
+                            <a href={p.demo} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
                               <LuArrowUpRight /> live demo
                             </a>
                           )}
                           {p.link && (
-                            <a href={p.link} target="_blank" rel="noreferrer">
+                            <a href={p.link} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
                               <SiGithub /> source
                             </a>
                           )}
                         </div>
                       </div>
                     </article>
+                      );
+                    })()}
                   </GlowCard>
                 </Reveal>
               ))}
