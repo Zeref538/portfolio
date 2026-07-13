@@ -608,8 +608,8 @@ export default function App() {
               Let's build something that matters.
             </ScrollFloat>
             <p>
-              Open to ML/AI engineering internships and entry-level roles —
-              especially in accessibility and civic tech. Based in {profile.location}.
+              Open to AI / ML engineering and data analytics roles — internships or
+              entry-level. I ship end-to-end and learn fast. Based in {profile.location}.
             </p>
             <ContactForm />
             <div className="contact-links">

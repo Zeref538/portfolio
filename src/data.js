@@ -7,17 +7,17 @@ export const profile = {
   name: "John Andrei Martinez",
   role: "AI/ML Engineer",
   tagline:
-    "Computer Science undergraduate focused on computer vision and accessibility-driven ML — building full pipelines from dataset annotation to deployed models.",
-  location: "Bulacan, Philippines",
+    "Computer Science student building AI/ML systems end-to-end — from RAG and forecasting to computer vision — and shipping them to production.",
+  location: "San Jose del Monte, Bulacan",
   email: "martinezjandrei8425@gmail.com",
   links: [
     { label: "GitHub", url: "https://github.com/Zeref538" },
     { label: "LinkedIn", url: "https://linkedin.com/in/john-andrei-martinez-499a0b343" },
   ],
   about: [
-    "I'm a Computer Science undergraduate at Our Lady of Fatima University focused on AI/ML — and I like shipping complete systems, not just models.",
-    "My recent work spans computer vision, data analytics, and full-stack products: a YOLOv8-powered color-accessibility tool, a smart coffee-shop platform with AI demand insights, a self-ordering kitchen display system, and the Azure OpenAI chatbot living on this very page. I handle the whole pipeline — data, training, evaluation, deployment.",
-    "I'm actively seeking internship and entry-level opportunities in Machine Learning / AI Engineering where I can apply real-world model development experience to meaningful, impact-driven problems — especially in accessibility and civic tech.",
+    "I'm a Computer Science student at Our Lady of Fatima University working across AI/ML — and I care about shipping complete systems, not just training models in a notebook.",
+    "My work spans RAG, forecasting, computer vision, and full-stack products: an AI contract-screening system, a Philippine air-quality forecaster, an AI resort concierge with live Stripe booking, and the chatbot you're talking to right now. I own the whole pipeline — data, modeling, evaluation, and deployment.",
+    "I'm looking for internship and entry-level roles in AI / ML Engineering or Data Analytics, where I can ship real systems, take on hard problems, and keep leveling up fast.",
   ],
 };
 

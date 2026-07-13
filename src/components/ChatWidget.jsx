@@ -26,7 +26,7 @@ export function ChatDial() {
 const GREETING =
   "hi! i'm zeref-bot — ask me anything about John: projects, skills, experience, availability.";
 
-const SUGGESTIONS = ["what is ACRA?", "top skills?", "is he open to work?"];
+const SUGGESTIONS = ["what has he built?", "top skills?", "is he open to work?"];
 
 // Terminal-style chat grounded on the portfolio, powered by /api/chat
 // (Vercel serverless → Azure OpenAI). Rendered embedded in the About section,

@@ -1,9 +1,10 @@
 # About John Andrei Martinez
 
-John Andrei Martinez is a Computer Science undergraduate at Our Lady of Fatima University,
-based in Bulacan, Philippines. He focuses on AI/ML — computer vision, data analytics, and
-full-stack products — and likes shipping complete systems, not just models: he owns the
-whole pipeline from dataset annotation to training, evaluation, and deployment.
+John Andrei Martinez is a Computer Science student at Our Lady of Fatima University, based
+in San Jose del Monte, Bulacan, Philippines. He works across AI/ML — RAG, forecasting,
+computer vision, data analytics, and full-stack products — and cares about shipping complete
+systems, not just training models: he owns the whole pipeline from data through modeling,
+evaluation, and deployment.
 
 ## What he builds
 - **Computer vision & accessibility:** ACRA, his thesis — a YOLOv8-powered tool that
