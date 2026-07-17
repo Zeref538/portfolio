@@ -25,8 +25,14 @@ export default function Cursor() {
     };
 
     const onOver = (e) => {
-      const interactive = e.target.closest("a, button, .card");
+      const link = e.target.closest("a");
+      const interactive = !link && e.target.closest("button, .card");
+      const text =
+        !link && !interactive &&
+        e.target.closest("p, h1, h2, h3, h4, li, blockquote, code, pre, td, label, input, textarea");
+      ring.classList.toggle("linking", !!link);
       ring.classList.toggle("hovering", !!interactive);
+      ring.classList.toggle("texting", !!text);
     };
 
     const loop = () => {
