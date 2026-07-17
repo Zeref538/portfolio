@@ -501,8 +501,14 @@ export default function App() {
                       {/* always-visible details under the cover */}
                       <div className="pj3-info">
                         <h3>{p.title}</h3>
-                        <span className="pj3-meta">{p.category} · {p.date}</span>
+                        <span className="pj3-meta">
+                          {p.category} · {p.date}
+                          {p.metric && <span className="pj3-metric"> · {p.metric}</span>}
+                        </span>
                         <p className="pj3-desc">{p.description}</p>
+                        <ul className="pj3-highlights">
+                          {p.highlights.slice(0, 2).map((h) => <li key={h}>{h}</li>)}
+                        </ul>
                         <div className="tags pj3-tags">
                           {p.tags.map((t) => <span className="tag" key={t}>{t}</span>)}
                         </div>

@@ -814,10 +814,10 @@ button.nav-icon {
 .pj-item { position: relative; }
 .pj-item:hover { z-index: 5; }
 
-.pj3-glow { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); height: 100%; }
+.pj3-glow { transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1); height: 100%; }
 /* pull/push: hovered card grows, its siblings recede */
-.projects-grid:hover .pj3-glow { transform: translate3d(0, 0, 0.01px) scale(0.96); }
-.pj-item:hover .pj3-glow { transform: translate3d(0, 0, 0.01px) scale(1.08); }
+.projects-grid:hover .pj3-glow { transform: translate3d(0, 0, 0.01px) scale(0.93); }
+.pj-item:hover .pj3-glow { transform: translate3d(0, 0, 0.01px) scale(1.1); }
 
 .pj3 {
   position: relative;
@@ -881,9 +881,12 @@ button.nav-icon {
 .pj3-info h3 { font-size: 14.5px; line-height: 1.35; }
 
 .pj3-info .pj3-desc {
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 3;
   margin: 0;
 }
+
+.pj3-metric { color: var(--accent); font-weight: 600; }
+.pj3-info .pj3-highlights { font-size: 11.5px; }
 
 .pj3-info .pj3-links { margin-top: 2px; font-size: 12px; }
 
