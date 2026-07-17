@@ -501,8 +501,11 @@ export default function App() {
                       {/* always-visible details under the cover */}
                       <div className="pj3-info">
                         <h3>{p.title}</h3>
+                        <p className="pj3-desc">{p.description}</p>
                         <div className="tags pj3-tags">
-                          {p.tags.map((t) => <span className="tag" key={t}>{t}</span>)}
+                          {p.category.split("·").map((c) => (
+                            <span className="tag" key={c}>{c.trim()}</span>
+                          ))}
                         </div>
                         <div className="pj3-links">
                           {p.demo && (

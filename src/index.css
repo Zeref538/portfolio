@@ -880,6 +880,12 @@ button.nav-icon {
 
 .pj3-info h3 { font-size: 14.5px; line-height: 1.35; }
 
+/* very short intro: two lines max */
+.pj3-info .pj3-desc {
+  -webkit-line-clamp: 2;
+  margin: 0;
+}
+
 .pj3-metric { color: var(--accent); font-weight: 600; }
 
 .pj3-info .pj3-links { margin-top: 2px; font-size: 12px; }
