@@ -496,15 +496,33 @@ export default function App() {
                           images={p.images?.length ? p.images : p.image ? [p.image] : []}
                           alt={`${p.title} preview`}
                         />
-                        <div className="pj3-caption">
-                          <h3>{p.title.split("—")[0].trim()}</h3>
-                          <span>{p.category} · {p.date}</span>
+                      </div>
+
+                      {/* always-visible details under the cover */}
+                      <div className="pj3-info">
+                        <h3>{p.title}</h3>
+                        <span className="pj3-meta">{p.category} · {p.date}</span>
+                        <p className="pj3-desc">{p.description}</p>
+                        <div className="tags pj3-tags">
+                          {p.tags.map((t) => <span className="tag" key={t}>{t}</span>)}
+                        </div>
+                        <div className="pj3-links">
+                          {p.demo && (
+                            <a href={p.demo} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
+                              <LuArrowUpRight /> live demo
+                            </a>
+                          )}
+                          {p.link && (
+                            <a href={p.link} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
+                              <SiGithub /> source
+                            </a>
+                          )}
                         </div>
                       </div>
 
                       {/* hover: full details */}
                       <div className="pj3-overlay">
-                        <h3>{p.title.split("—")[0].trim()}</h3>
+                        <h3>{p.title}</h3>
                         <span className="pj3-meta">{p.category} · {p.date}{p.metric ? ` · ${p.metric}` : ""}</span>
                         <p className="pj3-desc">{p.description}</p>
                         <ul className="pj3-highlights">
