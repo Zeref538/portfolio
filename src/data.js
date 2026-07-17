@@ -78,7 +78,7 @@ export const projects = [
     title: "Aegix AI — Contract Compliance Screening",
     description:
       "RAG system that screens Philippine employment contracts against the Labor Code, grading every clause Compliant / Non-compliant / Vague / Missing with a statutory citation and plain-English reason. Contracts are segmented and judged by two LangChain LCEL chains with structured output, over a MongoDB Atlas vector-search knowledge base of curated statute rules. Verdicts stream live via Server-Sent Events as parallel workers finish.",
-    tags: ["RAG", "LangChain", "Azure OpenAI", "Vector Search", "FastAPI", "React 19"],
+    tags: ["RAG", "LangChain", "Azure OpenAI", "Vector Search", "FastAPI"],
     metric: "84.5% verdict accuracy",
     category: "AI · RAG · Full-Stack",
     date: "2026",
