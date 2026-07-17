@@ -819,7 +819,7 @@ button.nav-icon {
    :has() scopes the shrink to an actual card hover, so moving the cursor
    through the gaps between cards releases the effect */
 .projects-grid:has(.pj-item:hover) .pj3-glow { transform: translate3d(0, 0, 0.01px) scale(0.96); }
-.pj-item:hover .pj3-glow { transform: translate3d(0, 0, 0.01px) scale(1.11); }
+.pj-item:hover .pj3-glow { transform: translate3d(0, 0, 0.01px) scale(1.14); }
 
 .pj3 {
   position: relative;
