@@ -878,7 +878,8 @@ button.nav-icon {
   padding: 15px 17px 17px;
 }
 
-.pj3-info h3 { font-size: 16px; line-height: 1.35; }
+/* reserve two title lines so descriptions start at the same height on every card */
+.pj3-info h3 { font-size: 16px; line-height: 1.35; min-height: 2.7em; }
 
 .pj3-info .pj3-desc {
   -webkit-line-clamp: 4;
