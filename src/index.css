@@ -815,7 +815,9 @@ button.nav-icon {
 .pj-item:hover { z-index: 5; }
 
 .pj3-glow { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); height: 100%; }
-.pj-item:hover .pj3-glow { transform: translate3d(0, 0, 0.01px) scale(1.06); }
+/* pull/push: hovered card grows, its siblings recede */
+.projects-grid:hover .pj3-glow { transform: translate3d(0, 0, 0.01px) scale(0.96); }
+.pj-item:hover .pj3-glow { transform: translate3d(0, 0, 0.01px) scale(1.08); }
 
 .pj3 {
   position: relative;
@@ -2096,6 +2098,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
 /* touch devices: hover is "sticky" (a tap latches :hover), so hover-driven
    scale/zoom effects fight scrolling — disable them where hover isn't real */
 @media (hover: none) {
+  .projects-grid:hover .pj3-glow { transform: none; }
   .pj-item:hover .pj3-glow { transform: none; box-shadow: none; }
   .pj-item:hover .pj3-img-on { transform: none; }
   .pj-item:hover .pj3-cover img { transform: none; }
