@@ -816,10 +816,12 @@ button.nav-icon {
 
 .pj3-glow { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); height: 100%; }
 /* pull/push: hovered card grows, its siblings recede.
-   :has() scopes the shrink to an actual card hover, so moving the cursor
-   through the gaps between cards releases the effect */
-.projects-grid:has(.pj-item:hover) .pj3-glow { transform: translate3d(0, 0, 0.01px) scale(0.96); }
-.pj-item:hover .pj3-glow { transform: translate3d(0, 0, 0.01px) scale(1.14); }
+   :has() scopes the shrink to an actual card hover (gaps release the effect),
+   and :not(:hover) keeps it off the hovered card so the grow rule always wins */
+.projects-grid:has(.pj-item:hover) .pj-item:not(:hover) .pj3-glow {
+  transform: translate3d(0, 0, 0.01px) scale(0.93);
+}
+.pj-item:hover .pj3-glow { transform: translate3d(0, 0, 0.01px) scale(1.16); }
 
 .pj3 {
   position: relative;
@@ -1416,13 +1418,9 @@ button.nav-icon {
   height: 100%;
 }
 .cert-glow:hover {
-  transform: translate3d(0, 0, 0.01px) scale(1.09);
+  transform: translate3d(0, 0, 0.01px) scale(1.12);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
   z-index: 5;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .cert-glow:hover { transform: none; }
 }
 
 .badge-card {
@@ -2137,7 +2135,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
 /* touch devices: hover is "sticky" (a tap latches :hover), so hover-driven
    scale/zoom effects fight scrolling — disable them where hover isn't real */
 @media (hover: none) {
-  .projects-grid:has(.pj-item:hover) .pj3-glow { transform: none; }
+  .projects-grid:has(.pj-item:hover) .pj-item:not(:hover) .pj3-glow { transform: none; }
   .pj-item:hover .pj3-glow { transform: none; box-shadow: none; }
   .pj-item:hover .pj3-img-on { transform: none; }
   .pj-item:hover .pj3-cover img { transform: none; }
