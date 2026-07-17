@@ -81,6 +81,7 @@ function KaggleMark(props) {
 // Certification card — enlarges gently on hover (no full-screen preview).
 function CertCard({ c }) {
   return (
+    <div className="cert-item">
     <GlowCard className="cert-glow">
       <div className="badge-card">
         <div className="badge-art">
@@ -113,6 +114,7 @@ function CertCard({ c }) {
         )}
       </div>
     </GlowCard>
+    </div>
   );
 }
 

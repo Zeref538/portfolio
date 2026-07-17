@@ -1412,15 +1412,18 @@ button.nav-icon {
   gap: 18px;
 }
 
-/* gentle enlarge on hover */
+/* enlarge on hover — hover lives on the plain .cert-item wrapper and the
+   transform on the glow card inside, same pattern as the project cards */
+.cert-item { position: relative; height: 100%; }
+.cert-item:hover { z-index: 5; }
+
 .cert-glow {
   transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
   height: 100%;
 }
-.cert-glow:hover {
+.cert-item:hover .cert-glow {
   transform: translate3d(0, 0, 0.01px) scale(1.12);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
-  z-index: 5;
 }
 
 .badge-card {
