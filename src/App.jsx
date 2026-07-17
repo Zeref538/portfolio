@@ -504,7 +504,7 @@ export default function App() {
                         <span className="pj3-meta">{p.category} · {p.date}</span>
                         <p className="pj3-desc">{p.description}</p>
                         <div className="tags pj3-tags">
-                          {p.tags.map((t) => <span className="tag" key={t}>{t}</span>)}
+                          {p.tags.slice(0, 4).map((t) => <span className="tag" key={t}>{t}</span>)}
                         </div>
                         <div className="pj3-links">
                           {p.demo && (
@@ -523,11 +523,14 @@ export default function App() {
                       {/* hover: full details */}
                       <div className="pj3-overlay">
                         <h3>{p.title}</h3>
-                        <span className="pj3-meta">{p.category} · {p.date}{p.metric ? ` · ${p.metric}` : ""}</span>
+                        <span className="pj3-meta">{p.category} · {p.date}</span>
+                        {p.metric && <div className="pj3-stat">▸ {p.metric}</div>}
                         <p className="pj3-desc">{p.description}</p>
+                        <div className="pj3-sec">// impact</div>
                         <ul className="pj3-highlights">
                           {p.highlights.map((h) => <li key={h}>{h}</li>)}
                         </ul>
+                        <div className="pj3-sec">// full stack</div>
                         <div className="tags pj3-tags">
                           {p.tags.map((t) => <span className="tag" key={t}>{t}</span>)}
                         </div>

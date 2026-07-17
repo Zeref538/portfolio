@@ -52,7 +52,7 @@ export const projects = [
     title: "YODA — Your Offline Data Agent",
     description:
       "Privacy-first, fully local data-cleaning agent for CSV / Excel / SQLite — the LLM never sees a single raw row and nothing leaves the machine. A pandas profiler produces a PII-redacted metadata profile; a local LLM (Ollama, qwen3.5:4b) plans repairs as strict JSON; a human approves each step; deterministic pandas executes with a full audit log; a verifier re-profiles to confirm. Benchmarked against 1,589 ground-truth labeled errors with a published false-fix rate, plus a 39-instruction plain-language benchmark and a local 'Mission Control' web UI.",
-    tags: ["Python", "Agentic AI", "Ollama", "pandas", "FastAPI"],
+    tags: ["Agentic AI", "Ollama", "Python", "pandas", "FastAPI"],
     metric: "96.4% fix · 0.00% false-fix",
     category: "Agentic AI · Privacy",
     date: "2026",
@@ -78,7 +78,7 @@ export const projects = [
     title: "Aegix AI — Contract Compliance Screening",
     description:
       "RAG system that screens Philippine employment contracts against the Labor Code, grading every clause Compliant / Non-compliant / Vague / Missing with a statutory citation and plain-English reason. Contracts are segmented and judged by two LangChain LCEL chains with structured output, over a MongoDB Atlas vector-search knowledge base of curated statute rules. Verdicts stream live via Server-Sent Events as parallel workers finish.",
-    tags: ["RAG", "LangChain", "Azure OpenAI", "MongoDB Vector Search", "FastAPI", "React 19"],
+    tags: ["RAG", "LangChain", "Azure OpenAI", "Vector Search", "FastAPI", "React 19"],
     metric: "84.5% verdict accuracy",
     category: "AI · RAG · Full-Stack",
     date: "2026",
@@ -96,7 +96,7 @@ export const projects = [
     title: "Hangin' — PH Air-Quality Forecasting Dashboard",
     description:
       "Forecasts PM2.5 for Philippine cities 1–24 hours ahead and translates it into plain-language health advice — unlike existing PH trackers that only show the current reading. One pooled scikit-learn model (HistGradientBoosting) across 5 metros, trained on ~1.9 years of free Open-Meteo air-quality + weather history, backtested honestly against a naive persistence baseline. A scheduled job re-fetches data and republishes live forecasts to an interactive React dashboard with a heatmap, AQI health gauge, and a model-performance panel.",
-    tags: ["Python", "scikit-learn", "Time-Series", "Open-Meteo", "React"],
+    tags: ["scikit-learn", "Time-Series", "Forecasting", "Python", "Open-Meteo", "React"],
     metric: "+15–23% MAE vs. naive",
     category: "ML · Forecasting · Dashboard",
     date: "2026",
@@ -114,7 +114,7 @@ export const projects = [
     title: "ACRA — Adaptive Color Re-Encoding Algorithm",
     description:
       "CNN-powered system that detects color-critical regions in public signage and re-encodes them for color vision deficiency without altering original design. Trained YOLOv8m on a custom 5-class dataset (33,774 annotated boxes) reaching 0.740 mAP50, and built the core re-encoding algorithm: CLAHE → CIELAB → Fuzzy C-Means → CIEDE2000 conflict detection → constrained optimization. Deployed via FastAPI + ONNX with Supabase (RLS, 24h auto-delete).",
-    tags: ["YOLOv8", "Computer Vision", "FastAPI", "ONNX", "Supabase", "React"],
+    tags: ["YOLOv8", "Computer Vision", "ONNX", "FastAPI", "Supabase", "React"],
     metric: "0.740 mAP50",
     category: "Computer Vision · Thesis",
     date: "2025 — 2026",
@@ -132,7 +132,7 @@ export const projects = [
     title: "Solmara Resort & Villas — AI-Concierge Booking Platform",
     description:
       "A modern-luxury resort platform with Selene, a RAG concierge grounded in a curated knowledge base (rooms, rates, events, policies) via Azure OpenAI embeddings + chat, with an offline extractive fallback. Full booking flow with live availability, conflict detection (no double-booking), 15-minute payment holds, and Stripe Checkout (PHP). The concierge answers live availability questions straight from the booking system and doubles as a time-blocked itinerary planner.",
-    tags: ["React", "Node.js", "RAG", "Azure OpenAI", "Stripe"],
+    tags: ["RAG", "Azure OpenAI", "Stripe", "React", "Node.js"],
     metric: "AI concierge + live booking",
     category: "Full-Stack · AI Concierge",
     date: "2026",
@@ -150,7 +150,7 @@ export const projects = [
     title: "Portfolio — ML Terminal Website",
     description:
       "This site. A React + Vite portfolio with an 'ML terminal' personality — boot log, CRT scanlines, tmux-style status bar — plus zeref-bot: a RAG chatbot (Azure OpenAI gpt-5-mini) that embeds each question and retrieves over a vector index of the whole site — projects, READMEs, and a recruiter FAQ — through a rate-limited Vercel serverless function.",
-    tags: ["React", "RAG", "Azure OpenAI", "Vite", "Vercel"],
+    tags: ["RAG", "Azure OpenAI", "React", "Vite", "Vercel"],
     metric: "RAG chatbot",
     category: "Web · AI",
     date: "2026",
@@ -168,7 +168,7 @@ export const projects = [
     title: "CafèSync — Smart Coffee Shop Operations",
     description:
       "Centralized coffee shop management for orders, inventory, and sales analytics. Node.js backend synced live via Firebase Firestore (zero-refresh multi-screen updates), PayMongo payments, and a Python AI insights layer generating operational alerts — ingredient reorder triggers and staffing recommendations from order-volume forecasting.",
-    tags: ["Node.js", "Firebase", "Python", "Forecasting", "PayMongo"],
+    tags: ["Forecasting", "Python", "Firebase", "Node.js", "PayMongo"],
     metric: "Live multi-screen sync",
     category: "Full-Stack Platform",
     date: "2025",
@@ -208,7 +208,7 @@ export const projects = [
     title: "Smart Scheduling System",
     description:
       "Desktop class-scheduling platform in Java that auto-generates a conflict-free weekly timetable from courses, professors, rooms, and sections. A constraint-driven engine searches candidate day/time/room combinations and validates each against professor double-booking, room clashes, load balancing, and room optimization — with a live generation log and one-click CSV export.",
-    tags: ["Java 21", "Swing", "MySQL", "JDBC", "Algorithms"],
+    tags: ["Algorithms", "Java 21", "MySQL", "Swing", "JDBC"],
     metric: "Conflict-free in seconds",
     category: "Desktop App · Algorithms",
     date: "2025",
