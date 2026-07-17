@@ -504,7 +504,7 @@ export default function App() {
                         <span className="pj3-meta">{p.category} · {p.date}</span>
                         <p className="pj3-desc">{p.description}</p>
                         <div className="tags pj3-tags">
-                          {p.tags.slice(0, 4).map((t) => <span className="tag" key={t}>{t}</span>)}
+                          {p.tags.slice(0, 5).map((t) => <span className="tag" key={t}>{t}</span>)}
                         </div>
                         <div className="pj3-links">
                           {p.demo && (
