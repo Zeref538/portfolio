@@ -885,6 +885,13 @@ button.nav-icon {
   margin: 0;
 }
 
+/* reserve a fixed two-row tag area so every card aligns identically,
+   whether its tags wrap to one line or two */
+.pj3-info .pj3-tags {
+  min-height: 54px;
+  align-content: flex-start;
+}
+
 .pj3-info .pj3-links { margin-top: 2px; font-size: 12px; }
 
 /* --- hover overlay with details --- */
