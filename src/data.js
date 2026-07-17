@@ -7,7 +7,7 @@ export const profile = {
   name: "John Andrei Martinez",
   role: "AI/ML Engineer",
   tagline:
-    "Computer Science student building AI/ML systems end-to-end — from RAG and forecasting to computer vision — and shipping them to production.",
+    "Computer Science student building AI/ML systems end-to-end — from local AI agents and RAG to forecasting and computer vision — and shipping them to production.",
   location: "San Jose del Monte, Bulacan",
   email: "martinezjandrei8425@gmail.com",
   links: [
@@ -16,7 +16,7 @@ export const profile = {
   ],
   about: [
     "I'm a Computer Science student at Our Lady of Fatima University working across AI/ML — and I care about shipping complete systems, not just training models in a notebook.",
-    "My work spans RAG, forecasting, computer vision, and full-stack products: an AI contract-screening system, a Philippine air-quality forecaster, an AI resort concierge with live Stripe booking, and the chatbot you're talking to right now. I own the whole pipeline — data, modeling, evaluation, and deployment.",
+    "My work spans agentic AI, RAG, forecasting, computer vision, and full-stack products: a fully local data-cleaning agent where the LLM never sees a raw row, an AI contract-screening system, a Philippine air-quality forecaster, an AI resort concierge with live Stripe booking, and the chatbot you're talking to right now. I own the whole pipeline — data, modeling, evaluation, and deployment.",
     "I'm looking for internship and entry-level roles in AI / ML Engineering or Data Analytics, where I can ship real systems, take on hard problems, and keep leveling up fast.",
   ],
 };
@@ -48,6 +48,32 @@ export const experience = [
 ];
 
 export const projects = [
+  {
+    title: "YODA — Your Offline Data Agent",
+    description:
+      "Privacy-first, fully local data-cleaning agent for CSV / Excel / SQLite — the LLM never sees a single raw row and nothing leaves the machine. A pandas profiler produces a PII-redacted metadata profile; a local LLM (Ollama, qwen3.5:4b) plans repairs as strict JSON; a human approves each step; deterministic pandas executes with a full audit log; a verifier re-profiles to confirm. Benchmarked against 1,589 ground-truth labeled errors with a published false-fix rate, plus a 39-instruction plain-language benchmark and a local 'Mission Control' web UI.",
+    tags: ["Python", "Agentic AI", "Ollama", "pandas", "FastAPI"],
+    metric: "96.4% fix · 0.00% false-fix",
+    category: "Agentic AI · Privacy",
+    date: "2026",
+    image: "/projects/yoda-1.jpg",
+    images: [
+      "/projects/yoda-1.jpg",
+      "/projects/yoda-2.jpg",
+      "/projects/yoda-3.jpg",
+      "/projects/yoda-4.jpg",
+      "/projects/yoda-5.jpg",
+      "/projects/yoda-6.jpg",
+      "/projects/yoda-7.jpg",
+    ],
+    link: "https://github.com/Zeref538/yoda",
+    demo: "https://zeref538.github.io/yoda/demo/",
+    highlights: [
+      "AI plans, pandas executes: the LLM sees only a PII-redacted profile — a unit test proves no raw value reaches a prompt",
+      "Ground-truth benchmark: 99.1% detection / 96.4% fix / 0.00% false-fix across 1,589 labeled errors (vs rule-based baseline)",
+      "Human-in-the-loop gate, JSONL audit log, recipes, data contracts, and a WebAssembly browser demo — runs with Wi-Fi off",
+    ],
+  },
   {
     title: "Aegix AI — Contract Compliance Screening",
     description:
@@ -208,6 +234,8 @@ export const skills = [
       "scikit-learn",
       "LangChain",
       "RAG",
+      "Agentic AI",
+      "Ollama",
       "CNNs",
       "Hugging Face",
       "Kaggle",
