@@ -511,7 +511,7 @@ export default function App() {
                         <div className="pj3-links">
                           {p.demo && (
                             <a href={p.demo} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
-                              <LuArrowUpRight /> live demo
+                              <LuArrowUpRight /> {p.demoLabel || "live demo"}
                             </a>
                           )}
                           {p.link && (
@@ -539,7 +539,7 @@ export default function App() {
                         <div className="pj3-links">
                           {p.demo && (
                             <a href={p.demo} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
-                              <LuArrowUpRight /> live demo
+                              <LuArrowUpRight /> {p.demoLabel || "live demo"}
                             </a>
                           )}
                           {p.link && (

@@ -59,6 +59,7 @@ import {
   LuChartPie,
   LuLayers,
   LuBot,
+  LuSlidersHorizontal,
 } from "react-icons/lu";
 
 // [Icon, official brand color] — concept glyphs use theme colors
@@ -91,6 +92,7 @@ const ICONS = {
   "LangChain": [SiLangchain, "#e6edf3"],
   "RAG": [LuLayers, "#22d3ee"],
   "Agentic AI": [LuBot, "#22d3ee"],
+  "LLM Fine-Tuning": [LuSlidersHorizontal, "#8b5cf6"],
   "Ollama": [SiOllama, "#e6edf3"],
   "Azure": [VscAzure, "#0078D4"],
   "Kaggle": [SiKaggle, "#20BEFF"],

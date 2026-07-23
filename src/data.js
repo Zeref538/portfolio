@@ -64,7 +64,7 @@ export const projects = [
       "/projects/alfred-22.jpg",
     ],
     link: "https://github.com/Zeref538/alfred",
-    demo: "",
+    demo: "https://zeref538.github.io/alfred/demo/",
     highlights: [
       "Four input modes — text, local whisper voice, global hotkey, opt-in webcam motion (which can only abort, never command) — all funnel through one validator → consent gate → executor path",
       "Safety by construction: typed action registry (no keystrokes or shell), per-action argument policy, tiered consent, snapshot-backed undo, and an append-only JSONL ledger that expires after 30 days",
@@ -72,10 +72,10 @@ export const projects = [
     ],
   },
   {
-    title: "Lean — LoRA Fine-Tune for Token Efficiency",
+    title: "Lean — Fine-Tuning an LLM for Token Efficiency",
     description:
       "Fine-tuned a free open-weights model (Qwen2.5-1.5B-Instruct) via LoRA to say the same thing in fewer tokens without giving up accuracy — four training runs on free Kaggle T4s, with accuracy and token count always reported together, because a shorter wrong answer is a failure, not a saving. Runs v1–v3 traded 18–24 accuracy points for ~70% fewer tokens; diagnosing why produced v4: self-distillation on the base model's own verified-correct reasoning, keeping only generations that already reached the right answer and trimming boilerplate rather than derivation.",
-    tags: ["Fine-Tuning", "LoRA", "Unsloth", "PyTorch", "Qwen2.5", "Python"],
+    tags: ["LLM Fine-Tuning", "LoRA", "Unsloth", "PyTorch", "Qwen2.5", "Python"],
     metric: "−17% tokens · accuracy within 5 pts",
     category: "Fine-Tuning · Model Efficiency · Evaluation",
     date: "2026",
@@ -89,6 +89,7 @@ export const projects = [
     ],
     link: "https://github.com/Zeref538/lean-lora-finetune",
     demo: "https://zeref538.github.io/lean-lora-finetune/",
+    demoLabel: "case study",
     highlights: [
       "Self-distillation recipe: trained on the base model's own reasoning, filtered to the 77.3% of generations that were already correct — so output length still scales with problem difficulty",
       "Two hypotheses for v1–v3's accuracy cost tested and falsified by evidence (compressor deleting reasoning; line-joining format), and less training made it worse, not better",
@@ -282,6 +283,7 @@ export const skills = [
       "LangChain",
       "RAG",
       "Agentic AI",
+      "LLM Fine-Tuning",
       "Ollama",
       "CNNs",
       "Hugging Face",
