@@ -49,6 +49,29 @@ export const experience = [
 
 export const projects = [
   {
+    title: "Alfred — Multimodal AI Butler for Your PC",
+    description:
+      "Local multimodal agent for Windows that actually acts on the machine — summoned by text, voice, global hotkey, or a webcam stop-gesture. A local LLM (Ollama, structured outputs at temperature 0) plans over a frozen 12-action service menu; a deterministic validator is the single door between anything untrusted and the OS. Consent tiers gate every act, an append-only ledger records them, and 'Alfred, stop' aborts mid-plan. Speech runs through local whisper plus a two-layer mishear corrector, and nothing executes until you confirm the exact plan Alfred reads back in a local British voice.",
+    tags: ["Agentic AI", "Multimodal", "Voice AI", "Ollama", "Computer Vision", "Python"],
+    metric: "4 input modes · 12 gated actions",
+    category: "Agentic AI · Multimodal · Privacy",
+    date: "2026",
+    image: "/projects/alfred-demo.gif",
+    images: [
+      "/projects/alfred-demo.gif",
+      "/projects/alfred-3.jpg",
+      "/projects/alfred-12.jpg",
+      "/projects/alfred-22.jpg",
+    ],
+    link: "https://github.com/Zeref538/alfred",
+    demo: "",
+    highlights: [
+      "Four input modes — text, local whisper voice, global hotkey, opt-in webcam motion (which can only abort, never command) — all funnel through one validator → consent gate → executor path",
+      "Safety by construction: typed action registry (no keystrokes or shell), per-action argument policy, tiered consent, snapshot-backed undo, and an append-only JSONL ledger that expires after 30 days",
+      "Fully local and offline-capable: Ollama planner, whisper STT, Piper TTS — 102 tests, with a sealed 50-command evaluation frozen before any prompt existed",
+    ],
+  },
+  {
     title: "YODA — Your Offline Data Agent",
     description:
       "Privacy-first, fully local data-cleaning agent for CSV / Excel / SQLite — the LLM never sees a single raw row and nothing leaves the machine. A pandas profiler produces a PII-redacted metadata profile; a local LLM (Ollama, qwen3.5:4b) plans repairs as strict JSON; a human approves each step; deterministic pandas executes with a full audit log; a verifier re-profiles to confirm. Benchmarked against 1,589 ground-truth labeled errors with a published false-fix rate, plus a 39-instruction plain-language benchmark and a local 'Mission Control' web UI.",
