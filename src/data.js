@@ -72,6 +72,30 @@ export const projects = [
     ],
   },
   {
+    title: "Lean — LoRA Fine-Tune for Token Efficiency",
+    description:
+      "Fine-tuned a free open-weights model (Qwen2.5-1.5B-Instruct) via LoRA to say the same thing in fewer tokens without giving up accuracy — four training runs on free Kaggle T4s, with accuracy and token count always reported together, because a shorter wrong answer is a failure, not a saving. Runs v1–v3 traded 18–24 accuracy points for ~70% fewer tokens; diagnosing why produced v4: self-distillation on the base model's own verified-correct reasoning, keeping only generations that already reached the right answer and trimming boilerplate rather than derivation.",
+    tags: ["Fine-Tuning", "LoRA", "Unsloth", "PyTorch", "Qwen2.5", "Python"],
+    metric: "−17% tokens · accuracy within 5 pts",
+    category: "Fine-Tuning · Model Efficiency · Evaluation",
+    date: "2026",
+    image: "/projects/lean-1.jpg",
+    images: [
+      "/projects/lean-1.jpg",
+      "/projects/lean-2.jpg",
+      "/projects/lean-3.jpg",
+      "/projects/lean-4.jpg",
+      "/projects/lean-5.jpg",
+    ],
+    link: "https://github.com/Zeref538/lean-lora-finetune",
+    demo: "https://zeref538.github.io/lean-lora-finetune/",
+    highlights: [
+      "Self-distillation recipe: trained on the base model's own reasoning, filtered to the 77.3% of generations that were already correct — so output length still scales with problem difficulty",
+      "Two hypotheses for v1–v3's accuracy cost tested and falsified by evidence (compressor deleting reasoning; line-joining format), and less training made it worse, not better",
+      "Honest evaluation on a held-out GSM8K test split disjoint from training, reporting accuracy and mean output tokens together across all five models",
+    ],
+  },
+  {
     title: "YODA — Your Offline Data Agent",
     description:
       "Privacy-first, fully local data-cleaning agent for CSV / Excel / SQLite — the LLM never sees a single raw row and nothing leaves the machine. A pandas profiler produces a PII-redacted metadata profile; a local LLM (Ollama, qwen3.5:4b) plans repairs as strict JSON; a human approves each step; deterministic pandas executes with a full audit log; a verifier re-profiles to confirm. Benchmarked against 1,589 ground-truth labeled errors with a published false-fix rate, plus a 39-instruction plain-language benchmark and a local 'Mission Control' web UI.",
