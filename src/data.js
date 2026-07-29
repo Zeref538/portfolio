@@ -49,6 +49,30 @@ export const experience = [
 
 export const projects = [
   {
+    title: "callback-ai — Adaptive Interview Simulator Agent",
+    description:
+      "An agentic interview simulator that decides what to ask you next based on how you just answered, then grades every claim against your own words. The session engine is a state-driven loop, not a script: each turn it re-reads remaining question budget, per-competency uncertainty, and your last answer, then chooses whether to probe deeper, switch competency, or write the report. Three interviewer personas change how hard you're pushed but never how you're graded. An evidence gate rejects any score whose supporting quote can't be found verbatim in your transcript, and weak competencies persist across sessions so the next run targets them.",
+    tags: ["Agentic AI", "NVIDIA NIM", "Voice AI", "FastAPI", "Python"],
+    metric: "ρ 0.81 grading · 0.0 variance",
+    category: "Agentic AI · Evaluation · Full-Stack",
+    date: "2026",
+    image: "/projects/callback-1.jpg",
+    images: [
+      "/projects/callback-1.jpg",
+      "/projects/callback-2.jpg",
+      "/projects/callback-3.jpg",
+      "/projects/callback-4.jpg",
+      "/projects/callback-5.jpg",
+    ],
+    link: "https://github.com/Zeref538/callback-ai",
+    demo: "https://callback-ai.onrender.com",
+    highlights: [
+      "Agent, not pipeline: a state-driven loop decides whether to probe, which competency to ask next, and when to stop — budget reallocated by weight × uncertainty after every answer",
+      "Evidence gate: every score must quote your transcript verbatim; an unquotable score is rejected and regenerated, never shown",
+      "Published eval on a live model (NVIDIA NIM, Llama 3.1): 0.81 ranking correlation, 0.0 grading variance across 5 re-grades, 1.0/0.0 probe precision",
+    ],
+  },
+  {
     title: "Alfred — Multimodal AI Butler for Your PC",
     description:
       "Local multimodal agent for Windows that actually acts on the machine — summoned by text, voice, global hotkey, or a webcam stop-gesture. A local LLM (Ollama, structured outputs at temperature 0) plans over a frozen 12-action service menu; a deterministic validator is the single door between anything untrusted and the OS. Consent tiers gate every act, an append-only ledger records them, and 'Alfred, stop' aborts mid-plan. Speech runs through local whisper plus a two-layer mishear corrector, and nothing executes until you confirm the exact plan Alfred reads back in a local British voice.",
@@ -285,6 +309,7 @@ export const skills = [
       "Agentic AI",
       "LLM Fine-Tuning",
       "Ollama",
+      "NVIDIA NIM",
       "CNNs",
       "Hugging Face",
       "Kaggle",

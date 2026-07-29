@@ -41,6 +41,7 @@ import {
   SiRender,
   SiGooglecloud,
   SiOllama,
+  SiNvidia,
 } from "react-icons/si";
 import { VscAzure } from "react-icons/vsc";
 import {
@@ -94,6 +95,7 @@ const ICONS = {
   "Agentic AI": [LuBot, "#22d3ee"],
   "LLM Fine-Tuning": [LuSlidersHorizontal, "#8b5cf6"],
   "Ollama": [SiOllama, "#e6edf3"],
+  "NVIDIA NIM": [SiNvidia, "#76B900"],
   "Azure": [VscAzure, "#0078D4"],
   "Kaggle": [SiKaggle, "#20BEFF"],
   "Power BI": [LuChartPie, "#F2C811"],
