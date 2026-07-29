@@ -50,6 +50,7 @@ export const experience = [
 export const projects = [
   {
     title: "callback-ai — Adaptive Interview Simulator Agent",
+    groups: ["Agentic AI", "Full-Stack"],
     description:
       "An agentic interview simulator that decides what to ask you next based on how you just answered, then grades every claim against your own words. The session engine is a state-driven loop, not a script: each turn it re-reads remaining question budget, per-competency uncertainty, and your last answer, then chooses whether to probe deeper, switch competency, or write the report. Three interviewer personas change how hard you're pushed but never how you're graded. An evidence gate rejects any score whose supporting quote can't be found verbatim in your transcript, and weak competencies persist across sessions so the next run targets them.",
     tags: ["Agentic AI", "NVIDIA NIM", "Voice AI", "FastAPI", "Python"],
@@ -74,6 +75,7 @@ export const projects = [
   },
   {
     title: "Alfred — Multimodal AI Butler for Your PC",
+    groups: ["Agentic AI"],
     description:
       "Local multimodal agent for Windows that actually acts on the machine — summoned by text, voice, global hotkey, or a webcam stop-gesture. A local LLM (Ollama, structured outputs at temperature 0) plans over a frozen 12-action service menu; a deterministic validator is the single door between anything untrusted and the OS. Consent tiers gate every act, an append-only ledger records them, and 'Alfred, stop' aborts mid-plan. Speech runs through local whisper plus a two-layer mishear corrector, and nothing executes until you confirm the exact plan Alfred reads back in a local British voice.",
     tags: ["Agentic AI", "Multimodal", "Voice AI", "Ollama", "Computer Vision", "Python"],
@@ -97,6 +99,7 @@ export const projects = [
   },
   {
     title: "Lean — Fine-Tuning an LLM for Token Efficiency",
+    groups: ["Fine-Tuning"],
     description:
       "Fine-tuned a free open-weights model (Qwen2.5-1.5B-Instruct) via LoRA to say the same thing in fewer tokens without giving up accuracy — four training runs on free Kaggle T4s, with accuracy and token count always reported together, because a shorter wrong answer is a failure, not a saving. Runs v1–v3 traded 18–24 accuracy points for ~70% fewer tokens; diagnosing why produced v4: self-distillation on the base model's own verified-correct reasoning, keeping only generations that already reached the right answer and trimming boilerplate rather than derivation.",
     tags: ["LLM Fine-Tuning", "LoRA", "Unsloth", "PyTorch", "Qwen2.5", "Python"],
@@ -122,6 +125,7 @@ export const projects = [
   },
   {
     title: "YODA — Your Offline Data Agent",
+    groups: ["Agentic AI", "Full-Stack"],
     description:
       "Privacy-first, fully local data-cleaning agent for CSV / Excel / SQLite — the LLM never sees a single raw row and nothing leaves the machine. A pandas profiler produces a PII-redacted metadata profile; a local LLM (Ollama, qwen3.5:4b) plans repairs as strict JSON; a human approves each step; deterministic pandas executes with a full audit log; a verifier re-profiles to confirm. Benchmarked against 1,589 ground-truth labeled errors with a published false-fix rate, plus a 39-instruction plain-language benchmark and a local 'Mission Control' web UI.",
     tags: ["Agentic AI", "Ollama", "Python", "pandas", "FastAPI"],
@@ -148,6 +152,7 @@ export const projects = [
   },
   {
     title: "Aegix AI — Contract Compliance Screening",
+    groups: ["RAG", "Full-Stack"],
     description:
       "RAG system that screens Philippine employment contracts against the Labor Code, grading every clause Compliant / Non-compliant / Vague / Missing with a statutory citation and plain-English reason. Contracts are segmented and judged by two LangChain LCEL chains with structured output, over a MongoDB Atlas vector-search knowledge base of curated statute rules. Verdicts stream live via Server-Sent Events as parallel workers finish.",
     tags: ["RAG", "LangChain", "Azure OpenAI", "Vector Search", "FastAPI"],
@@ -166,6 +171,7 @@ export const projects = [
   },
   {
     title: "Hangin' — PH Air-Quality Forecasting Dashboard",
+    groups: ["ML & Forecasting", "Full-Stack"],
     description:
       "Forecasts PM2.5 for Philippine cities 1–24 hours ahead and translates it into plain-language health advice — unlike existing PH trackers that only show the current reading. One pooled scikit-learn model (HistGradientBoosting) across 5 metros, trained on ~1.9 years of free Open-Meteo air-quality + weather history, backtested honestly against a naive persistence baseline. A scheduled job re-fetches data and republishes live forecasts to an interactive React dashboard with a heatmap, AQI health gauge, and a model-performance panel.",
     tags: ["scikit-learn", "Time-Series", "Forecasting", "Python", "Open-Meteo", "React"],
@@ -184,6 +190,7 @@ export const projects = [
   },
   {
     title: "ACRA — Adaptive Color Re-Encoding Algorithm",
+    groups: ["ML & Forecasting", "Full-Stack"],
     description:
       "CNN-powered system that detects color-critical regions in public signage and re-encodes them for color vision deficiency without altering original design. Trained YOLOv8m on a custom 5-class dataset (33,774 annotated boxes) reaching 0.740 mAP50, and built the core re-encoding algorithm: CLAHE → CIELAB → Fuzzy C-Means → CIEDE2000 conflict detection → constrained optimization. Deployed via FastAPI + ONNX with Supabase (RLS, 24h auto-delete).",
     tags: ["YOLOv8", "Computer Vision", "ONNX", "FastAPI", "Supabase", "React"],
@@ -202,6 +209,7 @@ export const projects = [
   },
   {
     title: "Solmara Resort & Villas — AI-Concierge Booking Platform",
+    groups: ["RAG", "Full-Stack"],
     description:
       "A modern-luxury resort platform with Selene, a RAG concierge grounded in a curated knowledge base (rooms, rates, events, policies) via Azure OpenAI embeddings + chat, with an offline extractive fallback. Full booking flow with live availability, conflict detection (no double-booking), 15-minute payment holds, and Stripe Checkout (PHP). The concierge answers live availability questions straight from the booking system and doubles as a time-blocked itinerary planner.",
     tags: ["RAG", "Azure OpenAI", "Stripe", "React", "Node.js"],
@@ -220,6 +228,7 @@ export const projects = [
   },
   {
     title: "Portfolio — ML Terminal Website",
+    groups: ["RAG", "Full-Stack"],
     description:
       "This site. A React + Vite portfolio with an 'ML terminal' personality — boot log, CRT scanlines, tmux-style status bar — plus zeref-bot: a RAG chatbot (Azure OpenAI gpt-5-mini) that embeds each question and retrieves over a vector index of the whole site — projects, READMEs, and a recruiter FAQ — through a rate-limited Vercel serverless function.",
     tags: ["RAG", "Azure OpenAI", "React", "Vite", "Vercel"],
@@ -238,6 +247,7 @@ export const projects = [
   },
   {
     title: "CafèSync — Smart Coffee Shop Operations",
+    groups: ["ML & Forecasting", "Full-Stack"],
     description:
       "Centralized coffee shop management for orders, inventory, and sales analytics. Node.js backend synced live via Firebase Firestore (zero-refresh multi-screen updates), PayMongo payments, and a Python AI insights layer generating operational alerts — ingredient reorder triggers and staffing recommendations from order-volume forecasting.",
     tags: ["Forecasting", "Python", "Firebase", "Node.js", "PayMongo"],
@@ -256,6 +266,7 @@ export const projects = [
   },
   {
     title: "CLICKSILOG — Self-Ordering & Kitchen Display",
+    groups: ["Full-Stack"],
     description:
       "Self-ordering and kitchen display system replacing manual order-taking. Built the order-routing logic linking customer orders to a real-time Kitchen Display System, integrated PayMongo for online payments, and automated inventory deduction on each order — keeping ordering, kitchen, and stock fully in sync.",
     tags: ["JavaScript", "Node.js", "Express", "REST APIs", "React"],
@@ -278,6 +289,7 @@ export const projects = [
   },
   {
     title: "Smart Scheduling System",
+    groups: ["Full-Stack"],
     description:
       "Desktop class-scheduling platform in Java that auto-generates a conflict-free weekly timetable from courses, professors, rooms, and sections. A constraint-driven engine searches candidate day/time/room combinations and validates each against professor double-booking, room clashes, load balancing, and room optimization — with a live generation log and one-click CSV export.",
     tags: ["Algorithms", "Java 21", "MySQL", "Swing", "JDBC"],

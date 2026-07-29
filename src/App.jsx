@@ -227,6 +227,13 @@ export default function App() {
       if (raf != null) cancelAnimationFrame(raf);
     };
   }, []);
+  const [projFilter, setProjFilter] = useState("All");
+  const projGroups = ["Agentic AI", "RAG", "Fine-Tuning", "ML & Forecasting", "Full-Stack"];
+  const visibleProjects =
+    projFilter === "All"
+      ? projects
+      : projects.filter((p) => p.groups?.includes(projFilter));
+
   const [certFilter, setCertFilter] = useState("All");
   const issuers = [...new Set(certifications.map((c) => c.issuer))];
   const visibleCerts =
@@ -460,8 +467,30 @@ export default function App() {
           <Reveal className="container">
             <div className="section-label">$ ls projects/</div>
             <div className="section-out"># {projects.length} repos · {projects.filter((p) => p.demo).length} live deployments</div>
+            <div className="cert-filters">
+              <button
+                type="button"
+                className={`cert-filter ${projFilter === "All" ? "active" : ""}`}
+                onClick={() => setProjFilter("All")}
+              >
+                All <span className="cert-count">{projects.length}</span>
+              </button>
+              {projGroups.map((g) => (
+                <button
+                  type="button"
+                  key={g}
+                  className={`cert-filter ${projFilter === g ? "active" : ""}`}
+                  onClick={() => setProjFilter(g)}
+                >
+                  {g}
+                  <span className="cert-count">
+                    {projects.filter((p) => p.groups?.includes(g)).length}
+                  </span>
+                </button>
+              ))}
+            </div>
             <div className="projects-grid">
-              {projects.map((p, i) => (
+              {visibleProjects.map((p, i) => (
                 <Reveal key={p.title} className="pj-item" style={{ "--i": i }}>
                   <GlowCard className="pj3-glow" borderRadius={30}>
                     {(() => {
