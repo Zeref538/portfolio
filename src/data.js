@@ -376,7 +376,7 @@ export const certifications = [
     image: "/certs/capstone-data-analytics.jpeg",
   },
   {
-    name: "AWS AI Practitioner",
+    name: "AWS AI Practitioner Challenge",
     issuer: "AWS",
     year: "2026",
     url: "https://www.udacity.com/certificate/e/4e7cbba8-2c4d-11f1-a1ae-434577b9e921",
