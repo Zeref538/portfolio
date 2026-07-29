@@ -98,7 +98,7 @@ export const projects = [
     ],
   },
   {
-    title: "Lean — Fine-Tuning an LLM for Token Efficiency",
+    title: "Token-Optimization Fine-Tuning",
     groups: ["Fine-Tuning"],
     description:
       "Fine-tuned a free open-weights model (Qwen2.5-1.5B-Instruct) via LoRA to say the same thing in fewer tokens without giving up accuracy — four training runs on free Kaggle T4s, with accuracy and token count always reported together, because a shorter wrong answer is a failure, not a saving. Runs v1–v3 traded 18–24 accuracy points for ~70% fewer tokens; diagnosing why produced v4: self-distillation on the base model's own verified-correct reasoning, keeping only generations that already reached the right answer and trimming boilerplate rather than derivation.",
@@ -199,7 +199,7 @@ export const projects = [
     date: "2025 — 2026",
     image: "/projects/acra.jpg",
     images: ["/projects/acra.jpg", "/projects/acra-2.jpg", "/projects/acra-3.jpg"],
-    link: "https://github.com/Zeref538/ACRA",
+    link: "",
     demo: "https://acra-sandy.vercel.app/dashboard",
     highlights: [
       "Trained YOLOv8m on 33,774 custom-annotated boxes → 0.740 mAP50",
