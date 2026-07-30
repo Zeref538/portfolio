@@ -119,7 +119,7 @@ export const projects = [
     ],
   },
   {
-    title: "Token-Optimization Fine-Tuning",
+    title: "Token-Optimization LLM Fine-Tuning",
     groups: ["Fine-Tuning"],
     description:
       "Fine-tuned a free open-weights model (Qwen2.5-1.5B-Instruct) via LoRA to say the same thing in fewer tokens without giving up accuracy — four training runs on free Kaggle T4s, with accuracy and token count always reported together, because a shorter wrong answer is a failure, not a saving. Runs v1–v3 traded 18–24 accuracy points for ~70% fewer tokens; diagnosing why produced v4: self-distillation on the base model's own verified-correct reasoning, keeping only generations that already reached the right answer and trimming boilerplate rather than derivation.",
@@ -135,8 +135,8 @@ export const projects = [
       "/projects/lean-4.jpg",
       "/projects/lean-5.jpg",
     ],
-    link: "https://github.com/Zeref538/lean-lora-finetune",
-    demo: "https://zeref538.github.io/lean-lora-finetune/",
+    link: "https://github.com/Zeref538/Token-Optimization-LLM-Fine_Tuning",
+    demo: "https://zeref538.github.io/Token-Optimization-LLM-Fine_Tuning/",
     demoLabel: "case study",
     highlights: [
       "Self-distillation recipe: trained on the base model's own reasoning, filtered to the 77.3% of generations that were already correct — so output length still scales with problem difficulty",
