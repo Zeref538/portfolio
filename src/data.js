@@ -57,6 +57,8 @@ export const projects = [
     metric: "P@50 0.88 vs 0.86 rule",
     category: "ML · Ranking · Honest Evaluation",
     date: "2026",
+    image: "/projects/flyrank-1.png",
+    images: ["/projects/flyrank-1.png", "/projects/flyrank-2.png"],
     link: "https://github.com/Zeref538/flyrank-ml-internship",
     demo: "https://zeref538.github.io/flyrank-ml-internship/",
     demoLabel: "read the write-up",
