@@ -355,6 +355,13 @@ export const skills = [
 // image: badge artwork — save the PNG in public/certs/ with the filename below
 export const certifications = [
   {
+    name: "Claude 101",
+    issuer: "Anthropic",
+    year: "2026",
+    url: "",
+    image: "/certs/claude-101.jpg",
+  },
+  {
     name: "Google AI Professional Certificate",
     issuer: "Google",
     year: "2026",

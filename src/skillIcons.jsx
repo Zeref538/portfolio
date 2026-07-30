@@ -27,6 +27,7 @@ import {
   SiCss,
   SiMysql,
   SiMongodb,
+  SiAnthropic,
   SiExpo,
   SiExpress,
   SiDocker,
@@ -139,6 +140,7 @@ const ISSUER_LOGOS = {
 // issuers whose logo comes from react-icons instead of a file [Icon, color]
 const ISSUER_ICONS = {
   "MongoDB": [SiMongodb, "#47A248"],
+  "Anthropic": [SiAnthropic, "#D97757"],
 };
 
 export function IssuerIcon({ issuer }) {
