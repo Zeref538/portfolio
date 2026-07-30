@@ -49,27 +49,6 @@ export const experience = [
 
 export const projects = [
   {
-    title: "FlyRank — Content Refresh Priority Ranking",
-    groups: ["ML & Forecasting"],
-    description:
-      "Which 50 pages should an editor look at this week? I ranked pages by refresh priority on real anonymized client search data, and the point of the project is the honesty of the comparison. A transparent hand-written rule (CTR gap vs. its position tier + a staleness term) goes first; four models then have to beat it on the exact same eligibility gate, the same held-out clients, and the same metric — Precision@50. Split by client_id, never by row, so a model can't learn a client's identity and score itself. trend_direction and trend_pct are derived from the label and are banned as features; I proved why by adding a leaky feature and watching ROC-AUC jump from 0.612 to 0.737.",
-    tags: ["scikit-learn", "DuckDB", "Ranking", "Python", "Precision@K"],
-    metric: "P@50 0.88 vs 0.86 rule",
-    category: "ML · Ranking · Honest Evaluation",
-    date: "2026",
-    image: "/projects/flyrank-1.png",
-    images: ["/projects/flyrank-1.png", "/projects/flyrank-2.png"],
-    link: "https://github.com/Zeref538/flyrank-ml-internship",
-    demo: "https://zeref538.github.io/flyrank-ml-internship/",
-    demoLabel: "read the write-up",
-    highlights: [
-      "13,562 eligible pages, 29 clients, grouped client-holdout split — no client in both train and test",
-      "Gradient boosting P@50 0.88 vs the hand rule's 0.86 — and it wins in only 6 of 8 client splits, mean margin +0.056",
-      "Found the rule's Precision@50 swings across [0.76, 0.92] on tie-breaking alone, because ctr_gap_ratio pins at its cap for every zero-click page",
-      "All 6 of the model's top-50 false alarms are zero-click pages: no clicks means no click trend to decline — the named fix for v2",
-    ],
-  },
-  {
     title: "callback-ai — Adaptive Interview Simulator Agent",
     groups: ["Agentic AI", "Full-Stack"],
     description:
