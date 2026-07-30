@@ -358,7 +358,7 @@ export const certifications = [
     name: "Claude 101",
     issuer: "Anthropic",
     year: "2026",
-    url: "",
+    url: "https://verify.skilljar.com/c/ggacokz4z57m",
     image: "/certs/claude-101.jpg",
   },
   {
