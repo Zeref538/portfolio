@@ -98,6 +98,35 @@ export const projects = [
     ],
   },
   {
+    title: "Refusal Calibration LLM Fine-Tuning",
+    groups: ["Fine-Tuning"],
+    description:
+      "Fine-tuned a small open-weights model (Qwen2.5-1.5B, LoRA, free T4) to say \"I don't know — and here's why\" instead of confabulating, without turning it into a model that refuses everything. The deliverable is deliberately a curve, not a number: any refusal tune can drive hallucinations to zero by refusing everything, so every result reports both error directions on the same frozen 800-item eval with bootstrap confidence intervals. 14 adapters trained, 18 arms scored — and the honest findings (a single-number headline is misleading; seed replicates invalidated the mix-ratio curve; 1.5B is a capacity floor the recipe only clears at 3B) are the point.",
+    tags: ["LLM Fine-Tuning", "LoRA", "PyTorch", "Model Evaluation", "Python"],
+    metric: "3B: −5.5pp halluc · +4pp acc",
+    category: "Fine-Tuning · Evaluation · Honesty",
+    date: "2026",
+    image: "/projects/refusal-1.jpg",
+    images: [
+      "/projects/refusal-1.jpg",
+      "/projects/refusal-2.jpg",
+      "/projects/refusal-3.jpg",
+      "/projects/refusal-4.jpg",
+      "/projects/refusal-5.jpg",
+      "/projects/refusal-6.jpg",
+      "/projects/refusal-7.jpg",
+      "/projects/refusal-8.jpg",
+    ],
+    link: "https://github.com/Zeref538/refusal-calibration-LLM-Fine-Tuning",
+    demo: "https://zeref538.github.io/refusal-calibration-LLM-Fine-Tuning/",
+    demoLabel: "case study",
+    highlights: [
+      "Reports both error directions — hallucination and over-refusal — on a frozen 800-item eval with 95% bootstrap intervals; the reference tune cuts hallucination 92.5pp but pays 61.5pp over-refusal at 1.5B",
+      "Seed replicates (same recipe, seeds 0/1/2) showed an 18.5pp over-refusal spread — larger than the gaps between mix ratios, proving the mix-ratio ranking is not resolvable at 1.5B",
+      "At 3B the same recipe cuts hallucination 5.5pp while gaining 4pp accuracy at only 9.6pp over-refusal — a capacity floor, not a broken method",
+    ],
+  },
+  {
     title: "Token-Optimization LLM Fine-Tuning",
     groups: ["Fine-Tuning"],
     description:
