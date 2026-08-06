@@ -228,11 +228,16 @@ export default function App() {
     };
   }, []);
   const [projFilter, setProjFilter] = useState("All");
+  const [showAllProjects, setShowAllProjects] = useState(false);
+  const PROJ_PREVIEW = 8;
   const projGroups = ["Agentic AI", "RAG", "Fine-Tuning", "ML & Forecasting", "Full-Stack"];
-  const visibleProjects =
+  const filteredProjects =
     projFilter === "All"
       ? projects
       : projects.filter((p) => p.groups?.includes(projFilter));
+  // collapse only applies to the unfiltered "All" view; a category filter shows all its matches
+  const collapsing = projFilter === "All" && !showAllProjects && filteredProjects.length > PROJ_PREVIEW;
+  const visibleProjects = collapsing ? filteredProjects.slice(0, PROJ_PREVIEW) : filteredProjects;
 
   const [certFilter, setCertFilter] = useState("All");
   const issuers = [...new Set(certifications.map((c) => c.issuer))];
@@ -585,6 +590,17 @@ export default function App() {
                 </Reveal>
               ))}
             </div>
+            {projFilter === "All" && filteredProjects.length > PROJ_PREVIEW && (
+              <button
+                type="button"
+                className="pj-showmore"
+                onClick={() => setShowAllProjects((v) => !v)}
+              >
+                {showAllProjects
+                  ? "show less"
+                  : `show ${filteredProjects.length - PROJ_PREVIEW} more`}
+              </button>
+            )}
           </Reveal>
         </section>
 
