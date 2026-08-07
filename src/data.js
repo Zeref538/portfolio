@@ -101,9 +101,9 @@ export const projects = [
     title: "Refusal Calibration LLM Fine-Tuning",
     groups: ["Fine-Tuning"],
     description:
-      "Fine-tuned a small free model to admit \"I don't know\" instead of making up confident wrong answers — without overcorrecting into a model that refuses everything. The catch: any model can stop making things up by simply refusing every question, so I measured both mistakes at once — how often it invents answers vs. how often it wrongly refuses — on the same fixed test set. Trained 14 versions; the honest takeaways matter more than any single score, including that a tiny 1.5B model is just too small for the method, while a 3B model both makes up fewer answers and gets more right.",
+      "Fine-tuned a small free model to admit \"I don't know\" instead of making up confident wrong answers — without overcorrecting into a model that refuses everything. The catch: any model can stop making things up by simply refusing every question, so I measured both mistakes at once — how often it invents answers vs. how often it wrongly refuses — on the same fixed test set. Trained 15 versions and scored 19 setups; the honest takeaways matter more than any single score, including that a tiny 1.5B model is just too small for the method, while a 3B model both makes up fewer answers and gets more right — a result I re-ran on a second random seed to confirm it held up.",
     tags: ["LLM Fine-Tuning", "LoRA", "PyTorch", "Model Evaluation", "Python"],
-    metric: "3B: fewer made-up answers + higher accuracy",
+    metric: "3B result replicated · 19 setups scored",
     category: "Fine-Tuning · Evaluation · Honesty",
     date: "2026",
     image: "/projects/refusal-1.jpg",
@@ -123,7 +123,7 @@ export const projects = [
     highlights: [
       "Measured both failure modes together — making things up vs. wrongly refusing — on a fixed test set, because a model that refuses everything looks perfect on one metric and useless on the other",
       "Ran the exact same recipe three times with different random seeds and got very different results — proof that some of the fine-tuning 'wins' were noise, not real improvement",
-      "A 1.5B model was too small to learn this cleanly; a 3B model made up fewer answers AND got more questions right at the same time",
+      "A 1.5B model was too small to learn this cleanly; a 3B model made up fewer answers AND got more questions right at the same time — and re-running it on a second seed reproduced that, with results 4-7x more stable than at 1.5B",
     ],
   },
   {
