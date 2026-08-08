@@ -47,7 +47,34 @@ export const experience = [
   },
 ];
 
-export const projects = [
+export const projects = [  {
+    title: "Munti — A Tiny LLM From Scratch",
+    groups: ["Building LLMs"],
+    description:
+      "Built a 12.5M-parameter language model from the ground up in pure PyTorch — the tokenizer, the attention, the training loop and the sampler, with no pretrained weights and no ready-made GPT class — then trained it on TinyStories for 44 minutes on a free Kaggle T4 to a val loss of 1.505, where it writes coherent multi-paragraph children's stories with working dialogue. Before spending a single GPU hour I proved the code correct by deliberately overfitting four fixed batches to zero loss, which is what separates 'my model is undertrained' from 'my causal mask is broken'. The ablation is the part I'd defend hardest: removing positional embeddings cost only ~0.04 nats when I had predicted word salad, so instead of publishing the number I probed it twice — shuffling the input tokens destroys that model, proving a causal decoder recovers position from prefix length on its own, and a second seed reproduced the gap while the two baselines landed 0.003 apart.",
+    tags: ["PyTorch", "Transformers", "From Scratch", "BPE Tokenizer", "Kaggle", "Python"],
+    metric: "12.5M params from scratch · val 1.505 in 44 min",
+    category: "From Scratch · Transformers · Evaluation",
+    date: "2026",
+    image: "/projects/munti-1.jpg",
+    images: [
+      "/projects/munti-1.jpg",
+      "/projects/munti-2.jpg",
+      "/projects/munti-3.jpg",
+      "/projects/munti-4.jpg",
+      "/projects/munti-5.jpg",
+    ],
+    link: "https://github.com/Zeref538/munti",
+    demo: "https://zeref538.github.io/munti/",
+    demoLabel: "case study",
+    highlights: [
+      "Wrote the transformer by hand — multi-head causal attention, pre-LN residual blocks, weight-tied embeddings — and proved it correct on CPU in under a minute before touching a GPU, by overfitting four fixed batches to loss 0.0000 with 100% greedy recall",
+      "Predicted that removing positional embeddings would produce word salad and was wrong — it cost ~0.04 nats — so I measured why: shuffling tokens sends that model from 1.543 to 9.729, a larger collapse than the baseline's, proving causal masking already leaks position via prefix length",
+      "Replicated the ablation at a second seed rather than trusting one reading: the two baselines land 0.003 apart while the effect is ~0.04, so between-seed noise sits an order of magnitude below the result being claimed",
+      "Honest can-do/can't-do grounded in real generations: it writes stories with consistent characters and dialogue, but answers \"What is the capital of France?\" with a story about Santa, and loses entity tracking even mid-success (\"He opened the box and found a box!\")",
+    ],
+  },
+
   {
     title: "callback-ai — Adaptive Interview Simulator Agent",
     groups: ["Agentic AI"],
@@ -71,30 +98,6 @@ export const projects = [
       "Agent, not pipeline: a state-driven loop decides whether to probe, which competency to ask next, and when to stop — budget reallocated by weight × uncertainty after every answer",
       "Evidence gate: every score must quote your transcript verbatim; an unquotable score is rejected and regenerated, never shown",
       "Published eval on a live model (NVIDIA NIM, Llama 3.1): 0.81 ranking correlation, 0.0 grading variance across 5 re-grades, 1.0/0.0 probe precision",
-    ],
-  },
-  {
-    title: "Alfred — Multimodal AI Butler for Your PC",
-    groups: ["Agentic AI"],
-    description:
-      "Local multimodal agent for Windows that actually acts on the machine — summoned by text, voice, global hotkey, or a webcam stop-gesture. A local LLM (Ollama, structured outputs at temperature 0) plans over a frozen 12-action service menu; a deterministic validator is the single door between anything untrusted and the OS. Consent tiers gate every act, an append-only ledger records them, and 'Alfred, stop' aborts mid-plan. Speech runs through local whisper plus a two-layer mishear corrector, and nothing executes until you confirm the exact plan Alfred reads back in a local British voice.",
-    tags: ["Agentic AI", "Multimodal", "Voice AI", "Ollama", "Computer Vision", "Python"],
-    metric: "4 input modes · 12 gated actions",
-    category: "Agentic AI · Multimodal · Privacy",
-    date: "2026",
-    image: "/projects/alfred-demo.gif",
-    images: [
-      "/projects/alfred-demo.gif",
-      "/projects/alfred-3.jpg",
-      "/projects/alfred-12.jpg",
-      "/projects/alfred-22.jpg",
-    ],
-    link: "https://github.com/Zeref538/alfred",
-    demo: "https://zeref538.github.io/alfred/demo/",
-    highlights: [
-      "Four input modes — text, local whisper voice, global hotkey, opt-in webcam motion (which can only abort, never command) — all funnel through one validator → consent gate → executor path",
-      "Safety by construction: typed action registry (no keystrokes or shell), per-action argument policy, tiered consent, snapshot-backed undo, and an append-only JSONL ledger that expires after 30 days",
-      "Fully local and offline-capable: Ollama planner, whisper STT, Piper TTS — 102 tests, with a sealed 50-command evaluation frozen before any prompt existed",
     ],
   },
   {
@@ -127,30 +130,27 @@ export const projects = [
     ],
   },
   {
-    title: "Munti — A Tiny LLM From Scratch",
-    groups: ["Building LLMs"],
+    title: "Alfred — Multimodal AI Butler for Your PC",
+    groups: ["Agentic AI"],
     description:
-      "Built a 12.5M-parameter language model from the ground up in pure PyTorch — the tokenizer, the attention, the training loop and the sampler, with no pretrained weights and no ready-made GPT class — then trained it on TinyStories for 44 minutes on a free Kaggle T4 to a val loss of 1.505, where it writes coherent multi-paragraph children's stories with working dialogue. Before spending a single GPU hour I proved the code correct by deliberately overfitting four fixed batches to zero loss, which is what separates 'my model is undertrained' from 'my causal mask is broken'. The ablation is the part I'd defend hardest: removing positional embeddings cost only ~0.04 nats when I had predicted word salad, so instead of publishing the number I probed it twice — shuffling the input tokens destroys that model, proving a causal decoder recovers position from prefix length on its own, and a second seed reproduced the gap while the two baselines landed 0.003 apart.",
-    tags: ["PyTorch", "Transformers", "From Scratch", "BPE Tokenizer", "Kaggle", "Python"],
-    metric: "12.5M params from scratch · val 1.505 in 44 min",
-    category: "From Scratch · Transformers · Evaluation",
+      "Local multimodal agent for Windows that actually acts on the machine — summoned by text, voice, global hotkey, or a webcam stop-gesture. A local LLM (Ollama, structured outputs at temperature 0) plans over a frozen 12-action service menu; a deterministic validator is the single door between anything untrusted and the OS. Consent tiers gate every act, an append-only ledger records them, and 'Alfred, stop' aborts mid-plan. Speech runs through local whisper plus a two-layer mishear corrector, and nothing executes until you confirm the exact plan Alfred reads back in a local British voice.",
+    tags: ["Agentic AI", "Multimodal", "Voice AI", "Ollama", "Computer Vision", "Python"],
+    metric: "4 input modes · 12 gated actions",
+    category: "Agentic AI · Multimodal · Privacy",
     date: "2026",
-    image: "/projects/munti-1.jpg",
+    image: "/projects/alfred-demo.gif",
     images: [
-      "/projects/munti-1.jpg",
-      "/projects/munti-2.jpg",
-      "/projects/munti-3.jpg",
-      "/projects/munti-4.jpg",
-      "/projects/munti-5.jpg",
+      "/projects/alfred-demo.gif",
+      "/projects/alfred-3.jpg",
+      "/projects/alfred-12.jpg",
+      "/projects/alfred-22.jpg",
     ],
-    link: "https://github.com/Zeref538/munti",
-    demo: "https://zeref538.github.io/munti/",
-    demoLabel: "case study",
+    link: "https://github.com/Zeref538/alfred",
+    demo: "https://zeref538.github.io/alfred/demo/",
     highlights: [
-      "Wrote the transformer by hand — multi-head causal attention, pre-LN residual blocks, weight-tied embeddings — and proved it correct on CPU in under a minute before touching a GPU, by overfitting four fixed batches to loss 0.0000 with 100% greedy recall",
-      "Predicted that removing positional embeddings would produce word salad and was wrong — it cost ~0.04 nats — so I measured why: shuffling tokens sends that model from 1.543 to 9.729, a larger collapse than the baseline's, proving causal masking already leaks position via prefix length",
-      "Replicated the ablation at a second seed rather than trusting one reading: the two baselines land 0.003 apart while the effect is ~0.04, so between-seed noise sits an order of magnitude below the result being claimed",
-      "Honest can-do/can't-do grounded in real generations: it writes stories with consistent characters and dialogue, but answers \"What is the capital of France?\" with a story about Santa, and loses entity tracking even mid-success (\"He opened the box and found a box!\")",
+      "Four input modes — text, local whisper voice, global hotkey, opt-in webcam motion (which can only abort, never command) — all funnel through one validator → consent gate → executor path",
+      "Safety by construction: typed action registry (no keystrokes or shell), per-action argument policy, tiered consent, snapshot-backed undo, and an append-only JSONL ledger that expires after 30 days",
+      "Fully local and offline-capable: Ollama planner, whisper STT, Piper TTS — 102 tests, with a sealed 50-command evaluation frozen before any prompt existed",
     ],
   },
   {
@@ -283,25 +283,6 @@ export const projects = [
     ],
   },
   {
-    title: "Portfolio — ML Terminal Website",
-    groups: ["RAG", "Web & Apps"],
-    description:
-      "This site. A React + Vite portfolio with an 'ML terminal' personality — boot log, CRT scanlines, tmux-style status bar — plus zeref-bot: a RAG chatbot (Azure OpenAI gpt-5-mini) that embeds each question and retrieves over a vector index of the whole site — projects, READMEs, and a recruiter FAQ — through a rate-limited Vercel serverless function.",
-    tags: ["RAG", "Azure OpenAI", "React", "Vite", "Vercel"],
-    metric: "RAG chatbot",
-    category: "RAG · AI Chatbot · Web",
-    date: "2026",
-    image: "/projects/portfolio.jpg",
-    images: ["/projects/portfolio.jpg"],
-    link: "https://github.com/Zeref538/portfolio",
-    demo: "https://johnandrei.vercel.app",
-    highlights: [
-      "zeref-bot: RAG over an embedded index of the site (cosine retrieval, top-6 chunks), per-IP rate limited",
-      "Terminal identity: boot log, CRT scanlines, session status bar",
-      "Perf-tuned animations: rAF-throttled scroll effects, vendor chunk splitting",
-    ],
-  },
-  {
     title: "CafèSync — Smart Coffee Shop Operations",
     groups: ["ML & Forecasting", "Web & Apps"],
     description:
@@ -318,6 +299,25 @@ export const projects = [
       "Zero-refresh multi-screen sync with Firestore realtime listeners",
       "Python AI insights: ingredient reorder triggers & staffing forecasts",
       "PayMongo payment integration with live sales analytics",
+    ],
+  },
+  {
+    title: "Portfolio — ML Terminal Website",
+    groups: ["RAG", "Web & Apps"],
+    description:
+      "This site. A React + Vite portfolio with an 'ML terminal' personality — boot log, CRT scanlines, tmux-style status bar — plus zeref-bot: a RAG chatbot (Azure OpenAI gpt-5-mini) that embeds each question and retrieves over a vector index of the whole site — projects, READMEs, and a recruiter FAQ — through a rate-limited Vercel serverless function.",
+    tags: ["RAG", "Azure OpenAI", "React", "Vite", "Vercel"],
+    metric: "RAG chatbot",
+    category: "RAG · AI Chatbot · Web",
+    date: "2026",
+    image: "/projects/portfolio.jpg",
+    images: ["/projects/portfolio.jpg"],
+    link: "https://github.com/Zeref538/portfolio",
+    demo: "https://johnandrei.vercel.app",
+    highlights: [
+      "zeref-bot: RAG over an embedded index of the site (cosine retrieval, top-6 chunks), per-IP rate limited",
+      "Terminal identity: boot log, CRT scanlines, session status bar",
+      "Perf-tuned animations: rAF-throttled scroll effects, vendor chunk splitting",
     ],
   },
 ];
