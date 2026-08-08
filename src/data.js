@@ -99,7 +99,7 @@ export const projects = [
   },
   {
     title: "Refusal Calibration LLM Fine-Tuning",
-    groups: ["LLM Engineering"],
+    groups: ["Fine-Tuning LLMs"],
     description:
       "Fine-tuned a small free model to admit \"I don't know\" instead of making up confident wrong answers — without overcorrecting into a model that refuses everything. The catch: any model can stop making things up by simply refusing every question, so I measured both mistakes at once — how often it invents answers vs. how often it wrongly refuses — on the same fixed test set. Trained 15 versions and scored 19 setups; the honest takeaways matter more than any single score, including that a tiny 1.5B model is just too small for the method, while a 3B model both makes up fewer answers and gets more right — a result I re-ran on a second random seed to confirm it held up.",
     tags: ["LLM Fine-Tuning", "LoRA", "PyTorch", "Model Evaluation", "Python"],
@@ -128,7 +128,7 @@ export const projects = [
   },
   {
     title: "Munti — A Tiny LLM From Scratch",
-    groups: ["LLM Engineering"],
+    groups: ["Building LLMs"],
     description:
       "Built a 12.5M-parameter language model from the ground up in pure PyTorch — the tokenizer, the attention, the training loop and the sampler, with no pretrained weights and no ready-made GPT class — then trained it on TinyStories for 44 minutes on a free Kaggle T4 to a val loss of 1.505, where it writes coherent multi-paragraph children's stories with working dialogue. Before spending a single GPU hour I proved the code correct by deliberately overfitting four fixed batches to zero loss, which is what separates 'my model is undertrained' from 'my causal mask is broken'. The ablation is the part I'd defend hardest: removing positional embeddings cost only ~0.04 nats when I had predicted word salad, so instead of publishing the number I probed it twice — shuffling the input tokens destroys that model, proving a causal decoder recovers position from prefix length on its own, and a second seed reproduced the gap while the two baselines landed 0.003 apart.",
     tags: ["PyTorch", "Transformers", "From Scratch", "BPE Tokenizer", "Kaggle", "Python"],
@@ -155,7 +155,7 @@ export const projects = [
   },
   {
     title: "Token-Optimization LLM Fine-Tuning",
-    groups: ["LLM Engineering"],
+    groups: ["Fine-Tuning LLMs"],
     description:
       "Fine-tuned a free open-weights model (Qwen2.5-1.5B-Instruct) via LoRA to say the same thing in fewer tokens without giving up accuracy — four training runs on free Kaggle T4s, with accuracy and token count always reported together, because a shorter wrong answer is a failure, not a saving. Runs v1–v3 traded 18–24 accuracy points for ~70% fewer tokens; diagnosing why produced v4: self-distillation on the base model's own verified-correct reasoning, keeping only generations that already reached the right answer and trimming boilerplate rather than derivation.",
     tags: ["LLM Fine-Tuning", "LoRA", "Unsloth", "PyTorch", "Qwen2.5", "Python"],

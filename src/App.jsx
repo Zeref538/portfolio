@@ -230,7 +230,7 @@ export default function App() {
   const [projFilter, setProjFilter] = useState("All");
   const [showAllProjects, setShowAllProjects] = useState(false);
   const PROJ_PREVIEW = 8;
-  const projGroups = ["Agentic AI", "RAG", "LLM Engineering", "ML & Forecasting", "Full-Stack"];
+  const projGroups = ["Agentic AI", "RAG", "Building LLMs", "Fine-Tuning LLMs", "ML & Forecasting", "Full-Stack"];
   const filteredProjects =
     projFilter === "All"
       ? projects
