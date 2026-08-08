@@ -62,6 +62,9 @@ import {
   LuLayers,
   LuBot,
   LuSlidersHorizontal,
+  LuBoxes,
+  LuHammer,
+  LuType,
 } from "react-icons/lu";
 
 // [Icon, official brand color] — concept glyphs use theme colors
@@ -95,6 +98,9 @@ const ICONS = {
   "RAG": [LuLayers, "#22d3ee"],
   "Agentic AI": [LuBot, "#22d3ee"],
   "LLM Fine-Tuning": [LuSlidersHorizontal, "#8b5cf6"],
+  "Transformers": [LuBoxes, "#8b5cf6"],
+  "From Scratch": [LuHammer, "#22d3ee"],
+  "BPE Tokenizer": [LuType, "#22d3ee"],
   "Ollama": [SiOllama, "#e6edf3"],
   "NVIDIA NIM": [SiNvidia, "#76B900"],
   "Azure": [VscAzure, "#0078D4"],
