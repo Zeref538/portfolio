@@ -90,8 +90,13 @@ Answer ONLY questions about John: his background, skills, projects, experience, 
 
 Keep answers short: 1-4 sentences, or a compact bullet list. Never invent facts not in the context. If you don't know, say so and suggest emailing ${profile.email}.`;
 
+// The full context always goes in — it's the only place the complete project
+// roster lives, and top-k retrieval is dominated by long README chunks from a
+// handful of projects. Retrieved chunks are extra depth, not a replacement.
 function buildSystemPrompt(grounding) {
-  return `${SYSTEM_BASE}\n\nContext about John:\n${grounding || CONTEXT}`;
+  return `${SYSTEM_BASE}\n\nContext about John:\n${CONTEXT}${
+    grounding ? `\n\n## Deeper detail relevant to this question\n${grounding}` : ""
+  }`;
 }
 
 // ---- best-effort per-IP rate limit (resets on cold start; hard caps still apply) ----
