@@ -79,7 +79,7 @@ async function loadDocs() {
   }
 
   // project READMEs that live in the repo (deep implementation detail)
-  const idir = path.join(ROOT, "img");
+  const idir = path.join(ROOT, "source-assets");
   if (fs.existsSync(idir)) {
     for (const dir of fs.readdirSync(idir)) {
       const rp = path.join(idir, dir, "README.md");
