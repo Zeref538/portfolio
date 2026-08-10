@@ -43,6 +43,7 @@ import {
   SiGooglecloud,
   SiOllama,
   SiNvidia,
+  SiGithubactions,
 } from "react-icons/si";
 import { VscAzure } from "react-icons/vsc";
 import {
@@ -65,6 +66,8 @@ import {
   LuBoxes,
   LuHammer,
   LuType,
+  LuWaves,
+  LuRefreshCw,
 } from "react-icons/lu";
 
 // [Icon, official brand color] — concept glyphs use theme colors
@@ -117,6 +120,9 @@ const ICONS = {
   "Forecasting": [LuTrendingUp, "#22d3ee"],
   "Time-Series": [LuTrendingUp, "#8b5cf6"],
   "Open-Meteo": [LuCloud, "#22d3ee"],
+  "River": [LuWaves, "#22d3ee"],
+  "Online Learning": [LuRefreshCw, "#8b5cf6"],
+  "GitHub Actions": [SiGithubactions, "#2088FF"],
   "Leaflet": [LuNetwork, "#199900"],
   "SQL": [LuDatabase, "#8b5cf6"],
   "R": [SiR, "#276DC3"],
