@@ -229,7 +229,9 @@ export default function App() {
   }, []);
   const [projFilter, setProjFilter] = useState("All");
   const [showAllProjects, setShowAllProjects] = useState(false);
-  const PROJ_PREVIEW = 8;
+  // projects are ordered strongest-first, so collapsing the tail hides only the
+  // weakest cards (currently CafèSync, Portfolio, CLICKSILOG, Smart Scheduling)
+  const PROJ_PREVIEW = projects.length - 4;
   const projGroups = ["Agentic AI", "RAG", "Building LLMs", "Fine-Tuning LLMs", "ML & Forecasting", "Web & Apps"];
   const filteredProjects =
     projFilter === "All"

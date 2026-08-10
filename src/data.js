@@ -347,6 +347,48 @@ export const projects = [  {
       "Perf-tuned animations: rAF-throttled scroll effects, vendor chunk splitting",
     ],
   },
+  {
+    title: "CLICKSILOG — Self-Ordering & Kitchen Display",
+    groups: ["Web & Apps"],
+    description:
+      "Self-ordering and kitchen display system replacing manual order-taking. Built the order-routing logic linking customer orders to a real-time Kitchen Display System, integrated PayMongo for online payments, and automated inventory deduction on each order — keeping ordering, kitchen, and stock fully in sync.",
+    tags: ["JavaScript", "Node.js", "Express", "REST APIs", "React"],
+    metric: "End-to-end order sync",
+    category: "Realtime Ordering · KDS · Payments",
+    date: "2025",
+    image: "/projects/clicksilog/menu.jpg",
+    images: [
+      "/projects/clicksilog/menu.jpg",
+      "/projects/clicksilog/kds-2.jpg",
+      "/projects/clicksilog/kds-3.jpg",
+    ],
+    link: "https://github.com/Zeref538/ClickSilog",
+    demo: "",
+    highlights: [
+      "Order routing from customer screen to real-time Kitchen Display",
+      "Automated inventory deduction on every confirmed order",
+      "Role-based flows: Customer, Kitchen, Cashier, Admin",
+    ],
+  },
+  {
+    title: "Smart Scheduling System",
+    groups: ["Web & Apps"],
+    description:
+      "Desktop class-scheduling platform in Java that auto-generates a conflict-free weekly timetable from courses, professors, rooms, and sections. A constraint-driven engine searches candidate day/time/room combinations and validates each against professor double-booking, room clashes, load balancing, and room optimization — with a live generation log and one-click CSV export.",
+    tags: ["Algorithms", "Java 21", "MySQL", "Swing", "JDBC"],
+    metric: "Conflict-free in seconds",
+    category: "Constraint Solving · Algorithms · Desktop",
+    date: "2025",
+    image: "/projects/scheduler-1.jpg",
+    images: ["/projects/scheduler-1.jpg", "/projects/scheduler-2.jpg", "/projects/scheduler-3.jpg"],
+    link: "https://github.com/Zeref538/smart-scheduling-system",
+    demo: "",
+    highlights: [
+      "Constraint engine: avoids professor, room & time-slot conflicts",
+      "Configurable strategies — load balancing, room optimization, lunch breaks",
+      "Interface-driven backend, SHA-256 auth, full CRUD over MySQL/JDBC",
+    ],
+  },
 ];
 
 export const skills = [
