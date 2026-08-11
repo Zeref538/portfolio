@@ -68,6 +68,8 @@ import {
   LuType,
   LuWaves,
   LuRefreshCw,
+  LuLanguages,
+  LuMessagesSquare,
 } from "react-icons/lu";
 
 // [Icon, official brand color] — concept glyphs use theme colors
@@ -102,6 +104,8 @@ const ICONS = {
   "Agentic AI": [LuBot, "#22d3ee"],
   "LLM Fine-Tuning": [LuSlidersHorizontal, "#8b5cf6"],
   "Transformers": [LuBoxes, "#8b5cf6"],
+  "NLP": [LuLanguages, "#8b5cf6"],
+  "Code-Switching": [LuMessagesSquare, "#22d3ee"],
   "From Scratch": [LuHammer, "#22d3ee"],
   "BPE Tokenizer": [LuType, "#22d3ee"],
   "Ollama": [SiOllama, "#e6edf3"],
