@@ -47,7 +47,27 @@ export const experience = [
   },
 ];
 
-export const projects = [  {
+export const projects = [
+  {
+    title: "Hangin' — PH Air Quality Forecaster",
+    groups: ["Forecasting", "Full-Stack"],
+    description:
+      "PM2.5 forecasting dashboard for 29 Philippine cities, 1-24 hours ahead, with plain-language health advice instead of raw pollutant numbers. Most PH air trackers only show the current reading; Hangin' predicts where it's heading and shows its own accuracy honestly, backtested against a naive persistence baseline across a 60/20/20 chronological split. A pooled HistGradientBoostingRegressor (one model per horizon) trained on 3 years of hourly Open-Meteo history, tuned with a 160-trial randomized search, and served through a full-bleed Leaflet map with a live land-clipped PM2.5 heat overlay, geolocation, and a Simple/Expert toggle so the same accuracy numbers read for a recruiter or a commuter.",
+    tags: ["Python", "scikit-learn", "Pandas", "Time-Series", "Open-Meteo", "React", "Leaflet"],
+    metric: "+23% MAE vs naive baseline @12h",
+    category: "ML Forecasting · Full-Stack",
+    date: "2026",
+    image: "/projects/hangin-1.jpg",
+    images: ["/projects/hangin-1.jpg", "/projects/hangin-2.jpg", "/projects/hangin-3.jpg"],
+    link: "https://github.com/Zeref538/hangin",
+    demo: "https://hangin-acra1.vercel.app",
+    highlights: [
+      "Pooled multi-horizon HistGradientBoostingRegressor, 160-trial tuned, chronological 60/20/20 split — no leakage",
+      "Beats a naive persistence baseline by 16-23% MAE at the 6-24h horizons that matter",
+      "Live PM2.5 heat overlay clipped to PH landmass, geolocation, hourly GitHub Actions refresh",
+    ],
+  },
+  {
     title: "LiitLLM — A Taglish LLM From Scratch",
     groups: ["Building LLMs"],
     description:
