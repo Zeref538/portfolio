@@ -48,6 +48,32 @@ export const experience = [
 ];
 
 export const projects = [  {
+    title: "LiitLLM — A Taglish LLM From Scratch",
+    groups: ["Building LLMs"],
+    description:
+      "Built a 32.8M-parameter language model from scratch in pure PyTorch and trained it on Taglish — the Tagalog-English code-switched register Filipinos actually write in — on a thesis that inverts standard practice: every large web corpus is sorted by a language-ID filter that scores code-switched text as low-confidence noise and discards it, so I wrote a filter that keeps only that text. The result is a controlled experiment rather than a demo: two arms, two seeds each, identical architecture, identical 995,000,000-token budget and a shared tokenizer trained on the unfiltered side so neither arm gets an advantage, with the code-switch filter as the only difference. The filtered models emit three times as much English as the controls — a gap 2.8x the widest spread between seeds of the same arm, with no overlap. The finding I did not want is in the writeup too: measured on 50,000 documents per source, Filipino web text is already 38-40% code-switched, which weakens my own control arm and shrinks the claim from 'filtering creates code-switching' to 'filtering the rest of the way still measurably changes the model'.",
+    tags: ["PyTorch", "Transformers", "From Scratch", "Code-Switching", "NLP", "Kaggle", "Python"],
+    metric: "32.8M params from scratch · 3x code-switching vs control",
+    category: "From Scratch · Transformers · Ablation Design",
+    date: "2026",
+    image: "/projects/liitllm-1.png",
+    images: [
+      "/projects/liitllm-1.png",
+      "/projects/liitllm-2.png",
+      "/projects/liitllm-3.png",
+      "/projects/liitllm-4.png",
+    ],
+    link: "https://github.com/Zeref538/liitllm",
+    demo: "https://zeref538.github.io/liitllm/",
+    demoLabel: "case study",
+    highlights: [
+      "Designed the ablation so it could fail: two seeds per arm, exactly equal 995,000,000-token budgets, and one shared tokenizer trained on the unfiltered corpus so the filtered arm gains no vocabulary advantage — the evaluator returns INCONCLUSIVE by construction when given a single seed per arm",
+      "Measured 38-40% native code-switching in Filipino web text on 50,000 documents per source, which undercut my own premise and weakened the control arm, and published it as the finding rather than dropping it — an earlier 2,000-document run had given the opposite ranking, so the sample size is now stated next to the number",
+      "Reported both metrics including the weaker one: the continuous English-fraction measure separates the arms at 2.8x the within-arm spread with no overlap, while the pre-registered thresholded metric gives 0.328 against a 0.219 spread, and the writeup explains that a threshold count over 32 samples discards magnitude and inherits binomial noise",
+      "Trained four ~11-hour runs on a platform that kills sessions at 12 hours, with atomic checkpoint writes, saved RNG state, a wall-clock guard and a self-resuming runner — the last run stopped at step 55,000 and the automation detected it, pushed a continuation from the last checkpoint and finished to 60,000 unattended",
+    ],
+  },
+  {
     title: "Munti — A Tiny LLM From Scratch",
     groups: ["Building LLMs"],
     description:
