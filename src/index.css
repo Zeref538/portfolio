@@ -1713,6 +1713,20 @@ button.nav-icon {
 
 /* ---------- about ---------- */
 .about-text { max-width: 780px; }
+
+/* photo + name, above the bio. The accent ring is the only place the identity
+   colour touches a photo — the face stays the loudest thing in the block. */
+.about-id { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+.about-photo {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent-dim);
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.35);
+}
+.about-id-name { font-family: var(--font-heading); font-weight: 600; font-size: 18px; }
+.about-id-role { color: var(--text-muted); font-size: 14px; margin-top: 2px; }
 .about-text p {
   color: var(--text-muted);
   margin-bottom: 22px;

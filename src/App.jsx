@@ -412,6 +412,20 @@ export default function App() {
             <div className="section-out"># rendering bio — 3 blocks · zeref-bot attached</div>
             <div className="about-grid">
               <div className="about-text">
+                <div className="about-id">
+                  <img
+                    className="about-photo"
+                    src={profile.photo}
+                    alt={profile.name}
+                    width="400"
+                    height="400"
+                    loading="lazy"
+                  />
+                  <div>
+                    <div className="about-id-name">{profile.name}</div>
+                    <div className="about-id-role">{profile.role} · {profile.location}</div>
+                  </div>
+                </div>
                 <ScrollReveal
                   baseOpacity={0.1}
                   enableBlur

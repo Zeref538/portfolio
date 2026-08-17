@@ -9,6 +9,7 @@ export const profile = {
   tagline:
     "Computer Science student building AI/ML systems end-to-end — from local AI agents and RAG to forecasting and computer vision — and shipping them to production.",
   location: "San Jose del Monte, Bulacan",
+  photo: "/john-andrei-martinez.jpg",
   email: "martinezjandrei8425@gmail.com",
   links: [
     { label: "GitHub", url: "https://github.com/Zeref538" },
