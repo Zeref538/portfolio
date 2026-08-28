@@ -148,6 +148,33 @@ export const projects = [
     ],
   },
   {
+    title: "DEFER — Document Evidence and Fixed Explicit Rules",
+    groups: ["Fine-Tuning LLMs"],
+    description:
+      "Paste a document into a small AI, ask a question the document answers, and it sometimes answers from what it memorised during training instead. I built the trap by editing real Wikipedia passages so the memorised answer is provably wrong — the passage now says JFK was shot in 1927, and any model saying 1963 has been caught, with no human judge needed. Untrained Llama 3.2 3B followed the document 82% of the time; my fine-tune took that to 96%, with zero answers pulled from memory. But the first attempt quietly broke something else: it stopped admitting when a document had no answer at all. That only showed up because I report four numbers together instead of one, and fixing it meant rebalancing the training data and running the whole thing again.",
+    tags: ["LLM Fine-Tuning", "LoRA", "QLoRA", "Model Evaluation", "PyTorch", "Python"],
+    metric: "82% → 96% document-following · 0 answers from memory",
+    category: "Fine-Tuning · Grounding · Evaluation",
+    date: "2026",
+    image: "/projects/defer-1.jpg",
+    images: [
+      "/projects/defer-1.jpg",
+      "/projects/defer-2.jpg",
+      "/projects/defer-3.jpg",
+      "/projects/defer-4.jpg",
+    ],
+    link: "https://github.com/Zeref538/DEFER",
+    demo: "https://zeref538.github.io/DEFER/",
+    demoLabel: "replay demo",
+    highlights: [
+      "Built the hard cases by construction rather than by hand: edit the passage so the answer the model memorised is now wrong, and a wrong answer is decidable by a script — no human rater, no second AI grading the first",
+      "Measured the free fix first. A plain prompt saying \"use only this passage\" already got 87%, so the fine-tune had to beat that, not the untrained model — beating an unprompted baseline would have been beating a strawman",
+      "The first fine-tune scored 97.9% on the headline while getting worse at saying \"this document doesn’t answer that\" — caught only because I track four metrics together, traced to a 4:1 imbalance in the training data, and fixed by rebuilding it 1:1",
+      "Reported what is not settled: the two random seeds landed 10 points apart on one metric, so that row is published as a range instead of a number",
+      "Every published figure re-derives from committed logs with one command and no GPU, and the demo page replays those same logged answers so it can never disagree with the study",
+    ],
+  },
+  {
     title: "Refusal Calibration LLM Fine-Tuning",
     groups: ["Fine-Tuning LLMs"],
     description:
