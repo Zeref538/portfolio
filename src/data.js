@@ -209,6 +209,33 @@ export const projects = [  {
     ],
   },
   {
+    title: "TAB — Receipts Into a Checked Ledger",
+    groups: ["Agentic AI"],
+    description:
+      "Point it at a folder of receipts and it reads each one, checks that the numbers actually add up, and writes a row to your ledger — quietly. Only the ones that fail their own arithmetic reach you. The idea it is built on is that asking a model how confident it is tells you nothing: it will state a wrong total with total conviction. So TAB never asks. It re-adds the receipt instead — line items against the subtotal, subtotal plus VAT against the printed total, VAT against 12% of VATable sales — and a receipt that disagrees with itself was misread, which you know without any model being involved. Measured on 100 photographed receipts with a free local model: 89 of 100 totals read correctly, and the arithmetic alone caught 10 of the 11 wrong ones. Everything runs on your own machine and the review screen binds to localhost only, because receipts are personal data and there is nowhere for them to go.",
+    tags: ["Agentic AI", "Automation", "Ollama", "Computer Vision", "SQLite", "Python"],
+    metric: "89/100 totals · 1% silent errors · fully local",
+    category: "Automation · Document AI · Local-First",
+    date: "2026",
+    image: "/projects/tab-1.jpg",
+    images: [
+      "/projects/tab-1.jpg",
+      "/projects/tab-2.jpg",
+      "/projects/tab-3.jpg",
+      "/projects/tab-4.jpg",
+    ],
+    link: "https://github.com/Zeref538/tab",
+    demo: "https://zeref538.github.io/tab/",
+    demoLabel: "scoreboard",
+    highlights: [
+      "The guard is arithmetic, not model confidence: re-adding each receipt caught 10 of the 11 wrong totals with no model asked how sure it felt — the check costs nothing to run and is what separates this from a wrapper around an OCR call",
+      "Reports four numbers together and leads with the ugly one: 30% straight-through, 1% silent error rate (committed and wrong), plus the admission that 25 correct receipts in 100 were escalated for nothing — a tool that over-escalates is annoying, one that writes a wrong total into your tax records is worse than no tool",
+      "Refuses to claim what it has not measured: the numbers come from Indonesian receipts (CORD test split), so no Philippine VAT or TIN accuracy is claimed until a local labelled set exists — the scope section says so on the page itself",
+      "Runs unattended and survives its own failures: batches resume from where they were killed, and if the model stops mid-run the receipts are left unmarked rather than recorded as failures, because a receipt nobody read is not a receipt that failed",
+      "The public scoreboard is generated from the results files, never typed — there is a test that fails if anyone writes a percentage into the template, so a figure on that page cannot drift from the run that produced it",
+    ],
+  },
+  {
     title: "APAW — Self-Improving Dam Level & Spill-Risk Nowcaster",
     groups: ["ML & Forecasting"],
     description:

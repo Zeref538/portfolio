@@ -45,6 +45,7 @@ import {
   SiOllama,
   SiNvidia,
   SiGithubactions,
+  SiSqlite,
 } from "react-icons/si";
 import { VscAzure } from "react-icons/vsc";
 import {
@@ -74,6 +75,7 @@ import {
   LuSlidersVertical,
   LuLayers2,
   LuEye,
+  LuWorkflow,
 } from "react-icons/lu";
 
 // [Icon, official brand color] — concept glyphs use theme colors
@@ -110,6 +112,8 @@ const ICONS = {
   "LoRA": [LuSlidersVertical, "#8b5cf6"],
   "QLoRA": [LuLayers2, "#8b5cf6"],
   "Computer Vision": [LuEye, "#22d3ee"],
+  "SQLite": [SiSqlite, "#003B57"],
+  "Automation": [LuWorkflow, "#22d3ee"],
   "Transformers": [LuBoxes, "#8b5cf6"],
   "NLP": [LuLanguages, "#8b5cf6"],
   "Code-Switching": [LuMessagesSquare, "#22d3ee"],
