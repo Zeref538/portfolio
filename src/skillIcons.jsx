@@ -71,6 +71,9 @@ import {
   LuRefreshCw,
   LuLanguages,
   LuMessagesSquare,
+  LuSlidersVertical,
+  LuLayers2,
+  LuEye,
 } from "react-icons/lu";
 
 // [Icon, official brand color] — concept glyphs use theme colors
@@ -104,6 +107,9 @@ const ICONS = {
   "RAG": [LuLayers, "#22d3ee"],
   "Agentic AI": [LuBot, "#22d3ee"],
   "LLM Fine-Tuning": [LuSlidersHorizontal, "#8b5cf6"],
+  "LoRA": [LuSlidersVertical, "#8b5cf6"],
+  "QLoRA": [LuLayers2, "#8b5cf6"],
+  "Computer Vision": [LuEye, "#22d3ee"],
   "Transformers": [LuBoxes, "#8b5cf6"],
   "NLP": [LuLanguages, "#8b5cf6"],
   "Code-Switching": [LuMessagesSquare, "#22d3ee"],
@@ -178,8 +184,13 @@ export function IssuerIcon({ issuer }) {
   );
 }
 
+// lower-cased mirror of ICONS, so a tag written "pandas" still finds "Pandas".
+// casing drifts between data.js and this map, and a miss renders nothing at all
+// rather than throwing, which is exactly the kind of bug nobody notices.
+const ICONS_LC = Object.fromEntries(Object.entries(ICONS).map(([k, v]) => [k.toLowerCase(), v]));
+
 export function SkillIcon({ name }) {
-  const entry = ICONS[name];
+  const entry = ICONS[name] ?? ICONS_LC[name?.toLowerCase()];
   if (!entry) return null;
   const [Icon, color] = entry;
   return <Icon className="skill-icon" style={{ color }} aria-hidden="true" />;
