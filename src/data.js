@@ -48,27 +48,7 @@ export const experience = [
   },
 ];
 
-export const projects = [
-  {
-    title: "Hangin' — PH Air Quality Forecaster",
-    groups: ["Forecasting", "Full-Stack"],
-    description:
-      "PM2.5 forecasting dashboard for 29 Philippine cities, 1-24 hours ahead, with plain-language health advice instead of raw pollutant numbers. Most PH air trackers only show the current reading; Hangin' predicts where it's heading and shows its own accuracy honestly, backtested against a naive persistence baseline across a 60/20/20 chronological split. A pooled HistGradientBoostingRegressor (one model per horizon) trained on 3 years of hourly Open-Meteo history, tuned with a 160-trial randomized search, and served through a full-bleed Leaflet map with a live land-clipped PM2.5 heat overlay, geolocation, and a Simple/Expert toggle so the same accuracy numbers read for a recruiter or a commuter.",
-    tags: ["Python", "scikit-learn", "Pandas", "Time-Series", "Open-Meteo", "React", "Leaflet"],
-    metric: "+23% MAE vs naive baseline @12h",
-    category: "ML Forecasting · Full-Stack",
-    date: "2026",
-    image: "/projects/hangin-1.jpg",
-    images: ["/projects/hangin-1.jpg", "/projects/hangin-2.jpg", "/projects/hangin-3.jpg"],
-    link: "https://github.com/Zeref538/hangin",
-    demo: "https://hangin-acra1.vercel.app",
-    highlights: [
-      "Pooled multi-horizon HistGradientBoostingRegressor, 160-trial tuned, chronological 60/20/20 split — no leakage",
-      "Beats a naive persistence baseline by 16-23% MAE at the 6-24h horizons that matter",
-      "Live PM2.5 heat overlay clipped to PH landmass, geolocation, hourly GitHub Actions refresh",
-    ],
-  },
-  {
+export const projects = [  {
     title: "LiitLLM — A Taglish LLM From Scratch",
     groups: ["Building LLMs"],
     description:
@@ -229,6 +209,33 @@ export const projects = [
     ],
   },
   {
+    title: "APAW — Self-Improving Dam Level & Spill-Risk Nowcaster",
+    groups: ["ML & Forecasting"],
+    description:
+      "Forecasts reservoir water level 1–7 days ahead for the nine major Luzon dams and turns it into plain-language spill risk. PAGASA publishes a daily dam bulletin and keeps no archive — the page shows today and yesterday, then the reading is gone — so the project starts by building the dataset it learns from: a twice-daily collector, seeded from 166 Wayback snapshots, that commits every reading before the model runs. The model is online, not batch: one pooled River Mondrian forest updated with learn_one as each label arrives, scored prequentially against persistence and drift baselines. Choosing it was the interesting part. A search over 3,776 configurations will find something that beats the baselines on the dates you already have, so the calendar was split before the search ran — ranking reads only dates before 2025-11-01 and the holdout was scored exactly once. It slipped 0.002 (dev 0.615 to holdout 0.617 mean ratio) and beat both baselines at all seven horizons. The real finding was about data rather than algorithms: one model per dam per horizon gave each of 63 models 13–94 rows to fit 15 coefficients, and pooling them into one turned that into ~1,750.",
+    tags: ["River", "Online Learning", "Time-Series", "Python", "Open-Meteo", "GitHub Actions"],
+    metric: "Beats baselines at all 7 horizons · dev 0.615 → holdout 0.617",
+    category: "Online ML · Forecasting · MLOps",
+    date: "2026",
+    image: "/projects/apaw-1.jpg",
+    images: [
+      "/projects/apaw-1.jpg",
+      "/projects/apaw-2.jpg",
+      "/projects/apaw-3.jpg",
+      "/projects/apaw-4.jpg",
+    ],
+    link: "https://github.com/Zeref538/apaw",
+    demo: "https://zeref538.github.io/apaw/",
+    demoLabel: "live dashboard",
+    highlights: [
+      "Built the dataset the model learns from: PAGASA keeps no archive, so a twice-daily collector commits every reading and the scrape runs before the model — a modelling bug can never cost an observation that cannot be re-fetched",
+      "Split the calendar before searching 3,776 configurations, so the winner was ranked on dates it could see and scored once on dates it could not; dev 0.615 → holdout 0.617 mean ratio is what makes the 7/7 result credible rather than a search reporting its own luck",
+      "The win came from pooling, not from a fancier estimator: one model per (dam, horizon) starved each of 63 models on 13–94 rows, and pooling every dam and horizon into a single Mondrian forest turned that into ~1,750 — with per-dam target scaling, since the dams differ in movement by 12×",
+      "Publishes what it cannot defend: a horizon under 200 scored forecasts is shown with its count and explicitly not ranked even though it is ahead, and the README's verdict is regenerated from the metrics every run so the claim cannot drift from the evidence",
+      "Caught a real data leak — PAGASA prints one 24-hour deviation per snapshot against both the today and yesterday rows, so on the older row it is the future change; taken at face value a naive baseline 'predicts' tomorrow to 0.05 m. Recomputed from our own series and pinned by a regression test",
+    ],
+  },
+  {
     title: "Token-Optimization LLM Fine-Tuning",
     groups: ["Fine-Tuning LLMs"],
     description:
@@ -300,50 +307,24 @@ export const projects = [
       "Evaluated on 18 labeled contracts: 100% recall, 94.8% citation accuracy",
     ],
   },
+
   {
-    title: "Hangin' — PH Air-Quality Forecasting Dashboard",
-    groups: ["ML & Forecasting"],
+    title: "Hangin' — PH Air Quality Forecaster",
+    groups: ["ML & Forecasting", "Web & Apps"],
     description:
-      "Forecasts PM2.5 for Philippine cities 1–24 hours ahead and translates it into plain-language health advice — unlike existing PH trackers that only show the current reading. One pooled scikit-learn model (HistGradientBoosting) across 5 metros, trained on ~1.9 years of free Open-Meteo air-quality + weather history, backtested honestly against a naive persistence baseline. A scheduled job re-fetches data and republishes live forecasts to an interactive React dashboard with a heatmap, AQI health gauge, and a model-performance panel.",
-    tags: ["scikit-learn", "Time-Series", "Forecasting", "Python", "Open-Meteo", "React"],
-    metric: "+15–23% MAE vs. naive",
-    category: "ML · Forecasting · Dashboard",
+      "PM2.5 forecasting dashboard for 29 Philippine cities, 1-24 hours ahead, with plain-language health advice instead of raw pollutant numbers. Most PH air trackers only show the current reading; Hangin' predicts where it's heading and shows its own accuracy honestly, backtested against a naive persistence baseline across a 60/20/20 chronological split. A pooled HistGradientBoostingRegressor (one model per horizon) trained on 3 years of hourly Open-Meteo history, tuned with a 160-trial randomized search, and served through a full-bleed Leaflet map with a live land-clipped PM2.5 heat overlay, geolocation, and a Simple/Expert toggle so the same accuracy numbers read for a recruiter or a commuter.",
+    tags: ["Python", "scikit-learn", "Pandas", "Time-Series", "Open-Meteo", "React", "Leaflet"],
+    metric: "+23% MAE vs naive baseline @12h",
+    category: "ML Forecasting · Full-Stack",
     date: "2026",
     image: "/projects/hangin-1.jpg",
     images: ["/projects/hangin-1.jpg", "/projects/hangin-2.jpg", "/projects/hangin-3.jpg"],
     link: "https://github.com/Zeref538/hangin",
     demo: "https://hangin-zeref.vercel.app",
     highlights: [
-      "Pooled HistGradientBoosting over 5 metros, ~1.9 yrs of free Open-Meteo data",
-      "Honest backtest: beats naive persistence by +15–23% MAE at the 6–24h horizons",
-      "Hourly GitHub Actions refresh republishes live 1/6/12/24h forecasts + EPA-AQI health advice",
-    ],
-  },
-  {
-    title: "APAW — Self-Improving Dam Level & Spill-Risk Nowcaster",
-    groups: ["ML & Forecasting"],
-    description:
-      "Forecasts reservoir water level 1–7 days ahead for the nine major Luzon dams and turns it into plain-language spill risk. PAGASA publishes a daily dam bulletin and keeps no archive — the page shows today and yesterday, then the reading is gone — so the project starts by building the dataset it learns from: a twice-daily collector, seeded from 166 Wayback snapshots, that commits every reading before the model runs. The model is online, not batch: one pooled River Mondrian forest updated with learn_one as each label arrives, scored prequentially against persistence and drift baselines. Choosing it was the interesting part. A search over 3,776 configurations will find something that beats the baselines on the dates you already have, so the calendar was split before the search ran — ranking reads only dates before 2025-11-01 and the holdout was scored exactly once. It slipped 0.002 (dev 0.615 to holdout 0.617 mean ratio) and beat both baselines at all seven horizons. The real finding was about data rather than algorithms: one model per dam per horizon gave each of 63 models 13–94 rows to fit 15 coefficients, and pooling them into one turned that into ~1,750.",
-    tags: ["River", "Online Learning", "Time-Series", "Python", "Open-Meteo", "GitHub Actions"],
-    metric: "Beats baselines at all 7 horizons · dev 0.615 → holdout 0.617",
-    category: "Online ML · Forecasting · MLOps",
-    date: "2026",
-    image: "/projects/apaw-1.jpg",
-    images: [
-      "/projects/apaw-1.jpg",
-      "/projects/apaw-2.jpg",
-      "/projects/apaw-3.jpg",
-      "/projects/apaw-4.jpg",
-    ],
-    link: "https://github.com/Zeref538/apaw",
-    demo: "https://zeref538.github.io/apaw/",
-    demoLabel: "live dashboard",
-    highlights: [
-      "Built the dataset the model learns from: PAGASA keeps no archive, so a twice-daily collector commits every reading and the scrape runs before the model — a modelling bug can never cost an observation that cannot be re-fetched",
-      "Split the calendar before searching 3,776 configurations, so the winner was ranked on dates it could see and scored once on dates it could not; dev 0.615 → holdout 0.617 mean ratio is what makes the 7/7 result credible rather than a search reporting its own luck",
-      "The win came from pooling, not from a fancier estimator: one model per (dam, horizon) starved each of 63 models on 13–94 rows, and pooling every dam and horizon into a single Mondrian forest turned that into ~1,750 — with per-dam target scaling, since the dams differ in movement by 12×",
-      "Publishes what it cannot defend: a horizon under 200 scored forecasts is shown with its count and explicitly not ranked even though it is ahead, and the README's verdict is regenerated from the metrics every run so the claim cannot drift from the evidence",
-      "Caught a real data leak — PAGASA prints one 24-hour deviation per snapshot against both the today and yesterday rows, so on the older row it is the future change; taken at face value a naive baseline 'predicts' tomorrow to 0.05 m. Recomputed from our own series and pinned by a regression test",
+      "Pooled multi-horizon HistGradientBoostingRegressor, 160-trial tuned, chronological 60/20/20 split — no leakage",
+      "Beats a naive persistence baseline by 16-23% MAE at the 6-24h horizons that matter",
+      "Live PM2.5 heat overlay clipped to PH landmass, geolocation, hourly GitHub Actions refresh",
     ],
   },
   {
