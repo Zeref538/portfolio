@@ -228,31 +228,17 @@ export default function App() {
     };
   }, []);
   const [projFilter, setProjFilter] = useState("All");
-  const [skillFilter, setSkillFilter] = useState(null);
   const [showAllProjects, setShowAllProjects] = useState(false);
-  // a skill tile is clickable when at least one project actually lists it.
-  // compared case-insensitively because tags drift ("pandas" vs "Pandas")
-  const projectsUsing = (skill) =>
-    projects.filter((p) => p.tags?.some((t) => t.toLowerCase() === skill.toLowerCase()));
-  const showSkill = (skill) => {
-    setSkillFilter(skill);
-    setProjFilter("All");
-    // no need to expand: `collapsing` already ignores the preview cap while a
-    // skill is selected, and leaving it alone keeps the grid collapsed on clear
-    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
-  };
   // projects are ordered strongest-first, so collapsing the tail hides only the
   // weakest cards (currently CafèSync, Portfolio, CLICKSILOG, Smart Scheduling)
   const PROJ_PREVIEW = projects.length - 4;
   const projGroups = ["Agentic AI", "RAG", "Building LLMs", "Fine-Tuning LLMs", "ML & Forecasting", "Web & Apps"];
-  const filteredProjects = skillFilter
-    ? projectsUsing(skillFilter)
-    : projFilter === "All"
+  const filteredProjects =
+    projFilter === "All"
       ? projects
       : projects.filter((p) => p.groups?.includes(projFilter));
   // collapse only applies to the unfiltered "All" view; a category filter shows all its matches
-  const collapsing =
-    !skillFilter && projFilter === "All" && !showAllProjects && filteredProjects.length > PROJ_PREVIEW;
+  const collapsing = projFilter === "All" && !showAllProjects && filteredProjects.length > PROJ_PREVIEW;
   const visibleProjects = collapsing ? filteredProjects.slice(0, PROJ_PREVIEW) : filteredProjects;
 
   const [certFilter, setCertFilter] = useState("All");
@@ -505,8 +491,8 @@ export default function App() {
             <div className="cert-filters">
               <button
                 type="button"
-                className={`cert-filter ${projFilter === "All" && !skillFilter ? "active" : ""}`}
-                onClick={() => { setProjFilter("All"); setSkillFilter(null); }}
+                className={`cert-filter ${projFilter === "All" ? "active" : ""}`}
+                onClick={() => setProjFilter("All")}
               >
                 All <span className="cert-count">{projects.length}</span>
               </button>
@@ -514,8 +500,8 @@ export default function App() {
                 <button
                   type="button"
                   key={g}
-                  className={`cert-filter ${projFilter === g && !skillFilter ? "active" : ""}`}
-                  onClick={() => { setProjFilter(g); setSkillFilter(null); }}
+                  className={`cert-filter ${projFilter === g ? "active" : ""}`}
+                  onClick={() => setProjFilter(g)}
                 >
                   {g}
                   <span className="cert-count">
@@ -524,15 +510,6 @@ export default function App() {
                 </button>
               ))}
             </div>
-            {skillFilter && (
-              <div className="skill-filter-note">
-                showing {filteredProjects.length} project{filteredProjects.length === 1 ? "" : "s"} using
-                <strong> {skillFilter}</strong>
-                <button type="button" className="skill-filter-clear" onClick={() => setSkillFilter(null)}>
-                  clear
-                </button>
-              </div>
-            )}
             <div className="projects-grid">
               {visibleProjects.map((p, i) => (
                 <Reveal key={p.title} className="pj-item" style={{ "--i": i }}>
@@ -686,26 +663,14 @@ export default function App() {
               <div className="stack-group" key={g.group}>
                 <h3 className="stack-group-title">{g.group}</h3>
                 <div className="stack-grid">
-                  {g.items.map((s, i) => {
-                    const used = projectsUsing(s).length;
-                    return (
-                      <GlowCard key={s} className="stack-glow">
-                        <div
-                          className={`stack-tile ${used ? "stack-tile-link" : ""}`}
-                          style={{ "--i": i }}
-                          role={used ? "button" : undefined}
-                          tabIndex={used ? 0 : undefined}
-                          title={used ? `See ${used} project${used === 1 ? "" : "s"} using ${s}` : undefined}
-                          onClick={used ? () => showSkill(s) : undefined}
-                          onKeyDown={used ? (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); showSkill(s); } } : undefined}
-                        >
-                          <SkillIcon name={s} />
-                          <span className="stack-tile-name">{s}</span>
-                          {used > 0 && <span className="stack-tile-count">{used}</span>}
-                        </div>
-                      </GlowCard>
-                    );
-                  })}
+                  {g.items.map((s, i) => (
+                    <GlowCard key={s} className="stack-glow">
+                      <div className="stack-tile" style={{ "--i": i }}>
+                        <SkillIcon name={s} />
+                        <span className="stack-tile-name">{s}</span>
+                      </div>
+                    </GlowCard>
+                  ))}
                 </div>
               </div>
             ))}

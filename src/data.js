@@ -236,6 +236,32 @@ export const projects = [  {
     ],
   },
   {
+    title: "FORGE — Fake Or Real Image Examiner",
+    groups: ["ML & Forecasting", "Web & Apps"],
+    description:
+      "Drop in a photo and it tells you how likely it is that a generator made it, with the whole model running inside your browser — nothing is uploaded, and hosting costs nothing. It scores 92.7% across 13 generator families and 94.6% on real photographs, but the number the site leads with is the one that hurts: on a generator family deliberately held out of training, it scored 0%, calling all 2,500 fakes real. That is the honest state of AI-image detection, and hiding it would have made the tool look finished when it is not. Six fixes were tried; one seemed to work and got published, then re-measuring properly showed it swinging between 0.5% and 31% depending on which checkpoint happened to be saved. It was luck rather than a fix, and the page was corrected to say so.",
+    tags: ["Computer Vision", "ONNX", "PyTorch", "Kaggle", "GitHub Actions", "JavaScript"],
+    metric: "92.7% across 13 generators · 0% on an unseen one",
+    category: "Computer Vision · In-Browser ML · Honest Evaluation",
+    date: "2026",
+    image: "/projects/forge-1.jpg",
+    images: [
+      "/projects/forge-1.jpg",
+      "/projects/forge-2.jpg",
+      "/projects/forge-3.jpg",
+      "/projects/forge-4.jpg",
+    ],
+    link: "https://github.com/Zeref538/FORGE",
+    demo: "https://zeref538.github.io/FORGE/",
+    demoLabel: "try it",
+    highlights: [
+      "Runs entirely in the visitor's browser — a 16 MB model through ONNX Runtime Web, so the image never leaves the device, there is no inference server, and the running cost is zero",
+      "Reports accuracy per generator family instead of one pooled number, because a detector trained on one set of generators learns what those look like rather than what synthetic looks like — the pooled 92.7% and the 0% on a withheld family come from the same model",
+      "Published a failed reproduction rather than burying it: a fix that appeared to lift the held-out result turned out to move between 0.5% and 31% depending on the saved checkpoint, so the claim was retracted on the page itself",
+      "States what it cannot do next to what it can: 94.6% on real photographs still means roughly 1 genuine photo in 19 gets called AI, and the site names the generator families it was never trained on",
+    ],
+  },
+  {
     title: "APAW — Self-Improving Dam Level & Spill-Risk Nowcaster",
     groups: ["ML & Forecasting"],
     description:

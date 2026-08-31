@@ -112,7 +112,12 @@ function chunk(text, target = 900, overlap = 150) {
 }
 
 // ---- 3. embed --------------------------------------------------------------
-async function embed(input) {
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Azure's S0 tier rate-limits per minute, and a single 429 used to throw away
+// the whole run — 250 chunks of embedding lost because one request came a
+// second too early. Back off and retry instead; only a real failure aborts.
+async function embed(input, attempt = 0) {
   const r = await fetch(
     `${ENDPOINT}/openai/deployments/${EMBED_DEPLOYMENT}/embeddings?api-version=${API_VERSION}`,
     {
@@ -121,6 +126,12 @@ async function embed(input) {
       body: JSON.stringify({ input }),
     }
   );
+  if (r.status === 429 && attempt < 5) {
+    const wait = Number(r.headers.get("retry-after") || 0) * 1000 || 20000 * (attempt + 1);
+    console.log(`  rate limited, waiting ${Math.round(wait / 1000)}s then retrying...`);
+    await sleep(wait);
+    return embed(input, attempt + 1);
+  }
   if (!r.ok) throw new Error(`embed failed ${r.status}: ${(await r.text()).slice(0, 300)}`);
   const j = await r.json();
   return j.data.map((d) => d.embedding);
