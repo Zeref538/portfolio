@@ -548,7 +548,7 @@ export const skills = [
   },
   {
     group: "Cloud & Tools",
-    items: ["Azure", "Google Cloud", "Vercel", "Render", "Git", "GitHub", "Figma"],
+    items: ["Azure", "Google Cloud", "Vercel", "Render", "n8n", "Git", "GitHub", "Figma"],
   },
 ];
 
