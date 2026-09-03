@@ -210,10 +210,10 @@ export const projects = [  {
   },
   {
     title: "TAB — Receipts Into a Checked Ledger",
-    groups: ["Agentic AI"],
+    groups: ["Agentic AI", "Web & Apps"],
     description:
-      "Point it at a folder of receipts and it reads each one, checks that the numbers actually add up, and writes a row to your ledger — quietly. Only the ones that fail their own arithmetic reach you. The idea it is built on is that asking a model how confident it is tells you nothing: it will state a wrong total with total conviction. So TAB never asks. It re-adds the receipt instead — line items against the subtotal, subtotal plus VAT against the printed total, VAT against 12% of VATable sales — and a receipt that disagrees with itself was misread, which you know without any model being involved. Measured on 100 photographed receipts with a free local model: 89 of 100 totals read correctly, and the arithmetic alone caught 10 of the 11 wrong ones. Everything runs on your own machine and the review screen binds to localhost only, because receipts are personal data and there is nowhere for them to go.",
-    tags: ["Agentic AI", "Automation", "Ollama", "Computer Vision", "SQLite", "Python"],
+      "Point it at a folder of receipts and it reads each one, checks that the numbers actually add up, and writes a row to your ledger — quietly. Only the ones that fail their own arithmetic reach you. The idea it is built on is that asking a model how confident it is tells you nothing: it will state a wrong total with total conviction. So TAB never asks. It re-adds the receipt instead — line items against the subtotal, subtotal plus VAT against the printed total, VAT against 12% of VATable sales — and a receipt that disagrees with itself was misread, which you know without any model being involved. Measured on 100 photographed receipts with a free local model: 89 of 100 totals read correctly, and the arithmetic alone caught 10 of the 11 wrong ones. It is also a step other software can call: one HTTP endpoint takes a receipt and returns a verdict to branch on, with an importable n8n workflow that files the ones that reconcile to a spreadsheet and sends the rest to a person with the disputed line named. Everything runs on your own machine and the review screen binds to localhost only, because receipts are personal data and there is nowhere for them to go.",
+    tags: ["Agentic AI", "Automation", "n8n", "Ollama", "OCR", "SQLite", "Python"],
     metric: "89/100 totals · 1% silent errors · fully local",
     category: "Automation · Document AI · Local-First",
     date: "2026",
@@ -233,6 +233,9 @@ export const projects = [  {
       "Refuses to claim what it has not measured: the numbers come from Indonesian receipts (CORD test split), so no Philippine VAT or TIN accuracy is claimed until a local labelled set exists — the scope section says so on the page itself",
       "Runs unattended and survives its own failures: batches resume from where they were killed, and if the model stops mid-run the receipts are left unmarked rather than recorded as failures, because a receipt nobody read is not a receipt that failed",
       "The public scoreboard is generated from the results files, never typed — there is a test that fails if anyone writes a percentage into the template, so a figure on that page cannot drift from the run that produced it",
+      "Three readers measured on the same 100 receipts before picking one, and the biggest model lost: the 7B files 52 of 100 unattended against the 3B's 30, but 15 of those carry a wrong field against 8 — the same error rate on twice the volume, for double the time. An OCR engine is wrong least of all (2 in 100) because it can only report characters it actually saw, and worst at deciding which number is the total",
+      "Built the retry the plan called for, measured it, and deleted it: 67 second readings changed one verdict and cost 86% more time per checked receipt. The ADR recording why it was removed is worth more than the feature would have been",
+      "One HTTP endpoint makes it a step in someone else's pipeline rather than an app to sit in front of — the shipped n8n workflow was imported into a real n8n and executed against a running instance, taking the 'file it' branch on a receipt that reconciled and the 'ask a person' branch on one where line 3 read ₱80.00 where 3 × ₱30.00 is ₱90.00",
     ],
   },
   {
