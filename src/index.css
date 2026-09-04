@@ -342,6 +342,7 @@ nav {
   .nav-icon.is-copied::after { opacity: 1; transform: translateY(0); }
 }
 
+
 .nav-icon {
   width: 38px;
   height: 38px;
@@ -2181,4 +2182,26 @@ html, body { overflow-x: hidden; max-width: 100%; }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* NOTE: this block lives at the very end of the file on purpose.
+   It was originally placed next to the other nav rules and silently did
+   nothing -- a media query adds no specificity, so the plain
+   `.nav-icon { width: 38px }` further down the file kept winning. Order
+   decides ties in CSS, so an override has to come last. */
+/* Phones: the top pill was overflowing its own container.
+   Measured on a 390px screen: nav is 348px wide, the row inside it needed 379px
+   (logo + six 38px icons + gaps + padding), so the last icon was sliced off at
+   the screen edge. Flex items don't shrink on their own, so the row just spilled.
+   Two changes: drop the phone-copy button (both copy actions still live in the
+   Contact section) and grow the remaining icons to 44px, which is the minimum
+   comfortable tap size on a touchscreen. Five 44px icons + gaps + logo = ~304px,
+   which fits even a 360px Android screen. */
+@media (max-width: 560px) {
+  .nav-icon-phone { display: none; }
+  .nav-bar { padding: 0 8px 0 12px; }
+  .nav-actions { gap: 6px; }
+  .nav-icon { width: 44px; height: 44px; border-radius: 12px; }
+  .nav-icon svg { width: 19px; height: 19px; }
+  .nav-logo { font-size: 20px; }
 }

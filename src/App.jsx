@@ -325,9 +325,12 @@ export default function App() {
                 <LuFileText />
               </a>
               <CopyButton value={profile.email} className="nav-icon" labelIdle="Copy Email" />
+              {/* hidden on phones: six icons don't fit a 360px bar without
+                  shrinking every tap target below 44px. Both copy buttons are
+                  still in the Contact section, where there's room for them. */}
               <CopyButton
                 value="09934466975"
-                className="nav-icon"
+                className="nav-icon nav-icon-phone"
                 labelIdle="Copy Phone"
                 icon={<LuPhone />}
               />

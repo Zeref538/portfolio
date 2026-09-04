@@ -334,3 +334,48 @@
   .about-grid { grid-template-columns: 1fr; }
   .about-chat .chat-terminal { min-height: 340px; }
 }
+
+/* ---------- phones ----------
+   Measured on a 390px screen: the input row was 16px tall, the send button
+   28x26 and the suggestion chips 25px. All well under the ~44px a thumb needs,
+   so the chat was fiddly to use on the device most visitors arrive on.
+
+   The font-size: 16px on the input is not a style choice. Safari on iOS zooms
+   the whole page in when you focus an input smaller than 16px, and the page
+   never zooms back out -- that is the sudden jump you see on badly built mobile
+   forms. 16px is the threshold that stops it. */
+@media (max-width: 560px) {
+  .chat-input { padding: 8px 12px; gap: 10px; }
+  .chat-input input {
+    font-size: 16px;
+    min-height: 44px;
+  }
+  .chat-input button {
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 1rem;
+  }
+  .chat-suggestions { gap: 8px; }
+  .chat-suggestions button {
+    font-size: 0.8rem;
+    padding: 9px 14px;
+    min-height: 36px;
+  }
+}
+
+/* The three window dots are real buttons, but they render at 10x10 -- far too
+   small to hit with a thumb. Rather than make them visually bigger (they are a
+   deliberate mac-window nod), give each an invisible padded hit area around it.
+   The dot still looks 10px; the tappable region is 34px. */
+@media (max-width: 560px) {
+  .chat-traffic-dot { position: relative; }
+  .chat-traffic-dot::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 34px;
+    height: 34px;
+    transform: translate(-50%, -50%);
+  }
+}
