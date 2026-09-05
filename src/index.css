@@ -98,6 +98,25 @@ section {
   background: var(--border);
 }
 
+/* ---------- dot grid, lifted from the start-up loader ---------- */
+/* One repeating radial-gradient tile instead of hundreds of elements: the dot
+   is drawn once in a 22px square and the browser repeats it. `fixed` so it
+   stays put while the page scrolls, and z-index -2 puts it behind the particle
+   canvas (-1) but above the body's own background. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(255, 255, 255, 0.035) 1px,
+    transparent 0
+  );
+  background-size: 22px 22px;
+}
+
 /* ---------- CRT atmosphere: scanlines + vignette (static, zero JS) ---------- */
 body::after {
   content: "";
