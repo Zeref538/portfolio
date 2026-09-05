@@ -2,15 +2,14 @@ import { useEffect, useRef, useState } from "react";
 
 // Start-up animation: a small MLP runs a forward pass while the site "deploys".
 //
-// Three rules keep it from being a tax on the visitor:
-//   1. It only ever runs ONCE per browser tab (sessionStorage). Nobody wants an
-//      intro twice, and a second view is pure delay.
-//   2. It is skipped entirely for anyone who asked for reduced motion.
-//   3. It dismisses on window `load` OR at MAX_MS, whichever is first — the
-//      animation never holds a page back that is already ready.
+// It runs on every page load, including a reload — an earlier version skipped
+// repeat views via sessionStorage and that just read as the loader being broken.
+// Two rules keep it from being a tax on the visitor:
+//   1. Skipped entirely for anyone who asked for reduced motion.
+//   2. Dismisses on window `load` OR at MAX_MS, whichever is first — it never
+//      holds back a page that is already ready.
 const RUN_MS = 2600;      // full sweep + settle when the page is still loading
 const MAX_MS = 3200;      // hard ceiling, even on a slow connection
-const KEY = "zeref-booted";
 
 // blue -> indigo -> violet -> purple, one hue per layer
 const HUE = [[59, 130, 246], [99, 102, 241], [139, 92, 246], [168, 85, 247]];
@@ -29,16 +28,12 @@ export default function BootLoader() {
   const pctRef = useRef(null);
   const [show, setShow] = useState(() => {
     if (typeof window === "undefined") return false;
-    const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    let seen = false;
-    try { seen = sessionStorage.getItem(KEY) === "1"; } catch { /* private mode */ }
-    return !reduced && !seen;
+    return !window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
   });
   const [leaving, setLeaving] = useState(false);
 
   useEffect(() => {
     if (!show) return;
-    try { sessionStorage.setItem(KEY, "1"); } catch { /* private mode */ }
 
     const cv = canvasRef.current;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
