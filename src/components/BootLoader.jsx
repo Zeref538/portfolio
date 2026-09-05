@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Noise from "./Noise.jsx";
 
 // Start-up animation: a small MLP runs a forward pass while the site "deploys".
 //
@@ -340,6 +341,8 @@ export default function BootLoader() {
       </div>
       <div className="bl-rec"><s />DEPLOY</div>
       <canvas ref={canvasRef} />
+      {/* same film grain the page wears, so the hand-off is not a texture change */}
+      <Noise patternAlpha={22} />
       <div className="bl-log" ref={logRef} />
       <div className="bl-pct"><b ref={pctRef}>000</b>LOADING</div>
     </div>

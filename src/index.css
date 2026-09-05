@@ -2300,6 +2300,9 @@ html, body { overflow-x: hidden; max-width: 100%; }
   overflow: hidden;
 }
 .bootloader canvas { display: block; }
+/* Noise.css pulls the grain 78px left to cover the site sidebar; the loader
+   has no sidebar, so that would leave a bare strip down its right edge. */
+.bootloader .noise-overlay { left: 0; }
 
 /* the viewfinder brackets rack inward like a lens pulling focus */
 .bl-cam { position: absolute; inset: 0; pointer-events: none; }
