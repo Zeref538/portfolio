@@ -634,16 +634,8 @@ button.nav-icon {
   margin-top: 0.35em;
 }
 
-.role-title { color: var(--accent); }
-
-/* the rotating half takes its own line, smaller, so the job title stays the
-   loudest thing in the hero rather than competing with the animation */
 .rotating-slot {
   display: inline-grid;
-  flex-basis: 100%;
-  font-size: 0.58em;
-  color: var(--accent-2);
-  margin-top: 0.15em;
 }
 
 /* invisible copy of the longest title reserves constant width/height */
@@ -657,7 +649,7 @@ button.nav-icon {
   grid-area: 1 / 1;
   display: inline-flex;
   justify-content: flex-start;
-  color: var(--accent-2);
+  color: var(--accent);
   white-space: nowrap;
 }
 
@@ -670,12 +662,8 @@ button.nav-icon {
   padding-bottom: 0.08em;
 }
 
-/* the role line used to be one nowrap line, so it had to shrink to ~17px on a
-   phone -- smaller than the body text under it. It wraps onto two lines now, so
-   the job title can be the size it deserves. */
 @media (max-width: 640px) {
-  .role-line { font-size: clamp(1.35rem, 6.2vw, 1.9rem); }
-  .rotating-slot { font-size: 0.62em; }
+  .role-line { font-size: clamp(1.05rem, 4.4vw, 1.5rem); }
 }
 
 .hero .tagline {
