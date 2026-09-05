@@ -4,3 +4,4 @@ dist/
 *.local
 PORTFOLIO_HANDOFF.md
 PROJECT-IDEAS.md
+.playwright-mcp/
