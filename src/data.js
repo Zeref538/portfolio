@@ -10,7 +10,7 @@ export const profile = {
   // say "compared to me you're good" -- they had nothing concrete to judge. This
   // one gives them the number instead, including the one that got worse.
   tagline:
-    "Computer Science student building AI/ML systems end-to-end. In my FlyRank internship I re-scored my own model on clients it had never seen: Precision@50 fell from 0.72 to 0.52 and it lost to a five-line rule. I published that result instead of the flattering one.",
+    "Computer Science student building AI/ML systems end-to-end. In my FlyRank internship I judged my own model on clients it had never seen, and it did not beat the five-line rule I wrote first: Precision@50 of 0.88 against the rule's 0.86, a gap a bootstrap puts at [-0.26, +0.14]. I published that result instead of the flattering one.",
   location: "San Jose del Monte, Bulacan",
   photo: "/john-andrei-martinez.jpg",
   email: "martinezjandrei8425@gmail.com",
@@ -34,7 +34,8 @@ export const experience = [
     bullets: [
       "Built a content refresh-priority scorer on real client search data — a hand-written rule first, then models, both judged on the same held-out clients.",
       "Queried a 9.8M-row monthly partition of the search warehouse in DuckDB and wrote the data contract: eligibility gate, feature list, and the leakage columns that are banned as features.",
-      "Caught a label leak in my own work: adding a label-derived feature lifted ROC-AUC from 0.612 to 0.737. Removed it and kept the honest number.",
+      "Caught a label leak in my own work: the label is exactly rebuildable from two columns no guidance bans, and adding them lifts ROC-AUC from 0.618 to 0.992. Banned them and kept the honest number.",
+      "Found that validation design outweighed model choice: splitting by row instead of by client inflates ROC-AUC from 0.618 to 0.728, in 8 of 8 random draws — a larger gap than between any two models I tried.",
       "Showed the baseline's Precision@50 swings between 0.76 and 0.92 purely on tie-breaking — so a model's 0.88 vs 0.86 'win' is inside the noise, and reported it that way.",
     ],
   },
@@ -51,7 +52,35 @@ export const experience = [
   },
 ];
 
-export const projects = [  {
+export const projects = [
+  {
+    title: "Which Page Do You Fix First? — Refresh Priority on Real Search Data",
+    groups: ["ML & Forecasting"],
+    description:
+      "FlyRank ML internship capstone: a refresh-priority ranker over 30,000 pseudonymised client content pages, built to answer one question a content team actually has — given a fixed number of review hours, which pages do you look at first? I wrote a five-line hand-written rule before any model and kept it as the thing to beat, then judged four models against it on clients none of them had ever seen. The model did not win, and that is the paper. Precision@50 of 0.88 against the rule's 0.86, a gap that sits inside the 0.76–0.92 band the rule alone moves through purely from how tied scores are broken, with a client-clustered bootstrap putting the difference at -0.260 to +0.140 — an interval containing zero. Two findings mattered more than any model: splitting the data by row instead of by client inflates ROC-AUC from 0.618 to 0.728 in 8 of 8 draws, and the label turned out to be exactly rebuildable from two columns no guidance bans. I then swept every column with a planted positive control to prove the sweep could detect a leak, and it caught a third I had missed.",
+    tags: ["scikit-learn", "DuckDB", "Pandas", "Causal Inference", "Leakage Audit", "Bootstrap", "Python"],
+    metric: "P@50 0.88 vs 0.551 base — and the model still lost to a 5-line rule",
+    category: "Honest Validation — Ranking — Negative Result",
+    date: "2026",
+    image: "/projects/flyrank-1.png",
+    images: [
+      "/projects/flyrank-1.png",
+      "/projects/flyrank-2.png",
+      "/projects/flyrank-3.png",
+    ],
+    link: "https://github.com/Zeref538/flyrank-ml-internship",
+    demo: "https://zeref538.github.io/flyrank-ml-internship/",
+    demoLabel: "read the paper",
+    highlights: [
+      "Reported the non-result rather than the two-point win: a cluster bootstrap over held-out clients puts the model-minus-rule difference at [-0.260, +0.140] and the model ahead in only 61% of 2,000 resamples, and the conclusion survives every eligibility gate from 100 to 2,000 impressions",
+      "Found that validation design outweighed model choice — a row-level split inflates ROC-AUC from 0.618 to 0.728 versus a client-grouped split, in 8 of 8 draws, a larger gap than between any two models tried",
+      "Traced the label back to its arithmetic and found it exactly reconstructible from two unbanned columns (correlation 1.0000 across 26,612 rows, lifting the same model to 0.992), then stopped trusting my own reasoning and swept every column with a planted positive control — which caught a third leaky column I had missed",
+      "Ran the one causal test the 79-million-row warehouse allowed, a difference-in-differences on 13,233 genuinely optimized pages, and reported that it fails its own placebo (-0.71, 95% CI -1.21 to -0.11) instead of quoting the +2.75 it produces first",
+      "Shipped a ranked queue whose first rule is a refusal: 24 of the top 50 slots are pages with impressions and zero clicks, which all still record sessions — a measurement contradiction, not a content problem, so no writer is sent at them",
+      "capstone.ipynb runs top to bottom and ends in 14 assertions that fail the run rather than print a warning; no client name, URL, query or raw row appears anywhere in the public repo",
+    ],
+  },
+  {
     title: "LiitLLM — A Taglish LLM From Scratch",
     groups: ["Building LLMs"],
     description:
