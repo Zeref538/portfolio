@@ -6,8 +6,11 @@
 export const profile = {
   name: "John Andrei Martinez",
   role: "AI/ML Engineer",
+  // A reviewer read the old tagline (a list of fields I work in) and could only
+  // say "compared to me you're good" -- they had nothing concrete to judge. This
+  // one gives them the number instead, including the one that got worse.
   tagline:
-    "Computer Science student building AI/ML systems end-to-end — from local AI agents and RAG to forecasting and computer vision — and shipping them to production.",
+    "Computer Science student building AI/ML systems end-to-end. In my FlyRank internship I re-scored my own model on clients it had never seen: Precision@50 fell from 0.72 to 0.52 and it lost to a five-line rule. I published that result instead of the flattering one.",
   location: "San Jose del Monte, Bulacan",
   photo: "/john-andrei-martinez.jpg",
   email: "martinezjandrei8425@gmail.com",
