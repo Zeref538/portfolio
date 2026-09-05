@@ -1,3 +1,4 @@
+import BootLoader from "./components/BootLoader.jsx";
 import Cursor from "./components/Cursor.jsx";
 import ParticleField from "./components/ParticleField.jsx";
 import Reveal from "./components/Reveal.jsx";
@@ -264,6 +265,7 @@ export default function App() {
 
   return (
     <>
+      <BootLoader />
       <Cursor />
       <ParticleField />
       <Noise patternAlpha={22} />

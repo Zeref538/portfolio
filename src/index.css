@@ -2266,3 +2266,96 @@ html, body { overflow-x: hidden; max-width: 100%; }
 .ft-badge-text { display: flex; flex-direction: column; }
 .ft-badge-text strong { color: var(--text); font-weight: 600; letter-spacing: 0.02em; }
 @media (hover: none) { .ft-badge:hover { transform: none; } }
+
+/* ---------- start-up loader (BootLoader.jsx) ---------- */
+/* Runs once per tab, skipped for reduced-motion, and dismisses on page-ready.
+   Everything here is scoped under .bootloader so it cannot leak into the site. */
+.bootloader {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.bootloader canvas { display: block; }
+
+/* the viewfinder brackets rack inward like a lens pulling focus */
+.bl-cam { position: absolute; inset: 0; pointer-events: none; }
+.bl-cam i {
+  position: absolute; width: 34px; height: 34px;
+  border: 1.5px solid #7c6cf0; opacity: 0;
+  animation: bl-cam-in 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.bl-cam i.tl { top: 26px; left: 26px; border-right: 0; border-bottom: 0; }
+.bl-cam i.tr { top: 26px; right: 26px; border-left: 0; border-bottom: 0; animation-delay: 0.06s; }
+.bl-cam i.bl { bottom: 26px; left: 26px; border-right: 0; border-top: 0; animation-delay: 0.12s; }
+.bl-cam i.br { bottom: 26px; right: 26px; border-left: 0; border-top: 0; animation-delay: 0.18s; }
+@keyframes bl-cam-in {
+  0%   { opacity: 0; transform: scale(2.4); }
+  60%  { opacity: 1; }
+  100% { opacity: 0.85; transform: scale(1); }
+}
+.bl-cam u {
+  position: absolute; background: var(--border); opacity: 0;
+  animation: bl-fade 0.5s ease 0.34s forwards;
+}
+.bl-cam u.t { top: 26px; left: 50%; width: 1px; height: 9px; transform: translateX(-50%); }
+.bl-cam u.b { bottom: 26px; left: 50%; width: 1px; height: 9px; transform: translateX(-50%); }
+.bl-cam u.l { left: 26px; top: 50%; height: 1px; width: 9px; transform: translateY(-50%); }
+.bl-cam u.r { right: 26px; top: 50%; height: 1px; width: 9px; transform: translateY(-50%); }
+@keyframes bl-fade { to { opacity: 1; } }
+
+.bl-rec {
+  position: absolute; top: 30px; left: 74px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.24em;
+  color: var(--text-muted); display: flex; align-items: center; gap: 7px;
+  opacity: 0; animation: bl-fade 0.5s ease 0.5s forwards;
+}
+.bl-rec s {
+  width: 6px; height: 6px; border-radius: 50%; background: #818cf8;
+  text-decoration: none; animation: bl-rec 1.4s ease-in-out infinite;
+}
+@keyframes bl-rec { 50% { opacity: 0.25; } }
+
+.bl-log {
+  position: absolute; left: 30px; bottom: 30px; max-width: min(60vw, 540px);
+  font-family: var(--font-mono); font-size: 11px; line-height: 1.85;
+  color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase;
+}
+.bl-log div { white-space: nowrap; overflow: hidden; animation: bl-line 0.28s ease forwards; }
+.bl-log div.dim { opacity: 0.42; }
+.bl-log span { color: #5a6379; }
+.bl-log b { font-weight: 400; color: #a78bfa; }
+@keyframes bl-line { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+.bl-caret {
+  display: inline-block; width: 6px; height: 10px; background: #a855f7;
+  vertical-align: -1px; animation: bl-blink 0.75s steps(1) infinite;
+}
+@keyframes bl-blink { 50% { opacity: 0; } }
+
+.bl-pct {
+  position: absolute; right: 30px; bottom: 30px; text-align: right;
+  font-family: var(--font-mono); font-size: 11px; line-height: 1.85;
+  color: var(--text-muted); letter-spacing: 0.22em;
+}
+.bl-pct b { display: block; font-weight: 400; color: #a855f7; font-size: 26px; letter-spacing: 0.1em; }
+
+/* hand-off: the viewfinder pulls back and dissolves while the hero rises, so
+   the two overlap instead of one ending before the other starts */
+.bootloader.leaving { animation: bl-lift 0.78s cubic-bezier(0.65, 0, 0.2, 1) forwards; }
+@keyframes bl-lift {
+  0%   { opacity: 1; transform: scale(1); filter: blur(0); }
+  100% { opacity: 0; transform: scale(1.09); filter: blur(7px); visibility: hidden; }
+}
+
+@media (max-width: 640px) {
+  .bl-log { left: 18px; bottom: 20px; font-size: 10px; max-width: 72vw; }
+  .bl-pct { right: 18px; bottom: 20px; }
+  .bl-pct b { font-size: 20px; }
+  .bl-rec { left: 62px; top: 26px; }
+  .bl-cam i { width: 24px; height: 24px; }
+}
