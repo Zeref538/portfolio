@@ -410,8 +410,8 @@ export default function App() {
                     className="about-photo"
                     src={profile.photo}
                     alt={profile.name}
-                    width="400"
-                    height="400"
+                    width="320"
+                    height="320"
                     loading="lazy"
                   />
                   <div>
