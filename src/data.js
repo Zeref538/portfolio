@@ -153,7 +153,6 @@ export const projects = [
     ],
     link: "https://github.com/Zeref538/callback-ai",
     demo: "https://callback-ai.onrender.com",
-    demoLabel: "live demo (free host, ~30s to wake)",
     highlights: [
       "Agent, not pipeline: a state-driven loop decides whether to probe, which competency to ask next, and when to stop — budget reallocated by weight × uncertainty after every answer",
       "Evidence gate: every score must quote your transcript verbatim; an unquotable score is rejected and regenerated, never shown",
@@ -259,7 +258,6 @@ export const projects = [
     ],
     link: "https://github.com/Zeref538/tab",
     demo: "https://tab-demo.onrender.com",
-    demoLabel: "live demo (free host, ~30s to wake)",
     highlights: [
       "The guard is arithmetic, not model confidence: re-adding each receipt caught 10 of the 11 wrong totals with no model asked how sure it felt — the check costs nothing to run and is what separates this from a wrapper around an OCR call",
       "Reports four numbers together and leads with the ugly one: 30% straight-through, 1% silent error rate (committed and wrong), plus the admission that 25 correct receipts in 100 were escalated for nothing — a tool that over-escalates is annoying, one that writes a wrong total into your tax records is worse than no tool",
