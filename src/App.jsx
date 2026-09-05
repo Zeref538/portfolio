@@ -1,4 +1,8 @@
-import BootLoader from "./components/BootLoader.jsx";
+// Start-up loader: parked, not deleted. It works in every browser I could
+// test (live site, reloads, cache on/off) but skips on John's machine for a
+// reason we have not pinned down yet, so it is off until that is diagnosed.
+// To bring it back: uncomment this import and the <BootLoader /> below.
+// import BootLoader from "./components/BootLoader.jsx";
 import Cursor from "./components/Cursor.jsx";
 import ParticleField from "./components/ParticleField.jsx";
 import Reveal from "./components/Reveal.jsx";
@@ -265,7 +269,7 @@ export default function App() {
 
   return (
     <>
-      <BootLoader />
+      {/* <BootLoader /> */}
       <Cursor />
       <ParticleField />
       <Noise patternAlpha={22} />
