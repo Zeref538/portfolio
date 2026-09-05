@@ -6,11 +6,8 @@
 export const profile = {
   name: "John Andrei Martinez",
   role: "AI/ML Engineer",
-  // Keep this general -- it introduces the whole portfolio, not one project.
-  // A reviewer still needs something concrete to judge, so it carries counts
-  // rather than a single internship's numbers; those live in Experience.
   tagline:
-    "Computer Science student building AI/ML systems end-to-end — agentic AI, RAG, and language models I write from scratch. 20 shipped projects, 18 with a live demo you can click. Every one reports the number that failed next to the number that worked.",
+    "Computer Science student building AI/ML systems end-to-end — from local AI agents and RAG to forecasting and computer vision — and shipping them to production.",
   location: "San Jose del Monte, Bulacan",
   photo: "/john-andrei-martinez.jpg",
   email: "martinezjandrei8425@gmail.com",

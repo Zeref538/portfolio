@@ -363,21 +363,15 @@ export default function App() {
             <br />
             <span className="role-line">
               Aspiring{" "}
-              {/* One title, not three. A reviewer asked "in ten seconds, what do
-                  you do?" answered "full stack dev or ml devops or ai
-                  engineering" -- a list of guesses, because the hero was
-                  rotating through a list of titles. The rotation now carries
-                  what the role means instead of competing with it. */}
-              <span className="role-title">Machine Learning Engineer</span>
               <span className="rotating-slot">
                 <span className="rotating-placeholder" aria-hidden="true">
-                  who ships past the notebook
+                  Machine Learning Engineer
                 </span>
                 <RotatingText
                 texts={[
-                  "who ships past the notebook",
-                  "who tests on unseen clients",
-                  "who publishes the worse number",
+                  "Data Analyst",
+                  "AI Engineer",
+                  "Machine Learning Engineer",
                 ]}
                 mainClassName="rotating-role"
                 staggerFrom="last"
