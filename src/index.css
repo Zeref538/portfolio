@@ -2366,12 +2366,53 @@ html, body { overflow-x: hidden; max-width: 100%; }
 }
 .bl-pct b { display: block; font-weight: 400; color: #a855f7; font-size: 30px; letter-spacing: 0.1em; }
 
-/* hand-off: the viewfinder pulls back and dissolves while the hero rises, so
-   the two overlap instead of one ending before the other starts */
-.bootloader.leaving { animation: bl-lift 0.78s cubic-bezier(0.65, 0, 0.2, 1) forwards; }
+/* ---- hand-off ----
+   The old version dissolved the whole loader in one go over a static page, so
+   it read as a cut. Three things fix that, and the overlap between them is the
+   whole trick:
+     1. The chrome (brackets, log, counter) leaves FIRST and fast. Text popping
+        out at the same instant as everything else is what made it feel abrupt.
+     2. The canvas holds a beat longer, so the last thing you see dissolving is
+        the network itself.
+     3. The page fades UP underneath while that happens, instead of waiting.
+   Blur went 7px -> 3px: animating a big blur across a full-screen layer is the
+   most expensive thing here and the most likely to hitch. */
+.bootloader.leaving {
+  animation: bl-lift 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+}
 @keyframes bl-lift {
   0%   { opacity: 1; transform: scale(1); filter: blur(0); }
-  100% { opacity: 0; transform: scale(1.09); filter: blur(7px); visibility: hidden; }
+  70%  { opacity: 0.16; }
+  100% { opacity: 0; transform: scale(1.045); filter: blur(3px); visibility: hidden; }
+}
+
+/* the chrome clears out ahead of the canvas */
+.bootloader.leaving .bl-cam,
+.bootloader.leaving .bl-rec,
+.bootloader.leaving .bl-log,
+.bootloader.leaving .bl-pct {
+  animation: bl-chrome-out 0.34s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+@keyframes bl-chrome-out { to { opacity: 0; transform: translateY(6px); } }
+
+/* the network drifts up as it goes, so the exit has a direction */
+.bootloader.leaving canvas {
+  animation: bl-canvas-out 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes bl-canvas-out { to { transform: translateY(-14px) scale(1.02); } }
+
+/* The page rises to meet it. Opacity only — a transform or filter on #root
+   would make it the containing block for every position:fixed child, and the
+   nav rail and status bar would jump mid-transition. Opacity makes a stacking
+   context but not a containing block, so fixed still means fixed. */
+#root {
+  opacity: 1;
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html.booting #root { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  #root, html.booting #root { opacity: 1; transition: none; }
 }
 
 @media (max-width: 640px) {

@@ -44,6 +44,15 @@ export default function BootLoader() {
   useEffect(() => {
     if (!show) return;
 
+    // Hold the page hidden while the loader runs, then release it the instant
+    // the loader starts leaving — the two overlapping is what makes the
+    // hand-off read as one move instead of one thing ending and another
+    // starting. The class lives on <html> so the CSS can target #root, and it
+    // is only added once setup is past the point where it could throw: an
+    // exception between the add and the dismissal timer would strand the
+    // visitor on a permanently blank page.
+    const root = document.documentElement;
+
     const cv = canvasRef.current;
     // 1.5 rather than 2: on a retina phone that is ~44% fewer pixels to paint,
     // and the softening is invisible on hairlines and 3px dots.
@@ -313,16 +322,19 @@ export default function BootLoader() {
       done = true;
       cancelAnimationFrame(raf);
       clearInterval(logTimer);
+      root.classList.remove("booting");            // page starts fading up NOW
       setLeaving(true);
-      setTimeout(() => setShow(false), 800);       // matches the CSS lift
+      setTimeout(() => setShow(false), 950);       // matches the 0.9s CSS lift
     };
     const ready = () =>
       setTimeout(finish, Math.max(0, RUN_MS - (performance.now() - t0)));
     if (document.readyState === "complete") ready();
     else window.addEventListener("load", ready, { once: true });
     const ceiling = setTimeout(finish, MAX_MS);
+    root.classList.add("booting");                 // safe now: dismissal is armed
 
     return () => {
+      root.classList.remove("booting");            // never strand a blank page
       done = true;
       cancelAnimationFrame(raf);
       clearInterval(logTimer);
