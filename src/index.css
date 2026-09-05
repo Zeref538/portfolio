@@ -2153,8 +2153,15 @@ html, body { overflow-x: hidden; max-width: 100%; }
   .timeline-item,
   .timeline-item.right { width: 100%; margin-left: 0; padding-left: 32px; padding-right: 0; }
   .timeline-item.left { padding-right: 0; }
+  /* the 2px track sits at 8..10px, so its centre is 9px. A 14px dot needs
+     left:2px to put its own centre there — 13px at left:0 was 2.5px off. */
   .timeline-item.left .timeline-marker,
-  .timeline-item.right .timeline-marker { left: 0; right: auto; width: 13px; height: 13px; }
+  .timeline-item.right .timeline-marker { left: 2px; right: auto; width: 14px; height: 14px; }
+
+  /* the side-entrance slide pushes cards past the right edge on a narrow
+     screen, which is what made the page shudder horizontally mid-scroll */
+  .reveal .timeline-item.left,
+  .reveal .timeline-item.right { transform: translateY(28px); }
 
   /* the education card's scroll-progress line hugs the left on mobile */
   .edu-card { padding: 24px 20px; }

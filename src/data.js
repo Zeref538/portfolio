@@ -587,6 +587,20 @@ export const skills = [
 // image: badge artwork — save the PNG in public/certs/ with the filename below
 export const certifications = [
   {
+    name: "Building with the Claude API",
+    issuer: "Anthropic",
+    year: "2026",
+    url: "https://verify.skilljar.com/c/fsphyacv4avw",
+    image: "/certs/claude-api.png",
+  },
+  {
+    name: "Introduction to Model Context Protocol",
+    issuer: "Anthropic",
+    year: "2026",
+    url: "https://verify.skilljar.com/c/b8at7bf4wmi8",
+    image: "/certs/mcp-intro.png",
+  },
+  {
     name: "Claude 101",
     issuer: "Anthropic",
     year: "2026",
