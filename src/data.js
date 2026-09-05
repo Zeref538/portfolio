@@ -6,11 +6,11 @@
 export const profile = {
   name: "John Andrei Martinez",
   role: "AI/ML Engineer",
-  // A reviewer read the old tagline (a list of fields I work in) and could only
-  // say "compared to me you're good" -- they had nothing concrete to judge. This
-  // one gives them the number instead, including the one that got worse.
+  // Keep this general -- it introduces the whole portfolio, not one project.
+  // A reviewer still needs something concrete to judge, so it carries counts
+  // rather than a single internship's numbers; those live in Experience.
   tagline:
-    "Computer Science student building AI/ML systems end-to-end. In my FlyRank internship I judged my own model on clients it had never seen, and it did not beat the five-line rule I wrote first: Precision@50 of 0.88 against the rule's 0.86, a gap a bootstrap puts at [-0.26, +0.14]. I published that result instead of the flattering one.",
+    "Computer Science student building AI/ML systems end-to-end — agentic AI, RAG, and language models I write from scratch. 20 shipped projects, 18 with a live demo you can click. Every one reports the number that failed next to the number that worked.",
   location: "San Jose del Monte, Bulacan",
   photo: "/john-andrei-martinez.jpg",
   email: "martinezjandrei8425@gmail.com",
@@ -19,9 +19,9 @@ export const profile = {
     { label: "LinkedIn", url: "https://linkedin.com/in/john-andrei-martinez-499a0b343" },
   ],
   about: [
-    "I'm a Computer Science student at Our Lady of Fatima University working across AI/ML — and I care about shipping complete systems, not just training models in a notebook.",
-    "My work spans agentic AI, RAG, forecasting, computer vision, and full-stack products: a fully local data-cleaning agent where the LLM never sees a raw row, an AI contract-screening system, a Philippine air-quality forecaster, an AI resort concierge with live Stripe booking, and the chatbot you're talking to right now. I own the whole pipeline — data, modeling, evaluation, and deployment.",
-    "I'm looking for internship and entry-level roles in AI / ML Engineering or Data Analytics, where I can ship real systems, take on hard problems, and keep leveling up fast.",
+    "Computer Science student at Our Lady of Fatima University, Dean's Lister since 2023, currently an ML engineering intern at FlyRank AI. I own the whole pipeline — data, model, evaluation, deployment.",
+    "20 projects across agentic AI, RAG, and LLMs: a 12.5M-parameter language model written from scratch in PyTorch, a 32.8M Taglish model trained on code-switched Filipino, a receipt checker that runs as a step inside an n8n workflow, an air-quality forecaster for 29 Philippine cities, and the chatbot you're talking to now. 18 of them are live.",
+    "What ties them together is the second number. When my FlyRank model lost to a five-line rule, I published the loss. Looking for internship or entry-level AI/ML engineering roles.",
   ],
 };
 
@@ -32,11 +32,10 @@ export const experience = [
     period: "Jun 2026 — Present",
     location: "Remote",
     bullets: [
-      "Built a content refresh-priority scorer on real client search data — a hand-written rule first, then models, both judged on the same held-out clients.",
-      "Queried a 9.8M-row monthly partition of the search warehouse in DuckDB and wrote the data contract: eligibility gate, feature list, and the leakage columns that are banned as features.",
-      "Caught a label leak in my own work: the label is exactly rebuildable from two columns no guidance bans, and adding them lifts ROC-AUC from 0.618 to 0.992. Banned them and kept the honest number.",
-      "Found that validation design outweighed model choice: splitting by row instead of by client inflates ROC-AUC from 0.618 to 0.728, in 8 of 8 random draws — a larger gap than between any two models I tried.",
-      "Showed the baseline's Precision@50 swings between 0.76 and 0.92 purely on tie-breaking — so a model's 0.88 vs 0.86 'win' is inside the noise, and reported it that way.",
+      "Shipped a content refresh-priority ranker over a 9.8M-row search warehouse in DuckDB, and wrote the data contract behind it — eligibility gate, features, and the columns banned for leakage.",
+      "Killed my own result: the model's Precision@50 of 0.88 beat the hand-written rule's 0.86, but tie-breaking alone swings the rule between 0.76 and 0.92, so I reported the win as noise.",
+      "Caught a label leak in my own work — two unbanned columns rebuild the label exactly and lift ROC-AUC from 0.618 to 0.992 — then swept every remaining column and found a third.",
+      "Proved validation design mattered more than model choice: a row-level split inflates ROC-AUC from 0.618 to 0.728 versus a client-grouped one, in 8 of 8 draws.",
     ],
   },
   {
