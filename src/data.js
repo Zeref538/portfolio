@@ -567,6 +567,10 @@ export const skills = [
     items: [
       "JavaScript",
       "TypeScript",
+      "Java",
+      "C",
+      "C++",
+      "Unity",
       "React",
       "Node.js",
       "FastAPI",
@@ -586,25 +590,11 @@ export const skills = [
 // image: badge artwork — save the PNG in public/certs/ with the filename below
 export const certifications = [
   {
-    name: "Building with the Claude API",
-    issuer: "Anthropic",
-    year: "2026",
-    url: "https://verify.skilljar.com/c/fsphyacv4avw",
-    image: "/certs/claude-api.png",
-  },
-  {
-    name: "Introduction to Model Context Protocol",
-    issuer: "Anthropic",
-    year: "2026",
-    url: "https://verify.skilljar.com/c/b8at7bf4wmi8",
-    image: "/certs/mcp-intro.png",
-  },
-  {
-    name: "Claude 101",
-    issuer: "Anthropic",
-    year: "2026",
-    url: "https://verify.skilljar.com/c/ggacokz4z57m",
-    image: "/certs/claude-101.jpg",
+    name: "Oracle Cloud Infrastructure Certified AI Foundations Associate",
+    issuer: "Oracle",
+    year: "2025",
+    url: "https://catalog-education.oracle.com/ords/certview/sharebadge?id=016F034CEE51B778CA019B17844681C3281C47DC3872217B0B5C4FCC1017255F",
+    image: "/certs/oci-ai-foundations.png",
   },
   {
     name: "Google AI Professional Certificate",
@@ -621,13 +611,6 @@ export const certifications = [
     image: "/certs/advanced-data-analytics.jpeg",
   },
   {
-    name: "Google Advanced Data Analytics Capstone",
-    issuer: "Google",
-    year: "2026",
-    url: "https://www.coursera.org/account/accomplishments/verify/U7SVUTS082OA",
-    image: "/certs/capstone-data-analytics.jpeg",
-  },
-  {
     name: "AWS AI Practitioner Challenge",
     issuer: "AWS",
     year: "2026",
@@ -635,18 +618,32 @@ export const certifications = [
     image: "/certs/aws-ai.png",
   },
   {
-    name: "Cisco Certified Support Technician — Cybersecurity",
-    issuer: "Cisco",
+    name: "Building with the Claude API",
+    issuer: "Anthropic",
     year: "2026",
-    url: "https://www.credly.com/badges/42e85a15-aaac-4481-8f59-9ee5e679ef00/linked_in_profile",
-    image: "/certs/ccst-cybersecurity.png",
+    url: "https://verify.skilljar.com/c/fsphyacv4avw",
+    image: "/certs/claude-api.png",
   },
   {
-    name: "Oracle Cloud Infrastructure Certified AI Foundations Associate",
-    issuer: "Oracle",
-    year: "2025",
-    url: "https://catalog-education.oracle.com/ords/certview/sharebadge?id=016F034CEE51B778CA019B17844681C3281C47DC3872217B0B5C4FCC1017255F",
-    image: "/certs/oci-ai-foundations.png",
+    name: "Introduction to Model Context Protocol",
+    issuer: "Anthropic",
+    year: "2026",
+    url: "https://verify.skilljar.com/c/b8at7bf4wmi8",
+    image: "/certs/mcp-intro.png",
+  },
+  {
+    name: "Building RAG Apps Using MongoDB",
+    issuer: "MongoDB",
+    year: "2026",
+    url: "https://www.credly.com/badges/9c5941b9-a0c2-4736-926b-1a83aba0d210/public_url",
+    image: "/certs/rag-mongodb.jpg",
+  },
+  {
+    name: "Google Advanced Data Analytics Capstone",
+    issuer: "Google",
+    year: "2026",
+    url: "https://www.coursera.org/account/accomplishments/verify/U7SVUTS082OA",
+    image: "/certs/capstone-data-analytics.jpeg",
   },
   {
     name: "Google Data Analytics Professional Certificate",
@@ -656,6 +653,13 @@ export const certifications = [
     image: "/certs/data-analytics.jpeg",
   },
   {
+    name: "Cisco Certified Support Technician — Cybersecurity",
+    issuer: "Cisco",
+    year: "2026",
+    url: "https://www.credly.com/badges/42e85a15-aaac-4481-8f59-9ee5e679ef00/linked_in_profile",
+    image: "/certs/ccst-cybersecurity.png",
+  },
+  {
     name: "Google Cybersecurity Professional Certificate",
     issuer: "Google",
     year: "2025",
@@ -663,11 +667,11 @@ export const certifications = [
     image: "/certs/cybersecurity.jpg",
   },
   {
-    name: "Building RAG Apps Using MongoDB",
-    issuer: "MongoDB",
+    name: "Claude 101",
+    issuer: "Anthropic",
     year: "2026",
-    url: "https://www.credly.com/badges/9c5941b9-a0c2-4736-926b-1a83aba0d210/public_url",
-    image: "/certs/rag-mongodb.jpg",
+    url: "https://verify.skilljar.com/c/ggacokz4z57m",
+    image: "/certs/claude-101.jpg",
   },
 ];
 
