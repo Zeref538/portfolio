@@ -33,6 +33,31 @@ export default function FooterTerminal() {
           </div>
         </div>
 
+        {/* FlyRank internship badge. Self-contained inline SVG rather than a
+            hotlinked image, so it cannot break when someone else's host moves a
+            file. The credential ID goes on the end of the verify URL once the
+            completion certificate is issued (FlyRank say mid-September); until
+            then this points at the plain verification page, which is honest --
+            it claims the internship, not a certificate I do not hold yet. */}
+        <a
+          className="ft-badge"
+          href="https://internship.flyrank.ai/verify"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="FlyRank AI internship — verify this credential"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M12 2 3.5 5.8v5.5c0 5.1 3.6 9.9 8.5 10.7 4.9-.8 8.5-5.6 8.5-10.7V5.8L12 2Zm-1.2 14.2-4-4 1.6-1.6 2.4 2.4 5.2-5.2 1.6 1.6-6.8 6.8Z"
+            />
+          </svg>
+          <span className="ft-badge-text">
+            <strong>FlyRank AI</strong>
+            <span>ML Engineering Internship · verify</span>
+          </span>
+        </a>
+
         <div className="ft-bottom">
           <span className="ft-copy">
             © {new Date().getFullYear()} {profile.name} · Bulacan, PH
