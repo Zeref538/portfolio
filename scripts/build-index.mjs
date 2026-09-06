@@ -1,11 +1,11 @@
 // Build-time RAG indexer for zeref-bot.
 // Ingests the portfolio's real content (structured data.js + knowledge/*.md +
 // project READMEs), chunks it, embeds each chunk with Azure OpenAI embeddings,
-// and writes api/_index.json — the static vector index the chat function retrieves over.
+// and writes api/_index.json - the static vector index the chat function retrieves over.
 //
 // Run locally (needs the Azure key + an embeddings deployment):
 //   node scripts/build-index.mjs
-// Then commit api/_index.json. No external vector DB — retrieval is cosine similarity.
+// Then commit api/_index.json. No external vector DB - retrieval is cosine similarity.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -27,13 +27,13 @@ if (!ENDPOINT || !KEY) {
 async function loadDocs() {
   const docs = [];
 
-  // structured data.js — one focused doc per section so retrieval is granular
+  // structured data.js - one focused doc per section so retrieval is granular
   const data = await import(pathToFileURL(path.join(ROOT, "src", "data.js")).href);
   const { profile, experience, projects, skills, certifications, education } = data;
 
   docs.push({
     source: "profile",
-    title: `${profile.name} — ${profile.role}`,
+    title: `${profile.name} - ${profile.role}`,
     text: `${profile.name}, ${profile.role}. ${profile.tagline}\nLocation: ${profile.location}. Email: ${profile.email}.\n${profile.about.join("\n")}`,
   });
 
@@ -49,7 +49,7 @@ async function loadDocs() {
     docs.push({
       source: "project",
       title: p.title,
-      text: `${p.title} [${p.category}, ${p.date}] — ${p.description}\nTech: ${p.tags.join(", ")}\nHighlights:\n${p.highlights.map((h) => `- ${h}`).join("\n")}\nRepo: ${p.link}${p.demo ? ` | Demo: ${p.demo}` : ""}`,
+      text: `${p.title} [${p.category}, ${p.date}] - ${p.description}\nTech: ${p.tags.join(", ")}\nHighlights:\n${p.highlights.map((h) => `- ${h}`).join("\n")}\nRepo: ${p.link}${p.demo ? ` | Demo: ${p.demo}` : ""}`,
     });
   }
 
@@ -95,7 +95,7 @@ async function loadDocs() {
 
 // ---- 2. chunk long docs ----------------------------------------------------
 function chunk(text, target = 900, overlap = 150) {
-  // normalise CRLF first — a Windows-authored README would otherwise never match
+  // normalise CRLF first - a Windows-authored README would otherwise never match
   // the blank-line split and come back as one giant unusable chunk
   const paras = text.replace(/\r\n/g, "\n").split(/\n{2,}/);
   const chunks = [];
@@ -115,7 +115,7 @@ function chunk(text, target = 900, overlap = 150) {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // Azure's S0 tier rate-limits per minute, and a single 429 used to throw away
-// the whole run — 250 chunks of embedding lost because one request came a
+// the whole run - 250 chunks of embedding lost because one request came a
 // second too early. Back off and retry instead; only a real failure aborts.
 async function embed(input, attempt = 0) {
   const r = await fetch(
@@ -163,4 +163,4 @@ const out = {
   records,
 };
 fs.writeFileSync(path.join(ROOT, "api", "_index.json"), JSON.stringify(out));
-console.log(`\nWrote api/_index.json — ${records.length} chunks, dim ${out.dim}`);
+console.log(`\nWrote api/_index.json - ${records.length} chunks, dim ${out.dim}`);

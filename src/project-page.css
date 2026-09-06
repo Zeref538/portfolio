@@ -1,0 +1,239 @@
+/* Project case-study page (/projects/<slug>).
+   Deliberately quieter than the homepage: no particle field, no cursor trail,
+   no reveal animations on the prose. Somebody who clicked through to read is
+   already sold on the visuals; the job here is legibility. */
+
+.pp-wrap {
+  min-height: 100vh;
+  padding: 0 0 120px;
+  position: relative;
+}
+
+/* index.css gives <body> 78px of left padding to clear the site's floating nav
+   rail. This page has no rail, so that padding only shifted the whole column
+   off-centre - measured 243px of space on the left against 165px on the right. */
+@media (min-width: 769px) {
+  body:has(.pp-wrap) { padding-left: 0; }
+}
+
+.pp-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 56px 24px 0;
+}
+
+.pp-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 8px 0;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.pp-back:hover { color: var(--accent); transform: translateX(-3px); }
+
+/* ---------- header ---------- */
+
+.pp-head { margin: 22px 0 34px; }
+
+.pp-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  margin-bottom: 14px;
+}
+.pp-dot { margin: 0 8px; color: var(--border); }
+
+.pp-head h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.9rem, 4.4vw, 3rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  max-width: 20ch;
+}
+
+.pp-category {
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* The headline number sits above the fold on purpose. Reporting the figure
+   honestly, caveat included, is the thing that separates these projects from
+   a tutorial follow-along, so it should land before the prose does. */
+.pp-metric {
+  margin: 26px 0 0;
+  padding: 20px 24px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.pp-metric-head {
+  font-family: var(--font-mono);
+  font-size: clamp(1.05rem, 2.2vw, 1.4rem);
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.pp-metric-tail {
+  margin-top: 8px;
+  font-size: 14.5px;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.pp-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+
+/* ---------- hero shot ---------- */
+
+.pp-hero {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  display: block;
+  margin-bottom: 56px;
+}
+
+/* ---------- body: prose + sticky rail ---------- */
+
+.pp-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 56px;
+  align-items: start;
+}
+
+.pp-sec {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--accent-2);
+  margin: 0 0 16px;
+}
+.pp-main > .pp-sec:not(:first-child) { margin-top: 52px; }
+
+.pp-desc {
+  font-size: 17.5px;
+  line-height: 1.78;
+  color: var(--text-muted);
+  text-align: justify;
+}
+
+.pp-highlights { list-style: none; display: grid; gap: 16px; }
+.pp-highlights li {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 14px;
+  font-size: 16px;
+  line-height: 1.66;
+  color: var(--text-muted);
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.pp-highlights li:last-child { border-bottom: 0; padding-bottom: 0; }
+.pp-num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--accent);
+  padding-top: 3px;
+}
+
+.pp-gallery { display: grid; gap: 18px; }
+.pp-gallery img {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  display: block;
+}
+
+/* The rail stays put while the description scrolls, so the stack list is
+   visible the whole way down -- that is what a recruiter is actually scanning
+   for, and it should never be a scroll-back away. */
+.pp-rail-inner { position: sticky; top: 32px; }
+.pp-rail-label {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--accent-2);
+  margin-bottom: 12px;
+}
+.pp-rail-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 34px; }
+.pp-rail-links { display: grid; gap: 10px; }
+.pp-rail-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.pp-rail-links a:hover { color: var(--accent); }
+
+/* ---------- prev / next ---------- */
+
+.pp-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 84px;
+  padding-top: 30px;
+  border-top: 1px solid var(--border);
+}
+.pp-nav-item {
+  display: grid;
+  gap: 6px;
+  text-decoration: none;
+  max-width: 46%;
+  transition: transform 0.2s ease;
+}
+.pp-nav-next { text-align: right; }
+.pp-nav-prev:hover { transform: translateX(-4px); }
+.pp-nav-next:hover { transform: translateX(4px); }
+.pp-nav-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.pp-nav-next .pp-nav-label { justify-content: flex-end; }
+.pp-nav-title {
+  font-family: var(--font-heading);
+  font-size: 19px;
+  color: var(--text);
+}
+.pp-nav-item:hover .pp-nav-title { color: var(--accent); }
+
+.pp-missing { padding-top: 120px; display: grid; gap: 20px; justify-items: start; }
+
+@media (max-width: 900px) {
+  /* The rail loses its point once it is stacked under the prose, so it moves
+     above it: the stack is the first thing worth seeing on a phone. */
+  .pp-body { grid-template-columns: 1fr; gap: 34px; }
+  .pp-rail { order: -1; }
+  .pp-rail-inner { position: static; }
+  .pp-rail-tags { margin-bottom: 20px; }
+}
+
+@media (max-width: 640px) {
+  .pp-container { padding: 34px 18px 0; }
+  .pp-desc { font-size: 16px; text-align: left; }
+  .pp-highlights li { grid-template-columns: 26px 1fr; gap: 10px; font-size: 15px; }
+  .pp-nav { flex-direction: column; }
+  .pp-nav-item { max-width: none; }
+  .pp-nav-next { text-align: left; }
+  .pp-nav-next .pp-nav-label { justify-content: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pp-back:hover, .pp-nav-item:hover { transform: none; }
+}

@@ -1739,6 +1739,10 @@ button.nav-icon {
 /* The identity block is the card's header now, so it loses the standalone
    spacing it had when it floated above and gains a rule to separate it from
    the school below. */
+/* the case-study link leads the overlay's link row, so it reads as the primary
+   action rather than a third option after demo and source */
+.pj3-case { color: var(--accent) !important; }
+
 .about-text .about-id {
   margin-bottom: 0;
   padding-bottom: 22px;
