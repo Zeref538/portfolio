@@ -7,7 +7,6 @@ import Cursor from "./components/Cursor.jsx";
 import ParticleField from "./components/ParticleField.jsx";
 import Reveal from "./components/Reveal.jsx";
 import ScrollFloat from "./components/ScrollFloat.jsx";
-import ScrollReveal from "./components/ScrollReveal.jsx";
 import Magnet from "./components/Magnet.jsx";
 import BorderGlow from "./components/BorderGlow.jsx";
 import RotatingText from "./components/RotatingText.jsx";
@@ -28,7 +27,6 @@ const NAV = [
   ["Projects", "#projects"],
   ["Certifications", "#certifications"],
   ["Skills", "#skills"],
-  ["Education", "#education"],
   ["Contact", "#contact"],
 ];
 
@@ -408,7 +406,7 @@ export default function App() {
         <section id="about">
           <Reveal className="container">
             <div className="section-label">$ cat about.md</div>
-            <div className="section-out"># rendering bio — 3 blocks · zeref-bot attached</div>
+            <div className="section-out"># identity · education · zeref-bot attached</div>
             <div className="about-grid">
               <div className="about-text">
                 <div className="about-id">
@@ -425,15 +423,29 @@ export default function App() {
                     <div className="about-id-role">{profile.role} · {profile.location}</div>
                   </div>
                 </div>
-                <ScrollReveal
-                  baseOpacity={0.1}
-                  enableBlur
-                  baseRotation={3}
-                  blurStrength={4}
-                >
-                  {profile.about[0]}
-                </ScrollReveal>
-                {profile.about.slice(1).map((p, i) => <p key={i}>{p}</p>)}
+                {/* Education used to be its own section further down the page.
+                    The bio prose said the same things the card already shows —
+                    school, honours, the intern role — so the prose went and the
+                    card moved up here beside the chatbot. */}
+                {education.map((ed) => (
+                  <GlowCard key={ed.school} className="edu-glow">
+                    <div className="card-body edu-card">
+                      <div className="edu-main">
+                        <div className="timeline-period">{ed.period}</div>
+                        <h3 className="edu-school-big">{ed.school}</h3>
+                        <div className="edu-degree">{ed.degree}</div>
+                      </div>
+                      {ed.highlights.length > 0 && (
+                        <div className="edu-side">
+                          <div className="edu-side-label"># honors &amp; awards</div>
+                          <div className="edu-highlights">
+                            {ed.highlights.map((h) => <span className="tag" key={h}>{h}</span>)}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </GlowCard>
+                ))}
               </div>
               <div className="about-chat">
                 <GlowCard>
@@ -672,32 +684,6 @@ export default function App() {
                   ))}
                 </div>
               </div>
-            ))}
-          </Reveal>
-        </section>
-
-        <section id="education">
-          <Reveal className="container">
-            <div className="section-label">$ cat education.txt</div>
-            <div className="section-out"># {education.length} records · 2011 → 2027</div>
-            {education.map((ed) => (
-              <GlowCard key={ed.school} className="edu-glow">
-                <div className="card-body edu-card">
-                  <div className="edu-main">
-                    <div className="timeline-period">{ed.period}</div>
-                    <h3 className="edu-school-big">{ed.school}</h3>
-                    <div className="edu-degree">{ed.degree}</div>
-                  </div>
-                  {ed.highlights.length > 0 && (
-                    <div className="edu-side">
-                      <div className="edu-side-label"># honors & awards</div>
-                      <div className="edu-highlights">
-                        {ed.highlights.map((h) => <span className="tag" key={h}>{h}</span>)}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </GlowCard>
             ))}
           </Reveal>
         </section>
