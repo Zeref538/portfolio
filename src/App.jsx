@@ -409,27 +409,28 @@ export default function App() {
             <div className="section-out"># identity · education · zeref-bot attached</div>
             <div className="about-grid">
               <div className="about-text">
-                <div className="about-id">
-                  <img
-                    className="about-photo"
-                    src={profile.photo}
-                    alt={profile.name}
-                    width="320"
-                    height="320"
-                    loading="lazy"
-                  />
-                  <div>
-                    <div className="about-id-name">{profile.name}</div>
-                    <div className="about-id-role">{profile.role} · {profile.location}</div>
-                  </div>
-                </div>
-                {/* Education used to be its own section further down the page.
-                    The bio prose said the same things the card already shows —
-                    school, honours, the intern role — so the prose went and the
-                    card moved up here beside the chatbot. */}
+                {/* One card: the photo and name used to float above it, which
+                    read as two unrelated blocks next to a single chat panel.
+                    Education was also its own section further down, and the bio
+                    prose repeated what the card already showed — so all of it
+                    collapsed into this. */}
                 {education.map((ed) => (
                   <GlowCard key={ed.school} className="edu-glow">
                     <div className="card-body edu-card">
+                      <div className="about-id">
+                        <img
+                          className="about-photo"
+                          src={profile.photo}
+                          alt={profile.name}
+                          width="320"
+                          height="320"
+                          loading="lazy"
+                        />
+                        <div>
+                          <div className="about-id-name">{profile.name}</div>
+                          <div className="about-id-role">{profile.role} · {profile.location}</div>
+                        </div>
+                      </div>
                       <div className="edu-main">
                         <div className="timeline-period">{ed.period}</div>
                         <h3 className="edu-school-big">{ed.school}</h3>

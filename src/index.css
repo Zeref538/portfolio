@@ -1726,9 +1726,24 @@ button.nav-icon {
 
 /* Inside About the card sits in the narrower left column beside the chatbot,
    so the side-by-side split has nowhere to go — it stacks at every width. */
-.about-text .edu-card { flex-direction: column; gap: 22px; padding: 28px 30px; }
+.about-text .edu-card {
+  flex-direction: column;
+  /* flex-start was fine when this was a row; in a column it shrinks every
+     child to its own text width, which cut the header rule short. */
+  align-items: stretch;
+  gap: 22px;
+  padding: 28px 30px;
+}
 .about-text .edu-side { max-width: none; }
-.about-text .edu-glow { margin-top: 4px; }
+
+/* The identity block is the card's header now, so it loses the standalone
+   spacing it had when it floated above and gains a rule to separate it from
+   the school below. */
+.about-text .about-id {
+  margin-bottom: 0;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--border);
+}
 
 @media (max-width: 768px) {
   /* stack vertically on small screens, hide the horizontal rail */
