@@ -18,7 +18,7 @@ export const profile = {
   about: [
     "Computer Science student at Our Lady of Fatima University, Dean's Lister since 2023, currently an ML engineering intern at FlyRank AI. I own the whole pipeline — data, model, evaluation, deployment.",
     "20 projects across agentic AI, RAG, and LLMs: a 12.5M-parameter language model written from scratch in PyTorch, a 32.8M Taglish model trained on code-switched Filipino, a receipt checker that runs as a step inside an n8n workflow, an air-quality forecaster for 29 Philippine cities, and the chatbot you're talking to now. 18 of them are live.",
-    "What ties them together is the second number. When my FlyRank model lost to a five-line rule, I published the loss. Looking for internship or entry-level AI/ML engineering roles.",
+    "What ties them together is the second number. My FlyRank model scored 0.88 to a hand-written five-line rule's 0.86 — a gap a bootstrap put at [-0.26, +0.14], so I reported it as a tie rather than a win. Looking for internship or entry-level AI/ML engineering roles.",
   ],
 };
 
@@ -55,7 +55,7 @@ export const projects = [
     description:
       "FlyRank ML internship capstone: a refresh-priority ranker over 30,000 pseudonymised client content pages, built to answer one question a content team actually has — given a fixed number of review hours, which pages do you look at first? I wrote a five-line hand-written rule before any model and kept it as the thing to beat, then judged four models against it on clients none of them had ever seen. The model did not win, and that is the paper. Precision@50 of 0.88 against the rule's 0.86, a gap that sits inside the 0.76–0.92 band the rule alone moves through purely from how tied scores are broken, with a client-clustered bootstrap putting the difference at -0.260 to +0.140 — an interval containing zero. Two findings mattered more than any model: splitting the data by row instead of by client inflates ROC-AUC from 0.618 to 0.728 in 8 of 8 draws, and the label turned out to be exactly rebuildable from two columns no guidance bans. I then swept every column with a planted positive control to prove the sweep could detect a leak, and it caught a third I had missed.",
     tags: ["scikit-learn", "DuckDB", "Pandas", "Causal Inference", "Leakage Audit", "Bootstrap", "Python"],
-    metric: "P@50 0.88 vs 0.551 base — and the model still lost to a 5-line rule",
+    metric: "P@50 0.88 vs 0.551 base — and still no clear win over a 5-line rule",
     category: "Honest Validation — Ranking — Negative Result",
     date: "2026",
     image: "/projects/flyrank-1.png",
