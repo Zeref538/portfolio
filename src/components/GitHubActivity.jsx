@@ -3,7 +3,7 @@ import { LuGitCommitHorizontal, LuBookMarked, LuUsers, LuStar } from "react-icon
 
 const USER = "Zeref538";
 
-// Public GitHub REST API (unauthenticated: 60 req/hr per visitor — fine for a portfolio).
+// Public GitHub REST API (unauthenticated: 60 req/hr per visitor - fine for a portfolio).
 // Fails soft: if rate-limited or offline, the section still shows the contribution chart.
 export default function GitHubActivity() {
   const [commits, setCommits] = useState([]);

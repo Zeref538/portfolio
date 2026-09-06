@@ -80,7 +80,7 @@ import {
   LuWorkflow,
 } from "react-icons/lu";
 
-// [Icon, official brand color] — concept glyphs use theme colors
+// [Icon, official brand color] - concept glyphs use theme colors
 const ICONS = {
   "Python": [SiPython, "#3776AB"],
   "PyTorch": [SiPytorch, "#EE4C2C"],
@@ -160,7 +160,7 @@ const ICONS = {
   "Agile": [LuKanban, "#22d3ee"],
 };
 
-// certification issuers — official brand logos served from public/logos/
+// certification issuers - official brand logos served from public/logos/
 const ISSUER_LOGOS = {
   "Google": "/logos/google.svg",
   "Cisco": "/logos/cisco.svg",

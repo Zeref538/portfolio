@@ -3,16 +3,16 @@ import Noise from "./Noise.jsx";
 
 // Start-up animation: a small MLP runs a forward pass while the site "deploys".
 //
-// The net is a BOX. The flat 2D layout — layers left to right, units down — is
+// The net is a BOX. The flat 2D layout - layers left to right, units down - is
 // its front face, and every unit is repeated DEPTH times going back. It starts
 // dead-on, so frame one looks exactly like the flat version, then eases into a
 // slow turn and the depth opens out.
 //
-// It runs on every page load, including a reload — an earlier version skipped
+// It runs on every page load, including a reload - an earlier version skipped
 // repeat views via sessionStorage and that just read as the loader being broken.
 // Two rules keep it from being a tax on the visitor:
 //   1. Skipped entirely for anyone who asked for reduced motion.
-//   2. Dismisses on window `load` OR at MAX_MS, whichever is first — it never
+//   2. Dismisses on window `load` OR at MAX_MS, whichever is first - it never
 //      holds back a page that is already ready.
 const DUR = 2500;              // the turn
 const TAIL = 1000;             // the settle
@@ -45,7 +45,7 @@ export default function BootLoader() {
     if (!show) return;
 
     // Hold the page hidden while the loader runs, then release it the instant
-    // the loader starts leaving — the two overlapping is what makes the
+    // the loader starts leaving - the two overlapping is what makes the
     // hand-off read as one move instead of one thing ending and another
     // starting. The class lives on <html> so the CSS can target #root, and it
     // is only added once setup is past the point where it could throw: an
@@ -89,7 +89,7 @@ export default function BootLoader() {
           });
     });
 
-    // ~35% of units never fire — closer to a real trained net than "everything
+    // ~35% of units never fire - closer to a real trained net than "everything
     // lights", and with 185 nodes it is also what keeps the picture readable.
     // Every layer keeps at least two survivors or it would go dark and read as
     // broken rather than sparse.
@@ -172,7 +172,7 @@ export default function BootLoader() {
 
       g.clearRect(0, 0, W, H);
 
-      // Painter's algorithm for nodes only — solid dots occlude. Edges are not
+      // Painter's algorithm for nodes only - solid dots occlude. Edges are not
       // sorted: sorting all of them measured 0.267ms/frame, the single biggest
       // cost in the loop, while hairline translucent lines show no visible
       // difference from paint order.
@@ -251,7 +251,7 @@ export default function BootLoader() {
         const c = HUE[n.l], on = !n.dead && front >= n.l;
         if (on && n.ring < 0) n.ring = ms;
         n.a += ((on ? 1 : 0) - n.a) * 0.13;
-        // clamp the depth scale for the DOT only — unclamped, a near node
+        // clamp the depth scale for the DOT only - unclamped, a near node
         // balloons while a far one vanishes
         const rs = Math.max(0.72, Math.min(1.05, n.sc));
         const r = (2.6 + n.a * 1.4) * rs;
@@ -304,7 +304,7 @@ export default function BootLoader() {
         stage++;
         live = null;
       }
-      // once the last stage lands, stop — a 'deploy 20/20' under 'serving'
+      // once the last stage lands, stop - a 'deploy 20/20' under 'serving'
       // would undo the ending
       if (stage >= STAGES.length) return;
       const mods = String(Math.round(prog * 20)).padStart(2, "0");

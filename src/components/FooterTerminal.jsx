@@ -3,7 +3,7 @@ import { LuArrowUp, LuLinkedin } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
 import { profile } from "../data.js";
 
-// Live "session uptime" — isolated so the 1s tick re-renders only this span.
+// Live "session uptime" - isolated so the 1s tick re-renders only this span.
 function Uptime() {
   const [s, setS] = useState(0);
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function FooterTerminal() {
           <div className="ft-line ft-dim">saving session · uptime <Uptime /></div>
           <div className="ft-line ft-ok">process exited with code 0</div>
           <div className="ft-line ft-dim">
-            # thanks for scrolling this far — let's build something.
+            # thanks for scrolling this far - let's build something.
           </div>
         </div>
 
@@ -44,7 +44,7 @@ export default function FooterTerminal() {
           href="https://internship.flyrank.ai/verify"
           target="_blank"
           rel="noreferrer"
-          aria-label="FlyRank AI internship — verify this credential"
+          aria-label="FlyRank AI internship - verify this credential"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
             <path

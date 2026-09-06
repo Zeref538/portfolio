@@ -222,7 +222,7 @@ html { scrollbar-color: var(--accent) var(--bg); scrollbar-width: thin; }
 footer { padding-bottom: 46px !important; }
 
 /* ---------- nav (floating pill bar) ---------- */
-/* floating vertical pill — same design language as the old top bar */
+/* floating vertical pill - same design language as the old top bar */
 nav {
   position: fixed;
   top: 50%;
@@ -349,7 +349,7 @@ nav {
   .nav-bar::before { display: none; }
   .nav-actions { flex-direction: row; gap: 10px; }
   .nav-icon::after { display: none; } /* side tooltips don't fit the top bar */
-  /* ...except the copy-email confirmation — worth the space, it's the only
+  /* ...except the copy-email confirmation - worth the space, it's the only
      feedback a tap gives on mobile since there's no hover state */
   .nav-icon.is-copied::after {
     display: block;
@@ -441,7 +441,7 @@ button.nav-icon {
   background: var(--border);
 }
 
-/* progress fill — follows scroll via --rail-progress (0..1) */
+/* progress fill - follows scroll via --rail-progress (0..1) */
 .section-rail::after {
   content: "";
   position: absolute;
@@ -641,7 +641,7 @@ button.nav-icon {
   .name-anim.name-accent { animation: none; }
 }
 
-/* rotating role line — fixed slot so the layout never shifts */
+/* rotating role line - fixed slot so the layout never shifts */
 .role-line {
   display: flex;
   align-items: baseline;
@@ -742,7 +742,7 @@ button.nav-icon {
   background: var(--border);
 }
 
-/* progress fill — height follows scroll via --tl-progress (0..1) */
+/* progress fill - height follows scroll via --tl-progress (0..1) */
 .timeline::after {
   content: "";
   position: absolute;
@@ -1364,7 +1364,7 @@ button.nav-icon {
 }
 
 /* the BorderGlow inner wrapper defaults to overflow:auto, which flashes a
-   scrollbar while the icon/font load — pin it hidden inside skill tiles */
+   scrollbar while the icon/font load - pin it hidden inside skill tiles */
 .stack-glow .border-glow-inner { overflow: hidden; }
 
 .stack-tile {
@@ -1431,7 +1431,7 @@ button.nav-icon {
   background: var(--accent-dim);
 }
 
-/* issuer logos are mixed square/wordmark shapes — size by height, keep aspect */
+/* issuer logos are mixed square/wordmark shapes - size by height, keep aspect */
 .issuer-icon { object-fit: contain; width: auto; }
 .cert-filter .issuer-icon { height: 16px; max-width: 44px; }
 
@@ -1451,7 +1451,7 @@ button.nav-icon {
   gap: 18px;
 }
 
-/* enlarge on hover — hover lives on the plain .cert-item wrapper and the
+/* enlarge on hover - hover lives on the plain .cert-item wrapper and the
    transform on the glow card inside, same pattern as the project cards */
 .cert-item { position: relative; height: 100%; }
 .cert-item:hover { z-index: 5; }
@@ -1473,7 +1473,7 @@ button.nav-icon {
   height: 100%;
 }
 
-/* badge "artwork" — styled like an issued completion badge */
+/* badge "artwork" - styled like an issued completion badge */
 .badge-art {
   position: relative;
   display: flex;
@@ -1490,7 +1490,7 @@ button.nav-icon {
   overflow: hidden;
 }
 
-/* real badge image — fills the frame edge-to-edge (no letterboxing) */
+/* real badge image - fills the frame edge-to-edge (no letterboxing) */
 .badge-img {
   position: absolute;
   inset: 0;
@@ -1652,7 +1652,7 @@ button.nav-icon {
   padding-top: 40px;
 }
 
-/* the horizontal line — brightens to violet toward the newest (right) */
+/* the horizontal line - brightens to violet toward the newest (right) */
 .timeline-h::before {
   content: "";
   position: absolute;
@@ -1725,7 +1725,7 @@ button.nav-icon {
 }
 
 /* Inside About the card sits in the narrower left column beside the chatbot,
-   so the side-by-side split has nowhere to go — it stacks at every width. */
+   so the side-by-side split has nowhere to go - it stacks at every width. */
 .about-text .edu-card {
   flex-direction: column;
   /* flex-start was fine when this was a row; in a column it shrinks every
@@ -1756,7 +1756,7 @@ button.nav-icon {
 .about-text { max-width: 780px; }
 
 /* photo + name, above the bio. The accent ring is the only place the identity
-   colour touches a photo — the face stays the loudest thing in the block. */
+   colour touches a photo - the face stays the loudest thing in the block. */
 .about-id { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
 .about-photo {
   width: 76px;
@@ -2012,7 +2012,7 @@ footer.ft {
 }
 
 /* ---------- reveal on scroll ---------- */
-/* opacity + transform only — GPU-composited, no repaints (blur was a jank source) */
+/* opacity + transform only - GPU-composited, no repaints (blur was a jank source) */
 .reveal {
   opacity: 0;
   transform: translateY(48px) scale(0.97);
@@ -2182,7 +2182,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
   .timeline-item.right { width: 100%; margin-left: 0; padding-left: 32px; padding-right: 0; }
   .timeline-item.left { padding-right: 0; }
   /* the 2px track sits at 8..10px, so its centre is 9px. A 14px dot needs
-     left:2px to put its own centre there — 13px at left:0 was 2.5px off. */
+     left:2px to put its own centre there - 13px at left:0 was 2.5px off. */
   .timeline-item.left .timeline-marker,
   .timeline-item.right .timeline-marker { left: 2px; right: auto; width: 14px; height: 14px; }
 
@@ -2217,7 +2217,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
 }
 
 /* touch devices: hover is "sticky" (a tap latches :hover), so hover-driven
-   scale/zoom effects fight scrolling — disable them where hover isn't real */
+   scale/zoom effects fight scrolling - disable them where hover isn't real */
 @media (hover: none) {
   .projects-grid:has(.pj-item:hover) .pj-item:not(:hover) .pj3-glow { transform: none; }
   .pj-item:hover .pj3-glow { transform: none; box-shadow: none; }
@@ -2423,7 +2423,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
 }
 @keyframes bl-canvas-out { to { transform: translateY(-14px) scale(1.02); } }
 
-/* The page rises to meet it. Opacity only — a transform or filter on #root
+/* The page rises to meet it. Opacity only - a transform or filter on #root
    would make it the containing block for every position:fixed child, and the
    nav rail and status bar would jump mid-transition. Opacity makes a stacking
    context but not a containing block, so fixed still means fixed. */

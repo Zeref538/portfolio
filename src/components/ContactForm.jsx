@@ -24,7 +24,7 @@ export default function ContactForm() {
       return;
     }
     if (message.length > 5000) {
-      setErrorDetail("that message is over 5,000 characters — please shorten it");
+      setErrorDetail("that message is over 5,000 characters - please shorten it");
       setStatus("error");
       return;
     }
@@ -57,14 +57,14 @@ export default function ContactForm() {
       try {
         data = await res.json();
       } catch {
-        // non-JSON response from FormSubmit — fall through with data=null
+        // non-JSON response from FormSubmit - fall through with data=null
       }
 
       if (res.ok && data && (data.success === "true" || data.success === true)) {
         setStatus("sent");
         form.reset();
       } else {
-        // surface FormSubmit's own message — usually explains *why*
+        // surface FormSubmit's own message - usually explains *why*
         // (most common: the form needs one-time activation via email)
         setErrorDetail(data?.message || `request failed (${res.status})`);
         setStatus("error");
@@ -79,7 +79,7 @@ export default function ContactForm() {
     return (
       <div className="contact-form contact-form-done">
         <LuCheck className="cf-done-icon" />
-        <p>message delivered — I'll get back to you soon.</p>
+        <p>message delivered - I'll get back to you soon.</p>
         <button type="button" className="btn btn-ghost" onClick={() => setStatus("idle")}>
           Send another
         </button>
@@ -125,7 +125,7 @@ export default function ContactForm() {
       </button>
       {status === "error" && (
         <p className="cf-error" role="alert">
-          <LuTriangleAlert /> couldn't send{errorDetail ? `: ${errorDetail}` : ""} — email me directly at{" "}
+          <LuTriangleAlert /> couldn't send{errorDetail ? `: ${errorDetail}` : ""} - email me directly at{" "}
           <a href={`mailto:${profile.email}`}>{profile.email}</a>
         </p>
       )}

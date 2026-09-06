@@ -8,7 +8,7 @@ export default function Reveal({ children, as: Tag = "div", className = "", ...r
 
   useEffect(() => {
     const el = ref.current;
-    // Never gate on intersectionRatio — it is the fraction of THE ELEMENT that
+    // Never gate on intersectionRatio - it is the fraction of THE ELEMENT that
     // is visible, so a section taller than the viewport can never reach 15% and
     // stays invisible forever. Projects on a phone is ~10x the screen height:
     // it was permanently stuck at opacity 0 while still taking up its full

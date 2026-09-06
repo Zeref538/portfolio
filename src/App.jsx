@@ -64,7 +64,7 @@ function GlowCard({ className = "", children, ...rest }) {
   );
 }
 
-// Kaggle's "K" app-icon mark — not in simple-icons (which only ships the
+// Kaggle's "K" app-icon mark - not in simple-icons (which only ships the
 // old wordmark logotype), so it's hand-built: a rounded bar + two
 // round-capped diagonal strokes meeting at a point, like the real mark.
 // Official Kaggle "K" glyph, recolored to currentColor so it inherits the
@@ -81,7 +81,7 @@ function KaggleMark(props) {
   );
 }
 
-// Certification card — enlarges gently on hover (no full-screen preview).
+// Certification card - enlarges gently on hover (no full-screen preview).
 function CertCard({ c }) {
   return (
     <div className="cert-item">
@@ -131,7 +131,7 @@ function CopyButton({ value, className = "", labelIdle = "Copy", icon = <LuMail 
     try {
       await navigator.clipboard.writeText(value);
     } catch {
-      // clipboard API unavailable/blocked — fall back to a temp textarea
+      // clipboard API unavailable/blocked - fall back to a temp textarea
       const ta = document.createElement("textarea");
       ta.value = value;
       ta.style.position = "fixed";
@@ -162,7 +162,7 @@ function CopyButton({ value, className = "", labelIdle = "Copy", icon = <LuMail 
 function CyclingCover({ images, alt }) {
   const [idx, setIdx] = useState(0);
   const ref = useRef(null);
-  // only cross-fade while the card is actually on screen — keeps 8 cards from
+  // only cross-fade while the card is actually on screen - keeps 8 cards from
   // each running a timer + image swap in the background
   useEffect(() => {
     if (!images || images.length < 2) return;
@@ -354,10 +354,10 @@ export default function App() {
         <div className="container">
           <div className="hero-status">
             <span className="dot" />
-            training — ML Engineering Intern @ FlyRank AI
+            training - ML Engineering Intern @ FlyRank AI
           </div>
           <div className="boot-log" aria-hidden="true">
-            <span>[ ok ] modules loaded — cv · ml · data</span>
+            <span>[ ok ] modules loaded - cv · ml · data</span>
             <span>[ ok ] models warm · pipeline ready</span>
           </div>
           <TypedPrompt text="zeref@portfolio:~$ whoami" />
@@ -412,7 +412,7 @@ export default function App() {
                 {/* One card: the photo and name used to float above it, which
                     read as two unrelated blocks next to a single chat panel.
                     Education was also its own section further down, and the bio
-                    prose repeated what the card already showed — so all of it
+                    prose repeated what the card already showed - so all of it
                     collapsed into this. */}
                 {education.map((ed) => (
                   <GlowCard key={ed.school} className="edu-glow">
@@ -531,7 +531,7 @@ export default function App() {
                       const open = () => {
                         if (!href) return;
                         // touch: tapping focuses the card and reveals the overlay
-                        // (:focus-within) instead of yanking the user to a new tab —
+                        // (:focus-within) instead of yanking the user to a new tab -
                         // the overlay's demo/source links handle navigation there
                         if (window.matchMedia("(hover: none)").matches) return;
                         window.open(href, "_blank", "noopener,noreferrer");
@@ -703,7 +703,7 @@ export default function App() {
               Let's build something that matters.
             </ScrollFloat>
             <p>
-              Open to AI / ML engineering and data analytics roles — internships or
+              Open to AI / ML engineering and data analytics roles - internships or
               entry-level. I ship end-to-end and learn fast. Based in {profile.location}.
             </p>
             <ContactForm />

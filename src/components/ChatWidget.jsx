@@ -24,7 +24,7 @@ export function ChatDial() {
 }
 
 const GREETING =
-  "hi! i'm zeref-bot — think of me as John's AI counterpart. ask me anything about him: what he's built, how he works, or whether he's open to roles.";
+  "hi! i'm zeref-bot - think of me as John's AI counterpart. ask me anything about him: what he's built, how he works, or whether he's open to roles.";
 
 const SUGGESTIONS = ["what has he built?", "top skills?", "is he open to work?"];
 
@@ -68,10 +68,10 @@ export default function ChatWidget({ windowed = false, onClose }) {
       });
       const data = await r.json().catch(() => ({}));
       const reply =
-        data.reply || (r.ok ? "…no output. try rephrasing?" : "bot is offline right now — email me instead!");
+        data.reply || (r.ok ? "…no output. try rephrasing?" : "bot is offline right now - email me instead!");
       setMessages((m) => [...m, { role: "assistant", content: reply }]);
     } catch {
-      setMessages((m) => [...m, { role: "assistant", content: "network error — try again?" }]);
+      setMessages((m) => [...m, { role: "assistant", content: "network error - try again?" }]);
     } finally {
       setBusy(false);
     }
@@ -114,7 +114,7 @@ export default function ChatWidget({ windowed = false, onClose }) {
   if (closed) {
     return (
       <button className="chat-reopen" onClick={() => setClosed(false)}>
-        <span className="chat-reopen-dot" /> zeref-bot — click to reopen
+        <span className="chat-reopen-dot" /> zeref-bot - click to reopen
       </button>
     );
   }

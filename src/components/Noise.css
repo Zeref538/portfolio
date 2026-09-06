@@ -8,7 +8,7 @@
   image-rendering: pixelated;
 }
 
-/* body has 78px left padding for the sidebar — stretch the grain under it
+/* body has 78px left padding for the sidebar - stretch the grain under it
    so the left strip matches the rest of the page */
 @media (min-width: 769px) {
   .noise-overlay { left: -78px; }

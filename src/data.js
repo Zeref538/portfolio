@@ -1,13 +1,13 @@
 // ============================================================
 //  EDIT THIS FILE to change any content on the site.
-//  Add / remove items in any array — the UI updates itself.
+//  Add / remove items in any array - the UI updates itself.
 // ============================================================
 
 export const profile = {
   name: "John Andrei Martinez",
   role: "AI/ML Engineer",
   tagline:
-    "Computer Science student building AI/ML systems end-to-end — from local AI agents and RAG to forecasting and computer vision — and shipping them to production.",
+    "Computer Science student building AI/ML systems end-to-end - agentic AI and RAG, LLMs written from scratch and fine-tuned, forecasting and computer vision - then shipped as full-stack apps and automation that keep running without me.",
   location: "San Jose del Monte, Bulacan",
   photo: "/john-andrei-martinez.jpg",
   email: "martinezjandrei8425@gmail.com",
@@ -16,9 +16,9 @@ export const profile = {
     { label: "LinkedIn", url: "https://linkedin.com/in/john-andrei-martinez-499a0b343" },
   ],
   about: [
-    "Computer Science student at Our Lady of Fatima University, Dean's Lister since 2023, currently an ML engineering intern at FlyRank AI. I own the whole pipeline — data, model, evaluation, deployment.",
+    "Computer Science student at Our Lady of Fatima University, Dean's Lister since 2023, currently an ML engineering intern at FlyRank AI. I own the whole pipeline - data, model, evaluation, deployment.",
     "20 projects across agentic AI, RAG, and LLMs: a 12.5M-parameter language model written from scratch in PyTorch, a 32.8M Taglish model trained on code-switched Filipino, a receipt checker that runs as a step inside an n8n workflow, an air-quality forecaster for 29 Philippine cities, and the chatbot you're talking to now. 18 of them are live.",
-    "What ties them together is the second number. My FlyRank model scored 0.88 to a hand-written five-line rule's 0.86 — a gap a bootstrap put at [-0.26, +0.14], so I reported it as a tie rather than a win. Looking for internship or entry-level AI/ML engineering roles.",
+    "What ties them together is the second number. My FlyRank model scored 0.88 to a hand-written five-line rule's 0.86 - a gap a bootstrap put at [-0.26, +0.14], so I reported it as a tie rather than a win. Looking for internship or entry-level AI/ML engineering roles.",
   ],
 };
 
@@ -26,19 +26,19 @@ export const experience = [
   {
     role: "ML Engineering Intern",
     company: "FlyRank AI",
-    period: "Jun 2026 — Present",
+    period: "Jun 2026 - Present",
     location: "Remote",
     bullets: [
-      "Shipped a content refresh-priority ranker over a 9.8M-row search warehouse in DuckDB, and wrote the data contract behind it — eligibility gate, features, and the columns banned for leakage.",
+      "Shipped a content refresh-priority ranker over a 9.8M-row search warehouse in DuckDB, and wrote the data contract behind it - eligibility gate, features, and the columns banned for leakage.",
       "Killed my own result: the model's Precision@50 of 0.88 beat the hand-written rule's 0.86, but tie-breaking alone swings the rule between 0.76 and 0.92, so I reported the win as noise.",
-      "Caught a label leak in my own work — two unbanned columns rebuild the label exactly and lift ROC-AUC from 0.618 to 0.992 — then swept every remaining column and found a third.",
+      "Caught a label leak in my own work - two unbanned columns rebuild the label exactly and lift ROC-AUC from 0.618 to 0.992 - then swept every remaining column and found a third.",
       "Proved validation design mattered more than model choice: a row-level split inflates ROC-AUC from 0.618 to 0.728 versus a client-grouped one, in 8 of 8 draws.",
     ],
   },
   {
     role: "Freelance Virtual Assistant",
     company: "Self-employed",
-    period: "2025 — 2026",
+    period: "2025 - 2026",
     location: "Remote",
     bullets: [
       "Sourced and screened candidates via Indeed, streamlining HR recruitment workflows and reducing time-to-hire.",
@@ -50,13 +50,13 @@ export const experience = [
 
 export const projects = [
   {
-    title: "Which Page Do You Fix First? — Refresh Priority on Real Search Data",
+    title: "Which Page Do You Fix First? - Refresh Priority on Real Search Data",
     groups: ["ML & Forecasting"],
     description:
-      "FlyRank ML internship capstone: a refresh-priority ranker over 30,000 pseudonymised client content pages, built to answer one question a content team actually has — given a fixed number of review hours, which pages do you look at first? I wrote a five-line hand-written rule before any model and kept it as the thing to beat, then judged four models against it on clients none of them had ever seen. The model did not win, and that is the paper. Precision@50 of 0.88 against the rule's 0.86, a gap that sits inside the 0.76–0.92 band the rule alone moves through purely from how tied scores are broken, with a client-clustered bootstrap putting the difference at -0.260 to +0.140 — an interval containing zero. Two findings mattered more than any model: splitting the data by row instead of by client inflates ROC-AUC from 0.618 to 0.728 in 8 of 8 draws, and the label turned out to be exactly rebuildable from two columns no guidance bans. I then swept every column with a planted positive control to prove the sweep could detect a leak, and it caught a third I had missed.",
+      "FlyRank ML internship capstone: a refresh-priority ranker over 30,000 pseudonymised client content pages, built to answer one question a content team actually has - given a fixed number of review hours, which pages do you look at first? I wrote a five-line hand-written rule before any model and kept it as the thing to beat, then judged four models against it on clients none of them had ever seen. The model did not win, and that is the paper. Precision@50 of 0.88 against the rule's 0.86, a gap that sits inside the 0.76–0.92 band the rule alone moves through purely from how tied scores are broken, with a client-clustered bootstrap putting the difference at -0.260 to +0.140 - an interval containing zero. Two findings mattered more than any model: splitting the data by row instead of by client inflates ROC-AUC from 0.618 to 0.728 in 8 of 8 draws, and the label turned out to be exactly rebuildable from two columns no guidance bans. I then swept every column with a planted positive control to prove the sweep could detect a leak, and it caught a third I had missed.",
     tags: ["scikit-learn", "DuckDB", "Pandas", "Causal Inference", "Leakage Audit", "Bootstrap", "Python"],
-    metric: "P@50 0.88 vs 0.551 base — and still no clear win over a 5-line rule",
-    category: "Honest Validation — Ranking — Negative Result",
+    metric: "P@50 0.88 vs 0.551 base - and still no clear win over a 5-line rule",
+    category: "Honest Validation - Ranking - Negative Result",
     date: "2026",
     image: "/projects/flyrank-1.png",
     images: [
@@ -69,18 +69,18 @@ export const projects = [
     demoLabel: "read the paper",
     highlights: [
       "Reported the non-result rather than the two-point win: a cluster bootstrap over held-out clients puts the model-minus-rule difference at [-0.260, +0.140] and the model ahead in only 61% of 2,000 resamples, and the conclusion survives every eligibility gate from 100 to 2,000 impressions",
-      "Found that validation design outweighed model choice — a row-level split inflates ROC-AUC from 0.618 to 0.728 versus a client-grouped split, in 8 of 8 draws, a larger gap than between any two models tried",
-      "Traced the label back to its arithmetic and found it exactly reconstructible from two unbanned columns (correlation 1.0000 across 26,612 rows, lifting the same model to 0.992), then stopped trusting my own reasoning and swept every column with a planted positive control — which caught a third leaky column I had missed",
+      "Found that validation design outweighed model choice - a row-level split inflates ROC-AUC from 0.618 to 0.728 versus a client-grouped split, in 8 of 8 draws, a larger gap than between any two models tried",
+      "Traced the label back to its arithmetic and found it exactly reconstructible from two unbanned columns (correlation 1.0000 across 26,612 rows, lifting the same model to 0.992), then stopped trusting my own reasoning and swept every column with a planted positive control - which caught a third leaky column I had missed",
       "Ran the one causal test the 79-million-row warehouse allowed, a difference-in-differences on 13,233 genuinely optimized pages, and reported that it fails its own placebo (-0.71, 95% CI -1.21 to -0.11) instead of quoting the +2.75 it produces first",
-      "Shipped a ranked queue whose first rule is a refusal: 24 of the top 50 slots are pages with impressions and zero clicks, which all still record sessions — a measurement contradiction, not a content problem, so no writer is sent at them",
+      "Shipped a ranked queue whose first rule is a refusal: 24 of the top 50 slots are pages with impressions and zero clicks, which all still record sessions - a measurement contradiction, not a content problem, so no writer is sent at them",
       "capstone.ipynb runs top to bottom and ends in 14 assertions that fail the run rather than print a warning; no client name, URL, query or raw row appears anywhere in the public repo",
     ],
   },
   {
-    title: "LiitLLM — A Taglish LLM From Scratch",
+    title: "LiitLLM - A Taglish LLM From Scratch",
     groups: ["Building LLMs"],
     description:
-      "Built a 32.8M-parameter language model from scratch in pure PyTorch and trained it on Taglish — the Tagalog-English code-switched register Filipinos actually write in — on a thesis that inverts standard practice: every large web corpus is sorted by a language-ID filter that scores code-switched text as low-confidence noise and discards it, so I wrote a filter that keeps only that text. The result is a controlled experiment rather than a demo: two arms, two seeds each, identical architecture, identical 995,000,000-token budget and a shared tokenizer trained on the unfiltered side so neither arm gets an advantage, with the code-switch filter as the only difference. The filtered models emit three times as much English as the controls — a gap 2.8x the widest spread between seeds of the same arm, with no overlap. The finding I did not want is in the writeup too: measured on 50,000 documents per source, Filipino web text is already 38-40% code-switched, which weakens my own control arm and shrinks the claim from 'filtering creates code-switching' to 'filtering the rest of the way still measurably changes the model'.",
+      "Built a 32.8M-parameter language model from scratch in pure PyTorch and trained it on Taglish - the Tagalog-English code-switched register Filipinos actually write in - on a thesis that inverts standard practice: every large web corpus is sorted by a language-ID filter that scores code-switched text as low-confidence noise and discards it, so I wrote a filter that keeps only that text. The result is a controlled experiment rather than a demo: two arms, two seeds each, identical architecture, identical 995,000,000-token budget and a shared tokenizer trained on the unfiltered side so neither arm gets an advantage, with the code-switch filter as the only difference. The filtered models emit three times as much English as the controls - a gap 2.8x the widest spread between seeds of the same arm, with no overlap. The finding I did not want is in the writeup too: measured on 50,000 documents per source, Filipino web text is already 38-40% code-switched, which weakens my own control arm and shrinks the claim from 'filtering creates code-switching' to 'filtering the rest of the way still measurably changes the model'.",
     tags: ["PyTorch", "Transformers", "From Scratch", "Code-Switching", "NLP", "Kaggle", "Python"],
     metric: "32.8M params from scratch · 3x code-switching vs control",
     category: "From Scratch · Transformers · Ablation Design",
@@ -96,17 +96,17 @@ export const projects = [
     demo: "https://zeref538.github.io/liitllm/",
     demoLabel: "case study",
     highlights: [
-      "Designed the ablation so it could fail: two seeds per arm, exactly equal 995,000,000-token budgets, and one shared tokenizer trained on the unfiltered corpus so the filtered arm gains no vocabulary advantage — the evaluator returns INCONCLUSIVE by construction when given a single seed per arm",
-      "Measured 38-40% native code-switching in Filipino web text on 50,000 documents per source, which undercut my own premise and weakened the control arm, and published it as the finding rather than dropping it — an earlier 2,000-document run had given the opposite ranking, so the sample size is now stated next to the number",
+      "Designed the ablation so it could fail: two seeds per arm, exactly equal 995,000,000-token budgets, and one shared tokenizer trained on the unfiltered corpus so the filtered arm gains no vocabulary advantage - the evaluator returns INCONCLUSIVE by construction when given a single seed per arm",
+      "Measured 38-40% native code-switching in Filipino web text on 50,000 documents per source, which undercut my own premise and weakened the control arm, and published it as the finding rather than dropping it - an earlier 2,000-document run had given the opposite ranking, so the sample size is now stated next to the number",
       "Reported both metrics including the weaker one: the continuous English-fraction measure separates the arms at 2.8x the within-arm spread with no overlap, while the pre-registered thresholded metric gives 0.328 against a 0.219 spread, and the writeup explains that a threshold count over 32 samples discards magnitude and inherits binomial noise",
-      "Trained four ~11-hour runs on a platform that kills sessions at 12 hours, with atomic checkpoint writes, saved RNG state, a wall-clock guard and a self-resuming runner — the last run stopped at step 55,000 and the automation detected it, pushed a continuation from the last checkpoint and finished to 60,000 unattended",
+      "Trained four ~11-hour runs on a platform that kills sessions at 12 hours, with atomic checkpoint writes, saved RNG state, a wall-clock guard and a self-resuming runner - the last run stopped at step 55,000 and the automation detected it, pushed a continuation from the last checkpoint and finished to 60,000 unattended",
     ],
   },
   {
-    title: "Munti — A Tiny LLM From Scratch",
+    title: "Munti - A Tiny LLM From Scratch",
     groups: ["Building LLMs"],
     description:
-      "Built a 12.5M-parameter language model from the ground up in pure PyTorch — the tokenizer, the attention, the training loop and the sampler, with no pretrained weights and no ready-made GPT class — then trained it on TinyStories for 44 minutes on a free Kaggle T4 to a val loss of 1.505, where it writes coherent multi-paragraph children's stories with working dialogue. Before spending a single GPU hour I proved the code correct by deliberately overfitting four fixed batches to zero loss, which is what separates 'my model is undertrained' from 'my causal mask is broken'. The ablation is the part I'd defend hardest: removing positional embeddings cost only ~0.04 nats when I had predicted word salad, so instead of publishing the number I probed it twice — shuffling the input tokens destroys that model, proving a causal decoder recovers position from prefix length on its own, and a second seed reproduced the gap while the two baselines landed 0.003 apart.",
+      "Built a 12.5M-parameter language model from the ground up in pure PyTorch - the tokenizer, the attention, the training loop and the sampler, with no pretrained weights and no ready-made GPT class - then trained it on TinyStories for 44 minutes on a free Kaggle T4 to a val loss of 1.505, where it writes coherent multi-paragraph children's stories with working dialogue. Before spending a single GPU hour I proved the code correct by deliberately overfitting four fixed batches to zero loss, which is what separates 'my model is undertrained' from 'my causal mask is broken'. The ablation is the part I'd defend hardest: removing positional embeddings cost only ~0.04 nats when I had predicted word salad, so instead of publishing the number I probed it twice - shuffling the input tokens destroys that model, proving a causal decoder recovers position from prefix length on its own, and a second seed reproduced the gap while the two baselines landed 0.003 apart.",
     tags: ["PyTorch", "Transformers", "From Scratch", "BPE Tokenizer", "Kaggle", "Python"],
     metric: "12.5M params from scratch · val 1.505 in 44 min",
     category: "From Scratch · Transformers · Evaluation",
@@ -123,15 +123,15 @@ export const projects = [
     demo: "https://zeref538.github.io/munti/",
     demoLabel: "case study",
     highlights: [
-      "Wrote the transformer by hand — multi-head causal attention, pre-LN residual blocks, weight-tied embeddings — and proved it correct on CPU in under a minute before touching a GPU, by overfitting four fixed batches to loss 0.0000 with 100% greedy recall",
-      "Predicted that removing positional embeddings would produce word salad and was wrong — it cost ~0.04 nats — so I measured why: shuffling tokens sends that model from 1.543 to 9.729, a larger collapse than the baseline's, proving causal masking already leaks position via prefix length",
+      "Wrote the transformer by hand - multi-head causal attention, pre-LN residual blocks, weight-tied embeddings - and proved it correct on CPU in under a minute before touching a GPU, by overfitting four fixed batches to loss 0.0000 with 100% greedy recall",
+      "Predicted that removing positional embeddings would produce word salad and was wrong - it cost ~0.04 nats - so I measured why: shuffling tokens sends that model from 1.543 to 9.729, a larger collapse than the baseline's, proving causal masking already leaks position via prefix length",
       "Replicated the ablation at a second seed rather than trusting one reading: the two baselines land 0.003 apart while the effect is ~0.04, so between-seed noise sits an order of magnitude below the result being claimed",
       "Honest can-do/can't-do grounded in real generations: it writes stories with consistent characters and dialogue, but answers \"What is the capital of France?\" with a story about Santa, and loses entity tracking even mid-success (\"He opened the box and found a box!\")",
     ],
   },
 
   {
-    title: "callback-ai — Adaptive Interview Simulator Agent",
+    title: "callback-ai - Adaptive Interview Simulator Agent",
     groups: ["Agentic AI"],
     description:
       "An agentic interview simulator that decides what to ask you next based on how you just answered, then grades every claim against your own words. The session engine is a state-driven loop, not a script: each turn it re-reads remaining question budget, per-competency uncertainty, and your last answer, then chooses whether to probe deeper, switch competency, or write the report. Three interviewer personas change how hard you're pushed but never how you're graded. An evidence gate rejects any score whose supporting quote can't be found verbatim in your transcript, and weak competencies persist across sessions so the next run targets them.",
@@ -150,16 +150,16 @@ export const projects = [
     link: "https://github.com/Zeref538/callback-ai",
     demo: "https://callback-ai.onrender.com",
     highlights: [
-      "Agent, not pipeline: a state-driven loop decides whether to probe, which competency to ask next, and when to stop — budget reallocated by weight × uncertainty after every answer",
+      "Agent, not pipeline: a state-driven loop decides whether to probe, which competency to ask next, and when to stop - budget reallocated by weight × uncertainty after every answer",
       "Evidence gate: every score must quote your transcript verbatim; an unquotable score is rejected and regenerated, never shown",
       "Published eval on a live model (NVIDIA NIM, Llama 3.1): 0.81 ranking correlation, 0.0 grading variance across 5 re-grades, 1.0/0.0 probe precision",
     ],
   },
   {
-    title: "DEFER — Document Evidence and Fixed Explicit Rules",
+    title: "DEFER - Document Evidence and Fixed Explicit Rules",
     groups: ["Fine-Tuning LLMs"],
     description:
-      "Paste a document into a small AI, ask a question the document answers, and it sometimes answers from what it memorised during training instead. I built the trap by editing real Wikipedia passages so the memorised answer is provably wrong — the passage now says JFK was shot in 1927, and any model saying 1963 has been caught, with no human judge needed. Untrained Llama 3.2 3B followed the document 82% of the time; my fine-tune took that to 96%, with zero answers pulled from memory. But the first attempt quietly broke something else: it stopped admitting when a document had no answer at all. That only showed up because I report four numbers together instead of one, and fixing it meant rebalancing the training data and running the whole thing again.",
+      "Paste a document into a small AI, ask a question the document answers, and it sometimes answers from what it memorised during training instead. I built the trap by editing real Wikipedia passages so the memorised answer is provably wrong - the passage now says JFK was shot in 1927, and any model saying 1963 has been caught, with no human judge needed. Untrained Llama 3.2 3B followed the document 82% of the time; my fine-tune took that to 96%, with zero answers pulled from memory. But the first attempt quietly broke something else: it stopped admitting when a document had no answer at all. That only showed up because I report four numbers together instead of one, and fixing it meant rebalancing the training data and running the whole thing again.",
     tags: ["LLM Fine-Tuning", "LoRA", "QLoRA", "Model Evaluation", "PyTorch", "Python"],
     metric: "82% → 96% document-following · 0 answers from memory",
     category: "Fine-Tuning · Grounding · Evaluation",
@@ -175,10 +175,10 @@ export const projects = [
     demo: "https://zeref538.github.io/DEFER/",
     demoLabel: "replay demo",
     highlights: [
-      "Built the hard cases by construction rather than by hand: edit the passage so the answer the model memorised is now wrong, and a wrong answer is decidable by a script — no human rater, no second AI grading the first",
-      "Measured the free fix first. A plain prompt saying \"use only this passage\" already got 87%, so the fine-tune had to beat that, not the untrained model — beating an unprompted baseline would have been beating a strawman",
-      "The first fine-tune scored 97.9% on the headline while getting worse at saying \"this document doesn’t answer that\" — caught only because I track four metrics together, traced to a 4:1 imbalance in the training data, and fixed by rebuilding it 1:1",
-      "Held one kind of test case out of training entirely \u2014 the model never saw a single date-swap while learning \u2014 and it scored within a point of the kinds it did train on, which is the difference between learning the behaviour and learning the trick",
+      "Built the hard cases by construction rather than by hand: edit the passage so the answer the model memorised is now wrong, and a wrong answer is decidable by a script - no human rater, no second AI grading the first",
+      "Measured the free fix first. A plain prompt saying \"use only this passage\" already got 87%, so the fine-tune had to beat that, not the untrained model - beating an unprompted baseline would have been beating a strawman",
+      "The first fine-tune scored 97.9% on the headline while getting worse at saying \"this document doesn’t answer that\" - caught only because I track four metrics together, traced to a 4:1 imbalance in the training data, and fixed by rebuilding it 1:1",
+      "Held one kind of test case out of training entirely - the model never saw a single date-swap while learning - and it scored within a point of the kinds it did train on, which is the difference between learning the behaviour and learning the trick",
       "Ran the same recipe four times with different shuffles: the headline moved 0.2 points, but a second metric swung 10.3, so that row is published as a range instead of a number and the instability is itself reported as a finding",
       "Every published figure re-derives from committed logs with one command and no GPU, and the demo page replays those same logged answers so it can never disagree with the study",
     ],
@@ -187,7 +187,7 @@ export const projects = [
     title: "Refusal Calibration LLM Fine-Tuning",
     groups: ["Fine-Tuning LLMs"],
     description:
-      "Fine-tuned a small free model to admit \"I don't know\" instead of making up confident wrong answers — without overcorrecting into a model that refuses everything. The catch: any model can stop making things up by simply refusing every question, so I measured both mistakes at once — how often it invents answers vs. how often it wrongly refuses — on the same fixed test set. Trained 15 versions and scored 19 setups; the honest takeaways matter more than any single score, including that a tiny 1.5B model is just too small for the method, while a 3B model both makes up fewer answers and gets more right — a result I re-ran on a second random seed to confirm it held up.",
+      "Fine-tuned a small free model to admit \"I don't know\" instead of making up confident wrong answers - without overcorrecting into a model that refuses everything. The catch: any model can stop making things up by simply refusing every question, so I measured both mistakes at once - how often it invents answers vs. how often it wrongly refuses - on the same fixed test set. Trained 15 versions and scored 19 setups; the honest takeaways matter more than any single score, including that a tiny 1.5B model is just too small for the method, while a 3B model both makes up fewer answers and gets more right - a result I re-ran on a second random seed to confirm it held up.",
     tags: ["LLM Fine-Tuning", "LoRA", "PyTorch", "Model Evaluation", "Python"],
     metric: "3B result replicated · 19 setups scored",
     category: "Fine-Tuning · Evaluation · Honesty",
@@ -207,16 +207,16 @@ export const projects = [
     demo: "https://zeref538.github.io/refusal-calibration-LLM-Fine-Tuning/",
     demoLabel: "case study",
     highlights: [
-      "Measured both failure modes together — making things up vs. wrongly refusing — on a fixed test set, because a model that refuses everything looks perfect on one metric and useless on the other",
-      "Ran the exact same recipe three times with different random seeds and got very different results — proof that some of the fine-tuning 'wins' were noise, not real improvement",
-      "A 1.5B model was too small to learn this cleanly; a 3B model made up fewer answers AND got more questions right at the same time — and re-running it on a second seed reproduced that, with results 4-7x more stable than at 1.5B",
+      "Measured both failure modes together - making things up vs. wrongly refusing - on a fixed test set, because a model that refuses everything looks perfect on one metric and useless on the other",
+      "Ran the exact same recipe three times with different random seeds and got very different results - proof that some of the fine-tuning 'wins' were noise, not real improvement",
+      "A 1.5B model was too small to learn this cleanly; a 3B model made up fewer answers AND got more questions right at the same time - and re-running it on a second seed reproduced that, with results 4-7x more stable than at 1.5B",
     ],
   },
   {
-    title: "Alfred — Multimodal AI Butler for Your PC",
+    title: "Alfred - Multimodal AI Butler for Your PC",
     groups: ["Agentic AI"],
     description:
-      "Local multimodal agent for Windows that actually acts on the machine — summoned by text, voice, global hotkey, or a webcam stop-gesture. A local LLM (Ollama, structured outputs at temperature 0) plans over a frozen 12-action service menu; a deterministic validator is the single door between anything untrusted and the OS. Consent tiers gate every act, an append-only ledger records them, and 'Alfred, stop' aborts mid-plan. Speech runs through local whisper plus a two-layer mishear corrector, and nothing executes until you confirm the exact plan Alfred reads back in a local British voice.",
+      "Local multimodal agent for Windows that actually acts on the machine - summoned by text, voice, global hotkey, or a webcam stop-gesture. A local LLM (Ollama, structured outputs at temperature 0) plans over a frozen 12-action service menu; a deterministic validator is the single door between anything untrusted and the OS. Consent tiers gate every act, an append-only ledger records them, and 'Alfred, stop' aborts mid-plan. Speech runs through local whisper plus a two-layer mishear corrector, and nothing executes until you confirm the exact plan Alfred reads back in a local British voice.",
     tags: ["Agentic AI", "Multimodal", "Voice AI", "Ollama", "Computer Vision", "Python"],
     metric: "4 input modes · 12 gated actions",
     category: "Agentic AI · Multimodal · Privacy",
@@ -231,16 +231,16 @@ export const projects = [
     link: "https://github.com/Zeref538/alfred",
     demo: "https://zeref538.github.io/alfred/demo/",
     highlights: [
-      "Four input modes — text, local whisper voice, global hotkey, opt-in webcam motion (which can only abort, never command) — all funnel through one validator → consent gate → executor path",
+      "Four input modes - text, local whisper voice, global hotkey, opt-in webcam motion (which can only abort, never command) - all funnel through one validator → consent gate → executor path",
       "Safety by construction: typed action registry (no keystrokes or shell), per-action argument policy, tiered consent, snapshot-backed undo, and an append-only JSONL ledger that expires after 30 days",
-      "Fully local and offline-capable: Ollama planner, whisper STT, Piper TTS — 102 tests, with a sealed 50-command evaluation frozen before any prompt existed",
+      "Fully local and offline-capable: Ollama planner, whisper STT, Piper TTS - 102 tests, with a sealed 50-command evaluation frozen before any prompt existed",
     ],
   },
   {
-    title: "TAB — Receipts Into a Checked Ledger",
+    title: "TAB - Receipts Into a Checked Ledger",
     groups: ["Agentic AI", "Web & Apps"],
     description:
-      "Point it at a folder of receipts and it reads each one, checks that the numbers actually add up, and writes a row to your ledger — quietly. Only the ones that fail their own arithmetic reach you. The idea it is built on is that asking a model how confident it is tells you nothing: it will state a wrong total with total conviction. So TAB never asks. It re-adds the receipt instead — line items against the subtotal, subtotal plus VAT against the printed total, VAT against 12% of VATable sales — and a receipt that disagrees with itself was misread, which you know without any model being involved. Measured on 100 photographed receipts with a free local model: 89 of 100 totals read correctly, and the arithmetic alone caught 10 of the 11 wrong ones. It is also a step other software can call: one HTTP endpoint takes a receipt and returns a verdict to branch on, with an importable n8n workflow that files the ones that reconcile to a spreadsheet and sends the rest to a person with the disputed line named. Everything runs on your own machine and the review screen binds to localhost only, because receipts are personal data and there is nowhere for them to go.",
+      "Point it at a folder of receipts and it reads each one, checks that the numbers actually add up, and writes a row to your ledger - quietly. Only the ones that fail their own arithmetic reach you. The idea it is built on is that asking a model how confident it is tells you nothing: it will state a wrong total with total conviction. So TAB never asks. It re-adds the receipt instead - line items against the subtotal, subtotal plus VAT against the printed total, VAT against 12% of VATable sales - and a receipt that disagrees with itself was misread, which you know without any model being involved. Measured on 100 photographed receipts with a free local model: 89 of 100 totals read correctly, and the arithmetic alone caught 10 of the 11 wrong ones. It is also a step other software can call: one HTTP endpoint takes a receipt and returns a verdict to branch on, with an importable n8n workflow that files the ones that reconcile to a spreadsheet and sends the rest to a person with the disputed line named. Everything runs on your own machine and the review screen binds to localhost only, because receipts are personal data and there is nowhere for them to go.",
     tags: ["Agentic AI", "Automation", "n8n", "Ollama", "OCR", "SQLite", "Python"],
     metric: "89/100 totals · 1% silent errors · fully local",
     category: "Automation · Document AI · Local-First",
@@ -255,21 +255,21 @@ export const projects = [
     link: "https://github.com/Zeref538/tab",
     demo: "https://tab-demo.onrender.com",
     highlights: [
-      "The guard is arithmetic, not model confidence: re-adding each receipt caught 10 of the 11 wrong totals with no model asked how sure it felt — the check costs nothing to run and is what separates this from a wrapper around an OCR call",
-      "Reports four numbers together and leads with the ugly one: 30% straight-through, 1% silent error rate (committed and wrong), plus the admission that 25 correct receipts in 100 were escalated for nothing — a tool that over-escalates is annoying, one that writes a wrong total into your tax records is worse than no tool",
-      "Refuses to claim what it has not measured: the numbers come from Indonesian receipts (CORD test split), so no Philippine VAT or TIN accuracy is claimed until a local labelled set exists — the scope section says so on the page itself",
+      "The guard is arithmetic, not model confidence: re-adding each receipt caught 10 of the 11 wrong totals with no model asked how sure it felt - the check costs nothing to run and is what separates this from a wrapper around an OCR call",
+      "Reports four numbers together and leads with the ugly one: 30% straight-through, 1% silent error rate (committed and wrong), plus the admission that 25 correct receipts in 100 were escalated for nothing - a tool that over-escalates is annoying, one that writes a wrong total into your tax records is worse than no tool",
+      "Refuses to claim what it has not measured: the numbers come from Indonesian receipts (CORD test split), so no Philippine VAT or TIN accuracy is claimed until a local labelled set exists - the scope section says so on the page itself",
       "Runs unattended and survives its own failures: batches resume from where they were killed, and if the model stops mid-run the receipts are left unmarked rather than recorded as failures, because a receipt nobody read is not a receipt that failed",
-      "The public scoreboard is generated from the results files, never typed — there is a test that fails if anyone writes a percentage into the template, so a figure on that page cannot drift from the run that produced it",
-      "Three readers measured on the same 100 receipts before picking one, and the biggest model lost: the 7B files 52 of 100 unattended against the 3B's 30, but 15 of those carry a wrong field against 8 — the same error rate on twice the volume, for double the time. An OCR engine is wrong least of all (2 in 100) because it can only report characters it actually saw, and worst at deciding which number is the total",
+      "The public scoreboard is generated from the results files, never typed - there is a test that fails if anyone writes a percentage into the template, so a figure on that page cannot drift from the run that produced it",
+      "Three readers measured on the same 100 receipts before picking one, and the biggest model lost: the 7B files 52 of 100 unattended against the 3B's 30, but 15 of those carry a wrong field against 8 - the same error rate on twice the volume, for double the time. An OCR engine is wrong least of all (2 in 100) because it can only report characters it actually saw, and worst at deciding which number is the total",
       "Built the retry the plan called for, measured it, and deleted it: 67 second readings changed one verdict and cost 86% more time per checked receipt. The ADR recording why it was removed is worth more than the feature would have been",
-      "One HTTP endpoint makes it a step in someone else's pipeline rather than an app to sit in front of — the shipped n8n workflow was imported into a real n8n and executed against a running instance, taking the 'file it' branch on a receipt that reconciled and the 'ask a person' branch on one where line 3 read ₱80.00 where 3 × ₱30.00 is ₱90.00",
+      "One HTTP endpoint makes it a step in someone else's pipeline rather than an app to sit in front of - the shipped n8n workflow was imported into a real n8n and executed against a running instance, taking the 'file it' branch on a receipt that reconciled and the 'ask a person' branch on one where line 3 read ₱80.00 where 3 × ₱30.00 is ₱90.00",
     ],
   },
   {
-    title: "FORGE — Fake Or Real Image Examiner",
+    title: "FORGE - Fake Or Real Image Examiner",
     groups: ["ML & Forecasting", "Web & Apps"],
     description:
-      "Drop in a photo and it tells you how likely it is that a generator made it, with the whole model running inside your browser — nothing is uploaded, and hosting costs nothing. It scores 92.7% across 13 generator families and 94.6% on real photographs, but the number the site leads with is the one that hurts: on a generator family deliberately held out of training, it scored 0%, calling all 2,500 fakes real. That is the honest state of AI-image detection, and hiding it would have made the tool look finished when it is not. Six fixes were tried; one seemed to work and got published, then re-measuring properly showed it swinging between 0.5% and 31% depending on which checkpoint happened to be saved. It was luck rather than a fix, and the page was corrected to say so.",
+      "Drop in a photo and it tells you how likely it is that a generator made it, with the whole model running inside your browser - nothing is uploaded, and hosting costs nothing. It scores 92.7% across 13 generator families and 94.6% on real photographs, but the number the site leads with is the one that hurts: on a generator family deliberately held out of training, it scored 0%, calling all 2,500 fakes real. That is the honest state of AI-image detection, and hiding it would have made the tool look finished when it is not. Six fixes were tried; one seemed to work and got published, then re-measuring properly showed it swinging between 0.5% and 31% depending on which checkpoint happened to be saved. It was luck rather than a fix, and the page was corrected to say so.",
     tags: ["Computer Vision", "ONNX", "PyTorch", "Kaggle", "GitHub Actions", "JavaScript"],
     metric: "92.7% across 13 generators · 0% on an unseen one",
     category: "Computer Vision · In-Browser ML · Honest Evaluation",
@@ -285,17 +285,17 @@ export const projects = [
     demo: "https://zeref538.github.io/FORGE/",
     demoLabel: "try it",
     highlights: [
-      "Runs entirely in the visitor's browser — a 16 MB model through ONNX Runtime Web, so the image never leaves the device, there is no inference server, and the running cost is zero",
-      "Reports accuracy per generator family instead of one pooled number, because a detector trained on one set of generators learns what those look like rather than what synthetic looks like — the pooled 92.7% and the 0% on a withheld family come from the same model",
+      "Runs entirely in the visitor's browser - a 16 MB model through ONNX Runtime Web, so the image never leaves the device, there is no inference server, and the running cost is zero",
+      "Reports accuracy per generator family instead of one pooled number, because a detector trained on one set of generators learns what those look like rather than what synthetic looks like - the pooled 92.7% and the 0% on a withheld family come from the same model",
       "Published a failed reproduction rather than burying it: a fix that appeared to lift the held-out result turned out to move between 0.5% and 31% depending on the saved checkpoint, so the claim was retracted on the page itself",
       "States what it cannot do next to what it can: 94.6% on real photographs still means roughly 1 genuine photo in 19 gets called AI, and the site names the generator families it was never trained on",
     ],
   },
   {
-    title: "APAW — Self-Improving Dam Level & Spill-Risk Nowcaster",
+    title: "APAW - Self-Improving Dam Level & Spill-Risk Nowcaster",
     groups: ["ML & Forecasting"],
     description:
-      "Forecasts reservoir water level 1–7 days ahead for the nine major Luzon dams and turns it into plain-language spill risk. PAGASA publishes a daily dam bulletin and keeps no archive — the page shows today and yesterday, then the reading is gone — so the project starts by building the dataset it learns from: a twice-daily collector, seeded from 166 Wayback snapshots, that commits every reading before the model runs. The model is online, not batch: one pooled River Mondrian forest updated with learn_one as each label arrives, scored prequentially against persistence and drift baselines. Choosing it was the interesting part. A search over 3,776 configurations will find something that beats the baselines on the dates you already have, so the calendar was split before the search ran — ranking reads only dates before 2025-11-01 and the holdout was scored exactly once. It slipped 0.002 (dev 0.615 to holdout 0.617 mean ratio) and beat both baselines at all seven horizons. The real finding was about data rather than algorithms: one model per dam per horizon gave each of 63 models 13–94 rows to fit 15 coefficients, and pooling them into one turned that into ~1,750.",
+      "Forecasts reservoir water level 1–7 days ahead for the nine major Luzon dams and turns it into plain-language spill risk. PAGASA publishes a daily dam bulletin and keeps no archive - the page shows today and yesterday, then the reading is gone - so the project starts by building the dataset it learns from: a twice-daily collector, seeded from 166 Wayback snapshots, that commits every reading before the model runs. The model is online, not batch: one pooled River Mondrian forest updated with learn_one as each label arrives, scored prequentially against persistence and drift baselines. Choosing it was the interesting part. A search over 3,776 configurations will find something that beats the baselines on the dates you already have, so the calendar was split before the search ran - ranking reads only dates before 2025-11-01 and the holdout was scored exactly once. It slipped 0.002 (dev 0.615 to holdout 0.617 mean ratio) and beat both baselines at all seven horizons. The real finding was about data rather than algorithms: one model per dam per horizon gave each of 63 models 13–94 rows to fit 15 coefficients, and pooling them into one turned that into ~1,750.",
     tags: ["River", "Online Learning", "Time-Series", "Python", "Open-Meteo", "GitHub Actions"],
     metric: "Beats baselines at all 7 horizons · dev 0.615 → holdout 0.617",
     category: "Online ML · Forecasting · MLOps",
@@ -311,18 +311,18 @@ export const projects = [
     demo: "https://zeref538.github.io/apaw/",
     demoLabel: "live dashboard",
     highlights: [
-      "Built the dataset the model learns from: PAGASA keeps no archive, so a twice-daily collector commits every reading and the scrape runs before the model — a modelling bug can never cost an observation that cannot be re-fetched",
+      "Built the dataset the model learns from: PAGASA keeps no archive, so a twice-daily collector commits every reading and the scrape runs before the model - a modelling bug can never cost an observation that cannot be re-fetched",
       "Split the calendar before searching 3,776 configurations, so the winner was ranked on dates it could see and scored once on dates it could not; dev 0.615 → holdout 0.617 mean ratio is what makes the 7/7 result credible rather than a search reporting its own luck",
-      "The win came from pooling, not from a fancier estimator: one model per (dam, horizon) starved each of 63 models on 13–94 rows, and pooling every dam and horizon into a single Mondrian forest turned that into ~1,750 — with per-dam target scaling, since the dams differ in movement by 12×",
+      "The win came from pooling, not from a fancier estimator: one model per (dam, horizon) starved each of 63 models on 13–94 rows, and pooling every dam and horizon into a single Mondrian forest turned that into ~1,750 - with per-dam target scaling, since the dams differ in movement by 12×",
       "Publishes what it cannot defend: a horizon under 200 scored forecasts is shown with its count and explicitly not ranked even though it is ahead, and the README's verdict is regenerated from the metrics every run so the claim cannot drift from the evidence",
-      "Caught a real data leak — PAGASA prints one 24-hour deviation per snapshot against both the today and yesterday rows, so on the older row it is the future change; taken at face value a naive baseline 'predicts' tomorrow to 0.05 m. Recomputed from our own series and pinned by a regression test",
+      "Caught a real data leak - PAGASA prints one 24-hour deviation per snapshot against both the today and yesterday rows, so on the older row it is the future change; taken at face value a naive baseline 'predicts' tomorrow to 0.05 m. Recomputed from our own series and pinned by a regression test",
     ],
   },
   {
     title: "Token-Optimization LLM Fine-Tuning",
     groups: ["Fine-Tuning LLMs"],
     description:
-      "Fine-tuned a free open-weights model (Qwen2.5-1.5B-Instruct) via LoRA to say the same thing in fewer tokens without giving up accuracy — four training runs on free Kaggle T4s, with accuracy and token count always reported together, because a shorter wrong answer is a failure, not a saving. Runs v1–v3 traded 18–24 accuracy points for ~70% fewer tokens; diagnosing why produced v4: self-distillation on the base model's own verified-correct reasoning, keeping only generations that already reached the right answer and trimming boilerplate rather than derivation.",
+      "Fine-tuned a free open-weights model (Qwen2.5-1.5B-Instruct) via LoRA to say the same thing in fewer tokens without giving up accuracy - four training runs on free Kaggle T4s, with accuracy and token count always reported together, because a shorter wrong answer is a failure, not a saving. Runs v1–v3 traded 18–24 accuracy points for ~70% fewer tokens; diagnosing why produced v4: self-distillation on the base model's own verified-correct reasoning, keeping only generations that already reached the right answer and trimming boilerplate rather than derivation.",
     tags: ["LLM Fine-Tuning", "LoRA", "Unsloth", "PyTorch", "Qwen2.5", "Python"],
     metric: "−17% tokens · accuracy within 5 pts",
     category: "Fine-Tuning · Model Efficiency · Evaluation",
@@ -339,16 +339,16 @@ export const projects = [
     demo: "https://zeref538.github.io/Token-Optimization-LLM-Fine_Tuning/",
     demoLabel: "case study",
     highlights: [
-      "Self-distillation recipe: trained on the base model's own reasoning, filtered to the 77.3% of generations that were already correct — so output length still scales with problem difficulty",
+      "Self-distillation recipe: trained on the base model's own reasoning, filtered to the 77.3% of generations that were already correct - so output length still scales with problem difficulty",
       "Two hypotheses for v1–v3's accuracy cost tested and falsified by evidence (compressor deleting reasoning; line-joining format), and less training made it worse, not better",
       "Honest evaluation on a held-out GSM8K test split disjoint from training, reporting accuracy and mean output tokens together across all five models",
     ],
   },
   {
-    title: "YODA — Your Offline Data Agent",
+    title: "YODA - Your Offline Data Agent",
     groups: ["Agentic AI"],
     description:
-      "Privacy-first, fully local data-cleaning agent for CSV / Excel / SQLite — the LLM never sees a single raw row and nothing leaves the machine. A pandas profiler produces a PII-redacted metadata profile; a local LLM (Ollama, qwen3.5:4b) plans repairs as strict JSON; a human approves each step; deterministic pandas executes with a full audit log; a verifier re-profiles to confirm. Benchmarked against 1,589 ground-truth labeled errors with a published false-fix rate, plus a 39-instruction plain-language benchmark and a local 'Mission Control' web UI.",
+      "Privacy-first, fully local data-cleaning agent for CSV / Excel / SQLite - the LLM never sees a single raw row and nothing leaves the machine. A pandas profiler produces a PII-redacted metadata profile; a local LLM (Ollama, qwen3.5:4b) plans repairs as strict JSON; a human approves each step; deterministic pandas executes with a full audit log; a verifier re-profiles to confirm. Benchmarked against 1,589 ground-truth labeled errors with a published false-fix rate, plus a 39-instruction plain-language benchmark and a local 'Mission Control' web UI.",
     tags: ["Agentic AI", "Ollama", "Python", "pandas", "FastAPI"],
     metric: "96.4% fix · 0.00% false-fix",
     category: "Agentic AI · Data Cleaning · Privacy",
@@ -366,13 +366,13 @@ export const projects = [
     link: "https://github.com/Zeref538/yoda",
     demo: "https://zeref538.github.io/yoda/demo/",
     highlights: [
-      "AI plans, pandas executes: the LLM sees only a PII-redacted profile — a unit test proves no raw value reaches a prompt",
+      "AI plans, pandas executes: the LLM sees only a PII-redacted profile - a unit test proves no raw value reaches a prompt",
       "Ground-truth benchmark: 99.1% detection / 96.4% fix / 0.00% false-fix across 1,589 labeled errors (vs rule-based baseline)",
-      "Human-in-the-loop gate, JSONL audit log, recipes, data contracts, and a WebAssembly browser demo — runs with Wi-Fi off",
+      "Human-in-the-loop gate, JSONL audit log, recipes, data contracts, and a WebAssembly browser demo - runs with Wi-Fi off",
     ],
   },
   {
-    title: "Aegix AI — Contract Compliance Screening",
+    title: "Aegix AI - Contract Compliance Screening",
     groups: ["RAG"],
     description:
       "RAG system that screens Philippine employment contracts against the Labor Code, grading every clause Compliant / Non-compliant / Vague / Missing with a statutory citation and plain-English reason. Contracts are segmented and judged by two LangChain LCEL chains with structured output, over a MongoDB Atlas vector-search knowledge base of curated statute rules. Verdicts stream live via Server-Sent Events as parallel workers finish.",
@@ -386,13 +386,13 @@ export const projects = [
     demo: "https://aegix-ai-zeref.vercel.app",
     highlights: [
       "RAG pipeline: LangChain LCEL + structured output over MongoDB Atlas $vectorSearch",
-      "Live SSE streaming — parallel clause workers cut a 9-clause run ~128s → ~62s",
+      "Live SSE streaming - parallel clause workers cut a 9-clause run ~128s → ~62s",
       "Evaluated on 18 labeled contracts: 100% recall, 94.8% citation accuracy",
     ],
   },
 
   {
-    title: "Hangin' — PH Air Quality Forecaster",
+    title: "Hangin' - PH Air Quality Forecaster",
     groups: ["ML & Forecasting", "Web & Apps"],
     description:
       "PM2.5 forecasting dashboard for 29 Philippine cities, 1-24 hours ahead, with plain-language health advice instead of raw pollutant numbers. Most PH air trackers only show the current reading; Hangin' predicts where it's heading and shows its own accuracy honestly, backtested against a naive persistence baseline across a 60/20/20 chronological split. A pooled HistGradientBoostingRegressor (one model per horizon) trained on 3 years of hourly Open-Meteo history, tuned with a 160-trial randomized search, and served through a full-bleed Leaflet map with a live land-clipped PM2.5 heat overlay, geolocation, and a Simple/Expert toggle so the same accuracy numbers read for a recruiter or a commuter.",
@@ -405,20 +405,20 @@ export const projects = [
     link: "https://github.com/Zeref538/hangin",
     demo: "https://hangin-zeref.vercel.app",
     highlights: [
-      "Pooled multi-horizon HistGradientBoostingRegressor, 160-trial tuned, chronological 60/20/20 split — no leakage",
+      "Pooled multi-horizon HistGradientBoostingRegressor, 160-trial tuned, chronological 60/20/20 split - no leakage",
       "Beats a naive persistence baseline by 16-23% MAE at the 6-24h horizons that matter",
       "Live PM2.5 heat overlay clipped to PH landmass, geolocation, hourly GitHub Actions refresh",
     ],
   },
   {
-    title: "ACRA — Adaptive Color Re-Encoding Algorithm",
+    title: "ACRA - Adaptive Color Re-Encoding Algorithm",
     groups: ["ML & Forecasting"],
     description:
       "CNN-powered system that detects color-critical regions in public signage and re-encodes them for color vision deficiency without altering original design. Trained YOLOv8m on a custom 5-class dataset (33,774 annotated boxes) reaching 0.740 mAP50, and built the core re-encoding algorithm: CLAHE → CIELAB → Fuzzy C-Means → CIEDE2000 conflict detection → constrained optimization. Deployed via FastAPI + ONNX with Supabase (RLS, 24h auto-delete).",
     tags: ["YOLOv8", "Computer Vision", "ONNX", "FastAPI", "Supabase", "React"],
     metric: "0.740 mAP50",
     category: "Computer Vision · CNN · Data Annotation",
-    date: "2025 — 2026",
+    date: "2025 - 2026",
     image: "/projects/acra.jpg",
     images: ["/projects/acra.jpg", "/projects/acra-2.jpg", "/projects/acra-3.jpg"],
     link: "",
@@ -430,7 +430,7 @@ export const projects = [
     ],
   },
   {
-    title: "Solmara Resort & Villas — AI-Concierge Booking Platform",
+    title: "Solmara Resort & Villas - AI-Concierge Booking Platform",
     groups: ["RAG", "Web & Apps"],
     description:
       "A modern-luxury resort platform with Selene, a RAG concierge grounded in a curated knowledge base (rooms, rates, events, policies) via Azure OpenAI embeddings + chat, with an offline extractive fallback. Full booking flow with live availability, conflict detection (no double-booking), 15-minute payment holds, and Stripe Checkout (PHP). The concierge answers live availability questions straight from the booking system and doubles as a time-blocked itinerary planner.",
@@ -449,10 +449,10 @@ export const projects = [
     ],
   },
   {
-    title: "CafèSync — Smart Coffee Shop Operations",
+    title: "CafèSync - Smart Coffee Shop Operations",
     groups: ["ML & Forecasting", "Web & Apps"],
     description:
-      "Centralized coffee shop management for orders, inventory, and sales analytics. Node.js backend synced live via Firebase Firestore (zero-refresh multi-screen updates), PayMongo payments, and a Python AI insights layer generating operational alerts — ingredient reorder triggers and staffing recommendations from order-volume forecasting.",
+      "Centralized coffee shop management for orders, inventory, and sales analytics. Node.js backend synced live via Firebase Firestore (zero-refresh multi-screen updates), PayMongo payments, and a Python AI insights layer generating operational alerts - ingredient reorder triggers and staffing recommendations from order-volume forecasting.",
     tags: ["Forecasting", "Python", "Firebase", "Node.js", "PayMongo"],
     metric: "Live multi-screen sync",
     category: "AI Insights · Realtime Sync · Full-Stack",
@@ -468,10 +468,10 @@ export const projects = [
     ],
   },
   {
-    title: "Portfolio — ML Terminal Website",
+    title: "Portfolio - ML Terminal Website",
     groups: ["RAG", "Web & Apps"],
     description:
-      "This site. A React + Vite portfolio with an 'ML terminal' personality — boot log, CRT scanlines, tmux-style status bar — plus zeref-bot: a RAG chatbot (Azure OpenAI gpt-5-mini) that embeds each question and retrieves over a vector index of the whole site — projects, READMEs, and a recruiter FAQ — through a rate-limited Vercel serverless function.",
+      "This site. A React + Vite portfolio with an 'ML terminal' personality - boot log, CRT scanlines, tmux-style status bar - plus zeref-bot: a RAG chatbot (Azure OpenAI gpt-5-mini) that embeds each question and retrieves over a vector index of the whole site - projects, READMEs, and a recruiter FAQ - through a rate-limited Vercel serverless function.",
     tags: ["RAG", "Azure OpenAI", "React", "Vite", "Vercel"],
     metric: "RAG chatbot",
     category: "RAG · AI Chatbot · Web",
@@ -487,10 +487,10 @@ export const projects = [
     ],
   },
   {
-    title: "CLICKSILOG — Self-Ordering & Kitchen Display",
+    title: "CLICKSILOG - Self-Ordering & Kitchen Display",
     groups: ["Web & Apps"],
     description:
-      "Self-ordering and kitchen display system replacing manual order-taking. Built the order-routing logic linking customer orders to a real-time Kitchen Display System, integrated PayMongo for online payments, and automated inventory deduction on each order — keeping ordering, kitchen, and stock fully in sync.",
+      "Self-ordering and kitchen display system replacing manual order-taking. Built the order-routing logic linking customer orders to a real-time Kitchen Display System, integrated PayMongo for online payments, and automated inventory deduction on each order - keeping ordering, kitchen, and stock fully in sync.",
     tags: ["JavaScript", "Node.js", "Express", "REST APIs", "React"],
     metric: "End-to-end order sync",
     category: "Realtime Ordering · KDS · Payments",
@@ -513,7 +513,7 @@ export const projects = [
     title: "Smart Scheduling System",
     groups: ["Web & Apps"],
     description:
-      "Desktop class-scheduling platform in Java that auto-generates a conflict-free weekly timetable from courses, professors, rooms, and sections. A constraint-driven engine searches candidate day/time/room combinations and validates each against professor double-booking, room clashes, load balancing, and room optimization — with a live generation log and one-click CSV export.",
+      "Desktop class-scheduling platform in Java that auto-generates a conflict-free weekly timetable from courses, professors, rooms, and sections. A constraint-driven engine searches candidate day/time/room combinations and validates each against professor double-booking, room clashes, load balancing, and room optimization - with a live generation log and one-click CSV export.",
     tags: ["Algorithms", "Java 21", "MySQL", "Swing", "JDBC"],
     metric: "Conflict-free in seconds",
     category: "Constraint Solving · Algorithms · Desktop",
@@ -524,7 +524,7 @@ export const projects = [
     demo: "",
     highlights: [
       "Constraint engine: avoids professor, room & time-slot conflicts",
-      "Configurable strategies — load balancing, room optimization, lunch breaks",
+      "Configurable strategies - load balancing, room optimization, lunch breaks",
       "Interface-driven backend, SHA-256 auth, full CRUD over MySQL/JDBC",
     ],
   },
@@ -584,7 +584,7 @@ export const skills = [
 ];
 
 // url: public verify link (enables the "Verify Badge" button)
-// image: badge artwork — save the PNG in public/certs/ with the filename below
+// image: badge artwork - save the PNG in public/certs/ with the filename below
 export const certifications = [
   {
     name: "Oracle Cloud Infrastructure Certified AI Foundations Associate",
@@ -650,7 +650,7 @@ export const certifications = [
     image: "/certs/data-analytics.jpeg",
   },
   {
-    name: "Cisco Certified Support Technician — Cybersecurity",
+    name: "Cisco Certified Support Technician - Cybersecurity",
     issuer: "Cisco",
     year: "2026",
     url: "https://www.credly.com/badges/42e85a15-aaac-4481-8f59-9ee5e679ef00/linked_in_profile",
@@ -676,15 +676,15 @@ export const education = [
   {
     school: "Our Lady of Fatima University",
     degree: "BS Computer Science",
-    period: "2023 — 2027",
+    period: "2023 - 2027",
     location: "",
     highlights: [
       "Dean's Lister 2023–2026",
-      "Technical Member — English Society",
-      "Member — Junior Philippines Computer Studies Directorate",
-      "2nd Place — Python Programming Competition",
-      "3rd Place — Database Designing Competition",
-      "3rd Place — C Programming Competition",
+      "Technical Member - English Society",
+      "Member - Junior Philippines Computer Studies Directorate",
+      "2nd Place - Python Programming Competition",
+      "3rd Place - Database Designing Competition",
+      "3rd Place - C Programming Competition",
     ],
   },
 ];
