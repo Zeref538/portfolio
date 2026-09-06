@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<!--
+  Source for public/og-image.png - the picture LinkedIn, Messenger, Discord and
+  Slack show when the portfolio link is pasted. Rendered to PNG by
+  scripts/og-image.mjs at exactly 1200x630, the size every one of those
+  platforms crops to.
+
+  It exists as HTML rather than a hand-made image so the copy can be corrected
+  in one place. The previous PNG was drawn once and then quietly went stale: it
+  carried the old profile photo and the retired "0.72 -> 0.52 and it lost"
+  numbers for days after the site itself had been corrected.
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+  * { margin: 0; box-sizing: border-box; }
+  body {
+    width: 1200px; height: 630px; display: flex; align-items: center;
+    gap: 62px; padding: 0 84px;
+    background: #0a0a0f;
+    font-family: Inter, system-ui, sans-serif;
+    color: #e8e9ee;
+    position: relative; overflow: hidden;
+  }
+  /* the same violet spine the site wears down its left edge */
+  body::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 10px;
+    background: linear-gradient(180deg, #3b82f6, #7c3aed 55%, #a855f7);
+  }
+  /* the site's dot grid, so the card and the page look like one thing */
+  body::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.045) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+  .photo {
+    width: 260px; height: 260px; border-radius: 50%; flex: none;
+    object-fit: cover; border: 3px solid #7c3aed;
+    box-shadow: 0 0 0 10px rgba(124,58,237,0.13);
+    position: relative; z-index: 1;
+  }
+  .text { position: relative; z-index: 1; }
+  h1 { font-size: 58px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; }
+  .role { font-size: 31px; font-weight: 600; color: #a855f7; margin: 10px 0 22px; }
+  .blurb { font-size: 21px; line-height: 1.5; color: #a8abb8; max-width: 690px; }
+  .foot {
+    margin-top: 30px; display: flex; align-items: baseline; gap: 16px;
+    font-size: 19px;
+  }
+  .url { font-weight: 600; color: #e8e9ee; }
+  .sep { color: #4a4d5e; }
+  .meta { color: #8b8fa0; }
+</style>
+</head>
+<body>
+  <img class="photo" src="../public/john-andrei-martinez.jpg" alt="" />
+  <div class="text">
+    <h1>John Andrei Martinez</h1>
+    <div class="role">AI/ML Engineer</div>
+    <div class="blurb">
+      Agentic AI, RAG, LLMs written from scratch and fine-tuned, forecasting
+      and computer vision - shipped as full-stack apps that keep running
+      without me.
+    </div>
+    <div class="foot">
+      <span class="url">johnandrei.vercel.app</span>
+      <span class="sep">/</span>
+      <span class="meta">20 projects, 18 live</span>
+      <span class="sep">/</span>
+      <span class="meta">ML Intern @ FlyRank AI</span>
+    </div>
+  </div>
+</body>
+</html>
