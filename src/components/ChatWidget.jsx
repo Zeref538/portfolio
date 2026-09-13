@@ -66,10 +66,42 @@ export default function ChatWidget({ windowed = false, onClose }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: next.slice(1) }),
       });
-      const data = await r.json().catch(() => ({}));
-      const reply =
-        data.reply || (r.ok ? "…no output. try rephrasing?" : "bot is offline right now - email me instead!");
-      setMessages((m) => [...m, { role: "assistant", content: reply }]);
+
+      // Two shapes come back. A good answer streams as plain text; every failure
+      // path still answers with JSON, because once a 200 and the first byte are
+      // out the door the status can no longer be changed.
+      const isStream = r.ok && (r.headers.get("content-type") || "").startsWith("text/plain");
+
+      if (!isStream) {
+        const data = await r.json().catch(() => ({}));
+        const reply =
+          data.reply || (r.ok ? "…no output. try rephrasing?" : "bot is offline right now - email me instead!");
+        setMessages((m) => [...m, { role: "assistant", content: reply }]);
+        return;
+      }
+
+      // open an empty bubble first, then grow it as bytes land
+      setMessages((m) => [...m, { role: "assistant", content: "", streaming: true }]);
+      const reader = r.body.getReader();
+      const decoder = new TextDecoder();
+      let acc = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        acc += decoder.decode(value, { stream: true });
+        // rewrite only the last message; copying the array keeps React's
+        // "state is immutable" rule so the re-render actually fires
+        setMessages((m) => {
+          const copy = m.slice();
+          copy[copy.length - 1] = { role: "assistant", content: acc, streaming: true };
+          return copy;
+        });
+      }
+      setMessages((m) => {
+        const copy = m.slice();
+        copy[copy.length - 1] = { role: "assistant", content: acc || "…no output. try rephrasing?" };
+        return copy;
+      });
     } catch {
       setMessages((m) => [...m, { role: "assistant", content: "network error - try again?" }]);
     } finally {

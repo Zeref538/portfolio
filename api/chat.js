@@ -180,6 +180,9 @@ export default async function handler(req, res) {
           // gpt-5-mini is a reasoning model - without this it burns the whole
           // token budget thinking and returns empty content
           reasoning_effort: "minimal",
+          // stream the answer out token by token instead of making the visitor
+          // stare at a dead box for several seconds
+          stream: true,
         }),
       }
     );
@@ -190,9 +193,51 @@ export default async function handler(req, res) {
       return res.status(502).json({ error: "upstream", reply: "model unavailable right now - try again in a minute." });
     }
 
-    const data = await r.json();
-    const reply = data.choices?.[0]?.message?.content?.trim() || "…no output. try rephrasing?";
-    return res.status(200).json({ reply });
+    // ---- pipe the stream through as plain text ----
+    // Azure answers in Server-Sent Events: many small "data: {json}" lines, one
+    // per token, ending with "data: [DONE]". The browser does not need that
+    // envelope, so only the text inside each delta is forwarded. Plain text
+    // means the client can append bytes straight to the bubble with no parsing.
+    res.setHeader("Content-Type", "text/plain; charset=utf-8");
+    res.setHeader("Cache-Control", "no-cache, no-transform");
+    // without this some proxies hold the whole response back and "streaming"
+    // arrives as one lump at the end, which looks identical to not streaming
+    res.setHeader("X-Accel-Buffering", "no");
+    res.status(200);
+
+    const reader = r.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    let sent = 0;
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+
+      // a chunk can split mid-line, so keep the unfinished tail in the buffer
+      const lines = buffer.split("\n");
+      buffer = lines.pop() ?? "";
+
+      for (const line of lines) {
+        const t = line.trim();
+        if (!t.startsWith("data:")) continue;
+        const payload = t.slice(5).trim();
+        if (payload === "[DONE]") continue;
+        try {
+          const delta = JSON.parse(payload).choices?.[0]?.delta?.content;
+          if (delta) {
+            res.write(delta);
+            sent += delta.length;
+          }
+        } catch {
+          // a malformed line is not worth killing a good answer over
+        }
+      }
+    }
+
+    if (sent === 0) res.write("…no output. try rephrasing?");
+    return res.end();
   } catch (err) {
     console.error("chat error", err);
     return res.status(500).json({ error: "internal", reply: "something broke on my end - email me instead!" });

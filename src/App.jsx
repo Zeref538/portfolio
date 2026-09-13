@@ -164,6 +164,24 @@ function CopyButton({ value, className = "", labelIdle = "Copy", icon = <LuMail 
 // One FlyRank track: the line that matters, plus a toggle for the rest.
 // Four long bullets per track would make the card taller than the screen, and
 // the two tracks under ML Engineering were invisible below the fold.
+// Split an honour line into a badge and the rest.
+// "2nd Place - Python Programming Competition" -> badge "2nd", text the rest.
+// The placement is the part worth catching at a glance, and burying it inside a
+// sentence wastes it. Everything else falls back to a neutral marker rather
+// than being forced into a shape it does not fit.
+function splitHonour(raw) {
+  const place = raw.match(/^(\d+(?:st|nd|rd|th))\s+Place\s*-\s*(.+)$/i);
+  if (place) return { badge: place[1].toLowerCase(), text: place[2], kind: "place" };
+
+  const dean = raw.match(/^(Dean's Lister)\s+(.+)$/i);
+  if (dean) return { badge: "\u2605", text: dean[1], note: dean[2], kind: "honor" };
+
+  const role = raw.match(/^(.+?)\s*-\s*(.+)$/);
+  if (role) return { badge: "\u00b7", text: role[2], note: role[1], kind: "role" };
+
+  return { badge: "\u00b7", text: raw, kind: "role" };
+}
+
 function ExpTrack({ t }) {
   const [open, setOpen] = useState(false);
   const done = t.status === "completed";
@@ -486,7 +504,16 @@ export default function App() {
                         <div className="edu-side">
                           <div className="edu-side-label"># honors &amp; awards</div>
                           <div className="edu-highlights">
-                            {ed.highlights.map((h) => <span className="tag" key={h}>{h}</span>)}
+                            {ed.highlights.map((h) => {
+                              const { badge, text, note, kind } = splitHonour(h);
+                              return (
+                                <div className={`hon hon-${kind}`} key={h}>
+                                  <span className="hon-badge">{badge}</span>
+                                  <span className="hon-text">{text}</span>
+                                  {note && <span className="hon-note">{note}</span>}
+                                </div>
+                              );
+                            })}
                           </div>
                         </div>
                       )}
