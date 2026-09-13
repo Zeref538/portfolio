@@ -161,6 +161,49 @@ function CopyButton({ value, className = "", labelIdle = "Copy", icon = <LuMail 
 }
 
 // cross-fades through a project's screenshots so covers don't sit static
+// One FlyRank track: the line that matters, plus a toggle for the rest.
+// Four long bullets per track would make the card taller than the screen, and
+// the two tracks under ML Engineering were invisible below the fold.
+function ExpTrack({ t }) {
+  const [open, setOpen] = useState(false);
+  const done = t.status === "completed";
+  return (
+    <div className="exp-track">
+      <div className="exp-track-head">
+        <span className={`exp-track-dot ${done ? "done" : "wip"}`} />
+        <span className="exp-track-name">{t.name}</span>
+        {t.verify ? (
+          <a className="exp-track-verify" href={t.verify} target="_blank" rel="noreferrer">
+            <LuBadgeCheck /> verify
+          </a>
+        ) : (
+          <span className="exp-track-status">{t.status}</span>
+        )}
+      </div>
+      <p className="exp-track-summary">{t.summary}</p>
+      {t.more?.length > 0 && (
+        <>
+          <button
+            type="button"
+            className="exp-track-toggle"
+            onClick={() => setOpen((v) => !v)}
+            // aria-expanded tells a screen reader whether the hidden list is
+            // currently open; without it the button just announces as "button"
+            aria-expanded={open}
+          >
+            {open ? "hide details" : `+${t.more.length} more`}
+          </button>
+          {open && (
+            <ul className="exp-track-more">
+              {t.more.map((m, i) => <li key={i}>{m}</li>)}
+            </ul>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
 function CyclingCover({ images, alt }) {
   const [idx, setIdx] = useState(0);
   const ref = useRef(null);
@@ -488,30 +531,14 @@ export default function App() {
                       </div>
                       <h3 className="exp-role">{exp.role}</h3>
                       <div className="exp-company">{exp.company}</div>
-                      <ul className="exp-bullets">
-                        {exp.bullets.map((b, i) => <li key={i}>{b}</li>)}
-                      </ul>
-                      {exp.tracks && (
+                      {exp.tracks ? (
                         <div className="exp-tracks">
-                          <div className="exp-tracks-label"># program tracks</div>
-                          {exp.tracks.map((t) => (
-                            <div className="exp-track" key={t.name}>
-                              <span className={`exp-track-dot ${t.status === "completed" ? "done" : "wip"}`} />
-                              <span className="exp-track-name">{t.name}</span>
-                              <span className="exp-track-status">{t.status}</span>
-                              {t.verify ? (
-                                <a
-                                  className="exp-track-verify"
-                                  href={t.verify}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                >
-                                  <LuBadgeCheck /> verify
-                                </a>
-                              ) : <span />}
-                            </div>
-                          ))}
+                          {exp.tracks.map((t) => <ExpTrack key={t.name} t={t} />)}
                         </div>
+                      ) : (
+                        <ul className="exp-bullets">
+                          {exp.bullets.map((b, i) => <li key={i}>{b}</li>)}
+                        </ul>
                       )}
                     </div>
                   </BorderGlow>

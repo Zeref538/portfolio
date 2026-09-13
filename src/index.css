@@ -822,50 +822,49 @@ button.nav-icon {
 }
 
 /* ---------- FlyRank program tracks inside the experience card ---------- */
-/* A four-column grid rather than a flex row, so the status words and the verify
-   links line up with each other down the card instead of each row wrapping to
-   wherever its own name happens to end. */
-.exp-tracks {
-  margin-top: 18px;
-  padding-top: 16px;
+/* Each track is a mini-entry: name + verify on one line, one summary sentence,
+   and the rest folded behind a toggle. The card used to be four long bullets
+   tall, which pushed the second and third tracks off the screen entirely. */
+.exp-tracks { display: grid; gap: 4px; }
+
+.exp-track {
+  padding: 14px 0;
   border-top: 1px solid var(--border);
 }
-.exp-tracks-label {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--accent-2);
-  margin-bottom: 10px;
-}
-.exp-track {
-  display: grid;
-  grid-template-columns: 10px 1fr auto auto;
+.exp-track:first-child { border-top: 0; padding-top: 4px; }
+
+.exp-track-head {
+  display: flex;
   align-items: center;
   gap: 10px;
-  padding: 6px 0;
-  font-size: 14px;
+  margin-bottom: 7px;
 }
-.exp-track-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-}
+.exp-track-dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
 /* filled = finished, hollow = still running. The shape carries the meaning as
    well as the colour, so it still reads for anyone who cannot separate the
    two hues. */
 .exp-track-dot.done { background: var(--accent); }
-.exp-track-dot.wip {
-  background: transparent;
-  border: 1.5px solid var(--accent-2);
+.exp-track-dot.wip { background: transparent; border: 1.5px solid var(--accent-2); }
+
+.exp-track-name {
+  font-family: var(--font-heading);
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--text);
 }
-.exp-track-name { color: var(--text); }
+/* margin-left:auto pushes whichever badge exists to the far right, so verify
+   pills and status words line up down the card even though they are different
+   elements on different rows */
 .exp-track-status {
+  margin-left: auto;
   font-family: var(--font-mono);
-  font-size: 11.5px;
-  letter-spacing: 0.06em;
-  color: var(--text-muted);
+  font-size: 11px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  color: var(--accent-2);
 }
 .exp-track-verify {
+  margin-left: auto;
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -873,23 +872,65 @@ button.nav-icon {
   font-size: 11.5px;
   color: var(--accent);
   text-decoration: none;
-  padding: 3px 8px;
+  padding: 3px 9px;
   border: 1px solid var(--border);
   border-radius: 999px;
   transition: border-color 0.2s ease, background 0.2s ease;
 }
-.exp-track-verify:hover {
-  border-color: var(--accent);
-  background: var(--accent-dim);
+.exp-track-verify:hover { border-color: var(--accent); background: var(--accent-dim); }
+
+.exp-track-summary {
+  color: var(--text-muted);
+  font-size: 14.5px;
+  line-height: 1.62;
+}
+
+.exp-track-toggle {
+  margin-top: 9px;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent-2);
+  transition: color 0.2s ease;
+}
+.exp-track-toggle:hover { color: var(--accent); }
+
+.exp-track-more {
+  list-style: none;
+  margin-top: 10px;
+  display: grid;
+  gap: 9px;
+  animation: exp-open 0.26s ease;
+}
+.exp-track-more li {
+  position: relative;
+  padding-left: 16px;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.exp-track-more li::before {
+  content: "B8";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+@keyframes exp-open {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .exp-track-more { animation: none; }
 }
 
 @media (max-width: 640px) {
-  /* the status word and the verify pill stop fitting beside the name */
-  .exp-track {
-    grid-template-columns: 10px 1fr auto;
-    row-gap: 4px;
-  }
-  .exp-track-verify { grid-column: 2 / -1; justify-self: start; }
+  /* the badge stops fitting beside a long track name, so it drops below it */
+  .exp-track-head { flex-wrap: wrap; }
+  .exp-track-status, .exp-track-verify { margin-left: 0; }
+}
 }
 
 /* ---------- projects (numbered showcase cards) ---------- */
@@ -1806,6 +1847,14 @@ button.nav-icon {
   padding: 28px 30px;
 }
 .about-text .edu-side { max-width: none; }
+
+/* Honours stack one per line instead of wrapping into a ragged block. They are
+   sentences, not keywords - "3rd Place - Database Designing Competition" reads
+   as a line item, and two of those side by side just look like a wall. The
+   card gets taller, which is fine: .about-grid stretches both columns to the
+   taller one, so the chatbot beside it grows to match on its own. */
+.about-text .edu-highlights { flex-direction: column; align-items: flex-start; gap: 7px; }
+.about-text .edu-highlights .tag { width: 100%; }
 
 /* The identity block is the card's header now, so it loses the standalone
    spacing it had when it floated above and gains a rule to separate it from

@@ -24,33 +24,47 @@ export const profile = {
 
 export const experience = [
   {
-    role: "ML Engineering Intern",
-    company: "FlyRank AI",
-    period: "Jun 2026 - Sep 2026",
+    role: "FlyRank AI Internship",
+    // not "FlyRank AI" again - the role line already says it, and the card was
+    // printing the company name twice, one above the other
+    company: "AI/ML engineering program",
+    period: "Jun 2026 - Present",
     location: "Remote",
-    // Three separate FlyRank tracks, not three jobs. Listing them flat would
-    // weigh a fluency course the same as the engineering internship, so they
-    // sit under the one role with their real status. Backend AI is marked
-    // in progress because it IS in progress - claiming it finished is the one
-    // thing that would undercut the rest of this portfolio.
+    // Three tracks under one role, not three jobs. Each opens with the single
+    // line that matters and hides the rest behind a toggle - the card was four
+    // long bullets tall before, which buried the two tracks underneath it.
+    // Backend AI stays marked in progress because it IS in progress.
     tracks: [
       {
         name: "ML Engineering",
         status: "completed",
         verify: "https://internship.flyrank.ai/verify/FR-D11-2BABA-10084?first_name=John",
+        summary:
+          "Built a content refresh-priority ranker over a 9.8M-row search warehouse, then reported it as a tie rather than a win because the evidence did not support the win.",
+        more: [
+          "Shipped the ranker in DuckDB and wrote the data contract behind it - eligibility gate, features, and the columns banned for leakage.",
+          "Killed my own result: Precision@50 of 0.88 beat the hand-written rule's 0.86, but tie-breaking alone swings the rule between 0.76 and 0.92, so I reported the win as noise.",
+          "Caught a label leak in my own work - two unbanned columns rebuild the label exactly and lift ROC-AUC from 0.618 to 0.992 - then swept every remaining column and found a third.",
+          "Proved validation design mattered more than model choice: a row-level split inflates ROC-AUC from 0.618 to 0.728 versus a client-grouped one, in 8 of 8 draws.",
+        ],
       },
       {
         name: "AI Fluency",
         status: "completed",
         verify: "https://internship.flyrank.ai/verify/FR-D11-32B85-20FD0?first_name=John",
+        // TODO(john): replace with what you actually did on this track.
+        summary:
+          "Completed FlyRank's AI Fluency track on working with LLM tooling inside a real production workflow.",
+        more: [],
       },
-      { name: "Backend AI Engineering", status: "in progress" },
-    ],
-    bullets: [
-      "Shipped a content refresh-priority ranker over a 9.8M-row search warehouse in DuckDB, and wrote the data contract behind it - eligibility gate, features, and the columns banned for leakage.",
-      "Killed my own result: the model's Precision@50 of 0.88 beat the hand-written rule's 0.86, but tie-breaking alone swings the rule between 0.76 and 0.92, so I reported the win as noise.",
-      "Caught a label leak in my own work - two unbanned columns rebuild the label exactly and lift ROC-AUC from 0.618 to 0.992 - then swept every remaining column and found a third.",
-      "Proved validation design mattered more than model choice: a row-level split inflates ROC-AUC from 0.618 to 0.728 versus a client-grouped one, in 8 of 8 draws.",
+      {
+        name: "Backend AI Engineering",
+        status: "in progress",
+        // TODO(john): fill in once there is something real to report.
+        summary:
+          "Currently on FlyRank's Backend AI Engineering track, building the serving side of AI systems rather than the model side.",
+        more: [],
+      },
     ],
   },
   {
