@@ -36,6 +36,13 @@ export const experience = [
     // Backend AI stays marked in progress because it IS in progress.
     tracks: [
       {
+        name: "Backend AI Engineering",
+        status: "in progress",
+        summary:
+          "Currently on FlyRank's Backend AI Engineering track, moving from training models to serving them.",
+        more: [],
+      },
+      {
         name: "ML Engineering",
         status: "completed",
         verify: "https://internship.flyrank.ai/verify/FR-D11-2BABA-10084?first_name=John",
@@ -52,18 +59,15 @@ export const experience = [
         name: "AI Fluency",
         status: "completed",
         verify: "https://internship.flyrank.ai/verify/FR-D11-32B85-20FD0?first_name=John",
-        // TODO(john): replace with what you actually did on this track.
         summary:
-          "Completed FlyRank's AI Fluency track on working with LLM tooling inside a real production workflow.",
-        more: [],
-      },
-      {
-        name: "Backend AI Engineering",
-        status: "in progress",
-        // TODO(john): fill in once there is something real to report.
-        summary:
-          "Currently on FlyRank's Backend AI Engineering track, building the serving side of AI systems rather than the model side.",
-        more: [],
+          "Six weeks of deliverables ending in claim-check: an agent that verifies every number in a draft against the source it came from, with the expected verdicts written before the build so the run could fail me.",
+        more: [
+          "Audited 13 real recurring tasks into just-me / delegate-with-review / collaborate / automate, and kept verifying any number in the just-me column on purpose.",
+          "Kept a prompt iteration log from a naive one-liner to a working prompt, adding one technique at a time and recording what actually changed in the output at each step.",
+          "Shipped a study-notes pipeline for ~42,000 words of required reading with a third step most people skip - a pass that checks the summary's own numbers back against the source.",
+          "Built claim-check as a Claude Code skill: a 140-line lookup tool, plus an eval set with deliberate errors planted in a fixture draft to prove the agent could catch them.",
+          "Rebuilt this site's chat box end to end to learn what a backend actually is, then fixed the mobile layout from real phone screenshots.",
+        ],
       },
     ],
   },

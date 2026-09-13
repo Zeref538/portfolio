@@ -41,7 +41,16 @@ async function loadDocs() {
     docs.push({
       source: "experience",
       title: `${e.role} @ ${e.company}`,
-      text: `${e.role} at ${e.company} (${e.period}, ${e.location}).\n${e.bullets.map((b) => `- ${b}`).join("\n")}`,
+      text: `${e.role} at ${e.company} (${e.period}, ${e.location}).\n${
+        (e.bullets
+          ? e.bullets.map((b) => `- ${b}`)
+          : (e.tracks || []).flatMap((t) => [
+              `- ${t.name} (${t.status}): ${t.summary}`,
+              ...(t.more || []).map((m) => `  - ${m}`),
+              t.verify ? `  - verification: ${t.verify}` : null,
+            ].filter(Boolean))
+        ).join("\n")
+      }`,
     });
   }
 

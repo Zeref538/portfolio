@@ -16,6 +16,17 @@ try {
 
 const EMBED_DEPLOYMENT = process.env.AZURE_OPENAI_EMBED_DEPLOYMENT || "text-embedding-3-small";
 
+// An entry has either flat `bullets` or a list of `tracks`. Reading .bullets
+// blind is what took the live chat function down with FUNCTION_INVOCATION_FAILED
+// the moment the FlyRank entry moved to tracks.
+function expLines(e) {
+  if (e.bullets) return e.bullets.map((b) => `  * ${b}`);
+  return (e.tracks || []).flatMap((t) => [
+    `  * [${t.name} - ${t.status}] ${t.summary}`,
+    ...(t.more || []).map((m) => `    - ${m}`),
+  ]);
+}
+
 function cosine(a, b) {
   let dot = 0, na = 0, nb = 0;
   for (let i = 0; i < a.length; i++) {
@@ -63,7 +74,7 @@ ${profile.about.join("\n")}
 
 ## Experience
 ${experience
-  .map((e) => `- ${e.role} @ ${e.company} (${e.period}, ${e.location})\n${e.bullets.map((b) => `  * ${b}`).join("\n")}`)
+  .map((e) => `- ${e.role} @ ${e.company} (${e.period}, ${e.location})\n${expLines(e).join("\n")}`)
   .join("\n")}
 
 ## Projects

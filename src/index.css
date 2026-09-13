@@ -913,7 +913,7 @@ button.nav-icon {
   line-height: 1.6;
 }
 .exp-track-more li::before {
-  content: "B8";
+  content: "▸";
   position: absolute;
   left: 0;
   color: var(--accent);
@@ -1853,8 +1853,25 @@ button.nav-icon {
    as a line item, and two of those side by side just look like a wall. The
    card gets taller, which is fine: .about-grid stretches both columns to the
    taller one, so the chatbot beside it grows to match on its own. */
-.about-text .edu-highlights { flex-direction: column; align-items: flex-start; gap: 7px; }
-.about-text .edu-highlights .tag { width: 100%; }
+.about-text .edu-highlights { flex-direction: column; align-items: stretch; gap: 2px; }
+/* A full-width pill is a shape built for a short keyword; stretched across a
+   whole sentence it reads as an empty box with the text floating inside. These
+   are lines in a list, so they get a list's treatment: an accent tick on the
+   left, no outline, and a tinted row on hover to keep them feeling solid. */
+.about-text .edu-highlights .tag {
+  width: 100%;
+  border: 0;
+  border-left: 2px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  background: rgba(139, 92, 246, 0.06);
+  padding: 8px 12px;
+  text-align: left;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.about-text .edu-highlights .tag:hover {
+  background: rgba(139, 92, 246, 0.13);
+  border-left-color: var(--accent-2);
+}
 
 /* The identity block is the card's header now, so it loses the standalone
    spacing it had when it floated above and gains a rule to separate it from
