@@ -26,8 +26,26 @@ export const experience = [
   {
     role: "ML Engineering Intern",
     company: "FlyRank AI",
-    period: "Jun 2026 - Present",
+    period: "Jun 2026 - Sep 2026",
     location: "Remote",
+    // Three separate FlyRank tracks, not three jobs. Listing them flat would
+    // weigh a fluency course the same as the engineering internship, so they
+    // sit under the one role with their real status. Backend AI is marked
+    // in progress because it IS in progress - claiming it finished is the one
+    // thing that would undercut the rest of this portfolio.
+    tracks: [
+      {
+        name: "ML Engineering",
+        status: "completed",
+        verify: "https://internship.flyrank.ai/verify/FR-D11-2BABA-10084?first_name=John",
+      },
+      {
+        name: "AI Fluency",
+        status: "completed",
+        verify: "https://internship.flyrank.ai/verify/FR-D11-32B85-20FD0?first_name=John",
+      },
+      { name: "Backend AI Engineering", status: "in progress" },
+    ],
     bullets: [
       "Shipped a content refresh-priority ranker over a 9.8M-row search warehouse in DuckDB, and wrote the data contract behind it - eligibility gate, features, and the columns banned for leakage.",
       "Killed my own result: the model's Precision@50 of 0.88 beat the hand-written rule's 0.86, but tie-breaking alone swings the rule between 0.76 and 0.92, so I reported the win as noise.",

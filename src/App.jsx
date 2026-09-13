@@ -357,7 +357,7 @@ export default function App() {
         <div className="container">
           <div className="hero-status">
             <span className="dot" />
-            training - ML Engineering Intern @ FlyRank AI
+            training - Backend AI Engineering @ FlyRank AI
           </div>
           <div className="boot-log" aria-hidden="true">
             <span>[ ok ] modules loaded - cv · ml · data</span>
@@ -491,6 +491,28 @@ export default function App() {
                       <ul className="exp-bullets">
                         {exp.bullets.map((b, i) => <li key={i}>{b}</li>)}
                       </ul>
+                      {exp.tracks && (
+                        <div className="exp-tracks">
+                          <div className="exp-tracks-label"># program tracks</div>
+                          {exp.tracks.map((t) => (
+                            <div className="exp-track" key={t.name}>
+                              <span className={`exp-track-dot ${t.status === "completed" ? "done" : "wip"}`} />
+                              <span className="exp-track-name">{t.name}</span>
+                              <span className="exp-track-status">{t.status}</span>
+                              {t.verify ? (
+                                <a
+                                  className="exp-track-verify"
+                                  href={t.verify}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  <LuBadgeCheck /> verify
+                                </a>
+                              ) : <span />}
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </BorderGlow>
                 </div>

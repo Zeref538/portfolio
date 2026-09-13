@@ -81,8 +81,14 @@ A: Yes - I usually end up as project manager. I run rigorous testing and QA, and
 **Q: Describe your work at FlyRank AI - what are you actually building/contributing?**
 A: My capstone there is on Google Search ranking and discoverability - understanding what actually moves visibility and building around it.
 
+**Q: What FlyRank AI programs have you completed?**
+A: Three tracks. ML Engineering (completed Sep 2026, verifiable at https://internship.flyrank.ai/verify/FR-D11-2BABA-10084) and AI Fluency (completed, verifiable at https://internship.flyrank.ai/verify/FR-D11-32B85-20FD0). I am currently taking Backend AI Engineering - that one is in progress, not finished, and I do not claim it as completed.
+
+**Q: Is the FlyRank ML Engineering internship still ongoing?**
+A: No. It ran June 2026 to September 2026 and is finished. I am still with FlyRank, now on their Backend AI Engineering track.
+
 **Q: How do you manage your time and stay productive in an async / remote setting?**
-A: A fixed schedule covering school, my internship, personal projects, and training. Everything has a slot. Efficiency isn't a mood for me; it's a system.
+A: A fixed schedule covering school, my FlyRank training track, personal projects, and study. Everything has a slot. Efficiency isn't a mood for me; it's a system.
 
 **Q: How is your written and spoken English for client-facing or documentation work?**
 A: Strong. I follow fast native speech, communicate clearly, and I already handle documentation work - including full technical docs for my thesis.

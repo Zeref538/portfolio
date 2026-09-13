@@ -97,7 +97,11 @@ async function loadDocs() {
 function chunk(text, target = 900, overlap = 150) {
   // normalise CRLF first - a Windows-authored README would otherwise never match
   // the blank-line split and come back as one giant unusable chunk
-  const paras = text.replace(/\r\n/g, "\n").split(/\n{2,}/);
+  // Em dashes go too. The site has none, but the project READMEs mirrored
+  // into source-assets/ are copies of the GitHub originals, so stripping them
+  // here is the only fix that survives the next sync - this is the single
+  // funnel every source passes through.
+  const paras = text.replace(/\r\n/g, "\n").replace(/—/g, "-").split(/\n{2,}/);
   const chunks = [];
   let buf = "";
   for (const p of paras) {
