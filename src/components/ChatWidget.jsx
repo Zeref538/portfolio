@@ -104,9 +104,11 @@ export default function ChatWidget({ windowed = false, onClose }) {
         const tick = () => {
           const backlog = acc.length - shown;
           if (backlog > 0) {
-            // a couple of characters a frame, faster when far behind so the
-            // text never trails a long way behind what has already arrived
-            let next = Math.min(acc.length, shown + Math.max(2, Math.ceil(backlog / 14)));
+            // 2 to 8 characters a frame: roughly 120-480 a second, which reads as
+            // typing. It speeds up only when far behind. The first version used
+            // backlog/14 with no ceiling, and an 850-character answer that
+            // arrived in one go typed itself out in a third of a second.
+            let next = Math.min(acc.length, shown + Math.min(8, Math.max(2, Math.ceil(backlog / 120))));
             // finish the current word rather than cutting it mid-letter
             const space = acc.indexOf(" ", next);
             if (space !== -1 && space - next < 10) next = space + 1;
@@ -230,7 +232,10 @@ export default function ChatWidget({ windowed = false, onClose }) {
                 {m.content}
               </div>
             ))}
-            {busy && (
+            {/* the dots only mean "waiting for the first word". Once the answer
+                bubble is streaming they would keep bouncing under text that is
+                already being typed out, so they step aside. */}
+            {busy && !messages[messages.length - 1]?.streaming && (
               <div className="chat-msg chat-assistant">
                 <span className="chat-prefix">bot #</span>
                 <span className="chat-typing">
