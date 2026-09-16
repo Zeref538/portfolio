@@ -230,6 +230,7 @@ export default function ChatWidget({ windowed = false, onClose }) {
               <div key={i} className={`chat-msg chat-${m.role}`}>
                 <span className="chat-prefix">{m.role === "user" ? "you $" : "bot #"}</span>
                 {m.content}
+                {m.streaming && <span className="chat-caret" aria-hidden="true" />}
               </div>
             ))}
             {/* the dots only mean "waiting for the first word". Once the answer
