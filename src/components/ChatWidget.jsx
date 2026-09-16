@@ -82,26 +82,53 @@ export default function ChatWidget({ windowed = false, onClose }) {
 
       // open an empty bubble first, then grow it as bytes land
       setMessages((m) => [...m, { role: "assistant", content: "", streaming: true }]);
-      const reader = r.body.getReader();
-      const decoder = new TextDecoder();
-      let acc = "";
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        acc += decoder.decode(value, { stream: true });
+      const setLast = (content, streaming) =>
         // rewrite only the last message; copying the array keeps React's
         // "state is immutable" rule so the re-render actually fires
         setMessages((m) => {
           const copy = m.slice();
-          copy[copy.length - 1] = { role: "assistant", content: acc, streaming: true };
+          copy[copy.length - 1] = { role: "assistant", content, streaming };
           return copy;
         });
-      }
-      setMessages((m) => {
-        const copy = m.slice();
-        copy[copy.length - 1] = { role: "assistant", content: acc || "…no output. try rephrasing?" };
-        return copy;
+
+      // Two loops run side by side. The network loop collects text as fast as
+      // it arrives. The display loop reveals it at a steady pace. Measured on
+      // the live site the server sends ~13 lumps over under 2 seconds, so
+      // painting each lump as it lands looks like a stutter, not typing.
+      // Separating "received" from "shown" is what makes it read word by word.
+      let acc = "";
+      let shown = 0;
+      let networkDone = false;
+
+      const revealed = new Promise((resolve) => {
+        const tick = () => {
+          const backlog = acc.length - shown;
+          if (backlog > 0) {
+            // a couple of characters a frame, faster when far behind so the
+            // text never trails a long way behind what has already arrived
+            let next = Math.min(acc.length, shown + Math.max(2, Math.ceil(backlog / 14)));
+            // finish the current word rather than cutting it mid-letter
+            const space = acc.indexOf(" ", next);
+            if (space !== -1 && space - next < 10) next = space + 1;
+            shown = next;
+            setLast(acc.slice(0, shown), true);
+          }
+          if (networkDone && shown >= acc.length) return resolve();
+          requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
       });
+
+      const reader = r.body.getReader();
+      const decoder = new TextDecoder();
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        acc += decoder.decode(value, { stream: true });
+      }
+      networkDone = true;
+      await revealed;
+      setLast(acc || "…no output. try rephrasing?", false);
     } catch {
       setMessages((m) => [...m, { role: "assistant", content: "network error - try again?" }]);
     } finally {
