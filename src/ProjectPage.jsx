@@ -4,7 +4,6 @@ import { LuArrowLeft, LuArrowUpRight, LuArrowRight } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
 import { projects } from "./data.js";
 import { findProject, slugify } from "./slug.js";
-import Noise from "./components/Noise.jsx";
 import Reveal from "./components/Reveal.jsx";
 import StatusBar from "./components/StatusBar.jsx";
 import { ChatDial } from "./components/ChatWidget.jsx";
@@ -53,7 +52,6 @@ export default function ProjectPage() {
   if (!project) {
     return (
       <div className="pp-wrap">
-        {/* NOISE-OFF (temporary test): <Noise patternAlpha={22} /> */}
         <div className="pp-container pp-missing">
           <div className="section-label">$ cat projects/{slug}</div>
           <p>No project by that name. It may have been renamed.</p>
@@ -70,7 +68,6 @@ export default function ProjectPage() {
 
   return (
     <div className="pp-wrap">
-      {/* NOISE-OFF (temporary test): <Noise patternAlpha={22} /> */}
 
       <div className="pp-container">
         <Link className="pp-back" to="/#projects">

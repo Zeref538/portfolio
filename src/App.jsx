@@ -16,7 +16,6 @@ import { slugify } from "./slug.js";
 import { useNavigate, Link } from "react-router-dom";
 import ContactForm from "./components/ContactForm.jsx";
 import GradualBlur from "./components/GradualBlur.jsx";
-import Noise from "./components/Noise.jsx";
 import StatusBar from "./components/StatusBar.jsx";
 import ChatWidget, { ChatDial } from "./components/ChatWidget.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
@@ -316,7 +315,6 @@ export default function App() {
       {/* <BootLoader /> */}
       <Cursor />
       <ParticleField />
-      {/* NOISE-OFF (temporary test): <Noise patternAlpha={22} /> */}
       {/* zIndex -20 (+100 for page target = 80) keeps nav/rail/statusbar sharp above the veil */}
       <GradualBlur
         target="page"
