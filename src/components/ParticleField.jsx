@@ -10,7 +10,7 @@ export default function ParticleField() {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const GAP = 42;          // px between grid dots
+    const GAP = 30;          // px between grid dots (was 42; ~2x the dots)
     const RADIUS = 150;      // cursor influence radius
     let dots = [];
     let mouse = { x: -9999, y: -9999 };
@@ -33,7 +33,7 @@ export default function ParticleField() {
 
     const drawStatic = () => {
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      ctx.fillStyle = "rgba(139, 152, 169, 0.45)";
+      ctx.fillStyle = "rgba(139, 152, 169, 0.32)";
       for (const d of dots) {
         ctx.fillRect(d.ox - 1.1, d.oy - 1.1, 2.2, 2.2);
       }
@@ -58,11 +58,11 @@ export default function ParticleField() {
         const dx = mouse.x - d.ox;
         const dy = mouse.y - d.oy;
         const dist2 = dx * dx + dy * dy;
-        let alpha = 0.45;
+        let alpha = 0.32;
         let size = 2.2;
         if (dist2 < RADIUS * RADIUS) {
           const t = 1 - Math.sqrt(dist2) / RADIUS; // 0..1 proximity
-          alpha = 0.45 + t * 0.55;
+          alpha = 0.32 + t * 0.68;
           size = 2.2 + t * 1.8;
           // slight pull toward cursor
           d.x += (d.ox + dx * 0.08 * t - d.x) * 0.2;

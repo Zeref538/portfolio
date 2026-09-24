@@ -316,7 +316,7 @@ export default function App() {
       {/* <BootLoader /> */}
       <Cursor />
       <ParticleField />
-      <Noise patternAlpha={22} />
+      {/* NOISE-OFF (temporary test): <Noise patternAlpha={22} /> */}
       {/* zIndex -20 (+100 for page target = 80) keeps nav/rail/statusbar sharp above the veil */}
       <GradualBlur
         target="page"

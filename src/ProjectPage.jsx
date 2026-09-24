@@ -53,7 +53,7 @@ export default function ProjectPage() {
   if (!project) {
     return (
       <div className="pp-wrap">
-        <Noise patternAlpha={22} />
+        {/* NOISE-OFF (temporary test): <Noise patternAlpha={22} /> */}
         <div className="pp-container pp-missing">
           <div className="section-label">$ cat projects/{slug}</div>
           <p>No project by that name. It may have been renamed.</p>
@@ -70,7 +70,7 @@ export default function ProjectPage() {
 
   return (
     <div className="pp-wrap">
-      <Noise patternAlpha={22} />
+      {/* NOISE-OFF (temporary test): <Noise patternAlpha={22} /> */}
 
       <div className="pp-container">
         <Link className="pp-back" to="/#projects">

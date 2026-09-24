@@ -450,8 +450,10 @@ button.nav-icon {
   bottom: 26px;
   width: 3px;
   border-radius: 2px;
-  background: linear-gradient(to bottom, var(--accent-2), var(--accent));
-  box-shadow: 0 0 10px rgba(139, 92, 246, 0.6);
+  /* one colour, not cyan fading into purple: the rail is a progress bar, and
+     two colours made it read as two different things */
+  background: rgba(139, 92, 246, 0.75);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.45);
   transform: scaleY(var(--rail-progress, 0));
   transform-origin: top center;
 }
@@ -469,10 +471,11 @@ button.nav-icon {
   box-sizing: border-box;
 }
 
+/* passed sections: a softer purple, so the current one still stands out */
 .rail-step.done .rail-dot {
-  background: var(--accent-2);
-  border-color: var(--accent-2);
-  box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
+  background: #5b3fa8;
+  border-color: #7c5ce0;
+  box-shadow: 0 0 6px rgba(139, 92, 246, 0.35);
 }
 
 .rail-step.current .rail-dot {
@@ -504,11 +507,7 @@ button.nav-icon {
 .rail-step.current .rail-label {
   font-weight: 700;
   transform: translateX(-3px);
-  background: linear-gradient(90deg, var(--accent-2), var(--accent));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+  color: var(--accent);
 }
 
 .rail-step.done .rail-label { color: var(--text); }
