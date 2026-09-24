@@ -237,3 +237,8 @@
 @media (prefers-reduced-motion: reduce) {
   .pp-back:hover, .pp-nav-item:hover { transform: none; }
 }
+
+/* Privacy page: plain reading column, links visible without hovering. */
+.pp-privacy { max-width: 760px; }
+.pp-privacy .pp-sec:not(:first-of-type) { margin-top: 40px; }
+.pp-privacy .pp-desc a { color: var(--accent); text-decoration: underline; }

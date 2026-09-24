@@ -11,7 +11,7 @@
   --accent-2-dim: rgba(34, 211, 238, 0.12);
   --font-heading: "Sora", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
 }
 
 * {
@@ -2578,3 +2578,35 @@ html.booting #root { opacity: 0; }
 }
 @keyframes chat-caret-blink { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .chat-caret { animation: none; } }
+
+/* One quiet line under the form saying where the message goes. */
+.cf-consent {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.cf-consent a { color: var(--accent-2); text-decoration: underline; }
+
+/* ---------- FAQ ---------- */
+.faq { max-width: 760px; margin: 28px auto 0; display: grid; gap: 10px; text-align: left; }
+.faq-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 14px 18px;
+}
+.faq-item summary {
+  cursor: pointer;
+  font-size: 15.5px;
+  color: var(--text);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after { content: "+"; font-family: var(--font-mono); color: var(--accent); }
+.faq-item[open] summary::after { content: "-"; }
+.faq-item summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+.faq-item p { margin-top: 10px; font-size: 14.5px; line-height: 1.65; color: var(--text-muted); }

@@ -16,6 +16,14 @@ try {
 
 const EMBED_DEPLOYMENT = process.env.AZURE_OPENAI_EMBED_DEPLOYMENT || "text-embedding-3-small";
 
+// Every call to Azure has a deadline. Without one, a slow or stuck Azure
+// response left the visitor watching a blinking cursor until Vercel itself
+// killed the function, with no error and no reply. The chat deadline covers the
+// whole streamed answer, not just the first byte: a normal answer finishes in
+// about 6 seconds, so 25 is generous without being a hang.
+const EMBED_TIMEOUT_MS = 8_000;
+const CHAT_TIMEOUT_MS = 25_000;
+
 // An entry has either flat `bullets` or a list of `tracks`. Reading .bullets
 // blind is what took the live chat function down with FUNCTION_INVOCATION_FAILED
 // the moment the FlyRank entry moved to tracks.
@@ -44,6 +52,7 @@ async function embedQuery(endpoint, key, text) {
       method: "POST",
       headers: { "Content-Type": "application/json", "api-key": key },
       body: JSON.stringify({ input: text }),
+      signal: AbortSignal.timeout(EMBED_TIMEOUT_MS),
     }
   );
   if (!r.ok) throw new Error(`embed ${r.status}`);
@@ -184,6 +193,7 @@ export default async function handler(req, res) {
           // stare at a dead box for several seconds
           stream: true,
         }),
+        signal: AbortSignal.timeout(CHAT_TIMEOUT_MS),
       }
     );
 
@@ -239,7 +249,20 @@ export default async function handler(req, res) {
     if (sent === 0) res.write("…no output. try rephrasing?");
     return res.end();
   } catch (err) {
-    console.error("chat error", err);
-    return res.status(500).json({ error: "internal", reply: "something broke on my end - email me instead!" });
+    const timedOut = err?.name === "TimeoutError";
+    console.error(timedOut ? "chat timeout" : "chat error", err);
+    // If the answer had already started streaming, the status line and headers
+    // are gone and a JSON error cannot be sent. Finish the text the visitor is
+    // reading instead of throwing a second error on top of the first.
+    if (res.headersSent) {
+      res.write(timedOut ? "\n\n[answer cut off - took too long. try again?]" : "\n\n[connection dropped]");
+      return res.end();
+    }
+    return res.status(timedOut ? 504 : 500).json({
+      error: timedOut ? "timeout" : "internal",
+      reply: timedOut
+        ? "the model took too long to answer - try again in a moment."
+        : "something broke on my end - email me instead!",
+    });
   }
 }

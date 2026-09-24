@@ -2,7 +2,20 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import ProjectPage from "./ProjectPage.jsx";
+import NotFound from "./NotFound.jsx";
+import Privacy from "./Privacy.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+// Fonts ship with the site instead of loading from fonts.googleapis.com. A
+// Google-hosted font sends every visitor's IP address to Google on every page
+// view, which is a disclosure nobody agreed to, and it is one more network
+// round trip before any text can paint.
+import "@fontsource/sora/600.css";
+import "@fontsource/sora/700.css";
+import "@fontsource/sora/800.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "@fontsource-variable/jetbrains-mono";
 import "./index.css";
 // Analytics is a count of visits, not a tracker: no cookies, no cross-site
 // profile, so no consent banner is needed. SpeedInsights reports the load speed
@@ -22,6 +35,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/projects/:slug" element={<ProjectPage />} />
+        {/* Anything else. Without this, a mistyped URL fell through to the
+            host's own bare 404 with no link back to the site. */}
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
     <Analytics />
