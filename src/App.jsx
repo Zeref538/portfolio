@@ -14,7 +14,6 @@ import { useEffect, useRef, useState } from "react";
 import { profile, experience, projects, skills, certifications, education } from "./data.js";
 import { slugify } from "./slug.js";
 import { useNavigate, Link } from "react-router-dom";
-import Faq from "./components/Faq.jsx";
 import ContactForm from "./components/ContactForm.jsx";
 import GradualBlur from "./components/GradualBlur.jsx";
 import Noise from "./components/Noise.jsx";
@@ -756,14 +755,6 @@ export default function App() {
                 </div>
               </div>
             ))}
-          </Reveal>
-        </section>
-
-        <section id="faq" className="faq-section">
-          <Reveal className="container">
-            <div className="section-label">$ cat faq.md</div>
-            <div className="section-out"># the five things recruiters ask first</div>
-            <Faq />
           </Reveal>
         </section>
 
