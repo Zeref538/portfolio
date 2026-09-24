@@ -10,8 +10,15 @@ export default function ParticleField() {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const GAP = 30;          // px between grid dots (was 42; ~2x the dots)
+    const GAP = 22;          // px between dots, same as the LiitLLM case study
     const RADIUS = 150;      // cursor influence radius
+    // plain white at 9%: on pure black it reads as texture, not as a grid
+    const IDLE = "rgba(255, 255, 255, 0.09)";
+    const dot = (x, y, size) => {
+      ctx.beginPath();
+      ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+      ctx.fill();
+    };
     let dots = [];
     let mouse = { x: -9999, y: -9999 };
     let raf;
@@ -33,10 +40,8 @@ export default function ParticleField() {
 
     const drawStatic = () => {
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      ctx.fillStyle = "rgba(139, 152, 169, 0.32)";
-      for (const d of dots) {
-        ctx.fillRect(d.ox - 1.1, d.oy - 1.1, 2.2, 2.2);
-      }
+      ctx.fillStyle = IDLE;
+      for (const d of dots) dot(d.ox, d.oy, 2);
     };
 
     let idleFrames = 0;
@@ -58,22 +63,20 @@ export default function ParticleField() {
         const dx = mouse.x - d.ox;
         const dy = mouse.y - d.oy;
         const dist2 = dx * dx + dy * dy;
-        let alpha = 0.32;
-        let size = 2.2;
+        let size = 2;
         if (dist2 < RADIUS * RADIUS) {
           const t = 1 - Math.sqrt(dist2) / RADIUS; // 0..1 proximity
-          alpha = 0.32 + t * 0.68;
-          size = 2.2 + t * 1.8;
+          size = 2 + t * 2;
           // slight pull toward cursor
           d.x += (d.ox + dx * 0.08 * t - d.x) * 0.2;
           d.y += (d.oy + dy * 0.08 * t - d.y) * 0.2;
-          ctx.fillStyle = `rgba(139, 92, 246, ${alpha})`;
+          ctx.fillStyle = `rgba(139, 92, 246, ${0.35 + t * 0.65})`;
         } else {
           d.x += (d.ox - d.x) * 0.2;
           d.y += (d.oy - d.y) * 0.2;
-          ctx.fillStyle = `rgba(139, 152, 169, ${alpha})`;
+          ctx.fillStyle = IDLE;
         }
-        ctx.fillRect(d.x - size / 2, d.y - size / 2, size, size);
+        dot(d.x, d.y, size);
       }
       if (running) raf = requestAnimationFrame(frame);
     };

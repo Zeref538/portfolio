@@ -1,8 +1,8 @@
 :root {
-  --bg: #07090d;
-  --surface: #0d1117;
-  --surface-2: #11161f;
-  --border: #1e2733;
+  --bg: #000000;
+  --surface: #111111;
+  --surface-2: #171717;
+  --border: #262626;
   --text: #e6edf3;
   --text-muted: #8b98a9;
   --accent: #8b5cf6;
@@ -1398,7 +1398,7 @@ button.nav-icon {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text);
-  background: rgba(7, 9, 13, 0.55);
+  background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(3px);
   opacity: 0;
   transition: opacity 0.3s ease;

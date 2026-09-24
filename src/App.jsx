@@ -35,7 +35,7 @@ const NAV = [
 const GLOW_CARD_PROPS = {
   edgeSensitivity: 20,
   glowColor: "258 90 76",
-  backgroundColor: "#0d1117",
+  backgroundColor: "#111111",
   borderRadius: 12,
   glowRadius: 30,
   glowIntensity: 1.0,
@@ -519,7 +519,7 @@ export default function App() {
                   <BorderGlow
                     edgeSensitivity={20}
                     glowColor="258 90 76"
-                    backgroundColor="#0d1117"
+                    backgroundColor="#111111"
                     borderRadius={16}
                     glowRadius={30}
                     glowIntensity={1.0}
