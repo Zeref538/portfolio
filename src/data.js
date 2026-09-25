@@ -86,13 +86,13 @@ export const experience = [
 
 export const projects = [
   {
-    title: "Which Page Do You Fix First? - Refresh Priority on Real Search Data",
+    title: "Fix First - Choosing Which Web Pages to Update First",
     groups: ["ML & Forecasting"],
     description:
       "FlyRank ML internship capstone: a refresh-priority ranker over 30,000 pseudonymised client content pages, built to answer one question a content team actually has - given a fixed number of review hours, which pages do you look at first? I wrote a five-line hand-written rule before any model and kept it as the thing to beat, then judged four models against it on clients none of them had ever seen. The model did not win, and that is the paper. Precision@50 of 0.88 against the rule's 0.86, a gap that sits inside the 0.76–0.92 band the rule alone moves through purely from how tied scores are broken, with a client-clustered bootstrap putting the difference at -0.260 to +0.140 - an interval containing zero. Two findings mattered more than any model: splitting the data by row instead of by client inflates ROC-AUC from 0.618 to 0.728 in 8 of 8 draws, and the label turned out to be exactly rebuildable from two columns no guidance bans. I then swept every column with a planted positive control to prove the sweep could detect a leak, and it caught a third I had missed.",
     tags: ["scikit-learn", "DuckDB", "Pandas", "Causal Inference", "Leakage Audit", "Bootstrap", "Python"],
     metric: "P@50 0.88 vs 0.551 base - and still no clear win over a 5-line rule",
-    category: "Honest Validation - Ranking - Negative Result",
+    category: "FlyRank ML Internship - Ranking - Honest Validation",
     date: "2026",
     image: "/projects/flyrank-cover.jpg",
     images: [
