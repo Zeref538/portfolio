@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { LuArrowUpRight, LuX, LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
@@ -7,7 +7,40 @@ import { slugify } from "../slug.js";
 // The enlarged card a project opens into. Built on the browser's own <dialog>:
 // showModal() gives Esc-to-close, a focus trap and the "dialog" role for screen
 // readers for free, and ::backdrop is the dimmed layer behind it.
-export default function ProjectModal({ project, position, onClose, onPrev, onNext }) {
+// The screenshot stays 16:9. Stretching it to the card's height and cropping
+// with object-fit turned it into a square with its sides cut off. The space
+// under it holds the project's other screenshots instead.
+// Lives inside the keyed card, so it resets to the first image per project.
+function Gallery({ project: p, name }) {
+  const shots = p.images?.length ? p.images : p.image ? [p.image] : [];
+  const [i, setI] = useState(0);
+  if (!shots.length) return <div className="pm-shot"><span className="pm-shot-ph">{name}</span></div>;
+  return (
+    <div className="pm-gallery">
+      <div className="pm-shot">
+        <img src={shots[i]} alt={`${p.title} screenshot ${i + 1} of ${shots.length}`} />
+      </div>
+      {shots.length > 1 && (
+        <div className="pm-thumbs">
+          {shots.map((src, k) => (
+            <button
+              type="button"
+              key={src}
+              className={`pm-thumb ${k === i ? "on" : ""}`}
+              aria-label={`Show screenshot ${k + 1}`}
+              aria-pressed={k === i}
+              onClick={() => setI(k)}
+            >
+              <img src={src} alt="" loading="lazy" />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function ProjectModal({ project, onClose, onPrev, onNext }) {
   const ref = useRef(null);
   const isOpen = Boolean(project);
 
@@ -59,16 +92,7 @@ export default function ProjectModal({ project, position, onClose, onPrev, onNex
           <LuX />
         </button>
 
-        <div className="pm-shot">
-          {p.image ? (
-            <img src={p.image} alt={`${p.title} screenshot`} />
-          ) : (
-            <span className="pm-shot-ph">{name}</span>
-          )}
-          <div className="pm-count" aria-live="polite">
-            {position.index + 1} / {position.total} · use ← → keys
-          </div>
-        </div>
+        <Gallery project={p} name={name} />
 
         <div className="pm-body">
           <div className="pm-head">

@@ -386,7 +386,6 @@ export default function App() {
         return (
           <ProjectModal
             project={openProject}
-            position={{ index: idx, total: list.length }}
             onClose={() => setOpenProject(null)}
             onPrev={() => step(-1)}
             onNext={() => step(1)}
