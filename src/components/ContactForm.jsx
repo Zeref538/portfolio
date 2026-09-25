@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { LuSend, LuCheck, LuTriangleAlert } from "react-icons/lu";
-import { Link } from "react-router-dom";
 import { profile } from "../data.js";
 
 // Sends mail via FormSubmit.co (free, no account/API key; the inbox owner
@@ -124,11 +123,6 @@ export default function ContactForm() {
         <LuSend />
         {status === "sending" ? "sending..." : "Send Message"}
       </button>
-      {/* Says where the message goes before it is sent, not after. */}
-      <p className="cf-consent">
-        Sent through FormSubmit to my inbox and used only to reply to you.{" "}
-        <Link to="/privacy">Privacy</Link>
-      </p>
       {status === "error" && (
         <p className="cf-error" role="alert">
           <LuTriangleAlert /> couldn't send{errorDetail ? `: ${errorDetail}` : ""} - email me directly at{" "}

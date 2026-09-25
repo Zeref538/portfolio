@@ -1853,9 +1853,6 @@ button.nav-icon {
 /* The identity block is the card's header now, so it loses the standalone
    spacing it had when it floated above and gains a rule to separate it from
    the school below. */
-/* the case-study link leads the overlay's link row, so it reads as the primary
-   action rather than a third option after demo and source */
-.pj3-case { color: var(--accent) !important; }
 
 .about-text .about-id {
   margin-bottom: 0;
@@ -2578,12 +2575,137 @@ html.booting #root { opacity: 0; }
 @keyframes chat-caret-blink { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .chat-caret { animation: none; } }
 
-/* One quiet line under the form saying where the message goes. */
-.cf-consent {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 4px;
+/* ---------- project popup (ProjectModal) ---------- */
+/* Screenshot left, details right, like a spec sheet. The native <dialog>
+   supplies Esc, focus trapping and the ::backdrop layer. */
+.pm {
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  width: min(1040px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  overflow: visible;
 }
-.cf-consent a { color: var(--accent-2); text-decoration: underline; }
+.pm::backdrop {
+  background: rgba(3, 5, 8, 0.72);
+  backdrop-filter: blur(6px);
+}
+.pm[open] .pm-card { animation: pm-in 0.22s ease-out; }
+@keyframes pm-in { from { opacity: 0; transform: translateY(10px) scale(0.98); } }
 
+.pm-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
+
+.pm-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.pm-close:hover, .pm-close:focus-visible { color: var(--text); border-color: var(--accent); }
+
+.pm-shot {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface-2);
+  aspect-ratio: 16 / 10;
+  display: grid;
+  place-items: center;
+}
+.pm-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.pm-shot-ph { font-family: var(--font-heading); font-size: 28px; color: var(--text-muted); }
+
+.pm-body { min-width: 0; padding-right: 30px; }
+.pm-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.pm-head h3 {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  line-height: 1.2;
+  padding-left: 10px;
+  border-left: 3px solid var(--accent);
+}
+.pm-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 11px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.pm-check:hover, .pm-check:focus-visible { border-color: var(--accent); color: var(--accent); }
+
+.pm-sub { margin-top: 10px; font-size: 14.5px; line-height: 1.5; color: var(--text-muted); }
+.pm-metric { margin-top: 6px; font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-2); }
+
+.pm-list { list-style: none; margin: 14px 0 0; display: grid; gap: 8px; }
+.pm-list li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+.pm-list li::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--accent);
+  font-size: 11px;
+}
+
+.pm-tags { margin-top: 14px; }
+.pm-links { display: flex; gap: 16px; margin-top: 14px; }
+.pm-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+.pm-links a:hover { color: var(--accent); }
+
+@media (max-width: 760px) {
+  .pm-card { grid-template-columns: 1fr; gap: 16px; padding: 16px; }
+  .pm-body { padding-right: 0; }
+  .pm-head { padding-right: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pm[open] .pm-card { animation: none; }
+}

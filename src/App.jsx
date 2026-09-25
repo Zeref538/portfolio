@@ -12,14 +12,13 @@ import BorderGlow from "./components/BorderGlow.jsx";
 import RotatingText from "./components/RotatingText.jsx";
 import { useEffect, useRef, useState } from "react";
 import { profile, experience, projects, skills, certifications, education } from "./data.js";
-import { slugify } from "./slug.js";
-import { useNavigate, Link } from "react-router-dom";
+import ProjectModal from "./components/ProjectModal.jsx";
 import ContactForm from "./components/ContactForm.jsx";
 import GradualBlur from "./components/GradualBlur.jsx";
 import StatusBar from "./components/StatusBar.jsx";
 import ChatWidget, { ChatDial } from "./components/ChatWidget.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
-import { LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuArrowRight, LuFileText, LuLinkedin, LuMail, LuCheck, LuPhone } from "react-icons/lu";
+import { LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuLinkedin, LuMail, LuCheck, LuPhone } from "react-icons/lu";
 import { SiGithub } from "react-icons/si";
 
 const NAV = [
@@ -240,7 +239,6 @@ function CyclingCover({ images, alt }) {
 }
 
 export default function App() {
-  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState("");
   const timelineRef = useRef(null);
   const railRef = useRef(null);
@@ -277,6 +275,7 @@ export default function App() {
   }, []);
   const [projFilter, setProjFilter] = useState("All");
   const [showAllProjects, setShowAllProjects] = useState(false);
+  const [openProject, setOpenProject] = useState(null);
   // projects are ordered strongest-first, so collapsing the tail hides only the
   // weakest cards (currently CafèSync, Portfolio, CLICKSILOG, Smart Scheduling)
   const PROJ_PREVIEW = projects.length - 4;
@@ -378,6 +377,7 @@ export default function App() {
       </nav>
 
       <StatusBar section={activeSection} />
+      <ProjectModal project={openProject} onClose={() => setOpenProject(null)} />
       <ChatDial />
 
       <aside className="section-rail" aria-label="Section progress" ref={railRef}>
@@ -579,37 +579,23 @@ export default function App() {
                 <Reveal key={p.title} className="pj-item" style={{ "--i": i }}>
                   <GlowCard className="pj3-glow" borderRadius={30}>
                     {(() => {
-                      // The card used to jump straight to the live demo. It
-                      // now opens the case study instead: the demo is one click
-                      // further in, but the write-up, the numbers and the
-                      // screenshots are finally reachable at all.
-                      const href = `/projects/${slugify(p.title)}`;
-                      const open = () => {
-                        if (!href) return;
-                        // touch: tapping focuses the card and reveals the overlay
-                        // (:focus-within) instead of yanking the user to a new tab -
-                        // the overlay's demo/source links handle navigation there
-                        if (window.matchMedia("(hover: none)").matches) return;
-                        navigate(href);
-                      };
-                      const openCase = (e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        navigate(href);
-                      };
+                      // A click opens the enlarged card (ProjectModal) on every
+                      // device. The case-study page is its "Check out" button.
+                      const open = () => setOpenProject(p);
                       return (
                     <article
                       className="pj3"
-                      role={href ? "link" : undefined}
-                      tabIndex={href ? 0 : undefined}
+                      role="button"
+                      tabIndex={0}
+                      aria-haspopup="dialog"
                       onClick={open}
                       onKeyDown={(e) => {
-                        if (href && (e.key === "Enter" || e.key === " ")) {
+                        if (e.key === "Enter" || e.key === " ") {
                           e.preventDefault();
                           open();
                         }
                       }}
-                      style={href ? { cursor: "pointer" } : undefined}
+                      style={{ cursor: "pointer" }}
                     >
                       {/* cover: screenshot / gif of the live app */}
                       <div className="pj3-cover">
@@ -660,12 +646,6 @@ export default function App() {
                           {p.tags.map((t) => <span className="tag" key={t}>{t}</span>)}
                         </div>
                         <div className="pj3-links">
-                          {/* On a phone the card click is suppressed so the
-                              overlay can be scrolled, which would leave the
-                              case study unreachable without this link. */}
-                          <a href={href} onClick={openCase} className="pj3-case">
-                            <LuArrowRight /> full case study
-                          </a>
                           {p.demo && (
                             <a href={p.demo} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
                               <LuArrowUpRight /> {p.demoLabel || "live demo"}
