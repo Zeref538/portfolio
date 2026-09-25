@@ -2584,10 +2584,37 @@ html.booting #root { opacity: 0; }
   border: 0;
   background: transparent;
   color: var(--text);
-  width: min(1040px, calc(100vw - 32px));
-  max-height: calc(100vh - 48px);
+  width: min(1320px, calc(100vw - 32px));
+  max-height: calc(100vh - 40px);
   overflow: visible;
 }
+.pm[open] { display: flex; align-items: center; gap: 14px; }
+
+/* The site hides the real pointer and draws its own cursor. A modal <dialog>
+   sits in the browser's top layer, above every z-index, so that drawn cursor
+   ends up underneath it and the pointer vanishes. Inside the popup, use the
+   real one. These selectors out-rank the body.custom-cursor rule that hides it. */
+body.custom-cursor .pm { cursor: auto; }
+body.custom-cursor .pm a,
+body.custom-cursor .pm button { cursor: pointer; }
+
+/* previous / next, either side of the card */
+.pm-nav {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 22px;
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.pm-nav:hover, .pm-nav:focus-visible { color: var(--text); border-color: var(--accent); }
+.pm-prev:hover { transform: translateX(-2px); }
+.pm-next:hover { transform: translateX(2px); }
 .pm::backdrop {
   background: rgba(3, 5, 8, 0.72);
   backdrop-filter: blur(6px);
@@ -2599,14 +2626,18 @@ html.booting #root { opacity: 0; }
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  gap: 28px;
-  align-items: start;
-  padding: 22px;
+  flex: 1;
+  min-width: 0;
+  gap: 30px;
+  /* stretch, so the screenshot column is as tall as the text beside it
+     instead of leaving a gap under a short image */
+  align-items: stretch;
+  padding: 26px;
   border: 1px solid var(--border);
   border-radius: 20px;
   background: var(--surface);
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
-  max-height: calc(100vh - 48px);
+  max-height: calc(100vh - 40px);
   overflow-y: auto;
 }
 
@@ -2629,22 +2660,34 @@ html.booting #root { opacity: 0; }
 .pm-close:hover, .pm-close:focus-visible { color: var(--text); border-color: var(--accent); }
 
 .pm-shot {
+  position: relative;
   border: 1px solid var(--border);
   border-radius: 14px;
   overflow: hidden;
   background: var(--surface-2);
-  aspect-ratio: 16 / 10;
+  min-height: 360px;
   display: grid;
   place-items: center;
 }
 .pm-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
 .pm-shot-ph { font-family: var(--font-heading); font-size: 28px; color: var(--text-muted); }
+.pm-count {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(7, 9, 13, 0.78);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
 
 .pm-body { min-width: 0; padding-right: 30px; }
 .pm-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .pm-head h3 {
   font-family: var(--font-heading);
-  font-size: 22px;
+  font-size: 25px;
   line-height: 1.2;
   padding-left: 10px;
   border-left: 3px solid var(--accent);
@@ -2664,7 +2707,22 @@ html.booting #root { opacity: 0; }
 .pm-check:hover, .pm-check:focus-visible { border-color: var(--accent); color: var(--accent); }
 
 .pm-sub { margin-top: 10px; font-size: 14.5px; line-height: 1.5; color: var(--text-muted); }
-.pm-metric { margin-top: 6px; font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-2); }
+.pm-meta { margin-top: 4px; font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); opacity: 0.8; }
+.pm-metric { margin-top: 8px; font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-2); }
+
+/* the description, cut to four lines - the case study has the rest */
+.pm-desc {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+  opacity: 0.88;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  overflow: hidden;
+}
 
 .pm-list { list-style: none; margin: 14px 0 0; display: grid; gap: 8px; }
 .pm-list li {
@@ -2675,8 +2733,8 @@ html.booting #root { opacity: 0; }
   color: var(--text-muted);
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
   overflow: hidden;
 }
 .pm-list li::before {
@@ -2702,7 +2760,13 @@ html.booting #root { opacity: 0; }
 .pm-links a:hover { color: var(--accent); }
 
 @media (max-width: 760px) {
+  /* no room for side buttons on a phone: they float over the screenshot */
+  .pm[open] { display: block; }
+  .pm-nav { position: absolute; top: 90px; z-index: 3; width: 38px; height: 38px; font-size: 18px; background: rgba(13, 17, 23, 0.85); }
+  .pm-prev { left: 6px; }
+  .pm-next { right: 6px; }
   .pm-card { grid-template-columns: 1fr; gap: 16px; padding: 16px; }
+  .pm-shot { min-height: 0; aspect-ratio: 16 / 10; }
   .pm-body { padding-right: 0; }
   .pm-head { padding-right: 40px; }
 }

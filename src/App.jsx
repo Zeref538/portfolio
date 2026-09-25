@@ -377,7 +377,22 @@ export default function App() {
       </nav>
 
       <StatusBar section={activeSection} />
-      <ProjectModal project={openProject} onClose={() => setOpenProject(null)} />
+      {(() => {
+        // Arrow keys walk the whole filtered list, not just the cards visible
+        // before "show more", and wrap at both ends.
+        const list = filteredProjects;
+        const idx = openProject ? list.indexOf(openProject) : -1;
+        const step = (d) => setOpenProject(list[(idx + d + list.length) % list.length]);
+        return (
+          <ProjectModal
+            project={openProject}
+            position={{ index: idx, total: list.length }}
+            onClose={() => setOpenProject(null)}
+            onPrev={() => step(-1)}
+            onNext={() => step(1)}
+          />
+        );
+      })()}
       <ChatDial />
 
       <aside className="section-rail" aria-label="Section progress" ref={railRef}>
