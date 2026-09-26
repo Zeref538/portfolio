@@ -205,3 +205,6 @@ h3 { letter-spacing: -0.03em; }
 .scroll-float .char-accent { color: var(--accent); font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: 0; }
 .contact-accent { color: var(--accent); }
 .cf-label::before { color: var(--accent); opacity: 1; }
+
+/* skill group titles: bigger, in the Newsreader italic accent voice instead of small capitals */
+.stack-group-title { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 24px; text-transform: none; letter-spacing: -0.01em; color: var(--accent); }

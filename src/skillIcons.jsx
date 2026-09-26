@@ -22,7 +22,6 @@ import {
   SiTypescript,
   SiC,
   SiCplusplus,
-  SiOpenjdk,
   SiRust,
   SiHtml5,
   SiCss,
@@ -51,6 +50,7 @@ import {
   SiSqlite,
 } from "react-icons/si";
 import { VscAzure } from "react-icons/vsc";
+import { FaJava } from "react-icons/fa6";
 import { TbAdjustmentsHorizontal, TbBinary, TbChartLine, TbDatabaseSearch, TbGridPattern, TbMatrix, TbRobot, TbScan, TbSeo, TbSql, TbTargetArrow, TbTopologyStar3 } from "react-icons/tb";
 import {
   LuBrain,
@@ -97,7 +97,7 @@ const ICONS = {
   "TypeScript": [SiTypescript, "#3178C6"],
   "C": [SiC, "#6f84a0"],
   "C++": [SiCplusplus, "#659AD2"],
-  "Java": [SiOpenjdk, "#E76F00"],
+  "Java": [FaJava, "#E76F00"], // the coffee cup; Simple Icons dropped it at Oracle's request
   "Rust": [SiRust, "#DEA584"],
   "HTML": [SiHtml5, "#E34F26"],
   "CSS": [SiCss, "#7c5fd3"],
