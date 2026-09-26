@@ -139,7 +139,7 @@ body::after {
 ::-webkit-scrollbar { width: 11px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, var(--accent), #4c3390);
+  background: linear-gradient(to bottom, var(--accent), color-mix(in srgb, var(--accent) 55%, black));
   border-radius: 6px;
   border: 3px solid var(--bg);
 }
@@ -198,7 +198,7 @@ html { scrollbar-color: var(--accent) var(--bg); scrollbar-width: thin; }
 .sb-session { color: var(--accent); border-right: 1px solid var(--border); }
 
 .sb-mode {
-  color: #100a1e;
+  color: var(--on-accent, #100a1e);
   background: var(--accent-2);
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -319,13 +319,13 @@ nav {
 }
 
 .nav-icon-cta {
-  color: #100a1e;
+  color: var(--on-accent, #100a1e);
   background: var(--accent);
   border-color: var(--accent);
 }
 
 .nav-icon-cta:hover {
-  color: #100a1e;
+  color: var(--on-accent, #100a1e);
   background: var(--accent-2);
   border-color: var(--accent-2);
 }
@@ -395,7 +395,7 @@ button.nav-icon {
 }
 
 .nav-icon.is-copied {
-  color: #100a1e;
+  color: var(--on-accent, #100a1e);
   background: var(--accent-2);
   border-color: var(--accent-2);
   box-shadow: 0 0 14px color-mix(in srgb, var(--accent-2) 55%, transparent);
@@ -473,8 +473,8 @@ button.nav-icon {
 
 /* passed sections: a softer purple, so the current one still stands out */
 .rail-step.done .rail-dot {
-  background: #5b3fa8;
-  border-color: #7c5ce0;
+  background: color-mix(in srgb, var(--accent) 70%, black);
+  border-color: var(--accent);
   box-shadow: 0 0 6px color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
@@ -567,7 +567,7 @@ button.nav-icon {
 .btn-cv:focus-visible {
   background: #fff;
   border-color: #fff;
-  color: #100a1e;
+  color: var(--on-accent, #100a1e);
   transform: translateY(-2px);
 }
 
@@ -710,7 +710,7 @@ button.nav-icon {
 .btn-primary {
   background: var(--accent);
   border-color: var(--accent);
-  color: #100a1e;
+  color: var(--on-accent, #100a1e);
 }
 
 .btn-primary:hover { transform: translateY(-2px); background: var(--accent); }
@@ -1553,7 +1553,7 @@ button.nav-icon {
   padding: 1px 7px;
 }
 
-.cert-filter.active .cert-count { background: var(--accent); color: #100a1e; border-color: var(--accent); }
+.cert-filter.active .cert-count { background: var(--accent); color: var(--on-accent, #100a1e); border-color: var(--accent); }
 
 .certs-grid {
   display: grid;

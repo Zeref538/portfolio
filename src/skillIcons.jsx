@@ -41,6 +41,7 @@ import {
   SiKaggle,
   SiLangchain,
   SiRender,
+  SiNetlify,
   SiUnity,
   SiN8N,
   SiGooglecloud,
@@ -78,6 +79,7 @@ import {
   LuLayers2,
   LuEye,
   LuWorkflow,
+  LuSearchCheck,
 } from "react-icons/lu";
 
 // [Icon, official brand color] - concept glyphs use theme colors
@@ -106,6 +108,8 @@ const ICONS = {
   "Stripe": [SiStripe, "#635BFF"],
   "Vercel": [SiVercel, "#e6edf3"],
   "Render": [SiRender, "#e6edf3"],
+  "Netlify": [SiNetlify, "#00C7B7"],
+  "SEO": [LuSearchCheck, "#22d3ee"],
   "Google Cloud": [SiGooglecloud, "#4285F4"],
   "LangChain": [SiLangchain, "#e6edf3"],
   "RAG": [LuLayers, "#22d3ee"],

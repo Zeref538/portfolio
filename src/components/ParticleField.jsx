@@ -16,6 +16,15 @@ export default function ParticleField() {
     let mouse = { x: -9999, y: -9999 };
     let raf;
     let running = true;
+    // colours come from the theme (--dot-rgb, --dot-hot-rgb as "r, g, b"),
+    // re-read when data-theme on <html> changes
+    let base = "139, 152, 169", hot = "139, 92, 246";
+    const readColours = () => {
+      const cs = getComputedStyle(document.documentElement);
+      base = cs.getPropertyValue("--dot-rgb").trim() || base;
+      hot = cs.getPropertyValue("--dot-hot-rgb").trim() || hot;
+    };
+    readColours();
 
     const build = () => {
       canvas.width = window.innerWidth * dpr;
@@ -33,7 +42,7 @@ export default function ParticleField() {
 
     const drawStatic = () => {
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      ctx.fillStyle = "rgba(139, 152, 169, 0.32)";
+      ctx.fillStyle = `rgba(${base}, 0.32)`;
       for (const d of dots) {
         ctx.fillRect(d.ox - 1.1, d.oy - 1.1, 2.2, 2.2);
       }
@@ -67,11 +76,11 @@ export default function ParticleField() {
           // slight pull toward cursor
           d.x += (d.ox + dx * 0.08 * t - d.x) * 0.2;
           d.y += (d.oy + dy * 0.08 * t - d.y) * 0.2;
-          ctx.fillStyle = `rgba(139, 92, 246, ${alpha})`;
+          ctx.fillStyle = `rgba(${hot}, ${alpha})`;
         } else {
           d.x += (d.ox - d.x) * 0.2;
           d.y += (d.oy - d.y) * 0.2;
-          ctx.fillStyle = `rgba(139, 152, 169, ${alpha})`;
+          ctx.fillStyle = `rgba(${base}, ${alpha})`;
         }
         ctx.fillRect(d.x - size / 2, d.y - size / 2, size, size);
       }
@@ -79,12 +88,14 @@ export default function ParticleField() {
     };
 
     build();
+    const themeWatch = new MutationObserver(() => { readColours(); if (raf == null || reducedMotion) drawStatic(); });
+    themeWatch.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
     if (reducedMotion) {
       drawStatic();
       const onResizeStatic = () => { build(); drawStatic(); };
       window.addEventListener("resize", onResizeStatic);
-      return () => window.removeEventListener("resize", onResizeStatic);
+      return () => { window.removeEventListener("resize", onResizeStatic); themeWatch.disconnect(); };
     }
 
     const onMove = (e) => {
@@ -108,6 +119,7 @@ export default function ParticleField() {
     raf = requestAnimationFrame(frame);
 
     return () => {
+      themeWatch.disconnect();
       cancelAnimationFrame(raf);
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseout", onLeave);

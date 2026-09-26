@@ -606,11 +606,12 @@ export const skills = [
       "Stripe",
       "Firebase",
       "Supabase",
+      "SEO",
     ],
   },
   {
     group: "Cloud & Tools",
-    items: ["Azure", "Google Cloud", "Vercel", "Render", "n8n", "Git", "GitHub", "Figma"],
+    items: ["Azure", "Google Cloud", "Vercel", "Netlify", "Render", "n8n", "Git", "GitHub", "Figma"],
   },
 ];
 

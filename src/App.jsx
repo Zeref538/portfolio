@@ -4,6 +4,7 @@
 // To bring it back: uncomment this import and the <BootLoader /> below.
 // import BootLoader from "./components/BootLoader.jsx";
 import Cursor from "./components/Cursor.jsx";
+import ParticleField from "./components/ParticleField.jsx";
 import Reveal from "./components/Reveal.jsx";
 import ScrollFloat from "./components/ScrollFloat.jsx";
 import Magnet from "./components/Magnet.jsx";
@@ -238,7 +239,7 @@ function CyclingCover({ images, alt }) {
   ));
 }
 
-// Light or dark. Starts from the visitor's system setting; a click is
+// Light or dark. Starts dark; a click is
 // remembered in this browser (storage can be blocked, so it is guarded).
 // Its own component on purpose: only this button re-renders on a switch, not
 // the whole page, which is what made the circle start late.
@@ -248,7 +249,7 @@ function ThemeToggle() {
       const saved = localStorage.getItem("theme");
       if (saved === "light" || saved === "dark") return saved;
     } catch { /* blocked: use the system setting */ }
-    return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    return "dark"; // dark is the default look; light only when chosen
   });
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -302,7 +303,7 @@ function Win({ title, className = "", children }) {
   const drag = useRef(null);
   const [z, setZ] = useState(1);
   const down = (e) => {
-    if (window.innerWidth < 1100 || !window.matchMedia("(pointer: fine)").matches) return;
+    if (window.innerWidth < 1400 || !window.matchMedia("(pointer: fine)").matches) return;
     const el = ref.current;
     drag.current = {
       sx: e.clientX, sy: e.clientY,
@@ -331,6 +332,18 @@ function Win({ title, className = "", children }) {
   );
 }
 
+// Local time in Bulacan, so a visitor abroad can tell whether a reply comes today.
+function LocalTime() {
+  const fmt = () =>
+    new Date().toLocaleTimeString("en-PH", { hour: "numeric", minute: "2-digit", timeZone: "Asia/Manila" });
+  const [t, setT] = useState(fmt);
+  useEffect(() => {
+    const id = setInterval(() => setT(fmt()), 20_000);
+    return () => clearInterval(id);
+  }, []);
+  return <p className="win-time">{t}</p>;
+}
+
 function HeroDesk() {
   const now = experience[0].tracks?.find((t) => t.status !== "completed");
   return (
@@ -345,10 +358,10 @@ function HeroDesk() {
         <p><b>{projects.filter((p) => p.demo).length}</b> live demos</p>
         <p><b>{certifications.length}</b> certificates</p>
       </Win>
-      <Win title="me.jpg" className="win-photo">
-        <img src={profile.photo} alt={profile.name} width="110" height="110" />
+      <Win title="clock" className="win-clock">
+        <p className="win-k">in bulacan it's</p>
+        <LocalTime />
       </Win>
-      <p className="hero-desk-hint" aria-hidden="true">drag the windows</p>
     </div>
   );
 }
@@ -428,6 +441,7 @@ export default function App() {
     <>
       {/* <BootLoader /> */}
       <Cursor />
+      <ParticleField />
       <div className="bokeh" aria-hidden="true">{[1, 2, 3, 4].map((i) => <i key={i} />)}</div>
       {/* zIndex -20 (+100 for page target = 80) keeps nav/rail/statusbar sharp above the veil */}
       <GradualBlur
@@ -525,7 +539,7 @@ export default function App() {
       </aside>
 
       <header className="hero" id="home">
-        <div className="container hero-split">
+        <div className="container">
           <div className="hero-text">
           <div className="hero-status">
             <span className="dot" />
