@@ -38,7 +38,7 @@ const GLOW_CARD_PROPS = {
   glowRadius: 30,
   glowIntensity: 1.0,
   coneSpread: 25,
-  colors: ["#8b5cf6", "#22d3ee", "#a78bfa"],
+  colors: ["var(--accent)", "var(--accent-2)", "var(--accent)"],
 };
 
 function TypedPrompt({ text }) {
@@ -240,7 +240,9 @@ function CyclingCover({ images, alt }) {
 
 // Light or dark. Starts from the visitor's system setting; a click is
 // remembered in this browser (storage can be blocked, so it is guarded).
-function useTheme() {
+// Its own component on purpose: only this button re-renders on a switch, not
+// the whole page, which is what made the circle start late.
+function ThemeToggle() {
   const [theme, setTheme] = useState(() => {
     try {
       const saved = localStorage.getItem("theme");
@@ -259,8 +261,9 @@ function useTheme() {
   // circle clip that expands from the button to the farthest corner.
   const toggle = (e) => {
     const next = theme === "dark" ? "light" : "dark";
+    const root = document.documentElement;
     const apply = () => {
-      document.documentElement.dataset.theme = next;
+      root.dataset.theme = next;
       flushSync(() => setTheme(next));
     };
     const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -268,18 +271,89 @@ function useTheme() {
     const r = e.currentTarget.getBoundingClientRect();
     const x = r.left + r.width / 2, y = r.top + r.height / 2;
     const end = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
-    document.startViewTransition(apply).ready.then(() => {
-      document.documentElement.animate(
+    root.classList.add("theme-switching"); // pauses the background animations meanwhile
+    const vt = document.startViewTransition(apply);
+    vt.ready.then(() => {
+      root.animate(
         { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${end}px at ${x}px ${y}px)`] },
-        { duration: 650, easing: "cubic-bezier(0.4, 0, 0.2, 1)", pseudoElement: "::view-transition-new(root)" }
+        { duration: 550, easing: "cubic-bezier(0.4, 0, 0.2, 1)", pseudoElement: "::view-transition-new(root)" }
       );
     });
+    vt.finished.finally(() => root.classList.remove("theme-switching"));
   };
-  return [theme, toggle];
+  return (
+    <button
+      type="button"
+      className="nav-icon nav-theme"
+      onClick={toggle}
+      aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+      data-label={theme === "dark" ? "Light mode" : "Dark mode"}
+    >
+      {theme === "dark" ? <LuSun /> : <LuMoon />}
+    </button>
+  );
+}
+
+// A window from the ZerefOS test: drag it by its title bar. The drag is kept
+// as an offset from where the layout placed it, so on phones (no dragging)
+// the windows just sit in the normal flow.
+function Win({ title, className = "", children }) {
+  const ref = useRef(null);
+  const drag = useRef(null);
+  const [z, setZ] = useState(1);
+  const down = (e) => {
+    if (window.innerWidth < 1100 || !window.matchMedia("(pointer: fine)").matches) return;
+    const el = ref.current;
+    drag.current = {
+      sx: e.clientX, sy: e.clientY,
+      x: parseFloat(el.style.getPropertyValue("--dx")) || 0,
+      y: parseFloat(el.style.getPropertyValue("--dy")) || 0,
+    };
+    setZ(Date.now() % 1e6); // the window you grab comes to the front
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+  const move = (e) => {
+    const d = drag.current;
+    if (!d) return;
+    // capped so a window can't be dragged off and lost
+    const clamp = (v) => Math.max(-380, Math.min(380, v));
+    ref.current.style.setProperty("--dx", `${clamp(d.x + e.clientX - d.sx)}px`);
+    ref.current.style.setProperty("--dy", `${clamp(d.y + e.clientY - d.sy)}px`);
+  };
+  return (
+    <div ref={ref} className={`win ${className}`} style={{ zIndex: z }}>
+      <div className="win-bar" onPointerDown={down} onPointerMove={move} onPointerUp={() => (drag.current = null)}>
+        <span>{title}</span>
+        <i aria-hidden="true" /><i aria-hidden="true" /><i aria-hidden="true" />
+      </div>
+      <div className="win-body">{children}</div>
+    </div>
+  );
+}
+
+function HeroDesk() {
+  const now = experience[0].tracks?.find((t) => t.status !== "completed");
+  return (
+    <div className="hero-desk">
+      <Win title="now.log" className="win-now">
+        <p className="win-k">right now</p>
+        <p className="win-now-title">{now?.name || experience[0].role}</p>
+        <p className="win-mute">{experience[0].company}</p>
+      </Win>
+      <Win title="stats" className="win-stats">
+        <p><b>{projects.length}</b> projects</p>
+        <p><b>{projects.filter((p) => p.demo).length}</b> live demos</p>
+        <p><b>{certifications.length}</b> certificates</p>
+      </Win>
+      <Win title="me.jpg" className="win-photo">
+        <img src={profile.photo} alt={profile.name} width="110" height="110" />
+      </Win>
+      <p className="hero-desk-hint" aria-hidden="true">drag the windows</p>
+    </div>
+  );
 }
 
 export default function App() {
-  const [theme, toggleTheme] = useTheme();
   const [activeSection, setActiveSection] = useState("");
   const timelineRef = useRef(null);
   const railRef = useRef(null);
@@ -373,15 +447,7 @@ export default function App() {
               zeref<span>.</span>
             </a>
             <div className="nav-actions">
-              <button
-                type="button"
-                className="nav-icon nav-theme"
-                onClick={toggleTheme}
-                aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-                data-label={theme === "dark" ? "Light mode" : "Dark mode"}
-              >
-                {theme === "dark" ? <LuSun /> : <LuMoon />}
-              </button>
+              <ThemeToggle />
               <a
                 href="https://github.com/Zeref538"
                 target="_blank"
@@ -459,7 +525,8 @@ export default function App() {
       </aside>
 
       <header className="hero" id="home">
-        <div className="container">
+        <div className="container hero-split">
+          <div className="hero-text">
           <div className="hero-status">
             <span className="dot" />
             training - Backend AI Engineering @ FlyRank AI
@@ -507,6 +574,8 @@ export default function App() {
               Download CV
             </a>
           </div>
+          </div>
+          <HeroDesk />
         </div>
       </header>
 
@@ -586,7 +655,7 @@ export default function App() {
                     glowRadius={30}
                     glowIntensity={1.0}
                     coneSpread={25}
-                    colors={["#8b5cf6", "#22d3ee", "#a78bfa"]}
+                    colors={["var(--accent)", "var(--accent-2)", "var(--accent)"]}
                     className="timeline-card"
                   >
                     <div className="timeline-content">
