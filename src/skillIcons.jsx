@@ -94,7 +94,7 @@ const ICONS = {
   "NumPy": [SiNumpy, "#4DABCF"],
   "JavaScript": [SiJavascript, "#F7DF1E"],
   "TypeScript": [SiTypescript, "#3178C6"],
-  "C": [SiC, "#A8B9CC"],
+  "C": [SiC, "#6f84a0"],
   "C++": [SiCplusplus, "#659AD2"],
   "Java": [SiOpenjdk, "#E76F00"],
   "Rust": [SiRust, "#DEA584"],
@@ -102,16 +102,16 @@ const ICONS = {
   "CSS": [SiCss, "#7c5fd3"],
   "MySQL": [SiMysql, "#4479A1"],
   "MongoDB": [SiMongodb, "#47A248"],
-  "React Native (Expo)": [SiExpo, "#e6edf3"],
-  "Express.js": [SiExpress, "#e6edf3"],
+  "React Native (Expo)": [SiExpo, "var(--text)"],
+  "Express.js": [SiExpress, "var(--text)"],
   "Docker": [SiDocker, "#2496ED"],
   "Stripe": [SiStripe, "#635BFF"],
-  "Vercel": [SiVercel, "#e6edf3"],
-  "Render": [SiRender, "#e6edf3"],
+  "Vercel": [SiVercel, "var(--text)"],
+  "Render": [SiRender, "var(--text)"],
   "Netlify": [SiNetlify, "#00C7B7"],
   "SEO": [LuSearchCheck, "var(--text-muted)"],
   "Google Cloud": [SiGooglecloud, "#4285F4"],
-  "LangChain": [SiLangchain, "#e6edf3"],
+  "LangChain": [SiLangchain, "var(--text)"],
   "RAG": [LuLayers, "var(--text-muted)"],
   "Agentic AI": [LuBot, "var(--text-muted)"],
   "LLM Fine-Tuning": [LuSlidersHorizontal, "var(--accent)"],
@@ -121,21 +121,21 @@ const ICONS = {
   "SQLite": [SiSqlite, "#003B57"],
   "Automation": [LuWorkflow, "var(--text-muted)"],
   "n8n": [SiN8N, "#EA4B71"],
-  "Unity": [SiUnity, "#e6edf3"],
+  "Unity": [SiUnity, "var(--text)"],
   "Transformers": [LuBoxes, "var(--accent)"],
   "NLP": [LuLanguages, "var(--accent)"],
   "Code-Switching": [LuMessagesSquare, "var(--text-muted)"],
   "From Scratch": [LuHammer, "var(--text-muted)"],
   "BPE Tokenizer": [LuType, "var(--text-muted)"],
-  "Ollama": [SiOllama, "#e6edf3"],
+  "Ollama": [SiOllama, "var(--text)"],
   "NVIDIA NIM": [SiNvidia, "#76B900"],
   "Azure": [VscAzure, "#0078D4"],
   "Kaggle": [SiKaggle, "#20BEFF"],
   "Power BI": [LuChartPie, "#F2C811"],
   "Git": [SiGit, "#F05032"],
-  "GitHub": [SiGithub, "#e6edf3"],
+  "GitHub": [SiGithub, "var(--text)"],
   "Figma": [SiFigma, "#F24E1E"],
-  "Notion": [SiNotion, "#e6edf3"],
+  "Notion": [SiNotion, "var(--text)"],
   "YOLOv8": [LuScanSearch, "var(--text-muted)"],
   "CNNs": [LuBrain, "var(--accent)"],
   "Model Evaluation": [LuGauge, "var(--text-muted)"],
@@ -201,9 +201,29 @@ export function IssuerIcon({ issuer }) {
 // rather than throwing, which is exactly the kind of bug nobody notices.
 const ICONS_LC = Object.fromEntries(Object.entries(ICONS).map(([k, v]) => [k.toLowerCase(), v]));
 
+// Brand colours are picked for dark backgrounds; on a white tile the pale ones
+// (JavaScript yellow, Hugging Face, Power BI...) drop under the 3:1 an icon needs.
+// For light mode, darken each one toward black just until it reaches 3:1 on white,
+// so it stays the same hue instead of every logo going black.
+const lum = (hex) => {
+  const n = parseInt(hex.slice(1), 16);
+  const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
+  return 0.2126 * f(n >> 16) + 0.7152 * f((n >> 8) & 255) + 0.0722 * f(n & 255);
+};
+const onWhite = (hex) => {
+  if (!/^#[0-9a-f]{6}$/i.test(hex)) return hex; // theme variables look after themselves
+  const n = parseInt(hex.slice(1), 16);
+  for (let k = 1; k >= 0.2; k -= 0.05) {
+    const c = [n >> 16, (n >> 8) & 255, n & 255].map((v) => Math.round(v * k));
+    const out = "#" + c.map((v) => v.toString(16).padStart(2, "0")).join("");
+    if (1.05 / (lum(out) + 0.05) >= 3) return out;
+  }
+  return "#1c1917";
+};
+
 export function SkillIcon({ name }) {
   const entry = ICONS[name] ?? ICONS_LC[name?.toLowerCase()];
   if (!entry) return null;
   const [Icon, color] = entry;
-  return <Icon className="skill-icon" style={{ color }} aria-hidden="true" />;
+  return <Icon className="skill-icon" style={{ "--c": color, "--c-light": onWhite(color) }} aria-hidden="true" />;
 }
