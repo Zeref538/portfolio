@@ -51,6 +51,7 @@ import {
   SiSqlite,
 } from "react-icons/si";
 import { VscAzure } from "react-icons/vsc";
+import { TbAdjustmentsHorizontal, TbBinary, TbChartLine, TbDatabaseSearch, TbGridPattern, TbMatrix, TbRobot, TbScan, TbSeo, TbSql, TbTargetArrow, TbTopologyStar3 } from "react-icons/tb";
 import {
   LuBrain,
   LuScanSearch,
@@ -109,20 +110,20 @@ const ICONS = {
   "Vercel": [SiVercel, "var(--text)"],
   "Render": [SiRender, "var(--text)"],
   "Netlify": [SiNetlify, "#00C7B7"],
-  "SEO": [LuSearchCheck, "var(--text-muted)"],
+  "SEO": [TbSeo, ["#facc15", "#a16207"]], // no official logo: an icon + its own colour (dark, light)
   "Google Cloud": [SiGooglecloud, "#4285F4"],
   "LangChain": [SiLangchain, "var(--text)"],
-  "RAG": [LuLayers, "var(--text-muted)"],
-  "Agentic AI": [LuBot, "var(--text-muted)"],
-  "LLM Fine-Tuning": [LuSlidersHorizontal, "var(--accent)"],
-  "LoRA": [LuSlidersVertical, "var(--accent)"],
-  "QLoRA": [LuLayers2, "var(--accent)"],
-  "Computer Vision": [LuEye, "var(--text-muted)"],
+  "RAG": [TbDatabaseSearch, ["#2dd4bf", "#0d9488"]], // no official logo: an icon + its own colour (dark, light)
+  "Agentic AI": [TbRobot, ["#fb923c", "#c2410c"]], // no official logo: an icon + its own colour (dark, light)
+  "LLM Fine-Tuning": [TbAdjustmentsHorizontal, ["#a78bfa", "#6d28d9"]], // no official logo: an icon + its own colour (dark, light)
+  "LoRA": [TbMatrix, ["#f472b6", "#be185d"]], // no official logo: an icon + its own colour (dark, light)
+  "QLoRA": [TbBinary, ["#4ade80", "#15803d"]], // no official logo: an icon + its own colour (dark, light)
+  "Computer Vision": [TbScan, ["#fb7185", "#be123c"]], // no official logo: an icon + its own colour (dark, light)
   "SQLite": [SiSqlite, "#003B57"],
   "Automation": [LuWorkflow, "var(--text-muted)"],
   "n8n": [SiN8N, "#EA4B71"],
   "Unity": [SiUnity, "var(--text)"],
-  "Transformers": [LuBoxes, "var(--accent)"],
+  "Transformers": [TbTopologyStar3, ["#fbbf24", "#b45309"]], // no official logo: an icon + its own colour (dark, light)
   "NLP": [LuLanguages, "var(--accent)"],
   "Code-Switching": [LuMessagesSquare, "var(--text-muted)"],
   "From Scratch": [LuHammer, "var(--text-muted)"],
@@ -137,17 +138,17 @@ const ICONS = {
   "Figma": [SiFigma, "#F24E1E"],
   "Notion": [SiNotion, "var(--text)"],
   "YOLOv8": [LuScanSearch, "var(--text-muted)"],
-  "CNNs": [LuBrain, "var(--accent)"],
-  "Model Evaluation": [LuGauge, "var(--text-muted)"],
+  "CNNs": [TbGridPattern, ["#e879f9", "#a21caf"]], // no official logo: an icon + its own colour (dark, light)
+  "Model Evaluation": [TbTargetArrow, ["#a3e635", "#4d7c0f"]], // no official logo: an icon + its own colour (dark, light)
   "ONNX": [SiOnnx, "#a1a1aa"],
   "Forecasting": [LuTrendingUp, "var(--text-muted)"],
-  "Time-Series": [LuTrendingUp, "var(--accent)"],
+  "Time-Series": [TbChartLine, ["#22d3ee", "#0e7490"]], // no official logo: an icon + its own colour (dark, light)
   "Open-Meteo": [LuCloud, "var(--text-muted)"],
   "River": [LuWaves, "var(--text-muted)"],
   "Online Learning": [LuRefreshCw, "var(--accent)"],
   "GitHub Actions": [SiGithubactions, "#2088FF"],
   "Leaflet": [SiLeaflet, "#199900"],
-  "SQL": [LuDatabase, "var(--accent)"],
+  "SQL": [TbSql, ["#818cf8", "#4338ca"]], // no official logo: an icon + its own colour (dark, light)
   "R": [SiR, "#276DC3"],
   "Tableau": [LuChartColumn, "#E97627"],
   "PostgreSQL": [SiPostgresql, "#4169E1"],
@@ -201,29 +202,28 @@ export function IssuerIcon({ issuer }) {
 // rather than throwing, which is exactly the kind of bug nobody notices.
 const ICONS_LC = Object.fromEntries(Object.entries(ICONS).map(([k, v]) => [k.toLowerCase(), v]));
 
-// Brand colours are picked for dark backgrounds; on a white tile the pale ones
-// (JavaScript yellow, Hugging Face, Power BI...) drop under the 3:1 an icon needs.
-// For light mode, darken each one toward black just until it reaches 3:1 on white,
-// so it stays the same hue instead of every logo going black.
+// Brand colours are picked for dark backgrounds, so on a white tile the pale ones
+// (JavaScript yellow, Hugging Face, Power BI...) fade out. Darkening them changed the
+// brand and looked wrong; instead they keep their colour and get a thin dark outline
+// in light mode. This decides which ones need it: under 3:1 against white.
 const lum = (hex) => {
   const n = parseInt(hex.slice(1), 16);
   const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
   return 0.2126 * f(n >> 16) + 0.7152 * f((n >> 8) & 255) + 0.0722 * f(n & 255);
 };
-const onWhite = (hex) => {
-  if (!/^#[0-9a-f]{6}$/i.test(hex)) return hex; // theme variables look after themselves
-  const n = parseInt(hex.slice(1), 16);
-  for (let k = 1; k >= 0.2; k -= 0.05) {
-    const c = [n >> 16, (n >> 8) & 255, n & 255].map((v) => Math.round(v * k));
-    const out = "#" + c.map((v) => v.toString(16).padStart(2, "0")).join("");
-    if (1.05 / (lum(out) + 0.05) >= 3) return out;
-  }
-  return "#1c1917";
-};
+const paleOnWhite = (hex) => /^#[0-9a-f]{6}$/i.test(hex) && 1.05 / (lum(hex) + 0.05) < 3;
 
 export function SkillIcon({ name }) {
   const entry = ICONS[name] ?? ICONS_LC[name?.toLowerCase()];
   if (!entry) return null;
   const [Icon, color] = entry;
-  return <Icon className="skill-icon" style={{ "--c": color, "--c-light": onWhite(color) }} aria-hidden="true" />;
+  // [dark, light] pairs are for icons with no brand colour of their own
+  const [dark, light] = Array.isArray(color) ? color : [color, color];
+  return (
+    <Icon
+      className={`skill-icon${paleOnWhite(light) ? " is-pale" : ""}`}
+      style={{ "--c": dark, "--c-light": light }}
+      aria-hidden="true"
+    />
+  );
 }

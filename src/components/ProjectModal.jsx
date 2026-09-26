@@ -110,7 +110,7 @@ export default function ProjectModal({ project, onClose, onPrev, onNext }) {
           <p className="pm-desc">{p.description}</p>
 
           <ul className="pm-list">
-            {p.highlights.slice(0, 4).map((h) => <li key={h}>{h}</li>)}
+            {p.highlights.map((h) => <li key={h}>{h}</li>)}
           </ul>
 
           <div className="tags pm-tags">

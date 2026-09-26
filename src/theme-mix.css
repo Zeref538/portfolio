@@ -171,3 +171,32 @@ h3 { letter-spacing: -0.03em; }
 /* 8. skill icons: brand colour on dark, a darkened shade of it on light (worked out in skillIcons.jsx) */
 .skill-icon { color: var(--c); }
 :root[data-theme="light"] .skill-icon { color: var(--c-light, var(--c)); }
+
+/* ---- round: certs verify, cursor, project hover, tag style ---- */
+/* certificate Verify in purple */
+.badge-verify { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+.badge-verify:hover { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+
+/* the cursor ring keeps its size over buttons and links; only its colour changes */
+.cursor-ring.hovering, .cursor-ring.linking { width: 34px; height: 34px; }
+
+/* project tag line: Newsreader italic, the case study's accent voice, not shouted capitals */
+.pj3-meta { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 15px; text-transform: none; letter-spacing: 0; }
+
+
+/* project hover: a summary that fits the card, no hidden scroll. The full story is one
+   click away in the enlarged card (the popup), which lists every result. */
+.pj3-overlay { overflow: hidden; gap: 9px; }
+.pj3-overlay .pj3-desc { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.pj3-overlay .pj3-highlights li:nth-child(n + 3) { display: none; }
+.pj3-overlay .pj3-highlights li { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pj3-overlay .pj3-tags .tag:nth-child(n + 6) { display: none; }
+.pj3-overlay::after { content: "click for full details ↗"; margin-top: auto; font: italic 400 14px var(--font-serif); color: var(--accent); }
+/* the enlarged card (popup) shows the whole text: no "..." on the description or results,
+   and the text column gets more of the width so it needs less height */
+.pm-desc, .pm-list li { -webkit-line-clamp: unset; line-clamp: unset; display: block; overflow: visible; }
+@media (min-width: 900px) { .pm-card { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.2fr); gap: 26px; } }
+.pm-list { gap: 6px; }
+.pm-list li { font-size: 13.5px; line-height: 1.5; }
+/* pale brand logos on white: a thin ink outline, colour untouched */
+:root[data-theme="light"] .skill-icon.is-pale { filter: drop-shadow(0 0 0.5px #1c1917) drop-shadow(0 0 0.5px #1c1917); }
