@@ -11,6 +11,7 @@ import Magnet from "./components/Magnet.jsx";
 import BorderGlow from "./components/BorderGlow.jsx";
 import RotatingText from "./components/RotatingText.jsx";
 import { useEffect, useRef, useState } from "react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { flushSync } from "react-dom";
 import { profile, experience, projects, skills, certifications, education } from "./data.js";
 import ProjectModal from "./components/ProjectModal.jsx";
@@ -297,6 +298,29 @@ function ThemeToggle() {
 
 export default function App() {
   const [activeSection, setActiveSection] = useState("");
+  // Sections start at a guessed height (content-visibility in theme-mix.css) and
+  // grow to their real one as you scroll. ScrollTrigger only re-measures on a
+  // window resize, so without this the contact heading's animation fired at the
+  // guessed position.
+  // refresh() resets the scroll position while it measures, which cancelled any
+  // smooth scroll in flight (a rail link stopped after ~300px), so it waits
+  // until scrolling has been still for 250ms.
+  useEffect(() => {
+    let t, lastScroll = 0;
+    const onScroll = () => { lastScroll = performance.now(); };
+    const settle = () => {
+      clearTimeout(t);
+      t = setTimeout(() => (performance.now() - lastScroll < 250 ? settle() : ScrollTrigger.refresh()), 250);
+    };
+    // every section is drawn once at full size first, so its real height is
+    // remembered, then off-screen ones start being skipped (theme-mix.css)
+    const ready = () => requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add("cv-ready")));
+    if (document.readyState === "complete") ready(); else window.addEventListener("load", ready, { once: true });
+    const ro = new ResizeObserver(settle);
+    ro.observe(document.querySelector("main"));
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => { ro.disconnect(); clearTimeout(t); window.removeEventListener("scroll", onScroll); };
+  }, []);
   const timelineRef = useRef(null);
   const railRef = useRef(null);
 

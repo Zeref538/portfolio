@@ -98,6 +98,20 @@ h3 { letter-spacing: -0.03em; }
 @media (prefers-reduced-motion: reduce) { .bokeh i { animation: none; } }
 /* while the theme circle spreads, hold the background still so it gets every frame */
 .theme-switching .bokeh i, .theme-switching .rail-step.current .rail-dot { animation-play-state: paused; }
+/* 410 elements have their own colour fade. During the switch they all started
+   fading at once inside the growing circle - two animations fighting, which
+   read as shaky. Only the circle moves now. */
+.theme-switching *, .theme-switching *::before, .theme-switching *::after { transition: none !important; }
+/* Off-screen sections are skipped for styling and drawing until they come near
+   the screen, so a theme switch only recolours what you can see.
+   Measured on a phone-speed CPU at the top of the page: 286ms -> 79ms before
+   the circle starts.
+   The skipping only switches on (.cv-ready, set by App after load) once every
+   section has been drawn once. contain-intrinsic-size: auto remembers that real
+   height; without it the skipped sections sat at the 900px guess and a
+   #contact link landed halfway through Projects. */
+main > section { contain-intrinsic-size: auto 900px; }
+.cv-ready main > section { content-visibility: auto; }
 
 /* ---- light mode: the spots that were written as fixed dark colours ---- */
 :root[data-theme="light"] .edge-light { display: none; }
