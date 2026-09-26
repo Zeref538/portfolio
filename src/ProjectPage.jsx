@@ -38,16 +38,20 @@ export default function ProjectPage() {
     // Per-page title and description. Without this every project shares the
     // homepage's tags, so a shared link and a search result both say
     // "John Andrei Martinez - AI/ML Engineer" no matter which project it is.
-    const prevTitle = document.title;
     document.title = `${project.title} - John Andrei Martinez`;
     const meta = document.querySelector('meta[name="description"]');
     const prevDesc = meta?.content;
     if (meta) meta.content = project.description.slice(0, 300);
+    const canon = document.querySelector('link[rel="canonical"]');
+    if (canon) canon.href = `https://johnandrei.vercel.app/projects/${slug}`;
+    // Put the homepage's values back, not "whatever was there": a visitor who
+    // lands on a pre-rendered project page has that project's tags from the start.
     return () => {
-      document.title = prevTitle;
+      document.title = "John Andrei Martinez - AI/ML Engineer";
+      if (canon) canon.href = "https://johnandrei.vercel.app/";
       if (meta && prevDesc) meta.content = prevDesc;
     };
-  }, [project]);
+  }, [project, slug]);
 
   if (!project) {
     return (
