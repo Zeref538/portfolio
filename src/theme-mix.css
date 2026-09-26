@@ -18,6 +18,7 @@
   --accent-2-dim: rgba(231, 229, 228, 0.1);
   --glow: rgba(167, 139, 250, 0.2);
   --on-accent: #0c0a09;
+  --card-line: rgba(255, 255, 255, 0.28);
   --dot-rgb: 120, 113, 108;
   --dot-hot-rgb: 167, 139, 250;
   --bokeh-a: rgba(139, 92, 246, 0.26);
@@ -36,6 +37,7 @@
   --accent-2-dim: rgba(28, 25, 23, 0.08);
   --glow: rgba(109, 40, 217, 0.08);
   --on-accent: #ffffff;
+  --card-line: #1c1917;
   --dot-rgb: 120, 113, 108;
   --dot-hot-rgb: 109, 40, 217;
   --bokeh-a: rgba(139, 92, 246, 0.1);
@@ -49,18 +51,30 @@
 *, *::before, *::after { border-radius: 0 !important; }
 .chat-dot, .dot, .exp-track-dot, .bokeh i { border-radius: 50% !important; }
 
-/* ---- serif headings with a soft glow; sizes stay the live site's ---- */
-.hero h1, h2, h3 { font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+/* ---- type, by the case-study rules (BRAND.md): Schibsted for everything,
+   Newsreader italic only for accents, mono only for code and numbers ---- */
+body { font-family: var(--font-body); }
+.hero h1, h2, h3, .section-label { font-family: var(--font-body); font-style: normal; font-weight: 500; letter-spacing: -0.05em; }
+h3 { letter-spacing: -0.03em; }
 .hero h1 { text-shadow: 0 0 14px var(--glow); }
-.role-lead, .pm-sub { font-family: var(--font-serif); font-style: italic; }
+/* the italic half of the big statement: the surname, and the lead-in to the role */
+.hero h1 .name-accent, .role-lead, .pm-sub { font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
 .typed-prompt { text-shadow: 0 0 10px var(--glow); }
 .section-label {
-  font-family: var(--font-serif); font-style: italic; font-weight: 400;
-  font-size: clamp(1.6rem, 2.4vw, 2rem); letter-spacing: -0.005em; color: var(--text);
+  font-size: clamp(1.6rem, 2.4vw, 2rem); color: var(--text);
   text-shadow: 0 0 16px var(--glow);
 }
+/* labels: small tracked capitals */
+.section-out, .rail-label, .hero-status, .timeline-period, .exp-track-status, .pj3-meta, .pj3-sec,
+.stack-group-title, .edu-side-label, .cf-label, .badge-art-label, .pm-meta {
+  font-family: var(--font-body); font-style: normal; font-weight: 600; font-size: 11.5px;
+  text-transform: uppercase; letter-spacing: 0.12em;
+}
+/* other small UI text that was monospace: plain Schibsted */
+.tag, .stack-tile-name, .cert-filter, .exp-track-verify, .exp-track-toggle, .pj-showmore, .pj3-links,
+.badge-verify, .nav-icon::after, .contact-icon::after, .pm-links a { font-family: var(--font-body); }
 .section-label::after { flex: 1; width: auto; background: var(--border); }
-.section-out { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 1; }
+.section-out { opacity: 1; }
 
 /* a <button> among <a> icons: drop the browser button look, keep the icon box */
 .nav-theme { cursor: pointer; padding: 0; font: inherit; }
@@ -110,80 +124,22 @@
 :root[data-theme="light"] .nav-icon::after,
 :root[data-theme="light"] .contact-icon::after { background: var(--surface); color: var(--text); }
 :root[data-theme="light"] .cert-filter.active .cert-count { color: #fff; }
-:root[data-theme="light"] .chat-terminal,
-:root[data-theme="light"] .chat-dial-panel,
-:root[data-theme="light"] .chat-reopen { background: var(--surface); }
-:root[data-theme="light"] .chat-title,
-:root[data-theme="light"] .chat-user,
-:root[data-theme="light"] .chat-input input { color: #1b1916; }
-:root[data-theme="light"] .chat-model { color: rgba(27, 25, 22, 0.45); }
-:root[data-theme="light"] .chat-assistant { color: rgba(27, 25, 22, 0.85); }
-:root[data-theme="light"] .chat-traffic i { background: rgba(27, 25, 22, 0.14); }
-:root[data-theme="light"] .chat-live,
-:root[data-theme="light"] .chat-prefix,
-:root[data-theme="light"] .chat-prompt { color: var(--accent); }
-:root[data-theme="light"] .chat-user .chat-prefix { color: var(--accent-2); }
-:root[data-theme="light"] .chat-dot { background: var(--accent); box-shadow: 0 0 8px var(--glow); }
-:root[data-theme="light"] .chat-input input { caret-color: var(--accent); }
-:root[data-theme="light"] .chat-input input::placeholder { color: rgba(27, 25, 22, 0.35); }
-
-/* the prompt in section headings: ❯ in the mono font (the serif has no such glyph) */
-.prompt-sym { font-family: var(--font-mono); font-style: normal; font-size: 0.8em; color: var(--accent); text-shadow: 0 0 12px var(--glow); }
-
-/* ---- E's terminal text effect: dark CRT scanlines over everything, plus the glow ---- */
-body::after {
-  background:
-    repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.07) 0 1px, transparent 1px 3px),
-    radial-gradient(ellipse 120% 90% at 50% 40%, transparent 60%, rgba(0, 0, 0, 0.3) 100%);
-}
-:root[data-theme="light"] body::after {
-  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.018) 0 1px, transparent 1px 3px);
-}
-@media (prefers-reduced-motion: reduce) { body::after { display: none; } }
-
-/* ---- the intro: the name stays where it was; small windows float to its right ---- */
-.hero-desk { margin-top: 44px; display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
-@media (min-width: 1400px) and (min-height: 760px) {
-  .hero .tagline { max-width: 520px; } /* ends the paragraph short of the windows */
-  /* --r keeps the windows clear of the section tracker on the right */
-  .hero-desk { position: absolute; inset: 0; margin: 0; display: block; pointer-events: none; --r: max(200px, calc(50vw - 520px)); }
-  .hero-desk .win { position: absolute; pointer-events: auto; }
-  .win-now { top: 12%; right: var(--r); }
-  .win-clock { top: 58%; right: calc(var(--r) + 40px); }
-  .win-stats { top: 75%; right: calc(var(--r) + 8px); }
-}
-.win {
-  position: relative; background: var(--surface); border: 1px solid var(--border);
-  box-shadow: 4px 4px 0 color-mix(in srgb, var(--text-muted) 35%, transparent); /* grey: purple stays a touch, not the main */
-  transform: translate(var(--dx, 0px), var(--dy, 0px));
-}
-.win-bar {
-  display: flex; align-items: center; gap: 6px; padding: 6px 10px;
-  border-bottom: 1px solid var(--border); background: var(--surface-2);
-  font: 500 12px var(--font-mono); color: var(--text-muted); cursor: grab; user-select: none; touch-action: none;
-}
-.win-bar:active { cursor: grabbing; }
-.win-bar span { margin-right: auto; }
-.win-bar i { width: 9px; height: 9px; border: 1px solid var(--text-muted); opacity: 0.6; }
-.win-body { padding: 16px 18px; }
-.win-k { font: 500 11.5px var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); }
-.win-now-title { font: italic 400 23px/1.15 var(--font-serif); color: var(--accent); margin: 6px 0; text-shadow: 0 0 16px var(--glow); }
-.win-mute { color: var(--text-muted); font-size: 14px; }
-.win-stats p { font: 500 13.5px var(--font-mono); color: var(--text-muted); }
-.win-stats b { font: italic 400 28px var(--font-serif); color: var(--text); margin-right: 6px; }
-.win-now { width: 215px; }
-.win-stats { width: 220px; }
-.win-clock { width: 190px; }
-.win-time { font: italic 400 34px/1.1 var(--font-serif); color: var(--text); margin-top: 4px; }
-@media (max-width: 1399px) { .win { transform: none; } .win-bar { cursor: default; } }
-
-/* skill/tool logos drawn in near-white (#e6edf3) would vanish on white */
-:root[data-theme="light"] .skill-icon[style*="230, 237, 243"],
-:root[data-theme="light"] .skill-icon[style*="e6edf3"] { color: var(--text) !important; }
+/* ---- the chat panel reads the theme in both modes ---- */
+.chat-terminal, .chat-dial-panel, .chat-reopen { background: var(--surface); }
+.chat-head, .chat-input { background: var(--surface-2); border-color: var(--border); }
+.chat-title, .chat-user, .chat-input input { color: var(--text); }
+.chat-model { color: var(--text-muted); }
+.chat-assistant { color: color-mix(in srgb, var(--text) 85%, transparent); }
+.chat-traffic i { background: color-mix(in srgb, var(--text) 14%, transparent); }
+.chat-live, .chat-prefix, .chat-prompt { color: var(--accent); }
+.chat-user .chat-prefix { color: var(--text-muted); }
+.chat-dot { background: var(--accent); box-shadow: 0 0 8px var(--glow); }
+.chat-input input { caret-color: var(--accent); }
+.chat-input input::placeholder { color: color-mix(in srgb, var(--text) 38%, transparent); }
+.chat-fab { background: var(--surface); }
 
 /* fixed dark backgrounds that sat behind dark text once the page went white */
 :root[data-theme="light"] .pj3-overlay { background: rgba(255, 255, 255, 0.97); }
-:root[data-theme="light"] .chat-fab { background: var(--surface); }
 .badge-art-label { color: #545d6b; } /* was 4.3:1 on the badge's light grey */
 
 /* no resting shadow on cards: invisible on dark, a grey smudge on white */
@@ -199,4 +155,10 @@ body::after {
 .hero > .container { width: min(100%, 820px); }
 
 /* white cards on the stone paper need an edge, like the case-study cards */
-:root[data-theme="light"] .border-glow-card { border: 1px solid var(--border); }
+/* cards get a visible 1px line, like the case-study cards (ink on paper; a lighter line on black) */
+.border-glow-card, .chat-terminal, .contact-form { border: 1px solid var(--card-line) !important; }
+
+/* the role line under the name: normal spacing (the heading's tight -0.05em squashed "Data Analyst") */
+.hero h1 .role-line { letter-spacing: -0.015em; }
+/* tracker labels in capitals are wider; smaller and less tracked so they clear the cards */
+.rail-label { font-size: 10.5px; letter-spacing: 0.08em; }

@@ -295,77 +295,6 @@ function ThemeToggle() {
   );
 }
 
-// A window from the ZerefOS test: drag it by its title bar. The drag is kept
-// as an offset from where the layout placed it, so on phones (no dragging)
-// the windows just sit in the normal flow.
-function Win({ title, className = "", children }) {
-  const ref = useRef(null);
-  const drag = useRef(null);
-  const [z, setZ] = useState(1);
-  const down = (e) => {
-    if (window.innerWidth < 1400 || !window.matchMedia("(pointer: fine)").matches) return;
-    const el = ref.current;
-    drag.current = {
-      sx: e.clientX, sy: e.clientY,
-      x: parseFloat(el.style.getPropertyValue("--dx")) || 0,
-      y: parseFloat(el.style.getPropertyValue("--dy")) || 0,
-    };
-    setZ(Date.now() % 1e6); // the window you grab comes to the front
-    e.currentTarget.setPointerCapture(e.pointerId);
-  };
-  const move = (e) => {
-    const d = drag.current;
-    if (!d) return;
-    // capped so a window can't be dragged off and lost
-    const clamp = (v) => Math.max(-380, Math.min(380, v));
-    ref.current.style.setProperty("--dx", `${clamp(d.x + e.clientX - d.sx)}px`);
-    ref.current.style.setProperty("--dy", `${clamp(d.y + e.clientY - d.sy)}px`);
-  };
-  return (
-    <div ref={ref} className={`win ${className}`} style={{ zIndex: z }}>
-      <div className="win-bar" onPointerDown={down} onPointerMove={move} onPointerUp={() => (drag.current = null)}>
-        <span>{title}</span>
-        <i aria-hidden="true" /><i aria-hidden="true" /><i aria-hidden="true" />
-      </div>
-      <div className="win-body">{children}</div>
-    </div>
-  );
-}
-
-// Local time in Bulacan, so a visitor abroad can tell whether a reply comes today.
-function LocalTime() {
-  const fmt = () =>
-    new Date().toLocaleTimeString("en-PH", { hour: "numeric", minute: "2-digit", timeZone: "Asia/Manila" });
-  const [t, setT] = useState(fmt);
-  useEffect(() => {
-    const id = setInterval(() => setT(fmt()), 20_000);
-    return () => clearInterval(id);
-  }, []);
-  return <p className="win-time">{t}</p>;
-}
-
-function HeroDesk() {
-  const now = experience[0].tracks?.find((t) => t.status !== "completed");
-  return (
-    <div className="hero-desk">
-      <Win title="now.log" className="win-now">
-        <p className="win-k">right now</p>
-        <p className="win-now-title">{now?.name || experience[0].role}</p>
-        <p className="win-mute">{experience[0].company}</p>
-      </Win>
-      <Win title="stats" className="win-stats">
-        <p><b>{projects.length}</b> projects</p>
-        <p><b>{projects.filter((p) => p.demo).length}</b> live demos</p>
-        <p><b>{certifications.length}</b> certificates</p>
-      </Win>
-      <Win title="clock" className="win-clock">
-        <p className="win-k">in bulacan it's</p>
-        <LocalTime />
-      </Win>
-    </div>
-  );
-}
-
 export default function App() {
   const [activeSection, setActiveSection] = useState("");
   const timelineRef = useRef(null);
@@ -540,7 +469,6 @@ export default function App() {
 
       <header className="hero" id="home">
         <div className="container">
-          <div className="hero-text">
           <div className="hero-status">
             <span className="dot" />
             training - Backend AI Engineering @ FlyRank AI
@@ -588,8 +516,6 @@ export default function App() {
               Download CV
             </a>
           </div>
-          </div>
-          <HeroDesk />
         </div>
       </header>
 
