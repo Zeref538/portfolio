@@ -17,6 +17,8 @@ import "@fontsource/inter/500.css";
 import "@fontsource/inter/600.css";
 import "@fontsource-variable/jetbrains-mono";
 import "./index.css";
+import "./theme-fonts.css"; // TEST: try/mix2
+import "./theme-mix.css"; // TEST: try/mix2
 // Analytics is a count of visits, not a tracker: no cookies, no cross-site
 // profile, so no consent banner is needed. SpeedInsights reports the load speed
 // real visitors get, which is the only speed number that matters -- my machine on
