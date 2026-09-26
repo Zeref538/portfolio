@@ -1,7 +1,7 @@
-/* TEST (branch try/mix2): the current layout with John's picks.
-   C paper + L newsprint for light mode, D's serif, E's glow and square boxes,
-   F's bokeh (moving), H's hard shadows, I's tile board, J's hover preview,
-   S's salon certificates, U's tilt-and-shine. */
+/* TEST (branch try/mix2): the live design with John's edits.
+   Light/dark switch (circle reveal from the button), newsprint + a warm second
+   colour in light mode, serif headings with a soft glow, square boxes, a few
+   small drifting bokeh, staggered certificate columns. */
 
 /* ---- the two themes ---- */
 :root, :root[data-theme="dark"] {
@@ -15,13 +15,9 @@
   --accent-dim: rgba(167, 139, 250, 0.12);
   --accent-2: #22d3ee;
   --accent-2-dim: rgba(34, 211, 238, 0.12);
-  --hard: #7c5cd6;           /* H's shadow: black vanishes on a dark page, so it goes purple */
-  --edge: #3b3450;
-  --glow: rgba(167, 139, 250, 0.5);
-  --on-accent: #120d1f;
-  --bokeh-a: rgba(139, 92, 246, 0.4);
-  --bokeh-b: rgba(34, 211, 238, 0.24);
-  --bokeh-c: rgba(236, 72, 153, 0.22);
+  --glow: rgba(167, 139, 250, 0.35);
+  --bokeh-a: rgba(139, 92, 246, 0.34);
+  --bokeh-b: rgba(34, 211, 238, 0.2);
 }
 :root[data-theme="light"] {
   --bg: #f3eee0;
@@ -30,178 +26,80 @@
   --border: #d6cdb8;
   --text: #1b1916;
   --text-muted: #57524a;
-  --accent: #6d28d9;         /* C's deep purple: the bright one fails contrast on paper */
+  --accent: #6d28d9;         /* deep purple: the bright one fails contrast on paper */
   --accent-dim: rgba(109, 40, 217, 0.09);
-  --accent-2: #0e7490;
-  --accent-2-dim: rgba(14, 116, 144, 0.09);
-  --hard: #1b1916;
-  --edge: #1b1916;
-  --glow: rgba(109, 40, 217, 0.22);
-  --on-accent: #ffffff;
-  --bokeh-a: rgba(139, 92, 246, 0.14);
-  --bokeh-b: rgba(14, 165, 233, 0.1);
-  --bokeh-c: rgba(236, 72, 153, 0.09);
+  --accent-2: #c2410c;       /* the second colour on paper: burnt orange next to the purple */
+  --accent-2-dim: rgba(194, 65, 12, 0.1);
+  --glow: rgba(109, 40, 217, 0.16);
+  --bokeh-a: rgba(139, 92, 246, 0.13);
+  --bokeh-b: rgba(234, 88, 12, 0.1);
 }
-/* L's newsprint: two soft gradients over cream, no image file */
+/* newsprint: two soft gradients over cream, no image file */
 :root[data-theme="light"] body {
   background: radial-gradient(ellipse at 20% 0%, #f7f3e7, transparent 60%), radial-gradient(ellipse at 80% 100%, #ece5d2, transparent 55%), #f3eee0 fixed;
 }
-body { transition: background-color 0.3s ease, color 0.3s ease; }
 
-/* ---- E: square boxes everywhere ---- */
+/* the switch: turn off the browser's default cross-fade so only our circle shows */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+
+/* ---- square boxes everywhere (the rail's dots too) ---- */
 *, *::before, *::after { border-radius: 0 !important; }
-.bokeh i, .chat-dot, .dot, .timeline-marker, .rail-dot, .exp-track-dot { border-radius: 50% !important; }
+.chat-dot, .dot, .timeline-marker, .exp-track-dot, .bokeh i { border-radius: 50% !important; }
 
-/* ---- D's type with E's glow ---- */
+/* ---- serif headings with a soft glow; sizes stay the live site's ---- */
 .hero h1, h2, h3 { font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
-.hero h1 { font-size: clamp(3.2rem, 7.4vw, 6rem); line-height: 1; text-shadow: 0 0 28px var(--glow); }
-.name-anim.name-accent {
-  background: none; -webkit-text-fill-color: currentColor; color: var(--accent);
-  text-shadow: 0 0 22px var(--glow), 0 0 2px var(--glow);
-  animation: name-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
-}
+.hero h1 { text-shadow: 0 0 18px var(--glow); }
 .role-lead, .pm-sub { font-family: var(--font-serif); font-style: italic; }
-.typed-prompt, .hero-status { text-shadow: 0 0 12px var(--glow); }
+.typed-prompt { text-shadow: 0 0 10px var(--glow); }
 .section-label {
   font-family: var(--font-serif); font-style: italic; font-weight: 400;
-  font-size: clamp(2.4rem, 4.4vw, 3.6rem); letter-spacing: -0.01em; color: var(--text);
-  text-shadow: 0 0 24px var(--glow); margin-bottom: 6px;
+  font-size: clamp(1.6rem, 2.4vw, 2rem); letter-spacing: -0.005em; color: var(--text);
+  text-shadow: 0 0 16px var(--glow);
 }
 .section-label::after { flex: 1; width: auto; background: var(--border); }
-.section-out { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 1; margin: 0 0 40px; }
+.section-out { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 1; }
 
-/* ---- nav: E's box with a mark instead of the spelled-out name ---- */
-.nav-mark {
-  display: flex; align-items: baseline; justify-content: center; padding-top: 6px; width: 40px; height: 40px;
-  border: 2px solid var(--edge); background: var(--surface-2); box-shadow: 3px 3px 0 var(--hard);
-  font: italic 400 26px/1 var(--font-serif); color: var(--accent); animation: none;
-  text-shadow: 0 0 14px var(--glow);
-}
-.nav-mark span { font: 700 14px var(--font-mono); color: var(--accent); animation: caret-blink 1.05s steps(1) infinite; margin-left: 1px; }
-@keyframes caret-blink { 50% { opacity: 0; } }
-.nav-mark:hover { transform: none; }
-.nav-glow:hover { transform: none; }
-.nav-icon { background: none; border: 0; color: var(--text-muted); cursor: pointer; font-size: 18px; display: grid; place-items: center; }
-.nav-icon:hover { color: var(--accent); }
+/* a <button> among <a> icons: drop the browser button look, keep the icon box */
+.nav-theme { cursor: pointer; padding: 0; font: inherit; }
 
-/* ---- H: hard shadows on buttons and cards ---- */
-.btn { border: 2px solid var(--edge); box-shadow: 4px 4px 0 var(--hard); font-weight: 600; transition: transform 0.18s ease, box-shadow 0.18s ease; }
-.btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--hard); }
-.btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--hard); }
-.btn-primary { background: var(--accent); color: var(--on-accent); }
-.btn-primary:hover { background: var(--accent); }
-.btn-ghost { background: var(--surface); color: var(--text); }
-.border-glow-card { border: 2px solid var(--edge) !important; box-shadow: 5px 5px 0 var(--hard) !important; }
-.nav-glow .border-glow-card, .nav-glow.border-glow-card { box-shadow: 4px 4px 0 var(--hard) !important; }
-.edge-light { display: none !important; }
-.tag { background: transparent; border-color: var(--border); color: var(--text-muted); }
-
-/* ---- F: bokeh discs, each drifting on its own path ---- */
+/* ---- bokeh: four small discs drifting slowly ---- */
 .bokeh { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-.bokeh i { position: absolute; filter: blur(34px); animation: bokeh-drift var(--t, 24s) ease-in-out infinite alternate; }
-.bokeh i:nth-child(1) { --t: 26s; left: 2%;  top: 4%;   width: 34vmax; height: 34vmax; background: radial-gradient(circle, var(--bokeh-a), transparent 68%); }
-.bokeh i:nth-child(2) { --t: 31s; right: -6%; top: 24%; width: 30vmax; height: 30vmax; background: radial-gradient(circle, var(--bokeh-b), transparent 68%); animation-direction: alternate-reverse; }
-.bokeh i:nth-child(3) { --t: 22s; left: 30%; bottom: -12%; width: 36vmax; height: 36vmax; background: radial-gradient(circle, var(--bokeh-c), transparent 68%); }
-.bokeh i:nth-child(4) { --t: 17s; left: 62%; top: 8%;  width: 9vmax;  height: 9vmax;  filter: blur(10px); background: radial-gradient(circle, var(--bokeh-b), transparent 70%); }
-.bokeh i:nth-child(5) { --t: 19s; left: 14%; top: 60%; width: 7vmax;  height: 7vmax;  filter: blur(8px);  background: radial-gradient(circle, var(--bokeh-a), transparent 70%); animation-direction: alternate-reverse; }
-.bokeh i:nth-child(6) { --t: 15s; left: 82%; top: 66%; width: 11vmax; height: 11vmax; filter: blur(12px); background: radial-gradient(circle, var(--bokeh-c), transparent 70%); }
-.bokeh i:nth-child(7) { --t: 23s; left: 46%; top: 36%; width: 5vmax;  height: 5vmax;  filter: blur(6px);  background: radial-gradient(circle, var(--bokeh-a), transparent 70%); animation-direction: alternate-reverse; }
+.bokeh i { position: absolute; filter: blur(22px); animation: bokeh-drift var(--t, 24s) ease-in-out infinite alternate; }
+.bokeh i:nth-child(1) { --t: 26s; left: 8%;  top: 12%; width: 16vmax; height: 16vmax; background: radial-gradient(circle, var(--bokeh-a), transparent 68%); }
+.bokeh i:nth-child(2) { --t: 31s; right: 6%; top: 30%; width: 13vmax; height: 13vmax; background: radial-gradient(circle, var(--bokeh-b), transparent 68%); animation-direction: alternate-reverse; }
+.bokeh i:nth-child(3) { --t: 22s; left: 40%; bottom: 8%; width: 11vmax; height: 11vmax; background: radial-gradient(circle, var(--bokeh-a), transparent 68%); }
+.bokeh i:nth-child(4) { --t: 18s; left: 70%; top: 70%; width: 6vmax;  height: 6vmax;  filter: blur(8px); background: radial-gradient(circle, var(--bokeh-b), transparent 70%); animation-direction: alternate-reverse; }
 @keyframes bokeh-drift {
   0%   { transform: translate(0, 0) scale(1); }
-  33%  { transform: translate(5vmax, -3vmax) scale(1.08); }
-  66%  { transform: translate(-3vmax, 4vmax) scale(0.94); }
-  100% { transform: translate(3vmax, 2vmax) scale(1.04); }
+  33%  { transform: translate(4vmax, -3vmax) scale(1.06); }
+  66%  { transform: translate(-3vmax, 3vmax) scale(0.95); }
+  100% { transform: translate(2vmax, 2vmax) scale(1.03); }
 }
 
-/* ---- I's tile board + U's tilt ---- */
-.pj-board { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 220px; grid-auto-flow: dense; gap: 18px; perspective: 1000px; }
-.pj-tile {
-  --rx: 0deg; --ry: 0deg; --mx: 50%; --my: 50%; --lift: 0px;
-  position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 0; text-align: left; font: inherit; color: var(--text); cursor: pointer;
-  background: var(--surface); border: 2px solid var(--edge); box-shadow: 5px 5px 0 var(--hard);
-  transform: translate(var(--lift), var(--lift)) rotateX(var(--rx)) rotateY(var(--ry));
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+/* ---- certificates: same-size cards, each column starts a little lower or higher ---- */
+.certs-grid { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: 20px; padding-bottom: 26px; }
+.cert-item { translate: 0 var(--drop, 0px); }
+.cert-item:nth-child(4n + 1) { --drop: 10px; }
+.cert-item:nth-child(4n + 2) { --drop: 24px; }
+.cert-item:nth-child(4n + 3) { --drop: 10px; }
+.cert-item:nth-child(4n + 4) { --drop: 0px; }
+@media (max-width: 1100px) {
+  .certs-grid { grid-template-columns: repeat(3, 1fr); }
+  .cert-item:nth-child(3n + 1) { --drop: 10px; }
+  .cert-item:nth-child(3n + 2) { --drop: 24px; }
+  .cert-item:nth-child(3n + 3) { --drop: 0px; }
 }
-.pj-tile.big { grid-column: span 2; grid-row: span 2; }
-.pj-tile:hover, .pj-tile:focus-visible { --lift: -3px; box-shadow: 9px 9px 0 var(--hard); }
-.pj-tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-.pj-tile-img {
-  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top;
-  opacity: 0.32; transition: opacity 0.4s ease, transform 0.5s ease;
-}
-.pj-tile:hover .pj-tile-img { opacity: 0.5; transform: scale(1.04); }
-/* on paper the dark screenshots turn muddy grey, so they sit fainter */
-:root[data-theme="light"] .pj-tile-img { opacity: 0.16; }
-:root[data-theme="light"] .pj-tile:hover .pj-tile-img { opacity: 0.3; }
-/* fade the picture into the card colour behind the words */
-.pj-tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 10%, var(--surface) 82%); }
-.pj-tile-body { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 4px; padding: 20px 22px; }
-.pj-tile.big .pj-tile-body { padding: 30px; }
-.pj-tile-kind { font: 500 11.5px var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
-.pj-tile-name { font: italic 400 28px/1.05 var(--font-serif); }
-.pj-tile.big .pj-tile-name { font-size: clamp(40px, 4.2vw, 58px); text-shadow: 0 0 24px var(--glow); }
-.pj-tile-sub { font-size: 14px; color: var(--text-muted); line-height: 1.4; }
-.pj-tile:not(.big) .pj-tile-sub { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
-.pj-tile-metric { font: 500 12.5px var(--font-mono); color: var(--accent); text-shadow: 0 0 10px var(--glow); }
-.pj-tile-corner {
-  position: absolute; z-index: 2; top: 14px; right: 14px; width: 34px; height: 34px; padding: 7px;
-  background: var(--accent); color: var(--on-accent); opacity: 0; transform: scale(0.6); transition: opacity 0.2s, transform 0.2s;
-}
-.pj-tile:hover .pj-tile-corner, .pj-tile:focus-visible .pj-tile-corner { opacity: 1; transform: none; }
-/* U's foil: a hot spot plus a faint rainbow band, both following the pointer */
-.pj-tile-shine {
-  position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity 0.25s; mix-blend-mode: soft-light;
-  background:
-    radial-gradient(circle at var(--mx) var(--my), rgba(255, 255, 255, 0.75), transparent 40%),
-    linear-gradient(115deg, transparent 20%, rgba(255, 0, 170, 0.35) 38%, rgba(0, 220, 255, 0.35) 52%, rgba(255, 230, 0, 0.3) 66%, transparent 80%);
-  background-size: 100% 100%, 220% 220%;
-  background-position: center, var(--mx) var(--my);
-}
-.pj-tile:hover .pj-tile-shine { opacity: 1; }
-
-/* J's preview: the screenshot trailing the pointer */
-.pj-preview {
-  position: fixed; left: 0; top: 0; z-index: 90; width: 320px; aspect-ratio: 16 / 10; overflow: hidden;
-  border: 2px solid var(--edge); box-shadow: 6px 6px 0 var(--hard); background: var(--surface-2);
-  pointer-events: none; opacity: 0; transition: opacity 0.2s ease;
-}
-.pj-preview.on { opacity: 1; }
-.pj-preview img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
-@media (hover: none) { .pj-preview { display: none; } }
-
-/* ---- S's salon wall: columns of different-shaped frames, hung a little crooked ---- */
-.certs-grid { display: block; columns: 4 220px; column-gap: 26px; }
-.cert-item { break-inside: avoid; margin: 0 0 30px; height: auto; transform: rotate(var(--rot, 0deg)) translateY(var(--ny, 0)); transition: transform 0.25s ease; }
-.cert-item:hover { transform: rotate(0deg); }
-.cert-item:hover .cert-glow { transform: translate(-2px, -3px); box-shadow: none; }
-.salon-0 { --rot: -1deg; }
-.salon-0 .badge-art { aspect-ratio: 1; }
-.salon-1 { --rot: 0.8deg; --ny: 10px; }
-.salon-1 .badge-art { aspect-ratio: 16 / 9; }
-.salon-2 { --rot: -0.5deg; }
-.salon-2 .badge-art { aspect-ratio: 3 / 4; }
-.salon-3 { --rot: 1.2deg; --ny: -6px; }
-.salon-4 { --rot: -1.4deg; }
-.salon-4 .badge-art { aspect-ratio: 5 / 4; }
-/* a mat inside each frame, like a hung print */
-.badge-card { box-shadow: inset 0 0 0 6px var(--surface-2); padding: 20px; }
-
-/* ---- smaller screens ---- */
-@media (max-width: 1024px) { .pj-board { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 680px) {
-  .pj-board { grid-template-columns: 1fr; grid-auto-rows: 200px; }
-  .pj-tile.big { grid-column: auto; grid-row: auto; }
-  .pj-tile.big .pj-tile-name { font-size: 34px; }
-  .certs-grid { columns: 2 140px; column-gap: 14px; }
-  .cert-item { --rot: 0deg !important; --ny: 0 !important; margin-bottom: 16px; }
+  .certs-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .cert-item:nth-child(2n + 1) { --drop: 0px; }
+  .cert-item:nth-child(2n + 2) { --drop: 16px; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .bokeh i, .nav-mark span { animation: none; }
-  .pj-tile, .pj-tile-img, .btn, .cert-item, .pj-preview { transition: none; }
-}
+
+@media (prefers-reduced-motion: reduce) { .bokeh i { animation: none; } }
 
 /* ---- light mode: the spots that were written as fixed dark colours ---- */
+:root[data-theme="light"] .edge-light { display: none; }
+:root[data-theme="light"] .btn-primary { color: #fff; }
 :root[data-theme="light"] .statusbar { background: rgba(251, 248, 240, 0.94); }
 :root[data-theme="light"] .nav-icon::after,
 :root[data-theme="light"] .contact-icon::after { background: #fbf8f0; color: var(--text); }
@@ -218,8 +116,10 @@ body { transition: background-color 0.3s ease, color 0.3s ease; }
 :root[data-theme="light"] .chat-live,
 :root[data-theme="light"] .chat-prefix,
 :root[data-theme="light"] .chat-prompt { color: #6d28d9; }
-:root[data-theme="light"] .chat-user .chat-prefix { color: #7c3aed; }
+:root[data-theme="light"] .chat-user .chat-prefix { color: #c2410c; }
 :root[data-theme="light"] .chat-dot { background: #6d28d9; box-shadow: 0 0 8px rgba(109, 40, 217, 0.5); }
 :root[data-theme="light"] .chat-input input { caret-color: #6d28d9; }
 :root[data-theme="light"] .chat-input input::placeholder { color: rgba(27, 25, 22, 0.35); }
-:root[data-theme="light"] .chat-dial { background: rgba(251, 248, 240, 0.95); color: #6d28d9; }
+
+/* the prompt in section headings: ❯ in the mono font (the serif has no such glyph) */
+.prompt-sym { font-family: var(--font-mono); font-style: normal; font-size: 0.8em; color: var(--accent); text-shadow: 0 0 12px var(--glow); }

@@ -10,6 +10,7 @@ import Magnet from "./components/Magnet.jsx";
 import BorderGlow from "./components/BorderGlow.jsx";
 import RotatingText from "./components/RotatingText.jsx";
 import { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { profile, experience, projects, skills, certifications, education } from "./data.js";
 import ProjectModal from "./components/ProjectModal.jsx";
 import ContactForm from "./components/ContactForm.jsx";
@@ -81,9 +82,9 @@ function KaggleMark(props) {
 }
 
 // Certification card - enlarges gently on hover (no full-screen preview).
-function CertCard({ c, i = 0 }) {
+function CertCard({ c }) {
   return (
-    <div className={`cert-item salon-${i % 5}`}>
+    <div className="cert-item">
     <GlowCard className="cert-glow">
       <div className="badge-card">
         <div className="badge-art">
@@ -157,6 +158,7 @@ function CopyButton({ value, className = "", labelIdle = "Copy", icon = <LuMail 
   );
 }
 
+// cross-fades through a project's screenshots so covers don't sit static
 // One FlyRank track: the line that matters, plus a toggle for the rest.
 // Four long bullets per track would make the card taller than the screen, and
 // the two tracks under ML Engineering were invisible below the fold.
@@ -200,6 +202,42 @@ function ExpTrack({ t }) {
   );
 }
 
+function CyclingCover({ images, alt }) {
+  const [idx, setIdx] = useState(0);
+  const ref = useRef(null);
+  // only cross-fade while the card is actually on screen - keeps 8 cards from
+  // each running a timer + image swap in the background
+  useEffect(() => {
+    if (!images || images.length < 2) return;
+    const host = ref.current?.parentNode;
+    let id = null;
+    const start = () => { if (id == null) id = setInterval(() => setIdx((i) => (i + 1) % images.length), 4600); };
+    const stop = () => { if (id != null) { clearInterval(id); id = null; } };
+    if (!host || typeof IntersectionObserver === "undefined") {
+      start();
+      return stop;
+    }
+    const io = new IntersectionObserver(
+      ([e]) => (e.isIntersecting ? start() : stop()),
+      { threshold: 0.1 }
+    );
+    io.observe(host);
+    return () => { io.disconnect(); stop(); };
+  }, [images]);
+  if (!images?.length) return null;
+  return images.map((src, i) => (
+    <img
+      key={src}
+      ref={i === 0 ? ref : undefined}
+      src={src}
+      alt={alt}
+      loading="lazy"
+      className={`pj3-img ${i === idx ? "pj3-img-on" : ""}`}
+      onError={(e) => { e.target.style.display = "none"; }}
+    />
+  ));
+}
+
 // Light or dark. Starts from the visitor's system setting; a click is
 // remembered in this browser (storage can be blocked, so it is guarded).
 function useTheme() {
@@ -215,41 +253,33 @@ function useTheme() {
     document.documentElement.style.colorScheme = theme;
     try { localStorage.setItem("theme", theme); } catch { /* not saved, still works */ }
   }, [theme]);
-  return [theme, () => setTheme((t) => (t === "dark" ? "light" : "dark"))];
-}
 
-// Tilt a tile toward the pointer and move its shine with it. Written straight
-// to the element's style so a mouse move does not re-render React.
-const canTilt = () =>
-  window.matchMedia("(pointer: fine) and (prefers-reduced-motion: no-preference)").matches;
-function tilt(e) {
-  const el = e.currentTarget;
-  if (!canTilt()) return;
-  const r = el.getBoundingClientRect();
-  const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-  el.style.setProperty("--mx", `${x * 100}%`);
-  el.style.setProperty("--my", `${y * 100}%`);
-  el.style.setProperty("--rx", `${(0.5 - y) * 10}deg`);
-  el.style.setProperty("--ry", `${(x - 0.5) * 12}deg`);
-}
-function untilt(e) {
-  e.currentTarget.style.setProperty("--rx", "0deg");
-  e.currentTarget.style.setProperty("--ry", "0deg");
+  // The new theme grows out of the button as a circle. The browser snapshots
+  // the old page, we swap the theme, then the new page is revealed through a
+  // circle clip that expands from the button to the farthest corner.
+  const toggle = (e) => {
+    const next = theme === "dark" ? "light" : "dark";
+    const apply = () => {
+      document.documentElement.dataset.theme = next;
+      flushSync(() => setTheme(next));
+    };
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!document.startViewTransition || calm) return apply(); // older browsers: instant swap
+    const r = e.currentTarget.getBoundingClientRect();
+    const x = r.left + r.width / 2, y = r.top + r.height / 2;
+    const end = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+    document.startViewTransition(apply).ready.then(() => {
+      document.documentElement.animate(
+        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${end}px at ${x}px ${y}px)`] },
+        { duration: 650, easing: "cubic-bezier(0.4, 0, 0.2, 1)", pseudoElement: "::view-transition-new(root)" }
+      );
+    });
+  };
+  return [theme, toggle];
 }
 
 export default function App() {
   const [theme, toggleTheme] = useTheme();
-  const [hoverProject, setHoverProject] = useState(null);
-  const previewRef = useRef(null);
-  // the screenshot that trails the pointer over the project board; flips to
-  // the left near the right edge so it never runs off screen
-  const movePreview = (e) => {
-    const el = previewRef.current;
-    if (!el) return;
-    const x = e.clientX + 26 + el.offsetWidth > window.innerWidth ? e.clientX - 26 - el.offsetWidth : e.clientX + 26;
-    const y = Math.min(Math.max(e.clientY - 80, 8), window.innerHeight - el.offsetHeight - 8);
-    el.style.transform = `translate(${x}px, ${y}px)`;
-  };
   const [activeSection, setActiveSection] = useState("");
   const timelineRef = useRef(null);
   const railRef = useRef(null);
@@ -324,7 +354,7 @@ export default function App() {
     <>
       {/* <BootLoader /> */}
       <Cursor />
-      <div className="bokeh" aria-hidden="true">{[1, 2, 3, 4, 5, 6, 7].map((i) => <i key={i} />)}</div>
+      <div className="bokeh" aria-hidden="true">{[1, 2, 3, 4].map((i) => <i key={i} />)}</div>
       {/* zIndex -20 (+100 for page target = 80) keeps nav/rail/statusbar sharp above the veil */}
       <GradualBlur
         target="page"
@@ -339,13 +369,13 @@ export default function App() {
       <nav>
         <BorderGlow {...GLOW_CARD_PROPS} borderRadius={18} className="nav-glow">
           <div className="nav-bar">
-            <a href="#" className="nav-logo nav-mark" aria-label="Back to top">
-              Z<span>_</span>
+            <a href="#" className="nav-logo">
+              zeref<span>.</span>
             </a>
             <div className="nav-actions">
               <button
                 type="button"
-                className="nav-icon"
+                className="nav-icon nav-theme"
                 onClick={toggleTheme}
                 aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
                 data-label={theme === "dark" ? "Light mode" : "Dark mode"}
@@ -483,7 +513,7 @@ export default function App() {
       <main>
         <section id="about">
           <Reveal className="container">
-            <div className="section-label">$ cat about.md</div>
+            <div className="section-label"><span className="prompt-sym" aria-hidden="true">❯</span> cat about.md</div>
             <div className="section-out"># identity · education · zeref-bot attached</div>
             <div className="about-grid">
               <div className="about-text">
@@ -539,7 +569,7 @@ export default function App() {
 
         <section id="experience">
           <Reveal className="container">
-            <div className="section-label">$ git log --career</div>
+            <div className="section-label"><span className="prompt-sym" aria-hidden="true">❯</span> git log --career</div>
             <div className="section-out"># {experience.length} commits on branch career/main</div>
             <div className="timeline" ref={timelineRef}>
               {experience.map((exp, idx) => (
@@ -584,7 +614,7 @@ export default function App() {
 
         <section id="projects">
           <Reveal className="container">
-            <div className="section-label">$ ls projects/</div>
+            <div className="section-label"><span className="prompt-sym" aria-hidden="true">❯</span> ls projects/</div>
             <div className="section-out"># {projects.length} repos · {projects.filter((p) => p.demo).length} live deployments</div>
             <div className="cert-filters">
               <button
@@ -608,42 +638,97 @@ export default function App() {
                 </button>
               ))}
             </div>
-            <div className="pj-board" onMouseMove={movePreview} onMouseLeave={() => setHoverProject(null)}>
-              {visibleProjects.map((p, i) => {
-                const [name, sub] = p.title.split(" - ");
-                const cover = p.images?.[0] || p.image;
-                return (
-                  <button
-                    key={p.title}
-                    type="button"
-                    className={`pj-tile ${i % 5 === 0 ? "big" : ""}`}
-                    aria-haspopup="dialog"
-                    onClick={() => setOpenProject(p)}
-                    onMouseEnter={() => setHoverProject(p)}
-                    onPointerMove={tilt}
-                    onPointerLeave={untilt}
-                  >
-                    {cover && <img className="pj-tile-img" src={cover} alt="" loading="lazy" />}
-                    <span className="pj-tile-body">
-                      <span className="pj-tile-kind">{p.groups?.[0]} · {p.date}</span>
-                      <span className="pj-tile-name">{name}</span>
-                      {sub && <span className="pj-tile-sub">{sub}</span>}
-                      {p.metric && <span className="pj-tile-metric">▸ {p.metric}</span>}
-                    </span>
-                    <LuArrowUpRight className="pj-tile-corner" aria-hidden="true" />
-                    <span className="pj-tile-shine" aria-hidden="true" />
-                  </button>
-                );
-              })}
+            <div className="projects-grid">
+              {visibleProjects.map((p, i) => (
+                <Reveal key={p.title} className="pj-item" style={{ "--i": i }}>
+                  <GlowCard className="pj3-glow" borderRadius={30}>
+                    {(() => {
+                      // A click opens the enlarged card (ProjectModal) on every
+                      // device. The case-study page is its "Check out" button.
+                      const open = () => setOpenProject(p);
+                      return (
+                    <article
+                      className="pj3"
+                      role="button"
+                      tabIndex={0}
+                      aria-haspopup="dialog"
+                      onClick={open}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          open();
+                        }
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {/* cover: screenshot / gif of the live app */}
+                      <div className="pj3-cover">
+                        <div className="pj3-ph">
+                          <span className="pj-shot-mono">{p.title.split(" ")[0]}</span>
+                          {p.metric && <span className="pj-shot-metric">▸ {p.metric}</span>}
+                        </div>
+                        <CyclingCover
+                          images={p.images?.length ? p.images : p.image ? [p.image] : []}
+                          alt={`${p.title} preview`}
+                        />
+                      </div>
+
+                      {/* always-visible details under the cover */}
+                      <div className="pj3-info">
+                        <h3>{p.title}</h3>
+                        <span className="pj3-meta">{p.category}</span>
+                        <p className="pj3-desc">{p.description}</p>
+                        <div className="tags pj3-tags">
+                          {p.tags.slice(0, 5).map((t) => <span className="tag" key={t}>{t}</span>)}
+                        </div>
+                        <div className="pj3-links">
+                          {p.demo && (
+                            <a href={p.demo} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
+                              <LuArrowUpRight /> {p.demoLabel || "live demo"}
+                            </a>
+                          )}
+                          {p.link && (
+                            <a href={p.link} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
+                              <SiGithub /> source
+                            </a>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* hover: full details */}
+                      <div className="pj3-overlay">
+                        <h3>{p.title}</h3>
+                        <span className="pj3-meta">{p.category} · {p.date}</span>
+                        {p.metric && <div className="pj3-stat">▸ {p.metric}</div>}
+                        <p className="pj3-desc">{p.description}</p>
+                        <div className="pj3-sec">// impact</div>
+                        <ul className="pj3-highlights">
+                          {p.highlights.map((h) => <li key={h}>{h}</li>)}
+                        </ul>
+                        <div className="pj3-sec">// full stack</div>
+                        <div className="tags pj3-tags">
+                          {p.tags.map((t) => <span className="tag" key={t}>{t}</span>)}
+                        </div>
+                        <div className="pj3-links">
+                          {p.demo && (
+                            <a href={p.demo} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
+                              <LuArrowUpRight /> {p.demoLabel || "live demo"}
+                            </a>
+                          )}
+                          {p.link && (
+                            <a href={p.link} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
+                              <SiGithub /> source
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </article>
+                      );
+                    })()}
+                  </GlowCard>
+                </Reveal>
+              ))}
             </div>
-            {(() => {
-              const src = hoverProject && (hoverProject.images?.[0] || hoverProject.image);
-              return (
-                <div ref={previewRef} className={`pj-preview ${src ? "on" : ""}`} aria-hidden="true">
-                  {src && <img src={src} alt="" />}
-                </div>
-              );
-            })()}
             {projFilter === "All" && filteredProjects.length > PROJ_PREVIEW && (
               <button
                 type="button"
@@ -660,7 +745,7 @@ export default function App() {
 
         <section id="certifications">
           <Reveal className="container">
-            <div className="section-label">$ ls certs/</div>
+            <div className="section-label"><span className="prompt-sym" aria-hidden="true">❯</span> ls certs/</div>
             <div className="section-out"># {certifications.length} credentials · all verified ✓</div>
             <div className="cert-filters">
               <button
@@ -686,8 +771,8 @@ export default function App() {
               ))}
             </div>
             <div className="certs-grid">
-              {visibleCerts.map((c, i) => (
-                <CertCard key={c.name} c={c} i={i} />
+              {visibleCerts.map((c) => (
+                <CertCard key={c.name} c={c} />
               ))}
             </div>
           </Reveal>
@@ -695,7 +780,7 @@ export default function App() {
 
         <section id="skills">
           <Reveal className="container">
-            <div className="section-label">$ nvidia-smi --skills</div>
+            <div className="section-label"><span className="prompt-sym" aria-hidden="true">❯</span> nvidia-smi --skills</div>
             <div className="section-out"># {skills.reduce((n, g) => n + g.items.length, 0)} packages installed across {skills.length} groups</div>
             {skills.map((g) => (
               <div className="stack-group" key={g.group}>
@@ -717,7 +802,7 @@ export default function App() {
 
         <section id="contact" className="contact">
           <Reveal className="container">
-            <div className="section-label" style={{ justifyContent: "center" }}>$ ssh zeref@contact</div>
+            <div className="section-label" style={{ justifyContent: "center" }}><span className="prompt-sym" aria-hidden="true">❯</span> ssh zeref@contact</div>
             <div className="section-out" style={{ textAlign: "center" }}># connection open · awaiting message</div>
             <ScrollFloat
               animationDuration={1}
