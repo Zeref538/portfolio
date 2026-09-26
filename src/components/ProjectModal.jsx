@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { LuArrowUpRight, LuX, LuChevronLeft, LuChevronRight } from "react-icons/lu";
+import { LinkIcon } from "../linkIcon.jsx";
 import { SiGithub } from "react-icons/si";
 import { slugify } from "../slug.js";
 
@@ -111,12 +112,12 @@ export default function ProjectModal({ project, onClose, onPrev, onNext }) {
           <div className="pm-links">
             {p.live && (
               <a href={p.live} target="_blank" rel="noreferrer">
-                <LuArrowUpRight /> try it
+                <LinkIcon label="try it" /> try it
               </a>
             )}
             {p.demo && (
               <a href={p.demo} target="_blank" rel="noreferrer">
-                <LuArrowUpRight /> {p.demoLabel || "try it"}
+                <LinkIcon label={p.demoLabel || "try it"} /> {p.demoLabel || "try it"}
               </a>
             )}
             {p.link && (

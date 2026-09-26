@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { LuArrowLeft, LuArrowUpRight, LuArrowRight } from "react-icons/lu";
+import { LinkIcon } from "./linkIcon.jsx";
 import { SiGithub } from "react-icons/si";
 import { projects } from "./data.js";
 import { findProject, slugify } from "./slug.js";
@@ -97,12 +98,12 @@ export default function ProjectPage() {
           <div className="pp-actions">
             {project.live && (
               <a className="btn btn-primary" href={project.live} target="_blank" rel="noreferrer">
-                <LuArrowUpRight /> try it
+                <LinkIcon label="try it" /> try it
               </a>
             )}
             {project.demo && (
               <a className="btn btn-primary" href={project.demo} target="_blank" rel="noreferrer">
-                <LuArrowUpRight /> {project.demoLabel || "try it"}
+                <LinkIcon label={project.demoLabel || "try it"} /> {project.demoLabel || "try it"}
               </a>
             )}
             {project.link && (
@@ -173,12 +174,12 @@ export default function ProjectPage() {
               <div className="pp-rail-links">
                 {project.live && (
                   <a href={project.live} target="_blank" rel="noreferrer">
-                    <LuArrowUpRight /> try it
+                    <LinkIcon label="try it" /> try it
                   </a>
                 )}
                 {project.demo && (
                   <a href={project.demo} target="_blank" rel="noreferrer">
-                    <LuArrowUpRight /> {project.demoLabel || "try it"}
+                    <LinkIcon label={project.demoLabel || "try it"} /> {project.demoLabel || "try it"}
                   </a>
                 )}
                 {project.link && (

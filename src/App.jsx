@@ -21,6 +21,7 @@ import StatusBar from "./components/StatusBar.jsx";
 import ChatWidget, { ChatDial } from "./components/ChatWidget.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
 import { LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuLinkedin, LuMail, LuCheck, LuPhone, LuSun, LuMoon } from "react-icons/lu";
+import { LinkIcon } from "./linkIcon.jsx";
 import { SiGithub } from "react-icons/si";
 
 const NAV = [
@@ -717,12 +718,12 @@ export default function App() {
                         <div className="pj3-links">
                           {p.live && (
                             <a href={p.live} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
-                              <LuArrowUpRight /> try it
+                              <LinkIcon label="try it" /> try it
                             </a>
                           )}
                           {p.demo && (
                             <a href={p.demo} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
-                              <LuArrowUpRight /> {p.demoLabel || "try it"}
+                              <LinkIcon label={p.demoLabel || "try it"} /> {p.demoLabel || "try it"}
                             </a>
                           )}
                           {p.link && (
@@ -750,12 +751,12 @@ export default function App() {
                         <div className="pj3-links">
                           {p.live && (
                             <a href={p.live} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
-                              <LuArrowUpRight /> try it
+                              <LinkIcon label="try it" /> try it
                             </a>
                           )}
                           {p.demo && (
                             <a href={p.demo} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
-                              <LuArrowUpRight /> {p.demoLabel || "try it"}
+                              <LinkIcon label={p.demoLabel || "try it"} /> {p.demoLabel || "try it"}
                             </a>
                           )}
                           {p.link && (

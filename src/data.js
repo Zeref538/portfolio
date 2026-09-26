@@ -103,7 +103,7 @@ export const projects = [
     ],
     link: "https://github.com/Zeref538/flyrank-ml-internship",
     demo: "https://zeref538.github.io/flyrank-ml-internship/",
-    demoLabel: "read the paper",
+    demoLabel: "case study",
     highlights: [
       "Reported the non-result rather than the two-point win: a cluster bootstrap over held-out clients puts the model-minus-rule difference at [-0.260, +0.140] and the model ahead in only 61% of 2,000 resamples, and the conclusion survives every eligibility gate from 100 to 2,000 impressions",
       "Found that validation design outweighed model choice - a row-level split inflates ROC-AUC from 0.618 to 0.728 versus a client-grouped split, in 8 of 8 draws, a larger gap than between any two models tried",
