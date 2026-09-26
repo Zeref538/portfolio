@@ -232,7 +232,13 @@ h3 { letter-spacing: -0.03em; }
 
   /* less air between and around sections */
   section { padding: 34px 0; }
-  .hero { padding: 84px 0 32px; }
+  /* hero: like the desktop, it fills the first screen with the content centred,
+     so the next section no longer squeezes in under the buttons */
+  .hero { min-height: 100svh; padding: 80px 0 40px; }
+  /* status box on one short line; "training - " is the part that made it wrap */
+  .hero-status { font-size: min(11.5px, 3.3vw); padding: 5px 12px; margin-bottom: 22px; white-space: nowrap; }
+  .hero-status .status-lead { display: none; }
+  .boot-log { font-size: 11.5px; }
   .section-label { font-size: 24px; margin-bottom: 4px; }
   .section-out { margin: 0 0 18px; font-size: 10.5px; }
 
@@ -243,7 +249,7 @@ h3 { letter-spacing: -0.03em; }
   /* "there's more this way" arrow. It's the row's last item but sticky, so it
      pins to the right edge while you swipe, then fades out once you reach the end. */
   .cert-filters::after {
-    content: "›";
+    content: "›"; z-index: 1;
     position: sticky; right: calc(-1 * var(--gutter)); flex: none;
     display: grid; place-items: center; width: 44px; margin-left: -44px;
     font-size: 22px; color: var(--accent); pointer-events: none;
@@ -251,6 +257,15 @@ h3 { letter-spacing: -0.03em; }
     animation: more-hint linear both; animation-timeline: scroll(nearest inline); /* the row, not the arrow itself */
   }
   @keyframes more-hint { 90% { opacity: 1; } 100% { opacity: 0; } }
+  .cert-filters::before {
+    content: "‹"; /* the left arrow, same trick mirrored */
+    position: sticky; left: calc(-1 * var(--gutter)); flex: none; z-index: 1;
+    display: grid; place-items: center; width: 44px; margin-right: -44px;
+    font-size: 22px; color: var(--accent); pointer-events: none;
+    background: linear-gradient(to left, transparent, var(--bg) 55%);
+    animation: less-hint linear both; animation-timeline: scroll(nearest inline);
+  }
+  @keyframes less-hint { 0% { opacity: 0; } 10% { opacity: 1; } }
 
   /* projects: a row per project - screenshot left, title / tag line / number right.
      Tapping still opens the popup with everything. */
@@ -280,7 +295,7 @@ h3 { letter-spacing: -0.03em; }
   .badge-art { grid-row: 1 / 4; aspect-ratio: 1; padding: 6px; gap: 4px; align-self: start; }
   .badge-art-name, .badge-art-label, .badge-check { display: none; }
   .badge-art .issuer-icon { height: 16px; }
-  .cert-name { font-size: 13px; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .cert-name { font-size: 13px; line-height: 1.35; min-height: 2.7em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .badge-meta { margin: 0; justify-content: flex-start; }
   .badge-issuer { padding: 2px 8px; font-size: 11px; }
   .badge-verify { justify-self: start; padding: 3px 10px; font-size: 12px; gap: 6px; }

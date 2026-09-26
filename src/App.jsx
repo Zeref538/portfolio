@@ -471,7 +471,7 @@ export default function App() {
         <div className="container">
           <div className="hero-status">
             <span className="dot" />
-            training - Backend AI Engineering @ FlyRank AI
+            <span className="status-lead">training - </span>Backend AI Engineering @ FlyRank AI
           </div>
           <div className="boot-log" aria-hidden="true">
             <span>[ ok ] modules loaded - cv · ml · data</span>
