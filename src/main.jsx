@@ -17,8 +17,10 @@ import "@fontsource/inter/500.css";
 import "@fontsource/inter/600.css";
 import "@fontsource-variable/jetbrains-mono";
 import "./index.css";
-import "./theme-fonts.css"; // TEST: try/mix2
-import "./theme-mix.css"; // TEST: try/mix2
+// The site's look sits on top of index.css: case-study fonts, then the
+// black/white/purple theme with light and dark mode. Order matters, later wins.
+import "./theme-fonts.css";
+import "./theme-mix.css";
 // Analytics is a count of visits, not a tracker: no cookies, no cross-site
 // profile, so no consent banner is needed. SpeedInsights reports the load speed
 // real visitors get, which is the only speed number that matters -- my machine on
