@@ -5,40 +5,41 @@
 
 /* ---- the two themes ---- */
 :root, :root[data-theme="dark"] {
-  --bg: #08070d;
-  --surface: #110f18;
-  --surface-2: #17141f;
-  --border: #2a2536;
-  --text: #ece9f4;
-  --text-muted: #9d98ad;
-  --accent: #a78bfa;
+  /* the case-study palette: black and white, greys between, purple only as a touch */
+  --bg: #000000;
+  --surface: #0c0a09;
+  --surface-2: #1c1917;
+  --border: #292524;
+  --text: #fafaf9;
+  --text-muted: #a8a29e;     /* 7.9:1 on black */
+  --accent: #a78bfa;         /* the one colour: purple */
   --accent-dim: rgba(167, 139, 250, 0.12);
-  --accent-2: #22d3ee;
-  --accent-2-dim: rgba(34, 211, 238, 0.12);
-  --glow: rgba(167, 139, 250, 0.22);
-  --on-accent: #100a1e;
-  --dot-rgb: 139, 152, 169;
+  --accent-2: #e7e5e4;       /* no blue: the second tone is near-white */
+  --accent-2-dim: rgba(231, 229, 228, 0.1);
+  --glow: rgba(167, 139, 250, 0.2);
+  --on-accent: #0c0a09;
+  --dot-rgb: 120, 113, 108;
   --dot-hot-rgb: 167, 139, 250;
-  --bokeh-a: rgba(139, 92, 246, 0.34);
-  --bokeh-b: rgba(34, 211, 238, 0.2);
+  --bokeh-a: rgba(139, 92, 246, 0.26);
+  --bokeh-b: rgba(255, 255, 255, 0.05);
 }
 :root[data-theme="light"] {
-  --bg: #ffffff;             /* pure white, like the case-study pages */
+  --bg: #f5f5f4;             /* the case study's stone paper, so white cards stand out on it */
   --surface: #ffffff;
-  --surface-2: #f5f5f4;
-  --border: #e5e5e5;
-  --text: #0a0a0a;           /* near-black ink */
-  --text-muted: #525252;     /* 7.8:1 on white */
-  --accent: #13733a;         /* green: 5.9:1 on white, still 4.5:1+ on its own pale tints */
-  --accent-dim: rgba(19, 115, 58, 0.09);
-  --accent-2: #14532d;       /* a deeper green, so the name fades green to forest */
-  --accent-2-dim: rgba(20, 83, 45, 0.09);
-  --glow: rgba(21, 128, 61, 0.08);
+  --surface-2: #fafaf9;
+  --border: #e7e5e4;
+  --text: #1c1917;
+  --text-muted: #57534e;     /* 7.1:1 on the paper (BRAND.md asks for #6b645f or darker) */
+  --accent: #6d28d9;         /* deep purple: the bright one fails contrast on paper */
+  --accent-dim: rgba(109, 40, 217, 0.08);
+  --accent-2: #1c1917;       /* no blue: the second tone is the ink */
+  --accent-2-dim: rgba(28, 25, 23, 0.08);
+  --glow: rgba(109, 40, 217, 0.08);
   --on-accent: #ffffff;
-  --dot-rgb: 115, 115, 115;
-  --dot-hot-rgb: 19, 115, 58;
-  --bokeh-a: rgba(34, 197, 94, 0.12);
-  --bokeh-b: rgba(21, 128, 61, 0.08);
+  --dot-rgb: 120, 113, 108;
+  --dot-hot-rgb: 109, 40, 217;
+  --bokeh-a: rgba(139, 92, 246, 0.1);
+  --bokeh-b: rgba(28, 25, 23, 0.04);
 }
 
 /* the switch: turn off the browser's default cross-fade so only our circle shows */
@@ -105,13 +106,13 @@
 :root[data-theme="light"] .edge-light { display: none; }
 :root[data-theme="light"] .btn-primary { color: #fff; }
 .btn-primary:hover { background: color-mix(in srgb, var(--accent) 82%, white); }
-:root[data-theme="light"] .statusbar { background: rgba(251, 248, 240, 0.94); }
+:root[data-theme="light"] .statusbar { background: rgba(255, 255, 255, 0.94); }
 :root[data-theme="light"] .nav-icon::after,
-:root[data-theme="light"] .contact-icon::after { background: #fbf8f0; color: var(--text); }
+:root[data-theme="light"] .contact-icon::after { background: var(--surface); color: var(--text); }
 :root[data-theme="light"] .cert-filter.active .cert-count { color: #fff; }
 :root[data-theme="light"] .chat-terminal,
 :root[data-theme="light"] .chat-dial-panel,
-:root[data-theme="light"] .chat-reopen { background: #fbf8f0; }
+:root[data-theme="light"] .chat-reopen { background: var(--surface); }
 :root[data-theme="light"] .chat-title,
 :root[data-theme="light"] .chat-user,
 :root[data-theme="light"] .chat-input input { color: #1b1916; }
@@ -153,7 +154,7 @@ body::after {
 }
 .win {
   position: relative; background: var(--surface); border: 1px solid var(--border);
-  box-shadow: 5px 5px 0 var(--accent);
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--text-muted) 35%, transparent); /* grey: purple stays a touch, not the main */
   transform: translate(var(--dx, 0px), var(--dy, 0px));
 }
 .win-bar {
@@ -187,3 +188,15 @@ body::after {
 
 /* no resting shadow on cards: invisible on dark, a grey smudge on white */
 .border-glow-card:not(:hover) { box-shadow: none !important; }
+
+/* purple as the accent, not the main colour: the main button is ink, like the case study's */
+.btn-primary { background: var(--text); border-color: var(--text); color: var(--bg); }
+.btn-primary:hover { background: color-mix(in srgb, var(--text) 85%, var(--accent)); border-color: var(--text); }
+:root[data-theme="light"] .btn-primary { color: #ffffff; }
+
+/* the intro box keeps the live site's width, so the name sits where it does there
+   (the box shrinks to its content, and the serif name is narrower than Sora) */
+.hero > .container { width: min(100%, 820px); }
+
+/* white cards on the stone paper need an edge, like the case-study cards */
+:root[data-theme="light"] .border-glow-card { border: 1px solid var(--border); }
