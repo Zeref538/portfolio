@@ -342,7 +342,6 @@ export const projects = [
     ],
     link: "https://github.com/Zeref538/apaw",
     demo: "https://zeref538.github.io/apaw/",
-    demoLabel: "live dashboard",
     highlights: [
       "Built the dataset the model learns from: PAGASA keeps no archive, so a twice-daily collector commits every reading and the scrape runs before the model - a modelling bug can never cost an observation that cannot be re-fetched",
       "Split the calendar before searching 3,776 configurations, so the winner was ranked on dates it could see and scored once on dates it could not; dev 0.615 → holdout 0.617 mean ratio is what makes the 7/7 result credible rather than a search reporting its own luck",

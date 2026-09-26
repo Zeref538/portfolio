@@ -125,7 +125,7 @@ export default function ProjectModal({ project, onClose, onPrev, onNext }) {
             )}
             {p.demo && (
               <a href={p.demo} target="_blank" rel="noreferrer">
-                <LuArrowUpRight /> {p.demoLabel || "live demo"}
+                <LuArrowUpRight /> {p.demoLabel || "try it"}
               </a>
             )}
             {p.link && (

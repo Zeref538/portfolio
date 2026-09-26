@@ -102,7 +102,7 @@ export default function ProjectPage() {
             )}
             {project.demo && (
               <a className="btn btn-primary" href={project.demo} target="_blank" rel="noreferrer">
-                <LuArrowUpRight /> {project.demoLabel || "live demo"}
+                <LuArrowUpRight /> {project.demoLabel || "try it"}
               </a>
             )}
             {project.link && (
@@ -178,7 +178,7 @@ export default function ProjectPage() {
                 )}
                 {project.demo && (
                   <a href={project.demo} target="_blank" rel="noreferrer">
-                    <LuArrowUpRight /> {project.demoLabel || "live demo"}
+                    <LuArrowUpRight /> {project.demoLabel || "try it"}
                   </a>
                 )}
                 {project.link && (
