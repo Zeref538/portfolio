@@ -22,11 +22,22 @@ const ScrollFloat = ({
 
   const splitText = useMemo(() => {
     const text = typeof children === 'string' ? children : '';
-    return text.split('').map((char, index) => (
-      <span className={accentFrom >= 0 && index >= accentFrom ? "char char-accent" : "char"} key={index}>
-        {char === ' ' ? ' ' : char}
-      </span>
-    ));
+    // Letters are grouped per word in a no-wrap box. Each letter is its own
+    // inline box, and without the group the browser may wrap between any two
+    // of them, which split "matters" across two lines on a phone. `index`
+    // still counts every character, spaces included, so accentFrom keeps working.
+    let index = 0;
+    const cls = (i) => (accentFrom >= 0 && i >= accentFrom ? "char char-accent" : "char");
+    return text.split(' ').map((word, w, words) => {
+      const letters = [...word].map((char) => { const i = index++; return <span className={cls(i)} key={i}>{char}</span>; });
+      const gap = w < words.length - 1 ? index++ : null;
+      return (
+        <span className="word" key={w} style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
+          {letters}
+          {gap !== null && <span className={cls(gap)} key={gap}>{' '}</span>}
+        </span>
+      );
+    });
   }, [children, accentFrom]);
 
   useEffect(() => {
