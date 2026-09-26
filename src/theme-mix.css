@@ -345,16 +345,11 @@ main > section { contain-intrinsic-size: auto 900px; }
   .contact .scroll-float { font-size: 30px; }
 }
 
-/* project links (try it / case study / source): purple outlined buttons, so
-   they read as things to click, not as more grey text */
-.pm-links, .pj3-links { gap: 8px; flex-wrap: wrap; }
-.pm-links a, .pj3-links a {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 12px; font-size: 13.5px; font-weight: 600;
-  color: var(--accent); background: var(--accent-dim);
-  border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
-  transition: background 0.2s ease, color 0.2s ease;
-}
+/* project links (try it / case study / source): purple, bolder text so they
+   read as links, not more grey description. No box, and always one line -
+   a card has one, two or three of them. */
+.pm-links, .pj3-links { gap: 16px; flex-wrap: nowrap; white-space: nowrap; }
+.pm-links a, .pj3-links a { color: var(--accent); font-weight: 600; font-size: 14px; }
 .pm-links a:hover, .pj3-links a:hover, .pm-links a:focus-visible, .pj3-links a:focus-visible {
-  background: var(--accent); color: var(--on-accent); border-color: var(--accent);
+  color: var(--accent); text-decoration: underline; text-underline-offset: 3px;
 }
