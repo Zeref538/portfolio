@@ -715,6 +715,11 @@ export default function App() {
                           {p.tags.slice(0, 5).map((t) => <span className="tag" key={t}>{t}</span>)}
                         </div>
                         <div className="pj3-links">
+                          {p.live && (
+                            <a href={p.live} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
+                              <LuArrowUpRight /> try it
+                            </a>
+                          )}
                           {p.demo && (
                             <a href={p.demo} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
                               <LuArrowUpRight /> {p.demoLabel || "live demo"}
@@ -743,6 +748,11 @@ export default function App() {
                           {p.tags.map((t) => <span className="tag" key={t}>{t}</span>)}
                         </div>
                         <div className="pj3-links">
+                          {p.live && (
+                            <a href={p.live} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
+                              <LuArrowUpRight /> try it
+                            </a>
+                          )}
                           {p.demo && (
                             <a href={p.demo} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
                               <LuArrowUpRight /> {p.demoLabel || "live demo"}

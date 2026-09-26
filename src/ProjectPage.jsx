@@ -95,6 +95,11 @@ export default function ProjectPage() {
           )}
 
           <div className="pp-actions">
+            {project.live && (
+              <a className="btn btn-primary" href={project.live} target="_blank" rel="noreferrer">
+                <LuArrowUpRight /> try it
+              </a>
+            )}
             {project.demo && (
               <a className="btn btn-primary" href={project.demo} target="_blank" rel="noreferrer">
                 <LuArrowUpRight /> {project.demoLabel || "live demo"}
@@ -166,6 +171,11 @@ export default function ProjectPage() {
 
               <div className="pp-rail-label"># links</div>
               <div className="pp-rail-links">
+                {project.live && (
+                  <a href={project.live} target="_blank" rel="noreferrer">
+                    <LuArrowUpRight /> try it
+                  </a>
+                )}
                 {project.demo && (
                   <a href={project.demo} target="_blank" rel="noreferrer">
                     <LuArrowUpRight /> {project.demoLabel || "live demo"}

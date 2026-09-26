@@ -183,6 +183,7 @@ export const projects = [
       "/projects/callback-4.jpg",
     ],
     link: "https://github.com/Zeref538/callback-ai",
+    live: "https://callback-ai.netlify.app",
     demo: "https://zeref538.github.io/callback-ai/",
     demoLabel: "case study",
     highlights: [

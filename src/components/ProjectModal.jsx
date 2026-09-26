@@ -118,6 +118,11 @@ export default function ProjectModal({ project, onClose, onPrev, onNext }) {
           </div>
 
           <div className="pm-links">
+            {p.live && (
+              <a href={p.live} target="_blank" rel="noreferrer">
+                <LuArrowUpRight /> try it
+              </a>
+            )}
             {p.demo && (
               <a href={p.demo} target="_blank" rel="noreferrer">
                 <LuArrowUpRight /> {p.demoLabel || "live demo"}
