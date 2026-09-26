@@ -200,3 +200,8 @@ h3 { letter-spacing: -0.03em; }
 .pm-list li { font-size: 13.5px; line-height: 1.5; }
 /* pale brand logos on white: a thin ink outline, colour untouched */
 :root[data-theme="light"] .skill-icon.is-pale { filter: drop-shadow(0 0 0.5px #1c1917) drop-shadow(0 0 0.5px #1c1917); }
+
+/* contact: purple touches. "that matters." is the italic half of the statement, like the surname */
+.scroll-float .char-accent { color: var(--accent); font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: 0; }
+.contact-accent { color: var(--accent); }
+.cf-label::before { color: var(--accent); opacity: 1; }

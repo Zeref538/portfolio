@@ -819,11 +819,12 @@ export default function App() {
               scrollStart="top bottom-=10%"
               scrollEnd="center center+=20%"
               stagger={0.03}
+              accentFrom={"Let's build something ".length}
             >
               Let's build something that matters.
             </ScrollFloat>
             <p>
-              Open to AI / ML engineering and data analytics roles - internships or
+              Open to <span className="contact-accent">AI / ML engineering</span> and <span className="contact-accent">data analytics</span> roles - internships or
               entry-level. I ship end-to-end and learn fast. Based in {profile.location}.
             </p>
             <ContactForm />

@@ -15,18 +15,19 @@ const ScrollFloat = ({
   ease = 'back.inOut(2)',
   scrollStart = 'center bottom+=50%',
   scrollEnd = 'bottom bottom-=40%',
-  stagger = 0.03
+  stagger = 0.03,
+  accentFrom = -1 // letters from this position on get the accent style (-1: none)
 }) => {
   const containerRef = useRef(null);
 
   const splitText = useMemo(() => {
     const text = typeof children === 'string' ? children : '';
     return text.split('').map((char, index) => (
-      <span className="char" key={index}>
+      <span className={accentFrom >= 0 && index >= accentFrom ? "char char-accent" : "char"} key={index}>
         {char === ' ' ? ' ' : char}
       </span>
     ));
-  }, [children]);
+  }, [children, accentFrom]);
 
   useEffect(() => {
     const el = containerRef.current;
