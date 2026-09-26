@@ -107,16 +107,7 @@ export default function ProjectModal({ project, onClose, onPrev, onNext }) {
           </p>
           {p.metric && <p className="pm-metric">{p.metric}</p>}
 
-          <p className="pm-desc">{p.description}</p>
-
-          <ul className="pm-list">
-            {p.highlights.map((h) => <li key={h}>{h}</li>)}
-          </ul>
-
-          <div className="tags pm-tags">
-            {p.tags.map((t) => <span className="tag" key={t}>{t}</span>)}
-          </div>
-
+          {/* links up top, so trying the project never needs a scroll */}
           <div className="pm-links">
             {p.live && (
               <a href={p.live} target="_blank" rel="noreferrer">
@@ -134,6 +125,17 @@ export default function ProjectModal({ project, onClose, onPrev, onNext }) {
               </a>
             )}
           </div>
+
+          <p className="pm-desc">{p.description}</p>
+
+          <ul className="pm-list">
+            {p.highlights.map((h) => <li key={h}>{h}</li>)}
+          </ul>
+
+          <div className="tags pm-tags">
+            {p.tags.map((t) => <span className="tag" key={t}>{t}</span>)}
+          </div>
+
         </div>
       </div>
 
