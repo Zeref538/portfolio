@@ -353,3 +353,12 @@ main > section { contain-intrinsic-size: auto 900px; }
 .pm-links a:hover, .pj3-links a:hover, .pm-links a:focus-visible, .pj3-links a:focus-visible {
   color: var(--accent); text-decoration: underline; text-underline-offset: 3px;
 }
+
+/* Loading screen (index.html + src/loader.js). While it is up the hero waits:
+   its entrance animations are paused, not skipped, and start the moment the
+   loader lifts. The name itself is hidden because the loader's copy is flying
+   into its place; after the handoff it shows without its own rise-in. */
+html.loading .hero *, html.loading .hero *::before, html.loading .hero *::after { animation-play-state: paused !important; }
+html.loading .hero .name-anim { visibility: hidden; }
+html.handoff .hero .name-anim { opacity: 1; transform: none; animation: none; }
+html.handoff .hero .name-anim.name-accent { animation: name-sheen 7s linear 1.4s infinite; }

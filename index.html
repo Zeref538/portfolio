@@ -54,8 +54,37 @@
         "knowsAbout": ["Machine Learning", "Data Analysis", "Computer Vision", "Retrieval-Augmented Generation", "Python", "PyTorch"]
       }
     </script>
+    <!-- Loading screen. It lives here, not in React, so it paints before any
+         script has downloaded. src/loader.js flies the name into the hero. -->
+    <script>
+      try { var t = localStorage.getItem("theme"); if (t === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
+      document.documentElement.classList.add("loading");
+    </script>
+    <style>
+      #loader { position: fixed; inset: 0; z-index: 9999; display: grid; place-content: center; justify-items: center; gap: 22px;
+        background: #000; color: #fafaf9; font-family: "Schibsted Grotesk", system-ui, sans-serif; transition: background-color .5s ease; }
+      [data-theme="light"] #loader { background: #f5f5f4; color: #1c1917; }
+      #loader .ld-name { font-size: clamp(2.4rem, 6.5vw, 4.5rem); font-weight: 700; letter-spacing: -0.05em; white-space: nowrap; }
+      #loader .ld-name span { display: inline-block; transform-origin: 0 0; will-change: transform; }
+      #loader .ld-name span + span { margin-left: .25em; font-family: "Newsreader", Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: -0.01em; color: #a78bfa; }
+      [data-theme="light"] #loader .ld-name span + span { color: #6d28d9; }
+      #loader .ld-bar { width: 160px; height: 2px; background: rgba(128,128,128,.25); border-radius: 2px; overflow: hidden; transition: opacity .3s; }
+      #loader .ld-bar i { display: block; height: 100%; width: 100%; background: #a78bfa; transform-origin: left; transform: scaleX(0); animation: ld-fill 2.5s cubic-bezier(.1,.7,.3,1) forwards; }
+      #loader.done .ld-bar i { animation: none; transform: scaleX(1); transition: transform .25s; }
+      #loader.done .ld-bar { opacity: 0; }
+      #loader .ld-cmd { font: 13px "JetBrains Mono Variable", ui-monospace, monospace; opacity: .6; transition: opacity .3s; }
+      #loader.done .ld-cmd { opacity: 0; }
+      #loader.gone { background-color: transparent; pointer-events: none; }
+      @keyframes ld-fill { to { transform: scaleX(.85); } }
+      @media (max-width: 680px) { #loader .ld-name { font-size: 44px; } }
+    </style>
 </head>
   <body>
+    <div id="loader" aria-hidden="true">
+      <div class="ld-name"><span>John Andrei</span><span>Martinez</span></div>
+      <div class="ld-bar"><i></i></div>
+      <div class="ld-cmd">zeref@portfolio:~$ booting</div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
