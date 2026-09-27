@@ -56,7 +56,7 @@
     </script>
     <!-- Loading screen. It lives here, not in React, so it paints before any
          script has downloaded. src/loader.js flies the name into the hero.
-         Seven looks while choosing one: add ?loader=1 to 7 to the address. -->
+         Ten looks while choosing one: add ?loader=1 to 10 to the address. -->
     <script>
       try { var t = localStorage.getItem("theme"); if (t === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
       document.documentElement.classList.add("loading");
@@ -128,6 +128,28 @@
       @keyframes ld-edge { 0%, 100% { stroke-opacity: 0; } 25% { stroke-opacity: .8; } 55% { stroke-opacity: 0; } }
 
       #loader .ld-log { order: -1; }
+      #loader .ld-hello, #loader .ld-col { display: none; }
+
+      /* 8 hello: greetings flash by, then the backdrop lifts with a curved edge */
+      #loader[data-v="8"] .ld-name, #loader[data-v="8"] .ld-bar, #loader[data-v="8"] .ld-cmd { display: none; }
+      #loader[data-v="8"] .ld-hello { display: flex; align-items: center; gap: 14px; font-size: clamp(36px, 6vw, 64px); font-weight: 500; letter-spacing: -.03em; transition: opacity .3s; }
+      #loader[data-v="8"] .ld-hello::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--ac); }
+      #loader[data-v="8"].done .ld-hello { opacity: 0; }
+      /* 22vh taller than the screen, with the curve cut into the part hanging below it,
+         so the curve is already there the moment the lift starts */
+      #loader[data-v="8"]::before { bottom: -22vh; border-radius: 0 0 50% 50% / 0 0 22vh 22vh; transition: transform 1.1s cubic-bezier(.76,0,.24,1); }
+      #loader[data-v="8"].gone::before { opacity: 1; transform: translateY(-100%); }
+
+      /* 9 scramble: plain letters, no blur-in; the script decodes them */
+      #loader[data-v="9"] .ld-name b { animation: none; opacity: 1; filter: none; transform: none; }
+      #loader[data-v="9"] .ld-bar { display: none; }
+
+      /* 10 columns: six strips slide up one after another */
+      #loader[data-v="10"]::before { display: none; }
+      #loader[data-v="10"] .ld-col { display: block; position: absolute; top: 0; bottom: 0; width: calc(100% / 6 + 1px); left: calc(var(--c) * 100% / 6); z-index: -1; background: var(--bg);
+        transition: transform .8s cubic-bezier(.76,0,.24,1) calc(var(--c) * 60ms); }
+      #loader[data-v="10"].gone .ld-col { transform: translateY(-100%); }
+      #loader[data-v="10"] .ld-bar { display: none; }
       @media (max-width: 680px) { #loader .ld-name { font-size: 44px; } #loader[data-v="6"] .ld-log, #loader[data-v="6"] .ld-cmd { font-size: 11px; } }
       @media (prefers-reduced-motion: reduce) { #loader .ld-name b { animation: none !important; opacity: 1 !important; filter: none !important; transform: none !important; } }
     </style>
@@ -135,6 +157,8 @@
   <body>
     <div id="loader" aria-hidden="true">
       <div class="ld-half"></div><div class="ld-half"></div>
+      <div class="ld-col" style="--c:0"></div><div class="ld-col" style="--c:1"></div><div class="ld-col" style="--c:2"></div><div class="ld-col" style="--c:3"></div><div class="ld-col" style="--c:4"></div><div class="ld-col" style="--c:5"></div>
+      <div class="ld-hello">Hello</div>
       <div class="ld-name"><span>John Andrei</span><span>Martinez</span></div>
       <div class="ld-bar"><i></i></div>
       <div class="ld-cmd">zeref@portfolio:~$ booting</div>
@@ -145,7 +169,7 @@
     <script>
       (function () {
         var L = document.getElementById("loader");
-        var v = (location.search.match(/loader=([1-7])/) || [])[1] || "2";
+        var v = (location.search.match(/loader=(10|[1-9])/) || [])[1] || "2";
         L.dataset.v = v;
         if (v === "2") L.querySelector(".ld-cmd").textContent = "AI / ML Engineer";
         // one span per letter so each can fade in on its own
@@ -184,6 +208,25 @@
           }); });
           L.querySelector(".ld-net").innerHTML = svg;
           L.querySelector(".ld-cmd").textContent = "forward pass · loading portfolio";
+        }
+        // 8: a new greeting every 150ms, the first one held a little longer
+        if (v === "8") {
+          var words = ["Hello", "Kamusta", "Hola", "Bonjour", "こんにちは", "Ciao", "Hallo", "안녕하세요", "Olá", "Hello"], w = 0, h = L.querySelector(".ld-hello");
+          setTimeout(function next() { if (++w < words.length) { h.textContent = words[w]; setTimeout(next, 150); } }, 450);
+        }
+        // 9: every letter flickers through random characters and settles in
+        // turn, left to right
+        if (v === "9") {
+          var glyphs = "!<>-_/[]{}=+*^?#01", bs = L.querySelectorAll(".ld-name b"), t0 = performance.now();
+          var real = Array.prototype.map.call(bs, function (b) { return b.textContent; });
+          (function scramble() {
+            var el = performance.now() - t0, left = 0;
+            bs.forEach(function (b, i) {
+              if (el > 250 + i * 55 || real[i] === "\u00a0") b.textContent = real[i];
+              else { b.textContent = glyphs[(Math.random() * glyphs.length) | 0]; left++; }
+            });
+            if (left) setTimeout(scramble, 45);
+          })();
         }
         // the counter creeps toward 90 on its own and jumps to 100 when the page is ready
         var c = L.querySelector(".ld-count"), x = 0;

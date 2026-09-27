@@ -11,7 +11,7 @@ export function finishLoader() {
 
   // wait for the fonts (or the name jumps shape mid-flight), and show the
   // loader at least briefly so it doesn't flash; never hold it past 3s
-  const ready = Promise.all([document.fonts.ready, new Promise((r) => setTimeout(r, loader.dataset.v === "1" ? 700 : 1300))]);
+  const ready = Promise.all([document.fonts.ready, new Promise((r) => setTimeout(r, { 1: 700, 8: 1900 }[loader.dataset.v] || 1300))]);
   Promise.race([ready, new Promise((r) => setTimeout(r, 3000))]).then(() => {
     loader.classList.add("done");
     const from = [...loader.querySelectorAll(".ld-name span")];
@@ -23,11 +23,13 @@ export function finishLoader() {
     };
     // 6 and 7 have no name on the loader: it fades, and the page's own opening
     // animation (html.intro in theme-mix.css) builds the page in behind it
-    if (!still && Number(loader.dataset.v) >= 6) {
+    // (8 lifts its backdrop away instead of fading)
+    const v = loader.dataset.v;
+    if (!still && ["6", "7", "8"].includes(v)) {
       root.classList.add("intro");
       root.classList.remove("loading");
-      loader.classList.add("fade");
-      setTimeout(() => loader.remove(), 450);
+      loader.classList.add(v === "8" ? "gone" : "fade");
+      setTimeout(() => loader.remove(), v === "8" ? 1100 : 450);
       return;
     }
     if (still || to.length !== 2) {
@@ -50,9 +52,10 @@ export function finishLoader() {
     // the background clears while the name is still moving, so the page rises
     // up around it instead of appearing after it lands
     setTimeout(() => loader.classList.add("gone"), 200);
+    // +150ms so 10's last column finishes lifting; the name is already in place
     setTimeout(() => {
       root.classList.add("handoff");
       end();
-    }, ms);
+    }, ms + 150);
   });
 }

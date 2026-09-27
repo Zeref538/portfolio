@@ -52,6 +52,9 @@
 /* ---- square boxes everywhere (the rail's dots too) ---- */
 *, *::before, *::after { border-radius: 0 !important; }
 .chat-dot, .dot, .exp-track-dot, .bokeh i { border-radius: 50% !important; }
+/* the loader's curved lift (index.html, ?loader=8) is exempt from the square corners above */
+#loader[data-v="8"]::before { border-radius: 0 0 50% 50% / 0 0 22vh 22vh !important; }
+#loader .ld-hello::before { border-radius: 50% !important; }
 
 /* ---- type, by the case-study rules (BRAND.md): Schibsted for everything,
    Newsreader italic only for accents, mono only for code and numbers ---- */
