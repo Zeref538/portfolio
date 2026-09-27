@@ -54,335 +54,92 @@
         "knowsAbout": ["Machine Learning", "Data Analysis", "Computer Vision", "Retrieval-Augmented Generation", "Python", "PyTorch"]
       }
     </script>
-    <!-- Loading screen. It lives here, not in React, so it paints before any
-         script has downloaded. src/loader.js flies the name into the hero.
-         Fifteen looks while choosing one: add ?loader=1 to 15 (14 and 15 are 11 with typing and decrypting words) to the address. -->
+    <!-- Loading screen: a boot log that types itself out, then lifts off the
+         page like a curtain with a shallow curve. It lives here, not in React,
+         so it paints before any script has downloaded. src/loader.js takes it
+         down; the page's opening animation is html.intro in theme-mix.css. -->
     <script>
       try { var t = localStorage.getItem("theme"); if (t === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
-      document.documentElement.classList.add("loading");
+      // loading pauses the hero's own animations; pre-intro hides what the
+      // opening animation brings in, so nothing shows before its entrance
+      document.documentElement.classList.add("loading", "pre-intro");
     </script>
     <style>
-      #loader { --bg: #000; --ink: #fafaf9; --ac: #a78bfa; position: fixed; inset: 0; z-index: 9999; display: grid; place-content: center; justify-items: center; gap: 22px;
-        color: var(--ink); font-family: "Schibsted Grotesk", system-ui, sans-serif; pointer-events: none; }
+      #loader { --bg: #000; --ink: #fafaf9; --ac: #a78bfa; position: fixed; inset: 0; z-index: 9999; display: grid; place-content: center; gap: 22px;
+        color: var(--ink); font: 13px/1.9 "JetBrains Mono Variable", ui-monospace, monospace; pointer-events: none; }
       [data-theme="light"] #loader { --bg: #f5f5f4; --ink: #1c1917; --ac: #6d28d9; }
-      /* the backdrop is its own layer so it can leave in its own way while the name flies */
-      #loader::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--bg); transition: opacity .7s ease, transform .9s cubic-bezier(.76,0,.24,1), clip-path .9s cubic-bezier(.76,0,.24,1); }
-      #loader .ld-name { font-size: clamp(2.4rem, 6.5vw, 4.5rem); font-weight: 700; letter-spacing: -0.05em; white-space: nowrap; }
-      #loader .ld-name > span { display: inline-block; transform-origin: 0 0; will-change: transform; }
-      #loader .ld-name > span + span { margin-left: .25em; font-family: "Newsreader", Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: -0.01em; color: var(--ac); }
-      #loader .ld-name b { display: inline-block; font-weight: inherit; }
-      #loader .ld-half { display: none; }
-      #loader .ld-bar { width: 160px; height: 2px; background: rgba(128,128,128,.25); border-radius: 2px; overflow: hidden; transition: opacity .25s; }
-      #loader .ld-bar i { display: block; height: 100%; background: var(--ac); transform-origin: left; transform: scaleX(0); animation: ld-fill 2.5s cubic-bezier(.1,.7,.3,1) forwards; }
-      #loader .ld-cmd, #loader .ld-count { font: 13px "JetBrains Mono Variable", ui-monospace, monospace; transition: opacity .25s; }
-      #loader .ld-cmd { opacity: .6; }
-      #loader .ld-count { display: none; }
-      #loader.done .ld-bar, #loader.done .ld-cmd, #loader.done .ld-count { opacity: 0; }
-      #loader.gone::before { opacity: 0; }
-      @keyframes ld-fill { to { transform: scaleX(.85); } }
-
-      /* 2-5: each letter rises out of a blur, one after another */
-      #loader:not([data-v="1"]) .ld-name b {
-        opacity: 0; filter: blur(10px); transform: translateY(.35em); animation: ld-letter .8s cubic-bezier(.16,1,.3,1) calc(var(--i) * 35ms + 100ms) forwards; }
-      @keyframes ld-letter { to { opacity: 1; filter: blur(0); transform: none; } }
-      #loader[data-v="2"] .ld-bar, #loader[data-v="3"] .ld-bar, #loader[data-v="4"] .ld-bar { display: none; }
-      #loader[data-v="2"] .ld-cmd { opacity: 0; animation: ld-in .6s ease .9s forwards; letter-spacing: .3em; text-transform: uppercase; font-size: 11px; }
-      @keyframes ld-in { to { opacity: .55; } }
-
-      /* 3 curtain: the backdrop splits in two and slides off the top and bottom */
-      #loader[data-v="3"]::before { display: none; }
-      #loader[data-v="3"] .ld-half { display: block; position: absolute; left: 0; right: 0; height: 50.5%; z-index: -1; background: var(--bg); transition: transform 1s cubic-bezier(.76,0,.24,1); }
-      #loader[data-v="3"] .ld-half:nth-child(1) { top: 0; }
-      #loader[data-v="3"] .ld-half:nth-child(2) { bottom: 0; }
-      #loader[data-v="3"].gone .ld-half:nth-child(1) { transform: translateY(-100%); }
-      #loader[data-v="3"].gone .ld-half:nth-child(2) { transform: translateY(100%); }
-      #loader[data-v="3"] .ld-cmd, #loader[data-v="4"] .ld-cmd { position: absolute; bottom: 32px; }
-
-      /* 4 iris: the backdrop closes into a shrinking circle around the name */
-      #loader[data-v="4"]::before { clip-path: circle(150% at 50% 50%); }
-      #loader[data-v="4"].gone::before { opacity: 1; clip-path: circle(0% at 50% 50%); transition-duration: 1.1s; }
-
-      /* 5 counter: a big 0-100 count in the corner, then the backdrop lifts like a blind */
-      #loader[data-v="5"] .ld-count { display: block; position: absolute; right: 32px; bottom: 20px; font-size: clamp(56px, 12vw, 140px); font-weight: 300; line-height: 1; letter-spacing: -.06em; opacity: .9; }
-      #loader[data-v="5"] .ld-bar { position: absolute; left: 0; bottom: 0; width: 100%; border-radius: 0; }
-      #loader[data-v="5"] .ld-cmd { display: none; }
-      #loader[data-v="5"].gone::before { opacity: 1; transform: translateY(-100%); }
-
-      /* 6 boot log and 7 forward pass: no name, no flight. The loader fades and
-         the page builds itself in (the intro rules in theme-mix.css). */
-      #loader .ld-log, #loader .ld-net { display: none; }
-      #loader[data-v="6"] .ld-name, #loader[data-v="7"] .ld-name, #loader[data-v="6"] .ld-bar, #loader[data-v="7"] .ld-bar { display: none; }
-      #loader[data-v="6"] .ld-cmd, #loader[data-v="7"] .ld-cmd { opacity: .7; }
-      #loader.fade { opacity: 0; transition: opacity .45s ease; }
-      #loader:is([data-v="6"],[data-v="12"],[data-v="13"]) .ld-log { display: block; width: min(460px, calc(100vw - 48px)); font: 13px/1.9 "JetBrains Mono Variable", ui-monospace, monospace; }
-      #loader .ld-log div { opacity: 0; animation: ld-line .01s steps(1) forwards; animation-delay: calc(var(--i) * 140ms); white-space: nowrap; overflow: hidden; }
-      #loader .ld-log .ok { color: var(--ac); }
-      #loader .ld-log .dim { opacity: .5; }
-      @keyframes ld-line { to { opacity: 1; } }
-      #loader:is([data-v="6"],[data-v="12"],[data-v="13"]) .ld-cmd { width: min(460px, calc(100vw - 48px)); white-space: pre; }
-      #loader[data-v="7"] .ld-net { display: block; width: min(360px, 80vw); overflow: visible; }
-      #loader .ld-net line { stroke: var(--ink); stroke-opacity: .12; stroke-width: 1; }
-      #loader .ld-net line.hot { stroke: var(--ac); stroke-opacity: 0; animation: ld-edge 1.6s ease-in-out infinite; animation-delay: calc(var(--l) * 260ms); }
-      #loader .ld-net circle { fill: var(--bg); stroke: var(--ink); stroke-opacity: .35; stroke-width: 1.5; animation: ld-node 1.6s ease-in-out infinite; animation-delay: calc(var(--l) * 260ms); }
-      @keyframes ld-node { 0%, 60%, 100% { fill: var(--bg); stroke: var(--ink); stroke-opacity: .35; } 20% { fill: var(--ac); stroke: var(--ac); stroke-opacity: 1; } }
-      @keyframes ld-edge { 0%, 100% { stroke-opacity: 0; } 25% { stroke-opacity: .8; } 55% { stroke-opacity: 0; } }
-
-      #loader .ld-log { order: -1; }
-      #loader .ld-hello, #loader .ld-col { display: none; }
-
-      /* 8 hello: greetings flash by, then the backdrop lifts with a curved edge */
-      #loader:is([data-v="8"],[data-v="11"],[data-v="13"]) .ld-name, #loader:is([data-v="8"],[data-v="11"],[data-v="13"]) .ld-bar, #loader:is([data-v="8"],[data-v="11"],[data-v="13"]) .ld-cmd { display: none; }
-      #loader:is([data-v="8"],[data-v="11"],[data-v="13"]) .ld-hello { display: flex; align-items: center; gap: 14px; font-size: clamp(36px, 6vw, 64px); font-weight: 500; letter-spacing: -.03em; transition: opacity .3s; }
-      #loader:is([data-v="8"],[data-v="11"],[data-v="13"]) .ld-hello::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--ac); }
-      #loader:is([data-v="8"],[data-v="11"],[data-v="13"]).done .ld-hello { opacity: 0; }
-      /* 6vh taller than the screen, with a shallow curve cut into the part hanging
-         below it, so the curve is already there the moment the lift starts */
-      #loader:is([data-v="8"],[data-v="11"],[data-v="12"],[data-v="13"])::before { bottom: -6vh; border-radius: 0 0 50% 50% / 0 0 6vh 6vh; transition: transform 1.1s cubic-bezier(.76,0,.24,1); }
-      #loader:is([data-v="8"],[data-v="11"],[data-v="12"],[data-v="13"]).gone::before { opacity: 1; transform: translateY(-100%); }
-      /* what is written on the curtain rides up with it and fades, instead of
-         staying behind on top of the page */
-      #loader:is([data-v="8"],[data-v="11"],[data-v="12"],[data-v="13"]) > :not(.ld-half):not(.ld-col) { transition: transform 1.1s cubic-bezier(.76,0,.24,1), opacity .5s ease; }
-      #loader:is([data-v="8"],[data-v="11"],[data-v="12"],[data-v="13"]).gone > :not(.ld-half):not(.ld-col) { transform: translateY(-45vh); opacity: 0; }
-
-      /* 11 and 13: greetings slide up out of a blur, the dot pulses, small
-         corner text, and a purple glow under the curved edge as it lifts */
-      #loader:is([data-v="8"],[data-v="11"],[data-v="12"],[data-v="13"])::before { box-shadow: 0 30px 90px -20px color-mix(in srgb, var(--ac) 55%, transparent); }
-      #loader .ld-hello span { display: inline-block; animation: ld-word .45s cubic-bezier(.16,1,.3,1); }
-      @keyframes ld-word { from { opacity: 0; transform: translateY(45%); filter: blur(8px); } }
-      #loader:is([data-v="11"],[data-v="13"]) .ld-hello::before { animation: ld-pulse 1.1s ease-in-out infinite; }
-      @keyframes ld-pulse { 50% { transform: scale(1.7); opacity: .45; } }
-      #loader[data-v="11"] .ld-cmd, #loader[data-v="13"] .ld-cmd { display: block; position: absolute; left: 32px; bottom: 24px; font-size: 12px; opacity: .5; }
-      #loader:is([data-v="11"],[data-v="13"]) .ld-count { display: block; position: absolute; right: 32px; bottom: 24px; font-size: 12px; opacity: .5; }
-      #loader:is([data-v="11"],[data-v="13"]) .ld-count::after { content: "%"; }
-      /* 11: heavy type; the old word's letters roll up and out while the new
-         word's roll in from below, one letter after another. Both words sit in
-         the same grid cell so they overlap while swapping. */
-      #loader[data-v="11"] .ld-hello { font-family: "Sora", system-ui, sans-serif; font-weight: 800; font-size: clamp(44px, 8vw, 104px); letter-spacing: -.045em; gap: 20px; perspective: 600px; }
-      #loader[data-v="11"] .ld-hello::before { width: 14px; height: 14px; }
-      #loader .ld-words { display: inline-grid; }
-      #loader .ld-words > div { grid-area: 1 / 1; white-space: pre; }
-      #loader .ld-words b { display: inline-block; font-weight: inherit; transform-origin: 50% 100%; animation: ld-roll-in .55s cubic-bezier(.16,1,.3,1) calc(var(--i) * 24ms + 190ms) both; }
-      #loader .ld-words .out b { transform-origin: 50% 0; animation: ld-roll-out .24s cubic-bezier(.7,0,.84,0) calc(var(--i) * 14ms) both; }
-      @keyframes ld-roll-in { from { opacity: 0; transform: translateY(60%) rotateX(-80deg); filter: blur(6px); } }
-      @keyframes ld-roll-out { to { opacity: 0; transform: translateY(-60%) rotateX(80deg); filter: blur(6px); } }
-      #loader[data-v="13"] .ld-hello { position: absolute; inset: 0; justify-content: center; }
-      #loader[data-v="13"]:not(.greet) .ld-hello { visibility: hidden; }
-      #loader[data-v="13"] .ld-log { transition: opacity .3s, transform .4s cubic-bezier(.16,1,.3,1); }
-      #loader[data-v="13"] .ld-log div { animation-delay: calc(var(--i) * 110ms); }
-      #loader[data-v="13"].greet .ld-log { opacity: 0; transform: translateY(-24px); }
-
-      /* 12: the script types and spins each line itself, then the screen
-         switches off like an old TV: squeezed to a bright line, then to nothing */
-      #loader[data-v="12"] .ld-log div { animation: none; opacity: 1; }
-      #loader[data-v="12"] .ld-name, #loader[data-v="12"] .ld-bar { display: none; }
-      /* room for all 7 lines up front, so the log does not creep up as lines arrive */
-      #loader[data-v="12"] .ld-log { min-height: calc(7 * 1.9em); }
-      #loader .ld-log .rise { animation: ld-rise .5s cubic-bezier(.16,1,.3,1) both; }
-      @keyframes ld-rise { from { opacity: 0; transform: translateY(8px); } }
-      /* 14: a blinking bar cursor after the typed word */
-      #loader.typing .tx::after { content: ""; display: inline-block; width: .08em; height: .85em; margin-left: .06em; vertical-align: -.05em; background: var(--ac); animation: ld-blink 1s steps(1) infinite; }
-      #loader .ld-log .cur { font-style: normal; animation: ld-blink 1s steps(1) infinite; }
+      /* The backdrop is its own layer, 6vh taller than the screen, with a shallow
+         curve cut into the part hanging below it, so the curve is there the
+         moment it starts to lift. (Its rounded corners are exempted from the
+         site's square-corner rule in theme-mix.css.) */
+      #loader::before { content: ""; position: absolute; inset: 0 0 -6vh; z-index: -1; background: var(--bg);
+        box-shadow: 0 30px 90px -20px color-mix(in srgb, var(--ac) 55%, transparent);
+        transition: transform 1.1s cubic-bezier(.76,0,.24,1); }
+      #loader.gone::before { transform: translateY(-100%); }
+      /* the text is on the curtain, so it rides up with it and fades */
+      #loader > * { transition: transform 1.1s cubic-bezier(.76,0,.24,1), opacity .5s ease; }
+      #loader.gone > * { transform: translateY(-45vh); opacity: 0; }
+      #loader .ld-log { width: min(470px, calc(100vw - 48px)); min-height: calc(7 * 1.9em); }
+      #loader .ld-log div { white-space: pre; overflow: hidden; }
+      #loader .ok { color: var(--ac); }
+      #loader .dim { opacity: .5; }
+      #loader .cur::after { content: "_"; animation: ld-blink .8s steps(1) infinite; }
       @keyframes ld-blink { 50% { opacity: 0; } }
-      #loader.crt { animation: ld-crt .6s cubic-bezier(.7,0,.3,1) forwards; }
-      @keyframes ld-crt { 50% { transform: scale(1, .004); filter: brightness(4); } 100% { transform: scale(0, .004); filter: brightness(4); } }
-
-      /* 9 scramble: plain letters, no blur-in; the script decodes them */
-      #loader[data-v="9"] .ld-name b { animation: none; opacity: 1; filter: none; transform: none; }
-      #loader[data-v="9"] .ld-bar { display: none; }
-
-      /* 10 columns: six strips slide up one after another */
-      #loader[data-v="10"]::before { display: none; }
-      #loader[data-v="10"] .ld-col { display: block; position: absolute; top: 0; bottom: 0; width: calc(100% / 6 + 1px); left: calc(var(--c) * 100% / 6); z-index: -1; background: var(--bg);
-        transition: transform .8s cubic-bezier(.76,0,.24,1) calc(var(--c) * 60ms); }
-      #loader[data-v="10"].gone .ld-col { transform: translateY(-100%); }
-      #loader[data-v="10"] .ld-bar { display: none; }
-      @media (max-width: 680px) { #loader .ld-name { font-size: 44px; } #loader:is([data-v="6"],[data-v="12"],[data-v="13"]) .ld-log, #loader:is([data-v="6"],[data-v="12"],[data-v="13"]) .ld-cmd { font-size: 11px; } }
-      @media (prefers-reduced-motion: reduce) { #loader .ld-name b { animation: none !important; opacity: 1 !important; filter: none !important; transform: none !important; } }
+      #loader .ld-bar { white-space: pre; opacity: .7; }
+      @media (max-width: 680px) { #loader { font-size: 11px; } }
+      @media (max-width: 359px) { #loader { font-size: 9.5px; } #loader .ld-log { width: calc(100vw - 20px); } }
     </style>
 </head>
   <body>
     <div id="loader" aria-hidden="true">
-      <div class="ld-half"></div><div class="ld-half"></div>
-      <div class="ld-col" style="--c:0"></div><div class="ld-col" style="--c:1"></div><div class="ld-col" style="--c:2"></div><div class="ld-col" style="--c:3"></div><div class="ld-col" style="--c:4"></div><div class="ld-col" style="--c:5"></div>
-      <div class="ld-hello">Hello</div>
-      <div class="ld-name"><span>John Andrei</span><span>Martinez</span></div>
-      <div class="ld-bar"><i></i></div>
-      <div class="ld-cmd">zeref@portfolio:~$ booting</div>
-      <div class="ld-count">0</div>
       <div class="ld-log"></div>
-      <svg class="ld-net" viewBox="0 0 360 200" aria-hidden="true"></svg>
+      <div class="ld-bar"></div>
     </div>
     <script>
       (function () {
-        var L = document.getElementById("loader");
-        var v = (location.search.match(/loader=(1[0-5]|[1-9])/) || [])[1] || "2";
-        // 14 and 15 are 11 with another word effect: same look, so they borrow its styles
-        var fx = { 14: "type", 15: "decrypt" }[v];
-        if (fx) v = "11";
-        L.dataset.v = v;
-        // these build the page in after the loader, so the page starts hidden
-        if (["6", "7", "8", "11", "12", "13"].indexOf(v) > -1) document.documentElement.classList.add("pre-intro");
-        if (v === "2") L.querySelector(".ld-cmd").textContent = "AI / ML Engineer";
-        // one span per letter so each can fade in on its own
-        var n = 0;
-        L.querySelectorAll(".ld-name > span").forEach(function (w) {
-          w.innerHTML = w.textContent.split("").map(function (c) {
-            return '<b style="--i:' + n++ + '">' + (c === " " ? "&nbsp;" : c) + "</b>";
-          }).join("");
-        });
-        // 6: a boot log, one line every 140ms
-        if (v === "6") {
-          L.querySelector(".ld-log").innerHTML = [
-            ["dim", "zeref@portfolio:~$ ./boot.sh"],
-            ["", "<span class=ok>[ ok ]</span> mounting /projects ........ 20 found"],
-            ["", "<span class=ok>[ ok ]</span> loading experience ...... flyrank.ai"],
-            ["", "<span class=ok>[ ok ]</span> importing torch, sklearn, pandas"],
-            ["", "<span class=ok>[ ok ]</span> warming models ........... cv · ml · rag"],
-            ["", "<span class=ok>[ ok ]</span> verifying certs ......... done"],
-            ["", "<span class=ok>[ ok ]</span> starting zeref-bot ....... online"],
-          ].map(function (l, i) { return '<div class="' + l[0] + '" style="--i:' + i + '">' + l[1] + "</div>"; }).join("");
+        var L = document.getElementById("loader"), log = L.querySelector(".ld-log"), bar = L.querySelector(".ld-bar");
+        // what each line says: real facts from the site, not pretend system steps
+        var lines = [
+          ["loading projects", "20 built"],
+          ["loading experience", "flyrank ai"],
+          ["importing stack", "python · pytorch · sql"],
+          ["verifying certs", "12 earned"],
+          ["waking zeref-bot", "ask me anything"],
+          ["status", "open to work"],
+        ];
+        var row = function (l) { return '<span class="ok">[ ok ]</span> ' + l[0] + ' <span class="dim">' + ".".repeat(20 - l[0].length) + "</span> " + l[1]; };
+        // loader.js waits for this flag to clear before lifting the curtain
+        L.dataset.hold = "1";
+        var finish = function () { setTimeout(function () { delete L.dataset.hold; }, 450); };
+        if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          log.innerHTML = '<div class="dim">zeref@portfolio:~$ ./boot.sh</div>' + lines.map(function (l) { return "<div>" + row(l) + "</div>"; }).join("");
+          return finish();
         }
-        // 7: a small network; each layer lights up after the one before it
-        if (v === "7") {
-          var layers = [3, 5, 5, 2], svg = "", pts = layers.map(function (k, l) {
-            var x = 30 + l * 100;
-            return Array.from({ length: k }, function (_, j) { return [x, 100 + (j - (k - 1) / 2) * 38]; });
-          });
-          pts.forEach(function (col, l) {
-            if (l) pts[l - 1].forEach(function (a) { col.forEach(function (b) {
-              var ln = '<line x1="' + a[0] + '" y1="' + a[1] + '" x2="' + b[0] + '" y2="' + b[1] + '"';
-              svg += ln + "/>" + ln + ' class="hot" style="--l:' + (l - 0.5) + '"/>';
-            }); });
-          });
-          pts.forEach(function (col, l) { col.forEach(function (p) {
-            svg += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="7" style="--l:' + l + '"/>';
-          }); });
-          L.querySelector(".ld-net").innerHTML = svg;
-          L.querySelector(".ld-cmd").textContent = "forward pass · loading portfolio";
-        }
-        // 8: a new greeting every 150ms, the first one held a little longer
-        if (v === "8") {
-          var words = ["Hello", "Kamusta", "Hola", "Bonjour", "こんにちは", "Ciao", "Hallo", "안녕하세요", "Olá", "Hello"], w = 0, h = L.querySelector(".ld-hello");
-          setTimeout(function next() { if (++w < words.length) { h.textContent = words[w]; setTimeout(next, 150); } }, 450);
-        }
-        // 9: every letter flickers through random characters and settles in
-        // turn, left to right
-        if (v === "9") {
-          var glyphs = "!<>-_/[]{}=+*^?#01", bs = L.querySelectorAll(".ld-name b"), t0 = performance.now();
-          var real = Array.prototype.map.call(bs, function (b) { return b.textContent; });
-          (function scramble() {
-            var el = performance.now() - t0, left = 0;
-            bs.forEach(function (b, i) {
-              if (el > 250 + i * 55 || real[i] === "\u00a0") b.textContent = real[i];
-              else { b.textContent = glyphs[(Math.random() * glyphs.length) | 0]; left++; }
-            });
-            if (left) setTimeout(scramble, 45);
-          })();
-        }
-        // a greeting at a time: each one is a fresh span so its slide-in replays
-        function greet(first, step) {
-          var words = ["Hello", "Kamusta", "Hola", "Bonjour", "こんにちは", "Ciao", "Hallo", "안녕하세요", "Olá", "Hello"], w = 0, h = L.querySelector(".ld-hello");
-          h.innerHTML = "<span>Hello</span>";
-          setTimeout(function next() { if (++w < words.length) { h.innerHTML = "<span>" + words[w] + "</span>"; setTimeout(next, step); } }, first);
-        }
-        if (v === "11") {
-          var ws = ["Hello", "Kamusta", "Hola", "Bonjour", "こんにちは", "Ciao", "안녕하세요", "Hello"], wi = 0, box = L.querySelector(".ld-hello");
-          box.innerHTML = '<div class="ld-words"></div>';
-          var wrap = box.firstChild;
-          var show = function (word) {
-            var old = wrap.lastChild;
-            if (old) { old.className = "out"; setTimeout(function () { old.remove(); }, 500); }
-            var d = document.createElement("div");
-            d.innerHTML = word.split("").map(function (c, i) { return '<b style="--i:' + i + '">' + c + "</b>"; }).join("");
-            wrap.appendChild(d);
-          };
-          if (!fx) {
-            show(ws[0]);
-            setTimeout(function next() { if (++wi < ws.length) { show(ws[wi]); setTimeout(next, 250); } }, 550);
-          } else {
-            // typing / decrypting: plain text in one element; hold the loader open
-            // until the last word is done (loader.js reads data-hold)
-            L.dataset.hold = "1";
-            wrap.innerHTML = '<div class="tx"></div>';
-            var tx = wrap.firstChild, words = ["Hello", "Kamusta", "Hello"], k = 0;
-            var glyphs = "!<>-_/[]{}=+*^?#01";
-            var done = function () { setTimeout(function () { delete L.dataset.hold; }, 500); };
-            if (fx === "type") {
-              L.classList.add("typing");
-              (function typeWord() {
-                var w = words[k], n = 0;
-                (function add() {
-                  tx.textContent = w.slice(0, ++n);
-                  if (n < w.length) return setTimeout(add, 90);
-                  if (++k >= words.length) return done();
-                  setTimeout(function del() {
-                    tx.textContent = tx.textContent.slice(0, -1);
-                    tx.textContent ? setTimeout(del, 45) : setTimeout(typeWord, 150);
-                  }, 520);
-                })();
-              })();
-            } else {
-              (function decrypt() {
-                var w = words[k], t0 = performance.now();
-                (function frame() {
-                  var el = performance.now() - t0, out = "", left = 0;
-                  for (var i = 0; i < w.length; i++) {
-                    if (el > 120 + i * 80) out += w[i];
-                    else { out += glyphs[(Math.random() * glyphs.length) | 0]; left++; }
-                  }
-                  tx.textContent = out;
-                  if (left) return setTimeout(frame, 50);
-                  if (++k >= words.length) return done();
-                  setTimeout(decrypt, 560);
-                })();
-              })();
-            }
-          }
-          L.querySelector(".ld-cmd").textContent = "zeref@portfolio · AI / ML Engineer";
-        }
-        if (v === "13") {
-          L.querySelector(".ld-log").innerHTML = [
-            ["dim", "zeref@portfolio:~$ ./boot.sh"],
-            ["", "<span class=ok>[ ok ]</span> mounting /projects ........ 20 found"],
-            ["", "<span class=ok>[ ok ]</span> warming models ........... cv · ml · rag"],
-            ["", "<span class=ok>[ ok ]</span> starting zeref-bot ....... online"],
-            ["dim", "zeref@portfolio:~$ ./greet --all"],
-          ].map(function (l, i) { return '<div class="' + l[0] + '" style="--i:' + i + '">' + l[1] + "</div>"; }).join("");
-          L.querySelector(".ld-cmd").textContent = "zeref@portfolio · AI / ML Engineer";
-          setTimeout(function () { L.classList.add("greet"); greet(380, 150); }, 950);
-        }
-        // 12: type the command, then each line spins before it reports ok
-        if (v === "12") {
-          // hold the loader open until the last line reports ok (loader.js reads this)
-          L.dataset.hold = "1";
-          var log = L.querySelector(".ld-log");
-          var steps = [["mounting /projects", "20 found"], ["loading experience", "flyrank.ai"], ["importing torch · pandas", "ok"],
-                       ["warming models", "cv · ml · rag"], ["verifying certs", "done"], ["starting zeref-bot", "online"]];
-          // one line every 280ms, each fading up into place
-          log.innerHTML = '<div class="dim rise">zeref@portfolio:~$ ./boot.sh</div>';
-          var si = 0;
-          (function line() {
-            if (si >= steps.length) return setTimeout(function () { delete L.dataset.hold; }, 500);
-            var d = document.createElement("div"), st = steps[si++];
-            d.className = "rise";
-            d.innerHTML = '<span class="ok">[ ok ]</span> ' + st[0] + ' <span class="dim">' + ".".repeat(Math.max(2, 26 - st[0].length)) + " " + st[1] + "</span>";
+        // Fast typing: the command at 45ms a key, like a person; each line after
+        // it at about 5ms a character, like a program printing. The [ ok ] tag and the
+        // dotted leader appear with the finished line so the columns never jump.
+        var prompt = document.createElement("div");
+        prompt.className = "dim";
+        prompt.innerHTML = 'zeref@portfolio:~$ <span class="cmd"></span><span class="cur"></span>';
+        log.appendChild(prompt);
+        var cmd = prompt.querySelector(".cmd"), text = "./boot.sh", i = 0, n = 0;
+        (function typeCmd() {
+          if (i < text.length) { cmd.textContent += text[i++]; return setTimeout(typeCmd, 45); }
+          prompt.querySelector(".cur").remove();
+          setTimeout(function nextLine() {
+            if (n >= lines.length) return finish();
+            var l = lines[n++], d = document.createElement("div"), full = l[0] + " " + ".".repeat(20 - l[0].length) + " " + l[1], c = 0;
             log.appendChild(d);
-            setTimeout(line, 280);
-          })();
-        }
-        // the counter creeps toward 90 on its own and jumps to 100 when the page is ready
-        var c = L.querySelector(".ld-count"), x = 0;
-        (function tick() {
-          if (!L.isConnected) return;
-          x += ((L.classList.contains("done") ? 100 : 90) - x) * 0.06;
-          c.textContent = Math.round(x);
-          // 6 shows it as a text progress bar under the log
-          if (v === "6" || v === "12") {
-            var k = Math.round(x / 5);
-            L.querySelector(".ld-cmd").textContent = "[" + "#".repeat(k) + ".".repeat(20 - k) + "] " + Math.round(x) + "%";
-          }
-          requestAnimationFrame(tick);
+            (function typeLine() {
+              c += 3;
+              if (c < full.length) { d.innerHTML = '<span class="dim">[ .. ]</span> ' + full.slice(0, c) + '<span class="cur"></span>'; return setTimeout(typeLine, 14); }
+              d.innerHTML = row(l);
+              bar.textContent = "[" + "#".repeat(Math.round(n / lines.length * 20)).padEnd(20, ".") + "] " + Math.round(n / lines.length * 100) + "%";
+              setTimeout(nextLine, 80);
+            })();
+          }, 150);
         })();
+        bar.textContent = "[" + ".".repeat(20) + "] 0%";
       })();
     </script>
     <div id="root"></div>

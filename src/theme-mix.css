@@ -52,9 +52,8 @@
 /* ---- square boxes everywhere (the rail's dots too) ---- */
 *, *::before, *::after { border-radius: 0 !important; }
 .chat-dot, .dot, .exp-track-dot, .bokeh i { border-radius: 50% !important; }
-/* the loader's curved lift (index.html, ?loader=8) is exempt from the square corners above */
-#loader:is([data-v="8"],[data-v="11"],[data-v="12"],[data-v="13"])::before { border-radius: 0 0 50% 50% / 0 0 6vh 6vh !important; }
-#loader .ld-hello::before { border-radius: 50% !important; }
+/* the loading screen's curved lift (index.html) is exempt from the square corners above */
+#loader::before { border-radius: 0 0 50% 50% / 0 0 6vh 6vh !important; }
 
 /* ---- type, by the case-study rules (BRAND.md): Schibsted for everything,
    Newsreader italic only for accents, mono only for code and numbers ---- */
@@ -357,16 +356,12 @@ main > section { contain-intrinsic-size: auto 900px; }
   color: var(--accent); text-decoration: underline; text-underline-offset: 3px;
 }
 
-/* Loading screen (index.html + src/loader.js). While it is up the hero waits:
-   its entrance animations are paused, not skipped, and start the moment the
-   loader lifts. The name itself is hidden because the loader's copy is flying
-   into its place; after the handoff it shows without its own rise-in. */
+/* Loading screen (index.html + src/loader.js). While it is up the hero's own
+   entrance animations are paused, not skipped: they start with the opening
+   animation below. */
 html.loading .hero *, html.loading .hero *::before, html.loading .hero *::after { animation-play-state: paused !important; }
-html.loading .hero .name-anim { visibility: hidden; }
-html.handoff .hero .name-anim { opacity: 1; transform: none; animation: none; }
-html.handoff .hero .name-anim.name-accent { animation: name-sheen 7s linear 1.4s infinite; }
 
-/* Opening animation after loaders 6 and 7: the nav comes in from the left (from
+/* Opening animation once the loader lifts: the nav comes in from the left (from
    the top on a phone, where it is a bar), the section tracker from the right,
    and the hero's lines rise one after another. `translate` is used instead of
    `transform` because the nav and tracker already use transform to sit in place,
@@ -385,5 +380,6 @@ html.intro .hero .container > :nth-child(6) { animation-delay: .65s; }
 @keyframes intro-up { from { opacity: 0; translate: 0 24px; filter: blur(6px); } }
 @media (max-width: 680px) { html.intro nav { animation-name: intro-down; } }
 @keyframes intro-down { from { opacity: 0; translate: 0 -30px; } }
-/* hidden until their opening animation starts (loaders 6, 7, 8, 11, 12, 13) */
+/* hidden until their opening animation starts */
 html.pre-intro nav, html.pre-intro .section-rail, html.pre-intro .hero .container > * { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { html.intro nav, html.intro .section-rail, html.intro .hero .container > * { animation: none; } }
