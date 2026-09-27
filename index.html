@@ -56,7 +56,7 @@
     </script>
     <!-- Loading screen. It lives here, not in React, so it paints before any
          script has downloaded. src/loader.js flies the name into the hero.
-         Five looks while choosing one: add ?loader=1 to 5 to the address. -->
+         Seven looks while choosing one: add ?loader=1 to 7 to the address. -->
     <script>
       try { var t = localStorage.getItem("theme"); if (t === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
       document.documentElement.classList.add("loading");
@@ -108,7 +108,27 @@
       #loader[data-v="5"] .ld-cmd { display: none; }
       #loader[data-v="5"].gone::before { opacity: 1; transform: translateY(-100%); }
 
-      @media (max-width: 680px) { #loader .ld-name { font-size: 44px; } }
+      /* 6 boot log and 7 forward pass: no name, no flight. The loader fades and
+         the page builds itself in (the intro rules in theme-mix.css). */
+      #loader .ld-log, #loader .ld-net { display: none; }
+      #loader[data-v="6"] .ld-name, #loader[data-v="7"] .ld-name, #loader[data-v="6"] .ld-bar, #loader[data-v="7"] .ld-bar { display: none; }
+      #loader[data-v="6"] .ld-cmd, #loader[data-v="7"] .ld-cmd { opacity: .7; }
+      #loader.fade { opacity: 0; transition: opacity .45s ease; }
+      #loader[data-v="6"] .ld-log { display: block; width: min(460px, calc(100vw - 48px)); font: 13px/1.9 "JetBrains Mono Variable", ui-monospace, monospace; }
+      #loader .ld-log div { opacity: 0; animation: ld-line .01s steps(1) forwards; animation-delay: calc(var(--i) * 140ms); white-space: nowrap; overflow: hidden; }
+      #loader .ld-log .ok { color: var(--ac); }
+      #loader .ld-log .dim { opacity: .5; }
+      @keyframes ld-line { to { opacity: 1; } }
+      #loader[data-v="6"] .ld-cmd { width: min(460px, calc(100vw - 48px)); white-space: pre; }
+      #loader[data-v="7"] .ld-net { display: block; width: min(360px, 80vw); overflow: visible; }
+      #loader .ld-net line { stroke: var(--ink); stroke-opacity: .12; stroke-width: 1; }
+      #loader .ld-net line.hot { stroke: var(--ac); stroke-opacity: 0; animation: ld-edge 1.6s ease-in-out infinite; animation-delay: calc(var(--l) * 260ms); }
+      #loader .ld-net circle { fill: var(--bg); stroke: var(--ink); stroke-opacity: .35; stroke-width: 1.5; animation: ld-node 1.6s ease-in-out infinite; animation-delay: calc(var(--l) * 260ms); }
+      @keyframes ld-node { 0%, 60%, 100% { fill: var(--bg); stroke: var(--ink); stroke-opacity: .35; } 20% { fill: var(--ac); stroke: var(--ac); stroke-opacity: 1; } }
+      @keyframes ld-edge { 0%, 100% { stroke-opacity: 0; } 25% { stroke-opacity: .8; } 55% { stroke-opacity: 0; } }
+
+      #loader .ld-log { order: -1; }
+      @media (max-width: 680px) { #loader .ld-name { font-size: 44px; } #loader[data-v="6"] .ld-log, #loader[data-v="6"] .ld-cmd { font-size: 11px; } }
       @media (prefers-reduced-motion: reduce) { #loader .ld-name b { animation: none !important; opacity: 1 !important; filter: none !important; transform: none !important; } }
     </style>
 </head>
@@ -119,11 +139,13 @@
       <div class="ld-bar"><i></i></div>
       <div class="ld-cmd">zeref@portfolio:~$ booting</div>
       <div class="ld-count">0</div>
+      <div class="ld-log"></div>
+      <svg class="ld-net" viewBox="0 0 360 200" aria-hidden="true"></svg>
     </div>
     <script>
       (function () {
         var L = document.getElementById("loader");
-        var v = (location.search.match(/loader=([1-5])/) || [])[1] || "2";
+        var v = (location.search.match(/loader=([1-7])/) || [])[1] || "2";
         L.dataset.v = v;
         if (v === "2") L.querySelector(".ld-cmd").textContent = "AI / ML Engineer";
         // one span per letter so each can fade in on its own
@@ -133,12 +155,47 @@
             return '<b style="--i:' + n++ + '">' + (c === " " ? "&nbsp;" : c) + "</b>";
           }).join("");
         });
+        // 6: a boot log, one line every 140ms
+        if (v === "6") {
+          L.querySelector(".ld-log").innerHTML = [
+            ["dim", "zeref@portfolio:~$ ./boot.sh"],
+            ["", "<span class=ok>[ ok ]</span> mounting /projects ........ 20 found"],
+            ["", "<span class=ok>[ ok ]</span> loading experience ...... flyrank.ai"],
+            ["", "<span class=ok>[ ok ]</span> importing torch, sklearn, pandas"],
+            ["", "<span class=ok>[ ok ]</span> warming models ........... cv · ml · rag"],
+            ["", "<span class=ok>[ ok ]</span> verifying certs ......... done"],
+            ["", "<span class=ok>[ ok ]</span> starting zeref-bot ....... online"],
+          ].map(function (l, i) { return '<div class="' + l[0] + '" style="--i:' + i + '">' + l[1] + "</div>"; }).join("");
+        }
+        // 7: a small network; each layer lights up after the one before it
+        if (v === "7") {
+          var layers = [3, 5, 5, 2], svg = "", pts = layers.map(function (k, l) {
+            var x = 30 + l * 100;
+            return Array.from({ length: k }, function (_, j) { return [x, 100 + (j - (k - 1) / 2) * 38]; });
+          });
+          pts.forEach(function (col, l) {
+            if (l) pts[l - 1].forEach(function (a) { col.forEach(function (b) {
+              var ln = '<line x1="' + a[0] + '" y1="' + a[1] + '" x2="' + b[0] + '" y2="' + b[1] + '"';
+              svg += ln + "/>" + ln + ' class="hot" style="--l:' + (l - 0.5) + '"/>';
+            }); });
+          });
+          pts.forEach(function (col, l) { col.forEach(function (p) {
+            svg += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="7" style="--l:' + l + '"/>';
+          }); });
+          L.querySelector(".ld-net").innerHTML = svg;
+          L.querySelector(".ld-cmd").textContent = "forward pass · loading portfolio";
+        }
         // the counter creeps toward 90 on its own and jumps to 100 when the page is ready
         var c = L.querySelector(".ld-count"), x = 0;
         (function tick() {
           if (!L.isConnected) return;
           x += ((L.classList.contains("done") ? 100 : 90) - x) * 0.06;
           c.textContent = Math.round(x);
+          // 6 shows it as a text progress bar under the log
+          if (v === "6") {
+            var k = Math.round(x / 5);
+            L.querySelector(".ld-cmd").textContent = "[" + "#".repeat(k) + ".".repeat(20 - k) + "] " + Math.round(x) + "%";
+          }
           requestAnimationFrame(tick);
         })();
       })();

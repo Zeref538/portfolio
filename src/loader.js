@@ -21,6 +21,15 @@ export function finishLoader() {
       root.classList.remove("loading");
       loader.remove();
     };
+    // 6 and 7 have no name on the loader: it fades, and the page's own opening
+    // animation (html.intro in theme-mix.css) builds the page in behind it
+    if (!still && Number(loader.dataset.v) >= 6) {
+      root.classList.add("intro");
+      root.classList.remove("loading");
+      loader.classList.add("fade");
+      setTimeout(() => loader.remove(), 450);
+      return;
+    }
     if (still || to.length !== 2) {
       loader.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300 }).onfinish = end;
       return;
