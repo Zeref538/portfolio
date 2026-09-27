@@ -56,7 +56,7 @@
     </script>
     <!-- Loading screen. It lives here, not in React, so it paints before any
          script has downloaded. src/loader.js flies the name into the hero.
-         Thirteen looks while choosing one: add ?loader=1 to 13 to the address. -->
+         Fifteen looks while choosing one: add ?loader=1 to 15 (14 and 15 are 11 with typing and decrypting words) to the address. -->
     <script>
       try { var t = localStorage.getItem("theme"); if (t === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
       document.documentElement.classList.add("loading");
@@ -177,6 +177,10 @@
       #loader[data-v="12"] .ld-name, #loader[data-v="12"] .ld-bar { display: none; }
       /* room for all 7 lines up front, so the log does not creep up as lines arrive */
       #loader[data-v="12"] .ld-log { min-height: calc(7 * 1.9em); }
+      #loader .ld-log .rise { animation: ld-rise .5s cubic-bezier(.16,1,.3,1) both; }
+      @keyframes ld-rise { from { opacity: 0; transform: translateY(8px); } }
+      /* 14: a blinking bar cursor after the typed word */
+      #loader.typing .tx::after { content: ""; display: inline-block; width: .08em; height: .85em; margin-left: .06em; vertical-align: -.05em; background: var(--ac); animation: ld-blink 1s steps(1) infinite; }
       #loader .ld-log .cur { font-style: normal; animation: ld-blink 1s steps(1) infinite; }
       @keyframes ld-blink { 50% { opacity: 0; } }
       #loader.crt { animation: ld-crt .6s cubic-bezier(.7,0,.3,1) forwards; }
@@ -211,7 +215,10 @@
     <script>
       (function () {
         var L = document.getElementById("loader");
-        var v = (location.search.match(/loader=(1[0-3]|[1-9])/) || [])[1] || "2";
+        var v = (location.search.match(/loader=(1[0-5]|[1-9])/) || [])[1] || "2";
+        // 14 and 15 are 11 with another word effect: same look, so they borrow its styles
+        var fx = { 14: "type", 15: "decrypt" }[v];
+        if (fx) v = "11";
         L.dataset.v = v;
         // these build the page in after the loader, so the page starts hidden
         if (["6", "7", "8", "11", "12", "13"].indexOf(v) > -1) document.documentElement.classList.add("pre-intro");
@@ -289,8 +296,48 @@
             d.innerHTML = word.split("").map(function (c, i) { return '<b style="--i:' + i + '">' + c + "</b>"; }).join("");
             wrap.appendChild(d);
           };
-          show(ws[0]);
-          setTimeout(function next() { if (++wi < ws.length) { show(ws[wi]); setTimeout(next, 250); } }, 550);
+          if (!fx) {
+            show(ws[0]);
+            setTimeout(function next() { if (++wi < ws.length) { show(ws[wi]); setTimeout(next, 250); } }, 550);
+          } else {
+            // typing / decrypting: plain text in one element; hold the loader open
+            // until the last word is done (loader.js reads data-hold)
+            L.dataset.hold = "1";
+            wrap.innerHTML = '<div class="tx"></div>';
+            var tx = wrap.firstChild, words = ["Hello", "Kamusta", "Hello"], k = 0;
+            var glyphs = "!<>-_/[]{}=+*^?#01";
+            var done = function () { setTimeout(function () { delete L.dataset.hold; }, 500); };
+            if (fx === "type") {
+              L.classList.add("typing");
+              (function typeWord() {
+                var w = words[k], n = 0;
+                (function add() {
+                  tx.textContent = w.slice(0, ++n);
+                  if (n < w.length) return setTimeout(add, 90);
+                  if (++k >= words.length) return done();
+                  setTimeout(function del() {
+                    tx.textContent = tx.textContent.slice(0, -1);
+                    tx.textContent ? setTimeout(del, 45) : setTimeout(typeWord, 150);
+                  }, 520);
+                })();
+              })();
+            } else {
+              (function decrypt() {
+                var w = words[k], t0 = performance.now();
+                (function frame() {
+                  var el = performance.now() - t0, out = "", left = 0;
+                  for (var i = 0; i < w.length; i++) {
+                    if (el > 120 + i * 80) out += w[i];
+                    else { out += glyphs[(Math.random() * glyphs.length) | 0]; left++; }
+                  }
+                  tx.textContent = out;
+                  if (left) return setTimeout(frame, 50);
+                  if (++k >= words.length) return done();
+                  setTimeout(decrypt, 560);
+                })();
+              })();
+            }
+          }
           L.querySelector(".ld-cmd").textContent = "zeref@portfolio · AI / ML Engineer";
         }
         if (v === "13") {
@@ -308,25 +355,19 @@
         if (v === "12") {
           // hold the loader open until the last line reports ok (loader.js reads this)
           L.dataset.hold = "1";
-          var log = L.querySelector(".ld-log"), cmd = "./boot.sh", spin = "|/-\\";
+          var log = L.querySelector(".ld-log");
           var steps = [["mounting /projects", "20 found"], ["loading experience", "flyrank.ai"], ["importing torch · pandas", "ok"],
                        ["warming models", "cv · ml · rag"], ["verifying certs", "done"], ["starting zeref-bot", "online"]];
-          log.innerHTML = '<div class="dim">zeref@portfolio:~$ <span class="ty"></span><i class="cur">_</i></div>';
-          var ty = log.querySelector(".ty"), ci = 0;
-          (function type() {
-            if (ci < cmd.length) { ty.textContent += cmd[ci++]; return setTimeout(type, 45); }
-            log.querySelector(".cur").remove();
-            var si = 0;
-            (function line() {
-              if (si >= steps.length) return setTimeout(function () { delete L.dataset.hold; }, 250);
-              var d = document.createElement("div"), f = 0, st = steps[si++];
-              log.appendChild(d);
-              (function spinIt() {
-                if (f < 3) { d.innerHTML = '<span class="ok">[ ' + spin[f++ % 4] + ' ]</span> ' + st[0]; return setTimeout(spinIt, 55); }
-                d.innerHTML = '<span class="ok">[ ok ]</span> ' + st[0] + ' <span class="dim">' + ".".repeat(Math.max(2, 26 - st[0].length)) + " " + st[1] + "</span>";
-                setTimeout(line, 40);
-              })();
-            })();
+          // one line every 280ms, each fading up into place
+          log.innerHTML = '<div class="dim rise">zeref@portfolio:~$ ./boot.sh</div>';
+          var si = 0;
+          (function line() {
+            if (si >= steps.length) return setTimeout(function () { delete L.dataset.hold; }, 500);
+            var d = document.createElement("div"), st = steps[si++];
+            d.className = "rise";
+            d.innerHTML = '<span class="ok">[ ok ]</span> ' + st[0] + ' <span class="dim">' + ".".repeat(Math.max(2, 26 - st[0].length)) + " " + st[1] + "</span>";
+            log.appendChild(d);
+            setTimeout(line, 280);
           })();
         }
         // the counter creeps toward 90 on its own and jumps to 100 when the page is ready

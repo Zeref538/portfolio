@@ -10,11 +10,11 @@ export function finishLoader() {
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // wait for the fonts (or the name jumps shape mid-flight), and show the
-  // loader at least briefly so it doesn't flash; never hold it past 3s
+  // loader at least briefly so it doesn't flash; never hold it past 5s
   // a loader can also hold itself open with data-hold until its own animation ends
   const unheld = new Promise((r) => (function check() { loader.dataset.hold ? setTimeout(check, 50) : r(); })());
   const ready = Promise.all([unheld, document.fonts.ready, new Promise((r) => setTimeout(r, { 1: 700, 8: 1900, 11: 2500, 12: 1700, 13: 2700 }[loader.dataset.v] || 1300))]);
-  Promise.race([ready, new Promise((r) => setTimeout(r, 3000))]).then(() => {
+  Promise.race([ready, new Promise((r) => setTimeout(r, 5000))]).then(() => {
     loader.classList.add("done");
     const from = [...loader.querySelectorAll(".ld-name span")];
     const to = [...document.querySelectorAll(".hero h1 .name-anim")];
