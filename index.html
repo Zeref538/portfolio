@@ -59,6 +59,13 @@
          so it paints before any script has downloaded. src/loader.js takes it
          down; the page's opening animation is html.intro in theme-mix.css. -->
     <script>
+      // A reload used to put you back where you had scrolled to, behind the
+      // loader, so the page opened mid-way. Reloads now start at the top; a
+      // fresh visit to a link like /#projects still goes to that section.
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      try {
+        if (performance.getEntriesByType("navigation")[0].type === "reload" && location.hash) history.replaceState(null, "", location.pathname + location.search);
+      } catch (e) {}
       try { var t = localStorage.getItem("theme"); if (t === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
       // loading pauses the hero's own animations; pre-intro hides what the
       // opening animation brings in, so nothing shows before its entrance
@@ -67,7 +74,12 @@
     <style>
       #loader { --bg: #000; --ink: #fafaf9; --ac: #a78bfa; position: fixed; inset: 0; z-index: 9999; display: grid; place-content: center; gap: 22px;
         color: var(--ink); font: 13px/1.9 "JetBrains Mono Variable", ui-monospace, monospace; pointer-events: none; }
-      [data-theme="light"] #loader { --bg: #f5f5f4; --ink: #1c1917; --ac: #6d28d9; }
+      /* Light: white paper, a shade brighter than the page's #f5f5f4, so the
+         curtain reads as its own sheet. A purple glow smeared on paper, so the
+         edge is a thin purple line and a soft grey shadow instead. */
+      [data-theme="light"] #loader { --bg: #fff; --ink: #1c1917; --ac: #6d28d9; font-weight: 500; }
+      [data-theme="light"] #loader::before { border-bottom: 2px solid var(--ac); box-shadow: 0 24px 50px -24px rgba(28, 25, 23, .35); }
+      [data-theme="light"] #loader .dim { opacity: .6; }
       /* The backdrop is its own layer, 6vh taller than the screen, with a shallow
          curve cut into the part hanging below it, so the curve is there the
          moment it starts to lift. (Its rounded corners are exempted from the

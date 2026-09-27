@@ -10,6 +10,10 @@ export function finishLoader() {
   const unheld = new Promise((r) => (function check() { loader.dataset.hold ? setTimeout(check, 50) : r(); })());
   // never keep a visitor behind the loader past 5s, finished or not
   Promise.race([Promise.all([unheld, document.fonts.ready]), new Promise((r) => setTimeout(r, 5000))]).then(() => {
+    // A link like /#projects: the browser tries to jump there while the page
+    // is still an empty shell, finds no section and stays at the top. Jump now,
+    // under the curtain, so the lift reveals the right section.
+    try { if (location.hash) document.querySelector(location.hash)?.scrollIntoView({ behavior: "instant" }); } catch { /* not a valid selector */ }
     loader.classList.add("gone");
     // The opening animation waits until the curtain has cleared the middle of
     // the screen. Started together, the nav and hero were already arriving in
