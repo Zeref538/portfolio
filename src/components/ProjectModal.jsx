@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { LuArrowUpRight, LuX, LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { LinkIcon } from "../linkIcon.jsx";
+import { useTheme, projectImages } from "../theme.js";
 import { SiGithub } from "react-icons/si";
 import { slugify } from "../slug.js";
 
@@ -13,7 +14,7 @@ import { slugify } from "../slug.js";
 // under it holds the project's other screenshots instead.
 // Lives inside the keyed card, so it resets to the first image per project.
 function Gallery({ project: p, name }) {
-  const shots = p.images?.length ? p.images : p.image ? [p.image] : [];
+  const shots = projectImages(p, useTheme());
   const [i, setI] = useState(0);
   if (!shots.length) return <div className="pm-shot"><span className="pm-shot-ph">{name}</span></div>;
   return (

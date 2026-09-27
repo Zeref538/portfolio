@@ -95,6 +95,12 @@ export const projects = [
     category: "FlyRank ML Internship - Ranking - Honest Validation",
     date: "2026",
     image: "/projects/flyrank-cover.jpg",
+    imagesLight: [
+      "/projects/flyrank-light-cover.jpg",
+      "/projects/flyrank-light-2.jpg",
+      "/projects/flyrank-light-3.jpg",
+      "/projects/flyrank-light-4.jpg",
+    ],
     images: [
       "/projects/flyrank-cover.jpg",
       "/projects/flyrank-2.jpg",
@@ -123,6 +129,12 @@ export const projects = [
     category: "From Scratch · Transformers · Ablation Design",
     date: "2026",
     image: "/projects/liitllm-cover.jpg",
+    imagesLight: [
+      "/projects/liitllm-light-cover.jpg",
+      "/projects/liitllm-light-2.jpg",
+      "/projects/liitllm-light-3.jpg",
+      "/projects/liitllm-light-4.jpg",
+    ],
     images: [
       "/projects/liitllm-cover.jpg",
       "/projects/liitllm-2.jpg",
@@ -149,6 +161,12 @@ export const projects = [
     category: "From Scratch · Transformers · Evaluation",
     date: "2026",
     image: "/projects/munti-cover.jpg",
+    imagesLight: [
+      "/projects/munti-light-cover.jpg",
+      "/projects/munti-light-2.jpg",
+      "/projects/munti-light-3.jpg",
+      "/projects/munti-light-4.jpg",
+    ],
     images: [
       "/projects/munti-cover.jpg",
       "/projects/munti-2.jpg",
@@ -176,6 +194,12 @@ export const projects = [
     category: "Agentic AI · Evaluation · Full-Stack",
     date: "2026",
     image: "/projects/callback-cover.jpg",
+    imagesLight: [
+      "/projects/callback-light-cover.jpg",
+      "/projects/callback-light-2.jpg",
+      "/projects/callback-light-3.jpg",
+      "/projects/callback-light-4.jpg",
+    ],
     images: [
       "/projects/callback-cover.jpg",
       "/projects/callback-2.jpg",
@@ -202,6 +226,12 @@ export const projects = [
     category: "Fine-Tuning · Grounding · Evaluation",
     date: "2026",
     image: "/projects/defer-cover.jpg",
+    imagesLight: [
+      "/projects/defer-light-cover.jpg",
+      "/projects/defer-light-2.jpg",
+      "/projects/defer-light-3.jpg",
+      "/projects/defer-light-4.jpg",
+    ],
     images: [
       "/projects/defer-cover.jpg",
       "/projects/defer-2.jpg",
@@ -230,6 +260,12 @@ export const projects = [
     category: "Fine-Tuning · Evaluation · Honesty",
     date: "2026",
     image: "/projects/refusal-cover.jpg",
+    imagesLight: [
+      "/projects/refusal-light-cover.jpg",
+      "/projects/refusal-light-2.jpg",
+      "/projects/refusal-light-3.jpg",
+      "/projects/refusal-light-4.jpg",
+    ],
     images: [
       "/projects/refusal-cover.jpg",
       "/projects/refusal-2.jpg",
@@ -334,6 +370,12 @@ export const projects = [
     category: "Online ML · Forecasting · MLOps",
     date: "2026",
     image: "/projects/apaw-1.jpg",
+    imagesLight: [
+      "/projects/apaw-light-1.jpg",
+      "/projects/apaw-light-2.jpg",
+      "/projects/apaw-light-3.jpg",
+      "/projects/apaw-light-4.jpg",
+    ],
     images: [
       "/projects/apaw-1.jpg",
       "/projects/apaw-2.jpg",
@@ -360,6 +402,12 @@ export const projects = [
     category: "Fine-Tuning · Model Efficiency · Evaluation",
     date: "2026",
     image: "/projects/lean-cover.jpg",
+    imagesLight: [
+      "/projects/lean-light-cover.jpg",
+      "/projects/lean-light-2.jpg",
+      "/projects/lean-light-3.jpg",
+      "/projects/lean-light-4.jpg",
+    ],
     images: [
       "/projects/lean-cover.jpg",
       "/projects/lean-2.jpg",
@@ -385,6 +433,13 @@ export const projects = [
     category: "Agentic AI · Data Cleaning · Privacy",
     date: "2026",
     image: "/projects/yoda-1.jpg",
+    imagesLight: [
+      "/projects/yoda-light-1.jpg",
+      "/projects/yoda-light-2.jpg",
+      "/projects/yoda-light-3.jpg",
+      "/projects/yoda-light-4.jpg",
+      "/projects/yoda-light-5.jpg",
+    ],
     images: [
       "/projects/yoda-1.jpg",
       "/projects/yoda-2.jpg",
@@ -470,6 +525,11 @@ export const projects = [
     category: "RAG · AI Concierge · Full-Stack",
     date: "2026",
     image: "/projects/solmara-1.jpg",
+    imagesLight: [
+      "/projects/solmara-light-1.jpg",
+      "/projects/solmara-light-2.jpg",
+      "/projects/solmara-light-3.jpg",
+    ],
     images: ["/projects/solmara-1.jpg", "/projects/solmara-2.jpg", "/projects/solmara-3.jpg"],
     link: "https://github.com/Zeref538/Solmara-Resort",
     demo: "https://solmara-resort-zeref.vercel.app",
@@ -508,6 +568,9 @@ export const projects = [
     category: "RAG · AI Chatbot · Web",
     date: "2026",
     image: "/projects/portfolio.jpg",
+    imagesLight: [
+      "/projects/portfolio-light.jpg",
+    ],
     images: ["/projects/portfolio.jpg"],
     link: "https://github.com/Zeref538/portfolio",
     demo: "https://johnandrei.vercel.app",

@@ -12,6 +12,7 @@ import BorderGlow from "./components/BorderGlow.jsx";
 import RotatingText from "./components/RotatingText.jsx";
 import { useEffect, useRef, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTheme, projectImages } from "./theme.js";
 import { flushSync } from "react-dom";
 import { profile, experience, projects, skills, certifications, education } from "./data.js";
 import ProjectModal from "./components/ProjectModal.jsx";
@@ -299,6 +300,7 @@ function ThemeToggle() {
 
 export default function App() {
   const [activeSection, setActiveSection] = useState("");
+  const theme = useTheme();
   // Sections start at a guessed height (content-visibility in theme-mix.css) and
   // grow to their real one as you scroll. ScrollTrigger only re-measures on a
   // window resize, so without this the contact heading's animation fired at the
@@ -702,7 +704,8 @@ export default function App() {
                           {p.metric && <span className="pj-shot-metric">▸ {p.metric}</span>}
                         </div>
                         <CyclingCover
-                          images={p.images?.length ? p.images : p.image ? [p.image] : []}
+                          key={theme} /* restart the cycle on a theme switch; the sets differ in length */
+                          images={projectImages(p, theme)}
                           alt={`${p.title} preview`}
                         />
                       </div>
