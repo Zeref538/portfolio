@@ -256,8 +256,9 @@ export default async function handler(req, res) {
         try {
           const delta = JSON.parse(payload).choices?.[0]?.delta?.content;
           if (delta) {
-            // the prompt bans em dashes but the model still slips them in
-            res.write(delta.replace(/\s*—\s*/g, " - "));
+            // the prompt bans em dashes but the model still slips them in. Swap
+            // only the dash: its spaces can arrive in the next piece of the stream
+            res.write(delta.replace(/—/g, "-"));
             sent += delta.length;
           }
         } catch {
