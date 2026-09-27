@@ -11,7 +11,9 @@ export function finishLoader() {
 
   // wait for the fonts (or the name jumps shape mid-flight), and show the
   // loader at least briefly so it doesn't flash; never hold it past 3s
-  const ready = Promise.all([document.fonts.ready, new Promise((r) => setTimeout(r, { 1: 700, 8: 1900 }[loader.dataset.v] || 1300))]);
+  // a loader can also hold itself open with data-hold until its own animation ends
+  const unheld = new Promise((r) => (function check() { loader.dataset.hold ? setTimeout(check, 50) : r(); })());
+  const ready = Promise.all([unheld, document.fonts.ready, new Promise((r) => setTimeout(r, { 1: 700, 8: 1900, 11: 2000, 12: 1700, 13: 2700 }[loader.dataset.v] || 1300))]);
   Promise.race([ready, new Promise((r) => setTimeout(r, 3000))]).then(() => {
     loader.classList.add("done");
     const from = [...loader.querySelectorAll(".ld-name span")];
@@ -25,11 +27,13 @@ export function finishLoader() {
     // animation (html.intro in theme-mix.css) builds the page in behind it
     // (8 lifts its backdrop away instead of fading)
     const v = loader.dataset.v;
-    if (!still && ["6", "7", "8"].includes(v)) {
+    // (12 switches off like an old TV)
+    if (!still && ["6", "7", "8", "11", "12", "13"].includes(v)) {
+      const exit = { 8: ["gone", 1100], 11: ["gone", 1100], 13: ["gone", 1100], 12: ["crt", 600] }[v] || ["fade", 450];
       root.classList.add("intro");
       root.classList.remove("loading");
-      loader.classList.add(v === "8" ? "gone" : "fade");
-      setTimeout(() => loader.remove(), v === "8" ? 1100 : 450);
+      loader.classList.add(exit[0]);
+      setTimeout(() => loader.remove(), exit[1]);
       return;
     }
     if (still || to.length !== 2) {

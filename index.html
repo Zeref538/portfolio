@@ -56,7 +56,7 @@
     </script>
     <!-- Loading screen. It lives here, not in React, so it paints before any
          script has downloaded. src/loader.js flies the name into the hero.
-         Ten looks while choosing one: add ?loader=1 to 10 to the address. -->
+         Thirteen looks while choosing one: add ?loader=1 to 13 to the address. -->
     <script>
       try { var t = localStorage.getItem("theme"); if (t === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
       document.documentElement.classList.add("loading");
@@ -114,12 +114,12 @@
       #loader[data-v="6"] .ld-name, #loader[data-v="7"] .ld-name, #loader[data-v="6"] .ld-bar, #loader[data-v="7"] .ld-bar { display: none; }
       #loader[data-v="6"] .ld-cmd, #loader[data-v="7"] .ld-cmd { opacity: .7; }
       #loader.fade { opacity: 0; transition: opacity .45s ease; }
-      #loader[data-v="6"] .ld-log { display: block; width: min(460px, calc(100vw - 48px)); font: 13px/1.9 "JetBrains Mono Variable", ui-monospace, monospace; }
+      #loader:is([data-v="6"],[data-v="12"],[data-v="13"]) .ld-log { display: block; width: min(460px, calc(100vw - 48px)); font: 13px/1.9 "JetBrains Mono Variable", ui-monospace, monospace; }
       #loader .ld-log div { opacity: 0; animation: ld-line .01s steps(1) forwards; animation-delay: calc(var(--i) * 140ms); white-space: nowrap; overflow: hidden; }
       #loader .ld-log .ok { color: var(--ac); }
       #loader .ld-log .dim { opacity: .5; }
       @keyframes ld-line { to { opacity: 1; } }
-      #loader[data-v="6"] .ld-cmd { width: min(460px, calc(100vw - 48px)); white-space: pre; }
+      #loader:is([data-v="6"],[data-v="12"],[data-v="13"]) .ld-cmd { width: min(460px, calc(100vw - 48px)); white-space: pre; }
       #loader[data-v="7"] .ld-net { display: block; width: min(360px, 80vw); overflow: visible; }
       #loader .ld-net line { stroke: var(--ink); stroke-opacity: .12; stroke-width: 1; }
       #loader .ld-net line.hot { stroke: var(--ac); stroke-opacity: 0; animation: ld-edge 1.6s ease-in-out infinite; animation-delay: calc(var(--l) * 260ms); }
@@ -131,14 +131,41 @@
       #loader .ld-hello, #loader .ld-col { display: none; }
 
       /* 8 hello: greetings flash by, then the backdrop lifts with a curved edge */
-      #loader[data-v="8"] .ld-name, #loader[data-v="8"] .ld-bar, #loader[data-v="8"] .ld-cmd { display: none; }
-      #loader[data-v="8"] .ld-hello { display: flex; align-items: center; gap: 14px; font-size: clamp(36px, 6vw, 64px); font-weight: 500; letter-spacing: -.03em; transition: opacity .3s; }
-      #loader[data-v="8"] .ld-hello::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--ac); }
-      #loader[data-v="8"].done .ld-hello { opacity: 0; }
+      #loader:is([data-v="8"],[data-v="11"],[data-v="13"]) .ld-name, #loader:is([data-v="8"],[data-v="11"],[data-v="13"]) .ld-bar, #loader:is([data-v="8"],[data-v="11"],[data-v="13"]) .ld-cmd { display: none; }
+      #loader:is([data-v="8"],[data-v="11"],[data-v="13"]) .ld-hello { display: flex; align-items: center; gap: 14px; font-size: clamp(36px, 6vw, 64px); font-weight: 500; letter-spacing: -.03em; transition: opacity .3s; }
+      #loader:is([data-v="8"],[data-v="11"],[data-v="13"]) .ld-hello::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--ac); }
+      #loader:is([data-v="8"],[data-v="11"],[data-v="13"]).done .ld-hello { opacity: 0; }
       /* 22vh taller than the screen, with the curve cut into the part hanging below it,
          so the curve is already there the moment the lift starts */
-      #loader[data-v="8"]::before { bottom: -22vh; border-radius: 0 0 50% 50% / 0 0 22vh 22vh; transition: transform 1.1s cubic-bezier(.76,0,.24,1); }
-      #loader[data-v="8"].gone::before { opacity: 1; transform: translateY(-100%); }
+      #loader:is([data-v="8"],[data-v="11"],[data-v="13"])::before { bottom: -22vh; border-radius: 0 0 50% 50% / 0 0 22vh 22vh; transition: transform 1.1s cubic-bezier(.76,0,.24,1); }
+      #loader:is([data-v="8"],[data-v="11"],[data-v="13"]).gone::before { opacity: 1; transform: translateY(-100%); }
+
+      /* 11 and 13: greetings slide up out of a blur, the dot pulses, small
+         corner text, and a purple glow under the curved edge as it lifts */
+      #loader:is([data-v="11"],[data-v="13"])::before { box-shadow: 0 30px 90px -20px color-mix(in srgb, var(--ac) 55%, transparent); }
+      #loader .ld-hello span { display: inline-block; animation: ld-word .45s cubic-bezier(.16,1,.3,1); }
+      @keyframes ld-word { from { opacity: 0; transform: translateY(45%); filter: blur(8px); } }
+      #loader:is([data-v="11"],[data-v="13"]) .ld-hello::before { animation: ld-pulse 1.1s ease-in-out infinite; }
+      @keyframes ld-pulse { 50% { transform: scale(1.7); opacity: .45; } }
+      #loader[data-v="11"] .ld-cmd, #loader[data-v="13"] .ld-cmd { display: block; position: absolute; left: 32px; bottom: 24px; font-size: 12px; opacity: .5; }
+      #loader:is([data-v="11"],[data-v="13"]) .ld-count { display: block; position: absolute; right: 32px; bottom: 24px; font-size: 12px; opacity: .5; }
+      #loader:is([data-v="11"],[data-v="13"]) .ld-count::after { content: "%"; }
+      #loader[data-v="13"] .ld-hello { position: absolute; inset: 0; justify-content: center; }
+      #loader[data-v="13"]:not(.greet) .ld-hello { visibility: hidden; }
+      #loader[data-v="13"] .ld-log { transition: opacity .3s, transform .4s cubic-bezier(.16,1,.3,1); }
+      #loader[data-v="13"] .ld-log div { animation-delay: calc(var(--i) * 110ms); }
+      #loader[data-v="13"].greet .ld-log { opacity: 0; transform: translateY(-24px); }
+
+      /* 12: the script types and spins each line itself, then the screen
+         switches off like an old TV: squeezed to a bright line, then to nothing */
+      #loader[data-v="12"] .ld-log div { animation: none; opacity: 1; }
+      #loader[data-v="12"] .ld-name, #loader[data-v="12"] .ld-bar { display: none; }
+      /* room for all 7 lines up front, so the log does not creep up as lines arrive */
+      #loader[data-v="12"] .ld-log { min-height: calc(7 * 1.9em); }
+      #loader .ld-log .cur { font-style: normal; animation: ld-blink 1s steps(1) infinite; }
+      @keyframes ld-blink { 50% { opacity: 0; } }
+      #loader.crt { animation: ld-crt .6s cubic-bezier(.7,0,.3,1) forwards; }
+      @keyframes ld-crt { 50% { transform: scale(1, .004); filter: brightness(4); } 100% { transform: scale(0, .004); filter: brightness(4); } }
 
       /* 9 scramble: plain letters, no blur-in; the script decodes them */
       #loader[data-v="9"] .ld-name b { animation: none; opacity: 1; filter: none; transform: none; }
@@ -150,7 +177,7 @@
         transition: transform .8s cubic-bezier(.76,0,.24,1) calc(var(--c) * 60ms); }
       #loader[data-v="10"].gone .ld-col { transform: translateY(-100%); }
       #loader[data-v="10"] .ld-bar { display: none; }
-      @media (max-width: 680px) { #loader .ld-name { font-size: 44px; } #loader[data-v="6"] .ld-log, #loader[data-v="6"] .ld-cmd { font-size: 11px; } }
+      @media (max-width: 680px) { #loader .ld-name { font-size: 44px; } #loader:is([data-v="6"],[data-v="12"],[data-v="13"]) .ld-log, #loader:is([data-v="6"],[data-v="12"],[data-v="13"]) .ld-cmd { font-size: 11px; } }
       @media (prefers-reduced-motion: reduce) { #loader .ld-name b { animation: none !important; opacity: 1 !important; filter: none !important; transform: none !important; } }
     </style>
 </head>
@@ -169,7 +196,7 @@
     <script>
       (function () {
         var L = document.getElementById("loader");
-        var v = (location.search.match(/loader=(10|[1-9])/) || [])[1] || "2";
+        var v = (location.search.match(/loader=(1[0-3]|[1-9])/) || [])[1] || "2";
         L.dataset.v = v;
         if (v === "2") L.querySelector(".ld-cmd").textContent = "AI / ML Engineer";
         // one span per letter so each can fade in on its own
@@ -228,6 +255,49 @@
             if (left) setTimeout(scramble, 45);
           })();
         }
+        // a greeting at a time: each one is a fresh span so its slide-in replays
+        function greet(first, step) {
+          var words = ["Hello", "Kamusta", "Hola", "Bonjour", "こんにちは", "Ciao", "Hallo", "안녕하세요", "Olá", "Hello"], w = 0, h = L.querySelector(".ld-hello");
+          h.innerHTML = "<span>Hello</span>";
+          setTimeout(function next() { if (++w < words.length) { h.innerHTML = "<span>" + words[w] + "</span>"; setTimeout(next, step); } }, first);
+        }
+        if (v === "11") { greet(500, 160); L.querySelector(".ld-cmd").textContent = "zeref@portfolio · AI / ML Engineer"; }
+        if (v === "13") {
+          L.querySelector(".ld-log").innerHTML = [
+            ["dim", "zeref@portfolio:~$ ./boot.sh"],
+            ["", "<span class=ok>[ ok ]</span> mounting /projects ........ 20 found"],
+            ["", "<span class=ok>[ ok ]</span> warming models ........... cv · ml · rag"],
+            ["", "<span class=ok>[ ok ]</span> starting zeref-bot ....... online"],
+            ["dim", "zeref@portfolio:~$ ./greet --all"],
+          ].map(function (l, i) { return '<div class="' + l[0] + '" style="--i:' + i + '">' + l[1] + "</div>"; }).join("");
+          L.querySelector(".ld-cmd").textContent = "zeref@portfolio · AI / ML Engineer";
+          setTimeout(function () { L.classList.add("greet"); greet(380, 150); }, 950);
+        }
+        // 12: type the command, then each line spins before it reports ok
+        if (v === "12") {
+          // hold the loader open until the last line reports ok (loader.js reads this)
+          L.dataset.hold = "1";
+          var log = L.querySelector(".ld-log"), cmd = "./boot.sh", spin = "|/-\\";
+          var steps = [["mounting /projects", "20 found"], ["loading experience", "flyrank.ai"], ["importing torch · pandas", "ok"],
+                       ["warming models", "cv · ml · rag"], ["verifying certs", "done"], ["starting zeref-bot", "online"]];
+          log.innerHTML = '<div class="dim">zeref@portfolio:~$ <span class="ty"></span><i class="cur">_</i></div>';
+          var ty = log.querySelector(".ty"), ci = 0;
+          (function type() {
+            if (ci < cmd.length) { ty.textContent += cmd[ci++]; return setTimeout(type, 45); }
+            log.querySelector(".cur").remove();
+            var si = 0;
+            (function line() {
+              if (si >= steps.length) return setTimeout(function () { delete L.dataset.hold; }, 250);
+              var d = document.createElement("div"), f = 0, st = steps[si++];
+              log.appendChild(d);
+              (function spinIt() {
+                if (f < 3) { d.innerHTML = '<span class="ok">[ ' + spin[f++ % 4] + ' ]</span> ' + st[0]; return setTimeout(spinIt, 55); }
+                d.innerHTML = '<span class="ok">[ ok ]</span> ' + st[0] + ' <span class="dim">' + ".".repeat(Math.max(2, 26 - st[0].length)) + " " + st[1] + "</span>";
+                setTimeout(line, 40);
+              })();
+            })();
+          })();
+        }
         // the counter creeps toward 90 on its own and jumps to 100 when the page is ready
         var c = L.querySelector(".ld-count"), x = 0;
         (function tick() {
@@ -235,7 +305,7 @@
           x += ((L.classList.contains("done") ? 100 : 90) - x) * 0.06;
           c.textContent = Math.round(x);
           // 6 shows it as a text progress bar under the log
-          if (v === "6") {
+          if (v === "6" || v === "12") {
             var k = Math.round(x / 5);
             L.querySelector(".ld-cmd").textContent = "[" + "#".repeat(k) + ".".repeat(20 - k) + "] " + Math.round(x) + "%";
           }
