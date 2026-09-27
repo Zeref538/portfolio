@@ -124,36 +124,48 @@
         var row = function (l) { return '<span class="ok">[ ok ]</span> ' + l[0] + ' <span class="dim">' + ".".repeat(20 - l[0].length) + "</span> " + l[1]; };
         // loader.js waits for this flag to clear before lifting the curtain
         L.dataset.hold = "1";
+        // Safety net: loader.js lives in the app bundle. If that never arrives (a
+        // dropped connection, a script blocker) nothing would ever take this
+        // down, so after 12s it removes itself and shows whatever has loaded.
+        setTimeout(function () {
+          if (!L.isConnected) return;
+          L.remove();
+          document.documentElement.classList.remove("loading", "pre-intro");
+        }, 12000);
         var finish = function () { setTimeout(function () { delete L.dataset.hold; }, 450); };
         if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
           log.innerHTML = '<div class="dim">zeref@portfolio:~$ ./boot.sh</div>' + lines.map(function (l) { return "<div>" + row(l) + "</div>"; }).join("");
           return finish();
         }
         // Fast typing: the command at 45ms a key, like a person; each line after
-        // it at about 5ms a character, like a program printing. The [ ok ] tag and the
-        // dotted leader appear with the finished line so the columns never jump.
-        var prompt = document.createElement("div");
-        prompt.className = "dim";
-        prompt.innerHTML = 'zeref@portfolio:~$ <span class="cmd"></span><span class="cur"></span>';
-        log.appendChild(prompt);
-        var cmd = prompt.querySelector(".cmd"), text = "./boot.sh", i = 0, n = 0;
-        (function typeCmd() {
-          if (i < text.length) { cmd.textContent += text[i++]; return setTimeout(typeCmd, 45); }
-          prompt.querySelector(".cur").remove();
-          setTimeout(function nextLine() {
-            if (n >= lines.length) return finish();
-            var l = lines[n++], d = document.createElement("div"), full = l[0] + " " + ".".repeat(20 - l[0].length) + " " + l[1], c = 0;
-            log.appendChild(d);
-            (function typeLine() {
-              c += 3;
-              if (c < full.length) { d.innerHTML = '<span class="dim">[ .. ]</span> ' + full.slice(0, c) + '<span class="cur"></span>'; return setTimeout(typeLine, 14); }
-              d.innerHTML = row(l);
-              bar.textContent = "[" + "#".repeat(Math.round(n / lines.length * 20)).padEnd(20, ".") + "] " + Math.round(n / lines.length * 100) + "%";
-              setTimeout(nextLine, 80);
-            })();
-          }, 150);
+        // it at about 5ms a character, like a program printing. The [ ok ] tag and
+        // the dotted leader appear with the finished line so the columns never jump.
+        //
+        // Driven by the clock, not by counting ticks. "Wait 14ms, add 3 letters"
+        // stretched to nearly 3x as long on a slow phone, because its timers fire
+        // late, and the finished site sat waiting ~4s behind the typing. Each tick
+        // now draws whatever should be showing at this moment, so a slow device
+        // skips letters instead of falling behind.
+        var CMD = "./boot.sh", KEY = 45, GAP = 150, CHAR = 4.7, PAUSE = 80;
+        var plan = [], at = CMD.length * KEY + GAP;
+        lines.forEach(function (l) {
+          var full = l[0] + " " + ".".repeat(20 - l[0].length) + " " + l[1];
+          plan.push({ l: l, full: full, start: at, end: at + full.length * CHAR });
+          at += full.length * CHAR + PAUSE;
+        });
+        var t0 = performance.now();
+        (function draw() {
+          var t = performance.now() - t0, typed = Math.min(CMD.length, Math.floor(t / KEY) + 1), html = "", done = 0;
+          html += '<div class="dim">zeref@portfolio:~$ ' + CMD.slice(0, typed) + (t < CMD.length * KEY ? '<span class="cur"></span>' : "") + "</div>";
+          plan.forEach(function (p) {
+            if (t < p.start) return;
+            if (t >= p.end) { done++; html += "<div>" + row(p.l) + "</div>"; }
+            else html += '<div><span class="dim">[ .. ]</span> ' + p.full.slice(0, Math.max(1, Math.floor((t - p.start) / CHAR))) + '<span class="cur"></span></div>';
+          });
+          log.innerHTML = html;
+          bar.textContent = "[" + "#".repeat(Math.round(done / lines.length * 20)).padEnd(20, ".") + "] " + Math.round(done / lines.length * 100) + "%";
+          t < at ? setTimeout(draw, 16) : finish();
         })();
-        bar.textContent = "[" + ".".repeat(20) + "] 0%";
       })();
     </script>
     <div id="root"></div>
