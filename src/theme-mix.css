@@ -53,7 +53,7 @@
 *, *::before, *::after { border-radius: 0 !important; }
 .chat-dot, .dot, .exp-track-dot, .bokeh i { border-radius: 50% !important; }
 /* the loader's curved lift (index.html, ?loader=8) is exempt from the square corners above */
-#loader:is([data-v="8"],[data-v="11"],[data-v="13"])::before { border-radius: 0 0 50% 50% / 0 0 22vh 22vh !important; }
+#loader:is([data-v="8"],[data-v="11"],[data-v="12"],[data-v="13"])::before { border-radius: 0 0 50% 50% / 0 0 6vh 6vh !important; }
 #loader .ld-hello::before { border-radius: 50% !important; }
 
 /* ---- type, by the case-study rules (BRAND.md): Schibsted for everything,
@@ -385,3 +385,5 @@ html.intro .hero .container > :nth-child(6) { animation-delay: .65s; }
 @keyframes intro-up { from { opacity: 0; translate: 0 24px; filter: blur(6px); } }
 @media (max-width: 680px) { html.intro nav { animation-name: intro-down; } }
 @keyframes intro-down { from { opacity: 0; translate: 0 -30px; } }
+/* hidden until their opening animation starts (loaders 6, 7, 8, 11, 12, 13) */
+html.pre-intro nav, html.pre-intro .section-rail, html.pre-intro .hero .container > * { opacity: 0; }

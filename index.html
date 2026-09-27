@@ -135,14 +135,18 @@
       #loader:is([data-v="8"],[data-v="11"],[data-v="13"]) .ld-hello { display: flex; align-items: center; gap: 14px; font-size: clamp(36px, 6vw, 64px); font-weight: 500; letter-spacing: -.03em; transition: opacity .3s; }
       #loader:is([data-v="8"],[data-v="11"],[data-v="13"]) .ld-hello::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--ac); }
       #loader:is([data-v="8"],[data-v="11"],[data-v="13"]).done .ld-hello { opacity: 0; }
-      /* 22vh taller than the screen, with the curve cut into the part hanging below it,
-         so the curve is already there the moment the lift starts */
-      #loader:is([data-v="8"],[data-v="11"],[data-v="13"])::before { bottom: -22vh; border-radius: 0 0 50% 50% / 0 0 22vh 22vh; transition: transform 1.1s cubic-bezier(.76,0,.24,1); }
-      #loader:is([data-v="8"],[data-v="11"],[data-v="13"]).gone::before { opacity: 1; transform: translateY(-100%); }
+      /* 6vh taller than the screen, with a shallow curve cut into the part hanging
+         below it, so the curve is already there the moment the lift starts */
+      #loader:is([data-v="8"],[data-v="11"],[data-v="12"],[data-v="13"])::before { bottom: -6vh; border-radius: 0 0 50% 50% / 0 0 6vh 6vh; transition: transform 1.1s cubic-bezier(.76,0,.24,1); }
+      #loader:is([data-v="8"],[data-v="11"],[data-v="12"],[data-v="13"]).gone::before { opacity: 1; transform: translateY(-100%); }
+      /* what is written on the curtain rides up with it and fades, instead of
+         staying behind on top of the page */
+      #loader:is([data-v="8"],[data-v="11"],[data-v="12"],[data-v="13"]) > :not(.ld-half):not(.ld-col) { transition: transform 1.1s cubic-bezier(.76,0,.24,1), opacity .5s ease; }
+      #loader:is([data-v="8"],[data-v="11"],[data-v="12"],[data-v="13"]).gone > :not(.ld-half):not(.ld-col) { transform: translateY(-45vh); opacity: 0; }
 
       /* 11 and 13: greetings slide up out of a blur, the dot pulses, small
          corner text, and a purple glow under the curved edge as it lifts */
-      #loader:is([data-v="11"],[data-v="13"])::before { box-shadow: 0 30px 90px -20px color-mix(in srgb, var(--ac) 55%, transparent); }
+      #loader:is([data-v="8"],[data-v="11"],[data-v="12"],[data-v="13"])::before { box-shadow: 0 30px 90px -20px color-mix(in srgb, var(--ac) 55%, transparent); }
       #loader .ld-hello span { display: inline-block; animation: ld-word .45s cubic-bezier(.16,1,.3,1); }
       @keyframes ld-word { from { opacity: 0; transform: translateY(45%); filter: blur(8px); } }
       #loader:is([data-v="11"],[data-v="13"]) .ld-hello::before { animation: ld-pulse 1.1s ease-in-out infinite; }
@@ -150,6 +154,17 @@
       #loader[data-v="11"] .ld-cmd, #loader[data-v="13"] .ld-cmd { display: block; position: absolute; left: 32px; bottom: 24px; font-size: 12px; opacity: .5; }
       #loader:is([data-v="11"],[data-v="13"]) .ld-count { display: block; position: absolute; right: 32px; bottom: 24px; font-size: 12px; opacity: .5; }
       #loader:is([data-v="11"],[data-v="13"]) .ld-count::after { content: "%"; }
+      /* 11: heavy type; the old word's letters roll up and out while the new
+         word's roll in from below, one letter after another. Both words sit in
+         the same grid cell so they overlap while swapping. */
+      #loader[data-v="11"] .ld-hello { font-family: "Sora", system-ui, sans-serif; font-weight: 800; font-size: clamp(44px, 8vw, 104px); letter-spacing: -.045em; gap: 20px; perspective: 600px; }
+      #loader[data-v="11"] .ld-hello::before { width: 14px; height: 14px; }
+      #loader .ld-words { display: inline-grid; }
+      #loader .ld-words > div { grid-area: 1 / 1; white-space: pre; }
+      #loader .ld-words b { display: inline-block; font-weight: inherit; transform-origin: 50% 100%; animation: ld-roll-in .55s cubic-bezier(.16,1,.3,1) calc(var(--i) * 24ms + 190ms) both; }
+      #loader .ld-words .out b { transform-origin: 50% 0; animation: ld-roll-out .24s cubic-bezier(.7,0,.84,0) calc(var(--i) * 14ms) both; }
+      @keyframes ld-roll-in { from { opacity: 0; transform: translateY(60%) rotateX(-80deg); filter: blur(6px); } }
+      @keyframes ld-roll-out { to { opacity: 0; transform: translateY(-60%) rotateX(80deg); filter: blur(6px); } }
       #loader[data-v="13"] .ld-hello { position: absolute; inset: 0; justify-content: center; }
       #loader[data-v="13"]:not(.greet) .ld-hello { visibility: hidden; }
       #loader[data-v="13"] .ld-log { transition: opacity .3s, transform .4s cubic-bezier(.16,1,.3,1); }
@@ -198,6 +213,8 @@
         var L = document.getElementById("loader");
         var v = (location.search.match(/loader=(1[0-3]|[1-9])/) || [])[1] || "2";
         L.dataset.v = v;
+        // these build the page in after the loader, so the page starts hidden
+        if (["6", "7", "8", "11", "12", "13"].indexOf(v) > -1) document.documentElement.classList.add("pre-intro");
         if (v === "2") L.querySelector(".ld-cmd").textContent = "AI / ML Engineer";
         // one span per letter so each can fade in on its own
         var n = 0;
@@ -261,7 +278,21 @@
           h.innerHTML = "<span>Hello</span>";
           setTimeout(function next() { if (++w < words.length) { h.innerHTML = "<span>" + words[w] + "</span>"; setTimeout(next, step); } }, first);
         }
-        if (v === "11") { greet(500, 160); L.querySelector(".ld-cmd").textContent = "zeref@portfolio · AI / ML Engineer"; }
+        if (v === "11") {
+          var ws = ["Hello", "Kamusta", "Hola", "Bonjour", "こんにちは", "Ciao", "안녕하세요", "Hello"], wi = 0, box = L.querySelector(".ld-hello");
+          box.innerHTML = '<div class="ld-words"></div>';
+          var wrap = box.firstChild;
+          var show = function (word) {
+            var old = wrap.lastChild;
+            if (old) { old.className = "out"; setTimeout(function () { old.remove(); }, 500); }
+            var d = document.createElement("div");
+            d.innerHTML = word.split("").map(function (c, i) { return '<b style="--i:' + i + '">' + c + "</b>"; }).join("");
+            wrap.appendChild(d);
+          };
+          show(ws[0]);
+          setTimeout(function next() { if (++wi < ws.length) { show(ws[wi]); setTimeout(next, 250); } }, 550);
+          L.querySelector(".ld-cmd").textContent = "zeref@portfolio · AI / ML Engineer";
+        }
         if (v === "13") {
           L.querySelector(".ld-log").innerHTML = [
             ["dim", "zeref@portfolio:~$ ./boot.sh"],

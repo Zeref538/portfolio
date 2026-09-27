@@ -13,7 +13,7 @@ export function finishLoader() {
   // loader at least briefly so it doesn't flash; never hold it past 3s
   // a loader can also hold itself open with data-hold until its own animation ends
   const unheld = new Promise((r) => (function check() { loader.dataset.hold ? setTimeout(check, 50) : r(); })());
-  const ready = Promise.all([unheld, document.fonts.ready, new Promise((r) => setTimeout(r, { 1: 700, 8: 1900, 11: 2000, 12: 1700, 13: 2700 }[loader.dataset.v] || 1300))]);
+  const ready = Promise.all([unheld, document.fonts.ready, new Promise((r) => setTimeout(r, { 1: 700, 8: 1900, 11: 2500, 12: 1700, 13: 2700 }[loader.dataset.v] || 1300))]);
   Promise.race([ready, new Promise((r) => setTimeout(r, 3000))]).then(() => {
     loader.classList.add("done");
     const from = [...loader.querySelectorAll(".ld-name span")];
@@ -27,11 +27,17 @@ export function finishLoader() {
     // animation (html.intro in theme-mix.css) builds the page in behind it
     // (8 lifts its backdrop away instead of fading)
     const v = loader.dataset.v;
-    // (12 switches off like an old TV)
     if (!still && ["6", "7", "8", "11", "12", "13"].includes(v)) {
-      const exit = { 8: ["gone", 1100], 11: ["gone", 1100], 13: ["gone", 1100], 12: ["crt", 600] }[v] || ["fade", 450];
-      root.classList.add("intro");
-      root.classList.remove("loading");
+      const lift = ["8", "11", "12", "13"].includes(v);
+      const exit = lift ? ["gone", 1100] : ["fade", 450];
+      // With the curved lift, the page's opening animation waits until the
+      // curtain has cleared the middle of the screen. Started together, the nav
+      // and hero were already arriving in the corners while the curve still
+      // covered the centre.
+      setTimeout(() => {
+        root.classList.add("intro");
+        root.classList.remove("loading", "pre-intro");
+      }, lift ? 450 : 0);
       loader.classList.add(exit[0]);
       setTimeout(() => loader.remove(), exit[1]);
       return;
