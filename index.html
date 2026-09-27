@@ -85,7 +85,9 @@
       #loader .dim { opacity: .5; }
       #loader .cur::after { content: "_"; animation: ld-blink .8s steps(1) infinite; }
       @keyframes ld-blink { 50% { opacity: 0; } }
-      #loader .ld-bar { white-space: pre; opacity: .7; }
+      /* dimmed by colour, not opacity: an opacity here tied with the fade-out rule
+         above and won, so the bar hung on screen after the log had gone */
+      #loader .ld-bar { white-space: pre; color: color-mix(in srgb, var(--ink) 70%, var(--bg)); }
       @media (max-width: 680px) { #loader { font-size: 11px; } }
       @media (max-width: 359px) { #loader { font-size: 9.5px; } #loader .ld-log { width: calc(100vw - 20px); } }
     </style>
