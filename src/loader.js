@@ -11,7 +11,7 @@ export function finishLoader() {
 
   // wait for the fonts (or the name jumps shape mid-flight), and show the
   // loader at least briefly so it doesn't flash; never hold it past 3s
-  const ready = Promise.all([document.fonts.ready, new Promise((r) => setTimeout(r, 700))]);
+  const ready = Promise.all([document.fonts.ready, new Promise((r) => setTimeout(r, loader.dataset.v === "1" ? 700 : 1300))]);
   Promise.race([ready, new Promise((r) => setTimeout(r, 3000))]).then(() => {
     loader.classList.add("done");
     const from = [...loader.querySelectorAll(".ld-name span")];
@@ -26,8 +26,9 @@ export function finishLoader() {
       return;
     }
 
-    const ms = 800;
-    const ease = "cubic-bezier(0.65, 0, 0.35, 1)";
+    const ms = 1100;
+    // slow start, long soft landing: reads smoother than an even ease
+    const ease = "cubic-bezier(0.83, 0, 0.17, 1)";
     from.forEach((el, i) => {
       const a = el.getBoundingClientRect();
       const b = to[i].getBoundingClientRect();
@@ -39,7 +40,7 @@ export function finishLoader() {
     });
     // the background clears while the name is still moving, so the page rises
     // up around it instead of appearing after it lands
-    setTimeout(() => loader.classList.add("gone"), 150);
+    setTimeout(() => loader.classList.add("gone"), 200);
     setTimeout(() => {
       root.classList.add("handoff");
       end();
