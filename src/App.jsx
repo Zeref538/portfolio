@@ -6,12 +6,13 @@
 import Cursor from "./components/Cursor.jsx";
 import ParticleField from "./components/ParticleField.jsx";
 import Reveal from "./components/Reveal.jsx";
-import ScrollFloat from "./components/ScrollFloat.jsx";
 import Magnet from "./components/Magnet.jsx";
 import BorderGlow from "./components/BorderGlow.jsx";
 import RotatingText from "./components/RotatingText.jsx";
-import { useEffect, useRef, useState } from "react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
+// GSAP (~29KB) only animates the contact heading at the bottom of the page, so it
+// loads after the first paint instead of in front of it.
+const ScrollFloat = lazy(() => import("./components/ScrollFloat.jsx"));
 import { useTheme, projectImages } from "./theme.js";
 import { flushSync } from "react-dom";
 import { profile, experience, projects, skills, certifications, education } from "./data.js";
@@ -313,7 +314,7 @@ export default function App() {
     const onScroll = () => { lastScroll = performance.now(); };
     const settle = () => {
       clearTimeout(t);
-      t = setTimeout(() => (performance.now() - lastScroll < 250 ? settle() : ScrollTrigger.refresh()), 250);
+      t = setTimeout(() => (performance.now() - lastScroll < 250 ? settle() : import("gsap/ScrollTrigger").then((m) => m.ScrollTrigger.refresh())), 250);
     };
     // every section is drawn once at full size first, so its real height is
     // remembered, then off-screen ones start being skipped (theme-mix.css)
@@ -851,6 +852,8 @@ export default function App() {
           <Reveal className="container">
             <div className="section-label" style={{ justifyContent: "center" }}><span className="prompt-sym" aria-hidden="true">❯</span> ssh zeref@contact</div>
             <div className="section-out" style={{ textAlign: "center" }}># connection open · awaiting message</div>
+            {/* until the animation code arrives, the same words as a plain heading, so nothing jumps */}
+            <Suspense fallback={<h2 className="scroll-float"><span className="scroll-float-text">Let's build something that matters.</span></h2>}>
             <ScrollFloat
               animationDuration={1}
               ease="back.inOut(2)"
@@ -861,6 +864,7 @@ export default function App() {
             >
               Let's build something that matters.
             </ScrollFloat>
+            </Suspense>
             <p>
               Open to <span className="contact-accent">AI / ML engineering</span> and <span className="contact-accent">data analytics</span> roles - internships or
               entry-level. I ship end-to-end and learn fast. Based in {profile.location}.
