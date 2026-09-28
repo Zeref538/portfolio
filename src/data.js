@@ -285,9 +285,9 @@ export const projects = [
     title: "Alfred - Multimodal AI Butler for Your PC",
     groups: ["Agentic AI"],
     description:
-      "Local multimodal agent for Windows that actually acts on the machine - summoned by text, voice, global hotkey, or a webcam stop-gesture. A local LLM (Ollama, structured outputs at temperature 0) plans over a frozen 12-action service menu; a deterministic validator is the single door between anything untrusted and the OS. Consent tiers gate every act, an append-only ledger records them, and 'Alfred, stop' aborts mid-plan. Speech runs through local whisper plus a two-layer mishear corrector, and nothing executes until you confirm the exact plan Alfred reads back in a local British voice.",
+      "Local multimodal agent for Windows that actually acts on the machine - summoned by text, voice, global hotkey, or a webcam stop-gesture. A local LLM (Ollama, structured outputs at temperature 0) plans over a frozen 14-action service menu; a deterministic validator is the single door between anything untrusted and the OS. Consent tiers gate every act, an append-only ledger records them, and 'Alfred, stop' aborts mid-plan. Speech runs through local whisper plus a two-layer mishear corrector, and nothing executes until you confirm the exact plan Alfred reads back in a local British voice.",
     tags: ["Agentic AI", "Multimodal", "Voice AI", "Ollama", "Computer Vision", "Python"],
-    metric: "4 input modes · 12 gated actions",
+    metric: "30/50 sealed set · 0 off-menu runs",
     category: "Agentic AI · Multimodal · Privacy",
     date: "2026",
     image: "/projects/alfred-demo.webp",
@@ -297,12 +297,19 @@ export const projects = [
       "/projects/alfred-12.jpg",
       "/projects/alfred-22.jpg",
     ],
+    imagesLight: [
+      "/projects/alfred-light-1.jpg",
+      "/projects/alfred-light-2.jpg",
+      "/projects/alfred-light-3.jpg",
+    ],
     link: "https://github.com/Zeref538/alfred",
-    demo: "https://zeref538.github.io/alfred/demo/",
+    live: "https://zeref538.github.io/alfred/demo/",
+    demo: "https://zeref538.github.io/alfred/",
+    demoLabel: "case study",
     highlights: [
       "Four input modes - text, local whisper voice, global hotkey, opt-in webcam motion (which can only abort, never command) - all funnel through one validator → consent gate → executor path",
       "Safety by construction: typed action registry (no keystrokes or shell), per-action argument policy, tiered consent, snapshot-backed undo, and an append-only JSONL ledger that expires after 30 days",
-      "Fully local and offline-capable: Ollama planner, whisper STT, Piper TTS - 102 tests, with a sealed 50-command evaluation frozen before any prompt existed",
+      "Fully local and offline-capable: Ollama planner, whisper STT, Piper TTS - 288 tests, and a sealed 50-command evaluation frozen before any prompt existed: 30 of 50 correct and 0 off-menu actions executed on its first typed run, with 9 of 10 adversarial asks failing (the failure is written up, not hidden)",
     ],
   },
   {
