@@ -318,7 +318,7 @@ export const projects = [
     description:
       "Point it at a folder of receipts and it reads each one, checks that the numbers actually add up, and writes a row to your ledger - quietly. Only the ones that fail their own arithmetic reach you. The idea it is built on is that asking a model how confident it is tells you nothing: it will state a wrong total with total conviction. So TAB never asks. It re-adds the receipt instead - line items against the subtotal, subtotal plus VAT against the printed total, VAT against 12% of VATable sales - and a receipt that disagrees with itself was misread, which you know without any model being involved. Measured on 100 photographed receipts with a free local model: 89 of 100 totals read correctly, and the arithmetic alone caught 10 of the 11 wrong ones. It is also a step other software can call: one HTTP endpoint takes a receipt and returns a verdict to branch on, with an importable n8n workflow that files the ones that reconcile to a spreadsheet and sends the rest to a person with the disputed line named. Everything runs on your own machine and the review screen binds to localhost only, because receipts are personal data and there is nowhere for them to go.",
     tags: ["Agentic AI", "Automation", "n8n", "Ollama", "OCR", "SQLite", "Python"],
-    metric: "89/100 totals · 1% silent errors · fully local",
+    metric: "89/100 totals on CORD · 1% silent errors · fully local",
     category: "Automation · Document AI · Local-First",
     date: "2026",
     image: "/projects/tab-1.jpg",
