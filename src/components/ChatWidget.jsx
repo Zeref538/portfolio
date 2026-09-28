@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
+import ThoughtLine from "./ThoughtLine.jsx";
 import "./ChatWidget.css";
 
 // Floating dial (bottom-right) that pops the same terminal open anywhere on the page
@@ -58,8 +59,25 @@ export default function ChatWidget({ windowed = false, onClose }) {
     if (!content || busy) return;
     setInput("");
     const next = [...messages, { role: "user", content }];
-    setMessages(next);
+    // The answer bubble opens at once with a thinking line in it. Its steps
+    // are what the server really does: read the question, search the portfolio
+    // index, then answer. The line settles ("thought for 1.8s") the moment the
+    // first word arrives.
+    setMessages([...next, { role: "assistant", content: "", think: { working: true, steps: ["reading your question"] } }]);
     setBusy(true);
+    // rewrite only the last message; copying the array keeps React's
+    // "state is immutable" rule so the re-render actually fires
+    const update = (fn) =>
+      setMessages((m) => {
+        const copy = m.slice();
+        copy[copy.length - 1] = fn(copy[copy.length - 1]);
+        return copy;
+      });
+    const settle = (last, content, extra = {}) => ({ ...last, content, ...extra, think: { ...last.think, working: false } });
+    const searching = setTimeout(
+      () => update((last) => (last.think?.working ? { ...last, think: { ...last.think, steps: [...last.think.steps, "searching John's portfolio"] } } : last)),
+      350
+    );
     try {
       const r = await fetch("/api/chat", {
         method: "POST",
@@ -76,20 +94,13 @@ export default function ChatWidget({ windowed = false, onClose }) {
         const data = await r.json().catch(() => ({}));
         const reply =
           data.reply || (r.ok ? "…no output. try rephrasing?" : "bot is offline right now - email me instead!");
-        setMessages((m) => [...m, { role: "assistant", content: reply }]);
+        update((last) => settle(last, reply));
         return;
       }
 
-      // open an empty bubble first, then grow it as bytes land
-      setMessages((m) => [...m, { role: "assistant", content: "", streaming: true }]);
-      const setLast = (content, streaming) =>
-        // rewrite only the last message; copying the array keeps React's
-        // "state is immutable" rule so the re-render actually fires
-        setMessages((m) => {
-          const copy = m.slice();
-          copy[copy.length - 1] = { role: "assistant", content, streaming };
-          return copy;
-        });
+      // the first byte is here: thinking is over, the answer grows from now on
+      update((last) => settle(last, "", { streaming: true }));
+      const setLast = (content, streaming) => update((last) => ({ ...last, content, streaming }));
 
       // Two loops run side by side. The network loop collects text as fast as
       // it arrives. The display loop reveals it at a steady pace. Measured on
@@ -132,8 +143,9 @@ export default function ChatWidget({ windowed = false, onClose }) {
       await revealed;
       setLast(acc || "…no output. try rephrasing?", false);
     } catch {
-      setMessages((m) => [...m, { role: "assistant", content: "network error - try again?" }]);
+      update((last) => settle(last, "network error - try again?", { streaming: false }));
     } finally {
+      clearTimeout(searching);
       setBusy(false);
     }
   };
@@ -229,21 +241,34 @@ export default function ChatWidget({ windowed = false, onClose }) {
             {messages.map((m, i) => (
               <div key={i} className={`chat-msg chat-${m.role}`}>
                 <span className="chat-prefix">{m.role === "user" ? "you $" : "bot #"}</span>
-                {m.content}
-                {m.streaming && <span className="chat-caret" aria-hidden="true" />}
+                {m.think && (
+                  <ThoughtLine
+                    className="chat-thought"
+                    working={m.think.working}
+                    steps={m.think.steps}
+                    label="thinking…"
+                    doneLabel="thought for"
+                    fontSize={13}
+                    color="var(--text-muted)"
+                    glyphColor="var(--accent)"
+                  />
+                )}
+                {/* under a thinking line the answer starts on its own line */}
+                {m.think ? (
+                  (m.content || m.streaming) && (
+                    <div>
+                      {m.content}
+                      {m.streaming && <span className="chat-caret" aria-hidden="true" />}
+                    </div>
+                  )
+                ) : (
+                  <>
+                    {m.content}
+                    {m.streaming && <span className="chat-caret" aria-hidden="true" />}
+                  </>
+                )}
               </div>
             ))}
-            {/* the dots only mean "waiting for the first word". Once the answer
-                bubble is streaming they would keep bouncing under text that is
-                already being typed out, so they step aside. */}
-            {busy && !messages[messages.length - 1]?.streaming && (
-              <div className="chat-msg chat-assistant">
-                <span className="chat-prefix">bot #</span>
-                <span className="chat-typing">
-                  <i /><i /><i />
-                </span>
-              </div>
-            )}
             {messages.length === 1 && (
               <div className="chat-suggestions">
                 {SUGGESTIONS.map((s) => (

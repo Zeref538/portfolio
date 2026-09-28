@@ -51,7 +51,7 @@
 
 /* ---- square boxes everywhere (the rail's dots too) ---- */
 *, *::before, *::after { border-radius: 0 !important; }
-.chat-dot, .dot, .exp-track-dot, .bokeh i { border-radius: 50% !important; }
+.chat-dot, .dot, .exp-track-dot, .bokeh i, .thought-line__pulse, .thought-line__dot { border-radius: 50% !important; }
 /* the loading screen's curved lift (index.html) is exempt from the square corners above */
 #loader::before { border-radius: 0 0 50% 50% / 0 0 6vh 6vh !important; }
 
