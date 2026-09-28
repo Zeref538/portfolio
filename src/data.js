@@ -316,7 +316,7 @@ export const projects = [
     title: "TAB - Receipts Into a Checked Ledger",
     groups: ["Agentic AI", "Web & Apps"],
     description:
-      "Point it at a folder of receipts and it reads each one, checks that the numbers actually add up, and writes a row to your ledger - quietly. Only the ones that fail their own arithmetic reach you. The idea it is built on is that asking a model how confident it is tells you nothing: it will state a wrong total with total conviction. So TAB never asks. It re-adds the receipt instead - line items against the subtotal, subtotal plus VAT against the printed total, VAT against 12% of VATable sales - and a receipt that disagrees with itself was misread, which you know without any model being involved. Measured on 100 photographed receipts with a free local model: 89 of 100 totals read correctly, and the arithmetic alone caught 10 of the 11 wrong ones. It is also a step other software can call: one HTTP endpoint takes a receipt and returns a verdict to branch on, with an importable n8n workflow that files the ones that reconcile to a spreadsheet and sends the rest to a person with the disputed line named. Everything runs on your own machine and the review screen binds to localhost only, because receipts are personal data and there is nowhere for them to go.",
+      "Point it at a folder of receipts and it reads each one, checks that the numbers actually add up, and writes a row to your ledger - quietly. Only the ones that fail their own arithmetic reach you. The idea it is built on is that asking a model how confident it is tells you nothing: it will state a wrong total with total conviction. So TAB never asks. It re-adds the receipt instead - line items against the subtotal, subtotal plus VAT against the printed total, VAT against 12% of VATable sales - and a receipt that disagrees with itself was misread, which you know without any model being involved. Measured on 100 photographed Indonesian receipts with a free local model: 89 of 100 totals read correctly, and the arithmetic alone caught 10 of the 11 wrong ones. It is also a step other software can call: one HTTP endpoint takes a receipt and returns a verdict to branch on, with an importable n8n workflow that files the ones that reconcile to a spreadsheet and sends the rest to a person with the disputed line named. Everything runs on your own machine and the review screen binds to localhost only, because receipts are personal data and there is nowhere for them to go.",
     tags: ["Agentic AI", "Automation", "n8n", "Ollama", "OCR", "SQLite", "Python"],
     metric: "89/100 totals on CORD · 1% silent errors · fully local",
     category: "Automation · Document AI · Local-First",
@@ -328,8 +328,15 @@ export const projects = [
       "/projects/tab-3.jpg",
       "/projects/tab-4.jpg",
     ],
+    imagesLight: [
+      "/projects/tab-light-1.jpg",
+      "/projects/tab-light-2.jpg",
+      "/projects/tab-light-3.jpg",
+    ],
     link: "https://github.com/Zeref538/tab",
-    demo: "https://tab-demo.onrender.com",
+    live: "https://tab-demo.onrender.com",
+    demo: "https://zeref538.github.io/tab/",
+    demoLabel: "case study",
     highlights: [
       "The guard is arithmetic, not model confidence: re-adding each receipt caught 10 of the 11 wrong totals with no model asked how sure it felt - the check costs nothing to run and is what separates this from a wrapper around an OCR call",
       "Reports four numbers together and leads with the ugly one: 30% straight-through, 1% silent error rate (committed and wrong), plus the admission that 25 correct receipts in 100 were escalated for nothing - a tool that over-escalates is annoying, one that writes a wrong total into your tax records is worse than no tool",
