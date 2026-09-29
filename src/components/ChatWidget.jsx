@@ -44,7 +44,7 @@ export function ChatDial() {
 }
 
 const GREETING =
-  "hi! i'm zeref-bot - think of me as John's AI counterpart. ask me anything about him: what he's built, how he works, or whether he's open to roles.";
+  "hi! i'm zeref-bot - think of me as Andrei's AI counterpart. ask me anything about him: what he's built, how he works, or whether he's open to roles.";
 
 const SUGGESTIONS = ["what has he built?", "top skills?", "is he open to work?"];
 
@@ -84,10 +84,21 @@ export default function ChatWidget({ windowed = false, onClose, ask }) {
     setInput("");
     const next = [...messages, ...before, { role: "user", content }];
     // The answer bubble opens at once with a thinking line in it. Its steps
-    // are what the server really does: read the question, search the portfolio
-    // index, then answer. The line settles ("thought for 1.8s") the moment the
-    // first word arrives.
-    setMessages([...next, { role: "assistant", content: "", think: { working: true, steps: ["reading your question"] } }]);
+    // are the stages api/chat.js really runs, in order: keyword search, meaning
+    // search, merging the two rankings (api/_search.js), then the model writes.
+    // The server doesn't report each stage, so they're paced on a timer; a
+    // stage not reached before the first word arrives is simply never shown.
+    // The line settles ("thought for 1.8s") the moment the first word arrives.
+    const where = project ? project.split(" - ")[0] : "Andrei's portfolio";
+    const STAGES = [
+      [0, project ? `reading your question about ${where}` : "reading your question"],
+      [300, `keyword search in ${where}`],
+      [650, "meaning search (embeddings)"],
+      [1000, "merging both rankings"],
+      [1350, "picking the top 6 passages"],
+      [1750, "writing the answer"],
+    ];
+    setMessages([...next, { role: "assistant", content: "", think: { working: true, steps: [STAGES[0][1]] } }]);
     setBusy(true);
     // rewrite only the last message; copying the array keeps React's
     // "state is immutable" rule so the re-render actually fires
@@ -98,9 +109,8 @@ export default function ChatWidget({ windowed = false, onClose, ask }) {
         return copy;
       });
     const settle = (last, content, extra = {}) => ({ ...last, content, ...extra, think: { ...last.think, working: false } });
-    const searching = setTimeout(
-      () => update((last) => (last.think?.working ? { ...last, think: { ...last.think, steps: [...last.think.steps, "searching John's portfolio"] } } : last)),
-      350
+    const timers = STAGES.slice(1).map(([at, step]) =>
+      setTimeout(() => update((last) => (last.think?.working ? { ...last, think: { ...last.think, steps: [...last.think.steps, step] } } : last)), at)
     );
     try {
       const r = await fetch("/api/chat", {
@@ -169,7 +179,7 @@ export default function ChatWidget({ windowed = false, onClose, ask }) {
     } catch {
       update((last) => settle(last, "network error - try again?", { streaming: false }));
     } finally {
-      clearTimeout(searching);
+      timers.forEach(clearTimeout);
       setBusy(false);
     }
   };
@@ -330,7 +340,7 @@ export default function ChatWidget({ windowed = false, onClose, ask }) {
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="ask about john…"
+              placeholder="ask about andrei…"
               maxLength={400}
               disabled={busy}
             />
