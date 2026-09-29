@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
+import ChatText from "./ChatText";
 import ThoughtLine from "./ThoughtLine.jsx";
 import "./ChatWidget.css";
 
@@ -295,8 +296,8 @@ export default function ChatWidget({ windowed = false, onClose, ask }) {
                 {/* under a thinking line the answer starts on its own line */}
                 {m.think ? (
                   (m.content || m.streaming) && (
-                    <div>
-                      {m.content}
+                    <div className="chat-md">
+                      <ChatText text={m.content} />
                       {m.streaming && <span className="chat-caret" aria-hidden="true" />}
                     </div>
                   )
