@@ -10,7 +10,7 @@ export const askAbout = (project, question) =>
   window.dispatchEvent(new CustomEvent("zeref-ask", { detail: { project, question, at: Date.now() } }));
 
 // the ready-made questions offered for a project
-export const PROJECT_QUESTIONS = ["how was it evaluated?", "what didn't work?", "what would he build next?"];
+export const PROJECT_QUESTIONS = ["how was it evaluated?", "how does it compare to a simple baseline?", "how does it work, simply?"];
 
 // Floating dial (bottom-right) that pops the same terminal open anywhere on the page
 export function ChatDial() {
