@@ -376,7 +376,7 @@ export const projects = [
     highlights: [
       "Runs entirely in the visitor's browser - a 16 MB model through ONNX Runtime Web, so the image never leaves the device, there is no inference server, and the running cost is zero",
       "Reports accuracy per generator family instead of one pooled number, because a detector trained on one set of generators learns what those look like rather than what synthetic looks like - the pooled 95.7% and the 0% on a withheld family come from the same model",
-      "Published a failed reproduction rather than burying it: a fix that appeared to lift the held-out result turned out to move between 0.5% and 31% depending on the saved checkpoint, so the claim was retracted on the page itself",
+      "Found the dataset was flattering the model before trusting it: a decision tree given only each file's width, height and format, with no pixels at all, scores 0.861 against the model's 0.927, and separates eleven of twelve generator families perfectly. Class correlates with source resolution, so part of the headline accuracy is provenance rather than image content, and the one family whose fakes and reals match on size and format is the one the model finds hardest",
       "States what it cannot do next to what it can: 93.2% on real photographs still means roughly 1 genuine photo in 15 gets called AI, and the site names the generator families it was never trained on",
     ],
   },
