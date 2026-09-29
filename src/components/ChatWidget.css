@@ -91,10 +91,11 @@
 .chat-user { color: #e6e6e6; }
 /* formatted bot answers: pre-wrap off so the markup, not raw newlines, sets spacing */
 .chat-md { white-space: normal; }
-.chat-md p { margin: 0 0 6px; }
-.chat-md .chat-h { font-weight: 700; color: var(--text, #e6e6e6); margin-top: 8px; }
-.chat-md .chat-list { margin: 0 0 6px; padding-left: 18px; }
-.chat-md li { margin: 2px 0; }
+.chat-md p { margin: 0 0 10px; }
+.chat-md .chat-h { font-weight: 700; color: var(--text, #e6e6e6); margin: 14px 0 6px; }
+.chat-md > .chat-h:first-child { margin-top: 2px; }
+.chat-md .chat-list { margin: 0 0 10px; padding-left: 18px; }
+.chat-md li { margin: 0 0 6px; padding-left: 2px; }
 .chat-md li::marker { color: var(--accent); }
 .chat-md em { color: var(--text, #e6e6e6); }
 .chat-md strong { color: var(--text, #e6e6e6); font-weight: 700; }

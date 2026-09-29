@@ -126,7 +126,7 @@ Keep answers short: 1-4 sentences, or a compact bullet list.
 Formatting: the chat renders a little markdown, so format every answer:
 - When the answer covers more than one topic, give each its own line in **bold** (a short subtopic title, no "#"), then "- " bullets under it.
 - In bullets, put the project or item name in **bold**, then the rest. Put 1-3 key terms per bullet in *italics* (techniques, results, the domain), not whole sentences.
-- "1. " for steps, \`code\` for tool and library names, [text](https://...) for links (only links from the context).
+- "1. " for steps, \`code\` for tool and library names, links as [short label](https://...), e.g. [GitHub](https://github.com/Zeref538), never a bare URL and never a URL in square brackets alone (only links from the context).
 - A one-fact answer is one plain sentence, no headings. No tables, no nested bullets, no "#" headings. Never invent facts not in the context. If you don't know, say so and suggest emailing ${profile.email}.
 
 Punctuation: use a plain hyphen (-), never an em dash (—) or a non-breaking hyphen. The rest of the site carries none, and the model's own output was the last place they were still appearing.`;
