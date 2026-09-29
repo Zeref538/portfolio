@@ -4,6 +4,7 @@
 // inject only the most relevant chunks; otherwise we fall back to the full context.
 import { profile, experience, projects, skills, certifications, education } from "../src/data.js";
 import { createRequire } from "node:module";
+import { buildKeywordIndex, search } from "./_search.js";
 
 // static vector index built by scripts/build-index.mjs (optional - graceful fallback)
 let INDEX = null;
@@ -35,15 +36,8 @@ function expLines(e) {
   ]);
 }
 
-function cosine(a, b) {
-  let dot = 0, na = 0, nb = 0;
-  for (let i = 0; i < a.length; i++) {
-    dot += a[i] * b[i];
-    na += a[i] * a[i];
-    nb += b[i] * b[i];
-  }
-  return dot / (Math.sqrt(na) * Math.sqrt(nb) || 1);
-}
+// keyword side of the hybrid search, built once per cold start (~254 chunks)
+const KW = INDEX?.records?.length ? buildKeywordIndex(INDEX.records) : null;
 
 async function embedQuery(endpoint, key, text) {
   const r = await fetch(
@@ -59,15 +53,18 @@ async function embedQuery(endpoint, key, text) {
   return (await r.json()).data[0].embedding;
 }
 
-// top-k relevant chunks for a query; null if no index / embedding fails
-async function retrieve(endpoint, key, query, k = 6) {
+// top-k chunks by hybrid search (api/_search.js); null if there is no index.
+// If the embedding call fails, keyword search alone still answers.
+async function retrieve(endpoint, key, query, focus) {
   if (!INDEX?.records?.length) return null;
-  const qv = await embedQuery(endpoint, key, query);
-  return INDEX.records
-    .map((rec) => ({ rec, score: cosine(qv, rec.embedding) }))
-    .sort((a, b) => b.score - a.score)
-    .slice(0, k)
-    .map(({ rec }) => `### ${rec.title} (${rec.source})\n${rec.text}`)
+  let qv = null;
+  try {
+    qv = await embedQuery(endpoint, key, focus ? `${focus}: ${query}` : query);
+  } catch (e) {
+    console.error("embed failed, keyword search only:", e.message);
+  }
+  return search(INDEX.records, KW, query, qv, { focus, mode: qv ? "hybrid" : "keyword" })
+    .map((rec) => `### ${rec.title} (${rec.source})\n${rec.text}`)
     .join("\n\n");
 }
 
@@ -132,8 +129,10 @@ Punctuation: use a plain hyphen (-), never an em dash (—) or a non-breaking hy
 // long README chunks from a handful of projects, so retrieved chunks are extra
 // depth, not a replacement. With retrieval the roster is the slim one (ROSTER);
 // without it, the full descriptions (CONTEXT) are the only detail there is.
-function buildSystemPrompt(grounding) {
-  return `${SYSTEM_BASE}\n\nContext about John:\n${grounding ? ROSTER : CONTEXT}${
+function buildSystemPrompt(grounding, focus) {
+  return `${SYSTEM_BASE}${
+    focus ? `\n\nThe visitor opened this chat from the "${focus}" project card. Every question is about ${focus} unless it names another project. Answer about ${focus} directly and never ask which project they mean.` : ""
+  }\n\nContext about John:\n${grounding ? ROSTER : CONTEXT}${
     grounding ? `\n\n## Deeper detail relevant to this question\n${grounding}` : ""
   }`;
 }
@@ -166,7 +165,10 @@ export default async function handler(req, res) {
     return res.status(429).json({ error: "rate_limited", reply: "rate limit reached - try again later, or email me directly." });
   }
 
-  const { messages } = req.body || {};
+  const { messages, project } = req.body || {};
+  // the project title from an "ask about this project" button; only a title
+  // that exists is accepted, so nobody can write into the system prompt with it
+  const focus = typeof project === "string" && projects.some((p) => p.title === project) ? project : undefined;
   if (!Array.isArray(messages) || messages.length === 0) {
     return res.status(400).json({ error: "messages[] required" });
   }
@@ -188,7 +190,7 @@ export default async function handler(req, res) {
   const lastUser = [...history].reverse().find((m) => m.role === "user");
   if (lastUser) {
     try {
-      grounding = await retrieve(endpoint, key, lastUser.content);
+      grounding = await retrieve(endpoint, key, lastUser.content, focus);
     } catch (e) {
       console.error("retrieve failed, using full context:", e.message);
     }
@@ -201,7 +203,7 @@ export default async function handler(req, res) {
         method: "POST",
         headers: { "Content-Type": "application/json", "api-key": key },
         body: JSON.stringify({
-          messages: [{ role: "system", content: buildSystemPrompt(grounding) }, ...history],
+          messages: [{ role: "system", content: buildSystemPrompt(grounding, focus) }, ...history],
           // real answers run ~150 tokens; Azure books this ceiling against the
           // 8,000-a-minute quota before the answer starts
           max_completion_tokens: 600,

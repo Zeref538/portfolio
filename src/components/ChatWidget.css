@@ -98,6 +98,8 @@
 .chat-user .chat-prefix { color: var(--accent); }
 
 .chat-thought { vertical-align: top; }
+/* "» asking about FORGE": a system line, not something the bot said */
+.chat-note { color: var(--accent); opacity: 0.8; font-size: 0.72rem; letter-spacing: 0.04em; }
 
 
 .chat-suggestions {

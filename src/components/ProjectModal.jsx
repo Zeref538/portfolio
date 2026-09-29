@@ -5,6 +5,7 @@ import { LinkIcon } from "../linkIcon.jsx";
 import { useTheme, projectImages } from "../theme.js";
 import { SiGithub } from "react-icons/si";
 import { slugify } from "../slug.js";
+import { askAbout, PROJECT_QUESTIONS } from "./ChatWidget.jsx";
 
 // The enlarged card a project opens into. Built on the browser's own <dialog>:
 // showModal() gives Esc-to-close, a focus trap and the "dialog" role for screen
@@ -126,6 +127,17 @@ export default function ProjectModal({ project, onClose, onPrev, onNext }) {
                 <SiGithub /> source
               </a>
             )}
+          </div>
+
+          {/* ready-made questions: the popup closes first, because the chat
+              opens in the corner and the popup would cover it */}
+          <div className="pm-ask">
+            <p className="pm-ask-h">// ask zeref-bot</p>
+            {PROJECT_QUESTIONS.map((q) => (
+              <button key={q} type="button" onClick={() => { onClose(); askAbout(p.title, q); }}>
+                {q}
+              </button>
+            ))}
           </div>
 
           <p className="pm-desc">{p.description}</p>

@@ -3,9 +3,27 @@ import { createPortal } from "react-dom";
 import ThoughtLine from "./ThoughtLine.jsx";
 import "./ChatWidget.css";
 
+// The project cards' "ask" buttons call this. It is an event, not a prop,
+// because the cards and the chat dial sit far apart in the page and share no
+// parent that could pass it down.
+export const askAbout = (project, question) =>
+  window.dispatchEvent(new CustomEvent("zeref-ask", { detail: { project, question, at: Date.now() } }));
+
+// the ready-made questions offered for a project
+export const PROJECT_QUESTIONS = ["how was it evaluated?", "what didn't work?", "what would he build next?"];
+
 // Floating dial (bottom-right) that pops the same terminal open anywhere on the page
 export function ChatDial() {
   const [open, setOpen] = useState(false);
+  const [ask, setAsk] = useState(null);
+  useEffect(() => {
+    const on = (e) => {
+      setAsk(e.detail);
+      setOpen(true);
+    };
+    window.addEventListener("zeref-ask", on);
+    return () => window.removeEventListener("zeref-ask", on);
+  }, []);
   return (
     <>
       <button
@@ -17,7 +35,7 @@ export function ChatDial() {
       </button>
       {open && (
         <div className="chat-dial-panel" role="dialog" aria-label="zeref-bot chat">
-          <ChatWidget windowed onClose={() => setOpen(false)} />
+          <ChatWidget windowed ask={ask} onClose={() => setOpen(false)} />
         </div>
       )}
     </>
@@ -37,8 +55,11 @@ const SUGGESTIONS = ["what has he built?", "top skills?", "is he open to work?"]
 //   red    → windowed: close the dial · embedded: collapse to a reopen pill
 //   yellow → minimize to the header bar (and, when windowed, drag-to-move)
 //   green  → toggle full-screen overlay
-export default function ChatWidget({ windowed = false, onClose }) {
+export default function ChatWidget({ windowed = false, onClose, ask }) {
   const [messages, setMessages] = useState([{ role: "assistant", content: GREETING }]);
+  // the project an "ask" button pointed at; sent with every question so the
+  // server searches that project's chunks first (api/_search.js)
+  const [focus, setFocus] = useState(null);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [minimized, setMinimized] = useState(false);
@@ -54,11 +75,13 @@ export default function ChatWidget({ windowed = false, onClose }) {
     if (el) el.scrollTop = el.scrollHeight;
   }, [messages, busy, minimized]);
 
-  const send = async (text) => {
+  // project and before come straight from an ask button: state set in the same
+  // moment would not be readable yet, so they are passed in, not read back
+  const send = async (text, project = focus, before = []) => {
     const content = (text ?? input).trim();
     if (!content || busy) return;
     setInput("");
-    const next = [...messages, { role: "user", content }];
+    const next = [...messages, ...before, { role: "user", content }];
     // The answer bubble opens at once with a thinking line in it. Its steps
     // are what the server really does: read the question, search the portfolio
     // index, then answer. The line settles ("thought for 1.8s") the moment the
@@ -82,7 +105,7 @@ export default function ChatWidget({ windowed = false, onClose }) {
       const r = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: next.slice(1) }),
+        body: JSON.stringify({ messages: next.filter((m) => !m.note).slice(1), project: project || undefined }),
       });
 
       // Two shapes come back. A good answer streams as plain text; every failure
@@ -149,6 +172,22 @@ export default function ChatWidget({ windowed = false, onClose }) {
       setBusy(false);
     }
   };
+
+  // an ask button was pressed: note which project we're on, then either ask the
+  // chosen question or offer the ready-made ones
+  // handled remembers which press was already acted on, so running this twice
+  // (React's StrictMode does, in development) can't add the note or send twice
+  const handled = useRef(null);
+  useEffect(() => {
+    if (!ask || handled.current === ask.at) return;
+    handled.current = ask.at;
+    setFocus(ask.project);
+    setMinimized(false);
+    const note = { role: "assistant", note: true, content: `» asking about ${ask.project.split(" - ")[0]}` };
+    if (ask.question) send(ask.question, ask.project, [note]);
+    else setMessages((m) => [...m, note]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ask?.at]);
 
   const onClose_ = () => {
     if (windowed && onClose) onClose();
@@ -239,8 +278,8 @@ export default function ChatWidget({ windowed = false, onClose }) {
         <>
           <div className="chat-body" ref={bodyRef}>
             {messages.map((m, i) => (
-              <div key={i} className={`chat-msg chat-${m.role}`}>
-                <span className="chat-prefix">{m.role === "user" ? "you $" : "bot #"}</span>
+              <div key={i} className={`chat-msg chat-${m.role}${m.note ? " chat-note" : ""}`}>
+                {!m.note && <span className="chat-prefix">{m.role === "user" ? "you $" : "bot #"}</span>}
                 {m.think && (
                   <ThoughtLine
                     className="chat-thought"
@@ -269,9 +308,9 @@ export default function ChatWidget({ windowed = false, onClose }) {
                 )}
               </div>
             ))}
-            {messages.length === 1 && (
+            {!busy && (messages.length === 1 || messages[messages.length - 1].note) && (
               <div className="chat-suggestions">
-                {SUGGESTIONS.map((s) => (
+                {(messages.length === 1 ? SUGGESTIONS : PROJECT_QUESTIONS).map((s) => (
                   <button key={s} onClick={() => send(s)}>{s}</button>
                 ))}
               </div>

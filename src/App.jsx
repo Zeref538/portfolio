@@ -20,7 +20,7 @@ import ProjectModal from "./components/ProjectModal.jsx";
 import ContactForm from "./components/ContactForm.jsx";
 import GradualBlur from "./components/GradualBlur.jsx";
 import StatusBar from "./components/StatusBar.jsx";
-import ChatWidget, { ChatDial } from "./components/ChatWidget.jsx";
+import ChatWidget, { ChatDial, askAbout } from "./components/ChatWidget.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
 import { LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuLinkedin, LuMail, LuCheck, LuPhone, LuSun, LuMoon } from "react-icons/lu";
 import { LinkIcon } from "./linkIcon.jsx";
@@ -717,6 +717,14 @@ export default function App() {
                           light={p.imagesLight}
                           alt={`${p.title} preview`}
                         />
+                        <button
+                          type="button"
+                          className="pj3-ask-chip"
+                          aria-label={`Ask zeref-bot about ${p.title.split(" - ")[0]}`}
+                          onClick={(e) => { e.stopPropagation(); askAbout(p.title); }}
+                        >
+                          &gt;_ ask
+                        </button>
                       </div>
 
                       {/* always-visible details under the cover */}
@@ -776,6 +784,12 @@ export default function App() {
                               <SiGithub /> source
                             </a>
                           )}
+                        </div>
+                        <div className="pj3-foot">
+                          <span>click for full details ↗</span>
+                          <button type="button" className="pj3-ask" onClick={(e) => { e.stopPropagation(); askAbout(p.title); }}>
+                            &gt;_ ask about it
+                          </button>
                         </div>
                       </div>
                     </article>
