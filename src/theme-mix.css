@@ -104,6 +104,8 @@ h3 { letter-spacing: -0.03em; }
    fading at once inside the growing circle - two animations fighting, which
    read as shaky. Only the circle moves now. */
 .theme-switching *, .theme-switching *::before, .theme-switching *::after { transition: none !important; }
+/* project covers: the set for the other theme stays on the card, hidden (see CyclingCover) */
+:root[data-theme="light"] .pj3-img[data-set="dark"], :root:not([data-theme="light"]) .pj3-img[data-set="light"] { opacity: 0 !important; }
 /* Off-screen sections are skipped for styling and drawing until they come near
    the screen, so a theme switch only recolours what you can see.
    Measured on a phone-speed CPU at the top of the page: 286ms -> 79ms before

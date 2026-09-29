@@ -13,7 +13,7 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
 // GSAP (~29KB) only animates the contact heading at the bottom of the page, so it
 // loads after the first paint instead of in front of it.
 const ScrollFloat = lazy(() => import("./components/ScrollFloat.jsx"));
-import { useTheme, projectImages } from "./theme.js";
+import { projectImages } from "./theme.js";
 import { flushSync } from "react-dom";
 import { profile, experience, projects, skills, certifications, education } from "./data.js";
 import ProjectModal from "./components/ProjectModal.jsx";
@@ -207,16 +207,22 @@ function ExpTrack({ t }) {
   );
 }
 
-function CyclingCover({ images, alt }) {
+// Both theme sets are on the card from the start and CSS shows the one that
+// matches data-theme. Swapping the list on a theme switch mounted pictures the
+// browser had never fetched, so the grey placeholder showed for about a second.
+// ponytail: cards on screen download both sets (~3 extra images each); lazy
+// loading still holds back the cards further down.
+function CyclingCover({ images, light, alt }) {
   const [idx, setIdx] = useState(0);
   const ref = useRef(null);
   // only cross-fade while the card is actually on screen - keeps 8 cards from
   // each running a timer + image swap in the background
   useEffect(() => {
-    if (!images || images.length < 2) return;
+    if (!images || Math.max(images.length, light?.length || 0) < 2) return;
     const host = ref.current?.parentNode;
     let id = null;
-    const start = () => { if (id == null) id = setInterval(() => setIdx((i) => (i + 1) % images.length), 4600); };
+    // one counter for both sets; each set wraps it by its own length
+    const start = () => { if (id == null) id = setInterval(() => setIdx((i) => i + 1), 4600); };
     const stop = () => { if (id != null) { clearInterval(id); id = null; } };
     if (!host || typeof IntersectionObserver === "undefined") {
       start();
@@ -228,19 +234,22 @@ function CyclingCover({ images, alt }) {
     );
     io.observe(host);
     return () => { io.disconnect(); stop(); };
-  }, [images]);
+  }, [images, light]);
   if (!images?.length) return null;
-  return images.map((src, i) => (
-    <img
-      key={src}
-      ref={i === 0 ? ref : undefined}
-      src={src}
-      alt={alt}
-      loading="lazy"
-      className={`pj3-img ${i === idx ? "pj3-img-on" : ""}`}
-      onError={(e) => { e.target.style.display = "none"; }}
-    />
-  ));
+  const set = (list, name) =>
+    list.map((src, i) => (
+      <img
+        key={name + src}
+        ref={i === 0 && name === "dark" ? ref : undefined}
+        src={src}
+        alt={alt}
+        loading="lazy"
+        data-set={light?.length ? name : undefined}
+        className={`pj3-img ${i === idx % list.length ? "pj3-img-on" : ""}`}
+        onError={(e) => { e.target.style.display = "none"; }}
+      />
+    ));
+  return light?.length ? [...set(images, "dark"), ...set(light, "light")] : set(images, "dark");
 }
 
 // Light or dark. Starts dark; a click is
@@ -301,7 +310,6 @@ function ThemeToggle() {
 
 export default function App() {
   const [activeSection, setActiveSection] = useState("");
-  const theme = useTheme();
   // Sections start at a guessed height (content-visibility in theme-mix.css) and
   // grow to their real one as you scroll. ScrollTrigger only re-measures on a
   // window resize, so without this the contact heading's animation fired at the
@@ -705,8 +713,8 @@ export default function App() {
                           {p.metric && <span className="pj-shot-metric">▸ {p.metric}</span>}
                         </div>
                         <CyclingCover
-                          key={theme} /* restart the cycle on a theme switch; the sets differ in length */
-                          images={projectImages(p, theme)}
+                          images={projectImages(p, "dark")}
+                          light={p.imagesLight}
                           alt={`${p.title} preview`}
                         />
                       </div>
