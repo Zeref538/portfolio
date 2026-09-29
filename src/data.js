@@ -490,6 +490,7 @@ export const projects = [
     date: "2026",
     image: "/projects/aegix-1.jpg",
     images: ["/projects/aegix-1.jpg", "/projects/aegix-2.jpg", "/projects/aegix-3.jpg"],
+    imagesLight: ["/projects/aegix-light-2.jpg", "/projects/aegix-light-3.jpg"],
     link: "https://github.com/Zeref538/aegix-ai",
     demo: "https://aegix-ai-zeref.vercel.app",
     highlights: [
@@ -529,6 +530,7 @@ export const projects = [
     date: "2025 - 2026",
     image: "/projects/acra.jpg",
     images: ["/projects/acra.jpg", "/projects/acra-2.jpg", "/projects/acra-3.jpg"],
+    imagesLight: ["/projects/acra-light-1.jpg", "/projects/acra-light-2.jpg", "/projects/acra-light-3.jpg"],
     link: "",
     demo: "https://acra-sandy.vercel.app/dashboard",
     highlights: [
