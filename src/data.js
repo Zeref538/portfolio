@@ -452,7 +452,7 @@ export const projects = [
     description:
       "Privacy-first, fully local data-cleaning agent for CSV / Excel / SQLite - the LLM never sees a single raw row and nothing leaves the machine. A pandas profiler produces a PII-redacted metadata profile; a local LLM (Ollama, qwen3.5:4b) plans repairs as strict JSON; a human approves each step; deterministic pandas executes with a full audit log; a verifier re-profiles to confirm. Benchmarked against 1,589 ground-truth labeled errors with a published false-fix rate, plus a 39-instruction plain-language benchmark and a local 'Mission Control' web UI.",
     tags: ["Agentic AI", "Ollama", "Python", "pandas", "FastAPI"],
-    metric: "94.8% fix · 0.00% false-fix",
+    metric: "94.1% fix · 0.00% false-fix",
     category: "Agentic AI · Data Cleaning · Privacy",
     date: "2026",
     image: "/projects/yoda-1.jpg",
@@ -475,7 +475,7 @@ export const projects = [
     demoLabel: "case study",
     highlights: [
       "AI plans, pandas executes: the LLM sees only a PII-redacted profile - a unit test proves no raw value reaches a prompt",
-      "Ground-truth benchmark: 94.3% detection / 94.8% fix / 0.00% false-fix across 1,589 labeled errors (rule-based baseline: 100% / 97.3%); a v3 score was withdrawn after an audit found it was the fallback's",
+      "Ground-truth benchmark: 96.9% detection / 94.1% fix / 0.00% false-fix across 1,589 labeled errors (rule-based baseline: 100% / 97.3%); an earlier score was withdrawn when an audit found the model had run out of context and the rules had stepped in",
       "Human-in-the-loop gate, JSONL audit log, recipes, data contracts, and a WebAssembly browser demo - runs with Wi-Fi off",
     ],
   },
