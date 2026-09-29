@@ -717,14 +717,6 @@ export default function App() {
                           light={p.imagesLight}
                           alt={`${p.title} preview`}
                         />
-                        <button
-                          type="button"
-                          className="pj3-ask-chip"
-                          aria-label={`Ask zeref-bot about ${p.title.split(" - ")[0]}`}
-                          onClick={(e) => { e.stopPropagation(); askAbout(p.title); }}
-                        >
-                          &gt;_ ask
-                        </button>
                       </div>
 
                       {/* always-visible details under the cover */}

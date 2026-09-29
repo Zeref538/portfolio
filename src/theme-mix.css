@@ -212,16 +212,8 @@ main > section { contain-intrinsic-size: auto 900px; }
 /* the hover panel's last line: the old "click for full details" plus the ask
    button, sharing one row so asking costs no extra height */
 .pj3-foot { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: auto; font: italic 400 14px var(--font-serif); color: var(--accent); }
-.pj3-ask, .pj3-ask-chip { font: 600 13px "JetBrains Mono Variable", ui-monospace, monospace; color: var(--accent); cursor: pointer; white-space: nowrap; }
-.pj3-ask { background: none; border: 0; padding: 0; }
+.pj3-ask { font: 600 13px "JetBrains Mono Variable", ui-monospace, monospace; color: var(--accent); cursor: pointer; white-space: nowrap; background: none; border: 0; padding: 0; }
 .pj3-ask:hover { text-decoration: underline; text-underline-offset: 3px; }
-/* the card's corner badge. It hides while the hover panel is open, which has
-   its own ask line, and is the way in on phones, where there is no hover. */
-.pj3-cover { position: relative; }
-.pj3-ask-chip { position: absolute; top: 10px; right: 10px; z-index: 2; padding: 5px 9px; font-size: 12px; background: var(--bg); border: 1px solid var(--accent); transition: opacity .2s; }
-.pj3-ask-chip:hover { background: var(--accent); color: var(--on-accent); }
-.pj-item:hover .pj3-ask-chip { opacity: 0; pointer-events: none; }
-@media (hover: none) { .pj-item:hover .pj3-ask-chip { opacity: 1; pointer-events: auto; } }
 /* the enlarged card (popup) shows the whole text: no "..." on the description or results,
    and the text column gets more of the width so it needs less height */
 .pm-desc, .pm-list li { -webkit-line-clamp: unset; line-clamp: unset; display: block; overflow: visible; }
