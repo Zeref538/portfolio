@@ -1,6 +1,6 @@
-# Lean
+# Token-Optimization LLM Fine-Tuning
 
-**[Live demo →](https://zeref538.github.io/lean-lora-finetune/)**
+**[Live demo →](https://zeref538.github.io/Token-Optimization-LLM-Fine_Tuning/)**
 
 Fine-tune a free open-weights model (Qwen2.5-1.5B-Instruct) via LoRA to say
 the same thing in fewer tokens, without giving up accuracy. Four fine-tunes,
@@ -80,6 +80,11 @@ Full reasoning, the self-distillation recipe, and why it works is in
 5. `data/capture_examples.py` — captures real, pre-recorded generations from
    each model on a few held-out questions, saved to `data/demo_examples.json`
    for a portfolio demo (no live model calls needed to show the comparison).
+
+## Case study page
+
+`docs/index.html` is generated: edit `docs/template.html`, then run
+`python docs/build_site.py` (it inlines `data/demo_examples.json`).
 
 ## Test
 

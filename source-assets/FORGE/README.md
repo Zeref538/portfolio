@@ -1,65 +1,14 @@
-# FORGE — source assets
-
-**Live:** https://zeref538.github.io/FORGE/
-**Repo:** https://github.com/Zeref538/FORGE
-
-Screenshots captured from the live site on 2026-08-31, at 1440×900.
-
-| File | Shows |
-|---|---|
-| `forge-01-hero.png` | Landing page and the drop zone |
-| `forge-02-verdict.png` | A real prediction — AI face scored 0.85, all three result panels |
-| `forge-03-accuracy.png` | Per-generator accuracy bars |
-| `forge-04-generators.png` | Accuracy by company, beside the list of generators it was never trained on |
-| `forge-05-full.png` | Whole page, top to bottom |
-
-## One-line pitch
-
-Drop in an image, get a probability it was AI-generated. The model runs
-entirely in the visitor's browser — nothing is uploaded, and hosting is free.
-
-## Numbers worth quoting
-
-- **92.7%** overall across 13 generator families
-- **94.6%** on real photographs — about 1 in 19 genuine photos still gets
-  called AI
-- **0%** on a generator family withheld from training entirely
-- **16 MB** model, runs client-side, no server and no inference cost
-
-## The story
-
-A first model hit 95.9% and looked finished. Tested against a generator
-family deliberately hidden from training, it scored **zero** — all 2,500
-fakes called real. Six fixes were tried; one appeared to work and was
-published. Re-measuring properly showed that result swinging between 0.5%
-and 31% depending on which checkpoint got saved. It was luck, not a fix, and
-the site was corrected to say so.
-
-Best screenshot for a portfolio card: `forge-04-generators.png` — it shows
-the accuracy table sitting right next to the honest list of what the tool
-cannot handle.
-
-## Stack
-
-Vanilla HTML/CSS/JS · ONNX Runtime Web · EfficientNet-B0 · trained on
-Kaggle · deployed via GitHub Actions to GitHub Pages · ₱0 running cost.
-
-Frontend is being taken over by Christine Tamayo ([@Tinenen-cs](https://github.com/Tinenen-cs)),
-so the design in these screenshots will change.
-
----
-
-# Project README (copied from the repo, so the chatbot can answer on it)
-
 # FORGE — Fake Or Real: Generated-image Examiner
 
 Drop in an image, get a probability that an AI generator made it rather than
 a camera. **The model runs entirely in your browser** — the image is never
 uploaded, there is no server, and hosting costs nothing.
 
-### ▶ [Try it live](https://zeref538.github.io/FORGE/)
+### ▶ [Try it live](https://zeref538.github.io/FORGE/) · [Read the case study](https://zeref538.github.io/FORGE/case-study.html)
 
-![FORGE making a prediction](docs/screenshots/forge-02-verdict.png)
+![Accuracy for each of the 13 generator families, sorted worst to best, with the pooled number marked](web/img/fig-families.png)
+
+*Rebuild this chart with `python docs/make_figures.py`. It is drawn from the result files in `ml/`, not typed in.*
 
 The point of this project is not the accuracy number. It is the evaluation:
 what happens when the detector meets a generator it was never trained on,
@@ -107,27 +56,29 @@ into one flattering number**.
 | generator | accuracy |
 |---|---:|
 | BigGAN | 100.0% |
-| GLIDE | 99.5% |
-| SFHQ-T2I | 98.7% |
-| VQDM | 97.3% |
-| Wukong | 97.3% |
-| StyleGAN / StyleGAN2 | 96.8% |
-| Stable Diffusion 1.5 | 96.5% |
-| ADM | 95.7% |
-| **real photographs** | **94.6%** |
-| Midjourney | 93.3% |
-| AI artwork | 86.9% |
-| **StyleGAN3** | **51.5%** |
+| GLIDE | 99.7% |
+| SFHQ-T2I | 99.7% |
+| StyleGAN / StyleGAN2 | 99.2% |
+| AI artwork | 97.3% |
+| VQDM | 96.0% |
+| Wukong | 96.0% |
+| Stable Diffusion 1.5 | 96.0% |
+| ADM | 95.2% |
+| **real photographs** | **93.2%** |
+| StyleGAN3 | 90.9% |
+| **Midjourney** | **90.1%** |
 
-**Overall: 92.7%**
+**Overall: 95.7%**
 
 Two of those deserve to be read carefully.
 
-**Real photographs, 94.6%** means roughly **1 in 19 genuine photos is
+**Real photographs, 93.2%** means roughly **1 in 15 genuine photos is
 wrongly called AI-generated.** That is the wrong direction for the error to
-run — falsely accusing a real photo is worse than missing a fake.
+run - falsely accusing a real photo is worse than missing a fake, and this
+got *worse* in the current version, not better (it was 94.6%).
 
-**StyleGAN3, 51.5%** is a coin flip, on a family the model *did* train on.
+**Midjourney, 90.1%** is now the weakest family, having been 93.3%. It is the
+generator a casual user is most likely to bring.
 
 ### The same thing, by the names you'd recognise
 
@@ -136,14 +87,14 @@ Those are research labels. Here they are as actual tools and companies:
 | Generator | Maker | Accuracy |
 |---|---|---:|
 | BigGAN | Google DeepMind | 100% |
-| GLIDE | OpenAI | 99.5% |
-| VQ-Diffusion | Microsoft | 97.3% |
-| Wukong | Huawei | 97.3% |
-| StyleGAN, StyleGAN2 | NVIDIA | 96.8% |
-| Stable Diffusion 1.5 | Stability AI | 96.5% |
-| Guided Diffusion (ADM) | OpenAI | 95.7% |
-| Midjourney (2023-era) | Midjourney | 93.3% |
-| StyleGAN3 | NVIDIA | 51.5% |
+| GLIDE | OpenAI | 99.7% |
+| StyleGAN, StyleGAN2 | NVIDIA | 99.2% |
+| VQ-Diffusion | Microsoft | 96.0% |
+| Wukong | Huawei | 96.0% |
+| Stable Diffusion 1.5 | Stability AI | 96.0% |
+| Guided Diffusion (ADM) | OpenAI | 95.2% |
+| StyleGAN3 | NVIDIA | 90.9% |
+| Midjourney (2023-era) | Midjourney | 90.1% |
 
 ### Not trained on — results here are unreliable
 
@@ -174,7 +125,7 @@ someone uses a generator that did not exist when this shipped?*
 
 The answer was **0.000**. Not "poor" — zero. All 2,500 fakes called real.
 
-Six attempts to fix it:
+Seven attempts to fix it:
 
 | attempt | accuracy on the unseen family |
 |---|---:|
@@ -184,8 +135,51 @@ Six attempts to fix it:
 | blur + JPEG augmentation (Wang et al. 2020) | 0.000 |
 | CLIP frozen features (Ojha et al. 2023) | 0.003 |
 | adding a related GAN family to training | 0.365 |
+| attempt 7 (see `docs/ATTEMPT_7.md`) | not measured |
 
-The last one appeared to work, and **was published to the site.**
+Attempt 7 is the row without a number, and the reason is the honest one: the
+two ideas aimed at the unseen family both needed a GPU, and the weekly Kaggle
+quota ran out before they could run. What it did produce is written up in
+full, including a result it did not go looking for.
+
+Three of its five ideas cost no GPU time at all. Choosing the decision
+threshold on validation gave a trade-off curve instead of a single number:
+at the shipped threshold of 0.5, 5.4% of real photos are called AI; at 0.8
+that falls to 2.0%, paid for with fake recall dropping from 92.2% to 83.0%.
+Nothing was changed, but the choice is now recorded rather than inherited.
+NPR (Tan et al., CVPR 2024) was dropped by a pre-check with a positive
+control: it separates BigGAN at 0.674 and StyleGAN3 at 0.577, near chance,
+which is what you would expect from a generator published as *Alias-Free
+GAN*. Leave-one-family-out checkpoint selection picked the same epoch as the
+current rule in 12 of 13 cases, so it is a clean negative.
+
+The uncomfortable finding came before any of that. **A decision tree given
+only each file's width, height and format — no pixels — scores 0.861, against
+0.927 for the real model, and separates eleven of twelve fake families
+perfectly.** Class correlates with source resolution. StyleGAN3 is the only
+family whose fakes and reals match on resolution, format and content, and it
+is the only family the model finds hard. On that reading its old 51.5% was not a
+broken family; it is the only number in the table being measured fairly.
+
+A three-seed retrain on the current dataset averaged 0.955 overall and 0.877
+on StyleGAN3, against 0.927 and 0.515. **That model is what now ships**, and
+the honest label on it is more training data rather than a better model: the
+dataset has grown from 10 fake families and 5,000 reals to 12 and 8,245 since
+the previous model was trained. Architecture, epochs, learning rate and batch
+size are unchanged.
+
+**It was shipped over a failing gate, which is recorded rather than quietly
+dropped.** The rule fixed before the run said no family may get worse by more
+than 2 points. On the three-seed *mean* Midjourney came in at exactly -2.0 and
+passed. The artifact that actually ships is a single seed, and no single seed
+passes: seed 0 is -3.7 on Midjourney, seed 1 is -3.4 on real photographs, and
+seed 2 -- the one the selection rule picks, on highest validation accuracy --
+is -3.2 on Midjourney and -1.4 on real photographs. Averaging three seeds hid
+a failure present in all three. The trade taken was +39.4 points on StyleGAN3
+and +3.0 overall against -3.2 on Midjourney and 1 in 15 real photos wrongly
+accused instead of 1 in 19.
+
+The last of the six appeared to work, and **was published to the site.**
 
 **It did not reproduce.** Re-running while logging accuracy after *every*
 training epoch — instead of trusting the single saved checkpoint — showed
@@ -227,7 +221,7 @@ Three backbones trained on identical data:
 | backbone | params | accuracy | download | train time |
 |---|---:|---:|---:|---:|
 | MobileNetV3-Small | 1.5M | 90.1% | 6.1 MB | 30 min |
-| **EfficientNet-B0** ← shipped | 4.0M | **92.7%** | 16.0 MB | 130 min |
+| **EfficientNet-B0** ← shipped | 4.0M | **95.7%** | 16.0 MB | 130 min |
 | ResNet-50 | 23.5M | 90.2% | 94.0 MB | 273 min |
 
 Bigger is not automatically better. ResNet-50 costs 6× the download for no

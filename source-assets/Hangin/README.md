@@ -7,22 +7,65 @@ plain-language health advice. Unlike existing PH air trackers, which only show t
 current reading, Hangin' **predicts where air quality is heading** — and shows its own
 model's accuracy honestly, backtested against a naive baseline.
 
-## Why it's different
-Most junior ML portfolios use static, clichéd datasets. Hangin' uses **live, free public
-data** and ships a real forecasting model plus an honest evaluation: it beats a
-persistence baseline by ~9–10% MAE at the 12–24h horizons that actually matter.
+![Backtest: model vs naive baseline](docs/backtest.png)
 
-## Backtest (5 PH metros pooled, ~1.9 yrs history, chronological holdout)
-| Horizon | Model MAE (µg/m³) | R² | Naive persistence MAE | Lift |
-|--------:|:-----------------:|:--:|:---------------------:|:----:|
-| 1 h  | 0.77 | 0.96 | 0.94 | +18.8% |
-| 6 h  | 2.68 | 0.74 | 3.37 | +20.6% |
-| 12 h | 3.42 | 0.57 | 4.45 | +23.0% |
-| 24 h | 3.76 | 0.45 | 4.45 | +15.6% |
+**Live:** https://hangin-acra1.vercel.app — refreshed by a scheduled GitHub Action.
 
-One pooled model across Manila, Quezon City, Cebu, Davao, and Baguio (with location
-features). Naive guessing is fine for the next hour, but the model's edge grows to
-+12–20% at the 6–24h horizons — exactly where a forecast is useful.
+## Result
+Tested on **one full year the model never saw** (2025-09-20 → 2026-09-20, every
+season, ~43,000 hours per horizon across 5 cities), the monthly-retrained model's
+average error is **14–41% lower** than a naive "air stays the same" guess.
+
+| Horizon | Retrained MAE (3 seeds) | Model trained once (2024) | Naive MAE | Lift vs naive | 80% band hit rate |
+|--------:|:--:|:--:|:--:|:--:|:--:|
+| 1 h  | 0.93 ± 0.001 | 1.23 | 1.26 | +26.3% | 82.8% |
+| 6 h  | 3.17 ± 0.002 | 3.68 | 4.80 | +34.0% | 81.3% |
+| 12 h | 3.81 ± 0.001 | 4.29 | 6.46 | +41.0% | 82.2% |
+| 24 h | 4.09 ± 0.003 | 4.28 | 4.74 | +13.6% | 81.0% |
+
+MAE = average miss in µg/m³ of PM2.5. Sources: [`data/walkforward.json`](data/walkforward.json),
+[`data/intervals.json`](data/intervals.json).
+
+### What we learned: a model trained once goes stale
+The first version was trained once on 2022–2024 and scored **+18.8%** at 1 h on its
+own holdout. Replayed on 2025–2026 ([`data/live_eval.json`](data/live_eval.json)),
+that fell to **+2.2%**, and it was *worse* than the naive guess from April to August
+of both years. Two causes, both measured:
+- **The original holdout was flattering.** It covered mostly late 2024, the easy
+  dry-season months. The 1 h lead is seasonal: +10–17% Nov–Mar, below zero Apr–Aug.
+- **The air changed.** The average hour-to-hour jump in PM2.5 rose from 0.94 to
+  1.28 µg/m³ between the two periods.
+
+Retraining the *same recipe* on newer data brought the 1 h lead back to +26%. So the
+model is now **retrained monthly** by [`retrain.yml`](.github/workflows/retrain.yml),
+and a new model only ships if it beats the live one on the latest 30 days.
+
+### Likely-range band
+Each forecast comes with an 80% range: 10th/90th-percentile models, widened by a
+*conformal* margin. That margin is measured on the 90 days before the test period
+so the band catches reality as often as it claims. Raw bands hit only 72–74%;
+calibrated, they hit 81–83% on the unseen year.
+
+### Live scorecard
+Every hourly forecast is logged to [`data/forecast_log.csv`](data/forecast_log.csv)
+with the naive guess for the same hour, then graded once that hour arrives. The
+dashboard shows the last 30 days. It started on 2026-09-27, so early numbers rest on
+few samples.
+
+Open-Meteo's own forecast is logged too, but **not scored**. The "real" values come
+from the same CAMS model that produces that forecast, so it would be graded against
+itself (its first 5 graded forecasts all missed by exactly 0.00).
+
+## Limitations
+- **Inputs are modelled, not sensor readings.** Open-Meteo's PM2.5 comes from the
+  CAMS atmosphere model, so this forecasts CAMS, not a street-level monitor. CAMS
+  also publishes its own forecast, so the claim here is "beats a naive guess", not
+  "beats the free forecast". That needs ground-sensor data, which isn't wired in yet.
+- **24 h is the weak spot:** +13.6% over naive, and the band is ±5 µg/m³ wide.
+- **Band leans low on spikes:** misses are ~11% above the band vs ~7% below it.
+- **Only the 5 training metros are verified.** The other 24 cities on the map use
+  the same pooled model without their own test.
+- **Not medical advice.** The health tips follow the US EPA AQI bands.
 
 ## Data (all free, no API key)
 - **Open-Meteo Air-Quality API** — PM2.5/PM10/NO₂/O₃/CO/SO₂, hourly history + forecast
@@ -33,8 +76,20 @@ features). Naive guessing is fine for the next hour, but the model's edge grows 
 - **Web:** React + Vite (dashboard)
 - **Refresh:** scheduled job re-fetches data and republishes forecasts
 
-## Run the model
+## Run it
 ```bash
 pip install -r requirements.txt
-python ml/train.py   # fetches data, trains, writes data/backtest.json
+python ml/tune.py         # original 2022-2024 training + hyperparameter search (~40 min)
+python ml/live_eval.py    # replay those models on 2025-2026 (~1 min, caches data/unseen.parquet)
+python ml/walkforward.py  # full-year test, 3 seeds (~4 min)
+python ml/intervals.py    # band coverage test (~4 min)
+python ml/refit.py        # production retrain + gate -> data/models/ (~5 min)
+python ml/forecast.py     # live forecast -> web/public/forecasts.json + forecast log
+python ml/make_figure.py  # rebuilds docs/backtest.png
 ```
+Times measured on a laptop CPU; no GPU, no cost (the data is free). The live models
+are published as the [`models` release](https://github.com/Zeref538/hangin/releases/tag/models):
+`gh release download models -D data/models`.
+
+## License
+MIT — see [LICENSE](LICENSE).

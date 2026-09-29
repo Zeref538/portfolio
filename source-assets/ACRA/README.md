@@ -7,7 +7,7 @@ sdk: docker
 pinned: false
 ---
 
-# ACRA — Adaptive Color Re-Encoding System
+# ACRA - Adaptive Color Re-Encoding System
 
 Color accessibility tool that re-encodes images so color-blind (CVD) users can distinguish colors that would otherwise look identical to them.
 
@@ -17,7 +17,7 @@ Color accessibility tool that re-encodes images so color-blind (CVD) users can d
 
 - [Node.js](https://nodejs.org/) 18+
 - [Python](https://www.python.org/) 3.12+
-- A [Supabase](https://supabase.com/) project (optional — app works in mock mode without it)
+- A [Supabase](https://supabase.com/) project (optional - app works in mock mode without it)
 
 ---
 
@@ -53,7 +53,7 @@ VITE_SUPABASE_URL=https://<your-project-ref>.supabase.co
 VITE_SUPABASE_ANON_KEY=<your-anon-key>
 ```
 
-> **No Supabase?** Leave `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` out entirely. The app runs in **mock mode** — auth and job history are stored in your browser with no backend required for auth.
+> **No Supabase?** Leave `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` out entirely. The app runs in **mock mode** - auth and job history are stored in your browser with no backend required for auth.
 
 ### 3. Set up the Python backend
 
@@ -90,17 +90,18 @@ code/acra_medium_v7_best.onnx
 
 Open **two terminals**:
 
-**Terminal 1 — Frontend (Vite dev server)**
+**Terminal 1 - Frontend (Vite dev server)**
 ```powershell
 npm run dev
 ```
 Opens at `http://localhost:5173`
 
-**Terminal 2 — Backend (FastAPI)**
+**Terminal 2 - Backend (FastAPI)**
 ```powershell
 cd code
-.venv\Scripts\python.exe -m uvicorn main:app --reload --port 8000
+.\.venv\Scripts\python.exe server.py
 ```
+*(Press `Ctrl + C` anytime to stop)*
 
 ### 6. First login
 
@@ -119,9 +120,9 @@ ACRA/
 │   ├── hooks/                  # useAuth, useTheme
 │   └── lib/                    # supabase.js, api.js (Axios client)
 ├── code/                       # Python backend (FastAPI)
-│   ├── main.py                 # FastAPI app — all endpoints
+│   ├── main.py                 # FastAPI app - all endpoints
 │   ├── pipeline/               # CVD re-encoding pipeline
-│   │   ├── cvd_simulation.py   # Machado 2009 CVD simulation
+│   │   ├── cvd_simulation.py   # Viénot 1999 CVD simulation, severity-blended
 │   │   ├── auto_clusters.py    # Auto cluster-count estimation
 │   │   ├── fcm.py              # Fuzzy C-Means clustering (CIELAB)
 │   │   ├── segmentation.py     # YOLO ROI detection + per-ROI FCM
@@ -172,7 +173,7 @@ ACRA/
 ## Pipeline overview
 
 ```
-Upload → Normalize (sRGB→linear) → CVD Simulate (Machado 2009)
+Upload → Normalize (sRGB→linear) → CVD Simulate (DaltonLens Brettel 1997)
        → CIELAB convert → Cluster (FCM or YOLO+FCM)
        → Conflict detect (CIEDE2000) → LCH re-encode (lightness push)
        → Reconstruct (fuzzy membership blend) → sRGB output
