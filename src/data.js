@@ -321,12 +321,11 @@ export const projects = [
     metric: "89/100 totals on CORD · 1% silent errors · fully local",
     category: "Automation · Document AI · Local-First",
     date: "2026",
-    image: "/projects/tab-1.jpg",
+    image: "/projects/tab-dark-1.jpg",
     images: [
-      "/projects/tab-1.jpg",
-      "/projects/tab-2.jpg",
-      "/projects/tab-3.jpg",
-      "/projects/tab-4.jpg",
+      "/projects/tab-dark-1.jpg",
+      "/projects/tab-dark-2.jpg",
+      "/projects/tab-dark-3.jpg",
     ],
     imagesLight: [
       "/projects/tab-light-1.jpg",
