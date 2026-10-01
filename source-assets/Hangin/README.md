@@ -1,15 +1,16 @@
-# Hangin' — Philippine Air-Quality Forecasting & Health-Risk Dashboard
+# Hangin': Philippine Air-Quality Forecasting & Health-Risk Dashboard
 
-> *hangin* (Tagalog: **wind, air**) — so… how's the air hangin'?
+> *hangin* (Tagalog: **wind, air**). So… how's the air hangin'?
 
 Forecasts PM2.5 for Philippine cities **1–24 hours ahead** and translates it into
 plain-language health advice. Unlike existing PH air trackers, which only show the
-current reading, Hangin' **predicts where air quality is heading** — and shows its own
+current reading, Hangin' **predicts where air quality is heading**, and shows its own
 model's accuracy honestly, backtested against a naive baseline.
 
 ![Backtest: model vs naive baseline](docs/backtest.png)
 
-**Live:** https://hangin-acra1.vercel.app — refreshed by a scheduled GitHub Action.
+**Live:** https://hangin-zeref.vercel.app, refreshed by a scheduled GitHub Action.
+**Case study:** https://hangin-zeref.vercel.app/case-study.html (how it was tested, what broke, and what did not work)
 
 ## Result
 Tested on **one full year the model never saw** (2025-09-20 → 2026-09-20, every
@@ -56,11 +57,22 @@ Open-Meteo's own forecast is logged too, but **not scored**. The "real" values c
 from the same CAMS model that produces that forecast, so it would be graded against
 itself (its first 5 graded forecasts all missed by exactly 0.00).
 
+### Tried and not shipped: improving the 24 h forecast
+A pre-registered attempt ([`docs/ATTEMPT_NEXT.md`](docs/ATTEMPT_NEXT.md)) added
+(1) the day-ahead forecast of wind and rain at the target hour, as it was issued at the
+time, and (2) the average PM2.5 at the same hour over the past 7 days. Both together cut
+24 h error from 4.09 to 4.02 (3 seeds), which is real but only 1.8%, under the 2% bar set
+before running. The live model stays. The same features helped 6 h and 12 h more
+(+1.5 and +1.7 points of lift), which is left for a separate test.
+
 ## Limitations
 - **Inputs are modelled, not sensor readings.** Open-Meteo's PM2.5 comes from the
   CAMS atmosphere model, so this forecasts CAMS, not a street-level monitor. CAMS
   also publishes its own forecast, so the claim here is "beats a naive guess", not
   "beats the free forecast". That needs ground-sensor data, which isn't wired in yet.
+  A first check (`ml/sensor_model.py`, Manila only, one seed): a model trained on
+  OpenAQ sensor readings beat the best simple guess by 1.3% to 16.9% across 1-24 h
+  on the same test year (`data/sensor_model.json`).
 - **24 h is the weak spot:** +13.6% over naive, and the band is ±5 µg/m³ wide.
 - **Band leans low on spikes:** misses are ~11% above the band vs ~7% below it.
 - **Only the 5 training metros are verified.** The other 24 cities on the map use
@@ -68,8 +80,8 @@ itself (its first 5 graded forecasts all missed by exactly 0.00).
 - **Not medical advice.** The health tips follow the US EPA AQI bands.
 
 ## Data (all free, no API key)
-- **Open-Meteo Air-Quality API** — PM2.5/PM10/NO₂/O₃/CO/SO₂, hourly history + forecast
-- **Open-Meteo Archive (weather)** — temperature, humidity, wind, rain, pressure, PBL height
+- **Open-Meteo Air-Quality API**: PM2.5/PM10/NO₂/O₃/CO/SO₂, hourly history + forecast
+- **Open-Meteo Archive (weather)**: temperature, humidity, wind, rain, pressure, PBL height
 
 ## Stack
 - **ML:** Python · pandas · scikit-learn (`HistGradientBoostingRegressor`)
@@ -92,4 +104,4 @@ are published as the [`models` release](https://github.com/Zeref538/hangin/relea
 `gh release download models -D data/models`.
 
 ## License
-MIT — see [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
