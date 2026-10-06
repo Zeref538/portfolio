@@ -107,8 +107,8 @@ export const projects = [
       "/projects/flyrank-3.jpg",
       "/projects/flyrank-4.jpg",
     ],
-    link: "https://github.com/Zeref538/flyrank-ml-internship",
-    demo: "https://zeref538.github.io/flyrank-ml-internship/",
+    link: "https://github.com/Zeref538/Flyrank-Machine-Learning-Engineer-Internship",
+    demo: "https://zeref538.github.io/Flyrank-Machine-Learning-Engineer-Internship/",
     demoLabel: "case study",
     highlights: [
       "Reported the non-result rather than the two-point win: a cluster bootstrap over held-out clients puts the model-minus-rule difference at [-0.260, +0.140] and the model ahead in only 61% of 2,000 resamples, and the conclusion survives every eligibility gate from 100 to 2,000 impressions",
