@@ -4,7 +4,8 @@
 
 - [x] Fox, Not Wolf card: 3 more screenshots from the case study, dark and light
 - [x] Count Once card: 3 more screenshots from the case study, dark and light
-- [ ] Check apaw's scheduled bot runs succeed in the recreated repo
+- [x] Found 0 scheduled runs since the 10-01 recreate in apaw, FORGE and flyrank; re-registered all three (disable + enable), started apaw's data job by hand
+- [ ] After 2026-10-07 01:00 UTC: `gh run list -R Zeref538/apaw` and `-R Zeref538/FORGE` show an event `schedule` run (flyrank's is Monday 06:00 UTC)
 
 ## Zeref Tasks
 
