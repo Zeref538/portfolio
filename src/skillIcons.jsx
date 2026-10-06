@@ -51,7 +51,7 @@ import {
 } from "react-icons/si";
 import { VscAzure } from "react-icons/vsc";
 import { FaJava } from "react-icons/fa6";
-import { TbAdjustmentsHorizontal, TbBinary, TbChartLine, TbDatabaseSearch, TbGridPattern, TbMatrix, TbRobot, TbScan, TbSeo, TbSql, TbTargetArrow, TbTopologyStar3 } from "react-icons/tb";
+import { TbAdjustmentsHorizontal, TbBinary, TbChartLine, TbDatabaseSearch, TbGridPattern, TbMatrix, TbRepeat, TbRobot, TbScan, TbSeo, TbSql, TbTargetArrow, TbTopologyStar3 } from "react-icons/tb";
 import {
   LuBrain,
   LuScanSearch,
@@ -139,6 +139,7 @@ const ICONS = {
   "Notion": [SiNotion, "var(--text)"],
   "YOLOv8": [LuScanSearch, "var(--text-muted)"],
   "CNNs": [TbGridPattern, ["#e879f9", "#a21caf"]], // no official logo: an icon + its own colour (dark, light)
+  "LSTM": [TbRepeat, ["#34d399", "#047857"]], // no official logo: a loop for the recurrent memory, own colour (dark, light)
   "Model Evaluation": [TbTargetArrow, ["#a3e635", "#4d7c0f"]], // no official logo: an icon + its own colour (dark, light)
   "ONNX": [SiOnnx, "#a1a1aa"],
   "Forecasting": [LuTrendingUp, "var(--text-muted)"],

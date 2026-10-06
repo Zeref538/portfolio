@@ -685,6 +685,7 @@ export const skills = [
       "Ollama",
       "NVIDIA NIM",
       "CNNs",
+      "LSTM",
       "Hugging Face",
       "Kaggle",
     ],
