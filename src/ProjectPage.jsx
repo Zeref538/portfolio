@@ -15,7 +15,7 @@ import "./project-page.css";
 // content did not need writing -- it needed a URL.
 
 // The metric field is one sentence with the numbers buried in it, e.g.
-// "P@50 0.88 vs 0.551 base - and still no clear win over a 5-line rule".
+// "P@50 0.853 vs a 5-line rule's 0.764 - rule + model blend, all 29 clients".
 // Split on the dash so the figure leads and the caveat sits under it, rather
 // than running the whole thing across the page as one long line.
 function splitMetric(metric) {

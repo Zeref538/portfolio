@@ -18,7 +18,7 @@ export const profile = {
   about: [
     "Computer Science student at Our Lady of Fatima University, Dean's Lister since 2023, currently an ML engineering intern at FlyRank AI. I own the whole pipeline - data, model, evaluation, deployment.",
     "20 projects across agentic AI, RAG, and LLMs: a 12.5M-parameter language model written from scratch in PyTorch, a 32.8M Taglish model trained on code-switched Filipino, a receipt checker that runs as a step inside an n8n workflow, an air-quality forecaster for 29 Philippine cities, and the chatbot you're talking to now. 18 of them are live.",
-    "What ties them together is the second number. My FlyRank model scored 0.88 to a hand-written five-line rule's 0.86 - a gap a bootstrap put at [-0.26, +0.14], so I reported it as a tie rather than a win. Looking for internship or entry-level AI/ML engineering roles.",
+    "What ties them together is the second number. My FlyRank model scored 0.88 to a hand-written five-line rule's 0.86 on 9 test clients - a gap a bootstrap put at [-0.26, +0.14], so I reported a tie. Then I re-tested on all 29 clients with the pass mark written down first: a blend of the rule and the model beat the rule on every seed, 0.853 to 0.764. Looking for internship or entry-level AI/ML engineering roles.",
   ],
 };
 
@@ -52,10 +52,11 @@ export const experience = [
         status: "completed",
         verify: "https://internship.flyrank.ai/verify/FR-D11-2BABA-10084?first_name=John",
         summary:
-          "Built a content refresh-priority ranker over a 9.8M-row search warehouse, then reported it as a tie rather than a win because the evidence did not support the win.",
+          "Built a content refresh-priority ranker over a 9.8M-row search warehouse. One 9-client test called it a tie with a five-line rule; re-tested on all 29 clients, a rule-and-model blend beat the rule on every seed.",
         more: [
           "Shipped the ranker in DuckDB and wrote the data contract behind it - eligibility gate, features, and the columns banned for leakage.",
           "Killed my own result: Precision@50 of 0.88 beat the hand-written rule's 0.86, but tie-breaking alone swings the rule between 0.76 and 0.92, so I reported the win as noise.",
+          "Then went back and tested it properly: 5-fold client-grouped cross-validation over all 29 clients, 12 logged runs, one change each. A rank average of the rule and the model won 25 of 30 folds on seeds never used while choosing (P@50 0.853 vs 0.764); the model alone missed the bar.",
           "Caught a label leak in my own work - two unbanned columns rebuild the label exactly and lift ROC-AUC from 0.618 to 0.992 - then swept every remaining column and found a third.",
           "Proved validation design mattered more than model choice: a row-level split inflates ROC-AUC from 0.618 to 0.728 versus a client-grouped one, in 8 of 8 draws.",
         ],
@@ -94,9 +95,9 @@ export const projects = [
     title: "Fix First - Choosing Which Web Pages to Update First",
     groups: ["ML & Forecasting"],
     description:
-      "FlyRank ML internship capstone: a refresh-priority ranker over 30,000 pseudonymised client content pages, built to answer one question a content team actually has - given a fixed number of review hours, which pages do you look at first? I wrote a five-line hand-written rule before any model and kept it as the thing to beat, then judged four models against it on clients none of them had ever seen. The model did not win, and that is the paper. Precision@50 of 0.88 against the rule's 0.86, a gap that sits inside the 0.76–0.92 band the rule alone moves through purely from how tied scores are broken, with a client-clustered bootstrap putting the difference at -0.260 to +0.140 - an interval containing zero. Two findings mattered more than any model: splitting the data by row instead of by client inflates ROC-AUC from 0.618 to 0.728 in 8 of 8 draws, and the label turned out to be exactly rebuildable from two columns no guidance bans. I then swept every column with a planted positive control to prove the sweep could detect a leak, and it caught a third I had missed.",
+      "FlyRank ML internship capstone: a refresh-priority ranker over 30,000 pseudonymised client content pages, built to answer one question a content team actually has - given a fixed number of review hours, which pages do you look at first? I wrote a five-line hand-written rule before any model and kept it as the thing to beat, then judged four models against it on clients none of them had ever seen. On the capstone's single split of 9 test clients the model did not win: Precision@50 of 0.88 against the rule's 0.86, a gap inside the 0.76–0.92 band the rule alone moves through from how tied scores are broken, with a client-clustered bootstrap putting the difference at -0.260 to +0.140. So I reported a tie, then went back to test it properly. Over all 29 clients in 5-fold client-grouped cross-validation, with the pass mark written down before the first run, a rank average of the rule and the model beat the rule on every seed: 0.853 against 0.764, ahead in 25 of 30 folds on seeds never used while choosing. Two findings mattered more than any model: splitting the data by row instead of by client inflates ROC-AUC from 0.618 to 0.728 in 8 of 8 draws, and the label turned out to be exactly rebuildable from two columns no guidance bans. I then swept every column with a planted positive control to prove the sweep could detect a leak, and it caught a third I had missed.",
     tags: ["scikit-learn", "DuckDB", "Pandas", "Causal Inference", "Leakage Audit", "Bootstrap", "Python"],
-    metric: "P@50 0.88 vs 0.551 base - and still no clear win over a 5-line rule",
+    metric: "P@50 0.853 vs a 5-line rule's 0.764 - rule + model blend, all 29 clients",
     category: "FlyRank ML Internship - Ranking - Honest Validation",
     date: "2026",
     image: "/projects/flyrank-cover.jpg",
@@ -116,6 +117,7 @@ export const projects = [
     demo: "https://zeref538.github.io/Flyrank-Machine-Learning-Engineer-Internship/",
     demoLabel: "case study",
     highlights: [
+      "Followed up the tie instead of stopping at it: 5-fold client-grouped cross-validation over all 29 clients, pass mark written before the first run, 12 logged runs with one change each. A rank average of the rule and gradient boosting won 25 of 30 folds on 6 unseen seeds (P@50 0.853 vs 0.764; per-client P@10 0.811 vs 0.709), while the plain model won 19 of 30 and missed the bar",
       "Reported the non-result rather than the two-point win: a cluster bootstrap over held-out clients puts the model-minus-rule difference at [-0.260, +0.140] and the model ahead in only 61% of 2,000 resamples, and the conclusion survives every eligibility gate from 100 to 2,000 impressions",
       "Found that validation design outweighed model choice - a row-level split inflates ROC-AUC from 0.618 to 0.728 versus a client-grouped split, in 8 of 8 draws, a larger gap than between any two models tried",
       "Traced the label back to its arithmetic and found it exactly reconstructible from two unbanned columns (correlation 1.0000 across 26,612 rows, lifting the same model to 0.992), then stopped trusting my own reasoning and swept every column with a planted positive control - which caught a third leaky column I had missed",
