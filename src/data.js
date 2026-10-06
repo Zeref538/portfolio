@@ -39,8 +39,13 @@ export const experience = [
         name: "Backend AI Engineering",
         status: "in progress",
         summary:
-          "Currently on FlyRank's Backend AI Engineering track, moving from training models to serving them.",
-        more: [],
+          "Moving from training models to serving them: nine backend assignments shipped, then two capstones that each prove their claims with acceptance probes.",
+        more: [
+          "Built a usage metering and billing engine that counts every call exactly once under client retries, answers over-quota with an honest 402 or 429, prices AI tokens in integer micro-dollars, and syncs plans from Stripe webhooks. A real Stripe test-mode checkout flipped a tenant from Free to Pro; 30 tests and 5 acceptance probes pass.",
+          "Built an image matching engine that tags 50 images with a local vision model, matches them to blog posts by meaning, and refuses a wolf photo on a fox post with a reason. Top-1 precision 13/13 on a small 16-post test set, 6/6 on the held-out posts.",
+          "Flagged doubtful tags with the model's own token probabilities instead of its self-reported confidence, which turned out useless: three misnamed wolves were caught this way.",
+          "Shipped the weekly work along the way: a CRUD API, Postgres in Docker that survives a restart, Supabase auth, a polite scraper, Inngest background jobs, PDF reports, an LLM endpoint and a visual AI decision flow.",
+        ],
       },
       {
         name: "ML Engineering",
