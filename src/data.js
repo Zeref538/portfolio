@@ -527,6 +527,7 @@ export const projects = [
       "Full-year walk-forward test, 3 seeds: 26.3% / 34.0% / 41.0% / 13.6% less error than naive at 1 / 6 / 12 / 24h",
       "Calibrated 80% likely range that caught the real value 81-83% of the time; found the 2024 model had gone stale and added a gated monthly retrain",
       "Reported a pre-registered 24h attempt that missed its own 2% bar (1.8%) and was not shipped; a Manila model trained on real OpenAQ sensors beat every simple guess by 1.3-16.9%",
+      "Tested a PyTorch LSTM on the same unseen year (3 seeds): it beat the naive guess at every horizon but trailed the trees by 23% at 1h and 3% at 24h, so the trees stayed",
       "Live PM2.5 heat overlay clipped to PH landmass, light and dark themes, hourly GitHub Actions refresh",
     ],
   },
