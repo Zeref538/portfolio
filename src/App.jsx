@@ -22,7 +22,7 @@ import GradualBlur from "./components/GradualBlur.jsx";
 import StatusBar from "./components/StatusBar.jsx";
 import ChatWidget, { ChatDial, askAbout } from "./components/ChatWidget.jsx";
 import { SkillIcon, IssuerIcon } from "./skillIcons.jsx";
-import { LuExternalLink, LuBadgeCheck, LuArrowUpRight, LuFileText, LuLinkedin, LuMail, LuCheck, LuPhone, LuSun, LuMoon } from "react-icons/lu";
+import { LuExternalLink, LuBadgeCheck, LuFileText, LuLinkedin, LuMail, LuCheck, LuPhone, LuSun, LuMoon } from "react-icons/lu";
 import { LinkIcon } from "./linkIcon.jsx";
 import { SiGithub } from "react-icons/si";
 
@@ -184,15 +184,6 @@ function ExpTrack({ t }) {
         )}
       </div>
       <p className="exp-track-summary">{t.summary}</p>
-      {t.links?.length > 0 && (
-        <div className="exp-track-links">
-          {t.links.map((l) => (
-            <a key={l.url} className="exp-track-link" href={l.url} target="_blank" rel="noreferrer">
-              {l.label} <LuArrowUpRight aria-hidden="true" />
-            </a>
-          ))}
-        </div>
-      )}
       {t.more?.length > 0 && (
         <>
           <button
@@ -381,7 +372,7 @@ export default function App() {
   // projects are ordered strongest-first, so collapsing the tail hides only the
   // weakest cards (currently CafèSync, Portfolio, CLICKSILOG, Smart Scheduling)
   const PROJ_PREVIEW = projects.length - 4;
-  const projGroups = ["Agentic AI", "RAG", "Building LLMs", "Fine-Tuning LLMs", "ML & Forecasting", "Web & Apps"];
+  const projGroups = ["Agentic AI", "RAG", "Building LLMs", "Fine-Tuning LLMs", "ML & Forecasting", "Backend", "Web & Apps"];
   const filteredProjects =
     projFilter === "All"
       ? projects

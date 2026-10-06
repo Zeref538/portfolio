@@ -38,10 +38,6 @@ export const experience = [
       {
         name: "Backend AI Engineering",
         status: "in progress",
-        links: [
-          { label: "Fox, Not Wolf case study", url: "https://zeref538.github.io/AI-Image-Understanding-and-Content-Matching-Engine/" },
-          { label: "Count Once case study", url: "https://zeref538.github.io/Usage-Metering-and-Billing-Engine/" },
-        ],
         summary:
           "Moving from training models to serving them: nine backend assignments shipped, then two capstones that each prove their claims with acceptance probes.",
         more: [
@@ -128,6 +124,52 @@ export const projects = [
       "Ran the one causal test the 79-million-row warehouse allowed, a difference-in-differences on 13,233 genuinely optimized pages, and reported that it fails its own placebo (-0.71, 95% CI -1.21 to -0.11) instead of quoting the +2.75 it produces first",
       "Shipped a ranked queue whose first rule is a refusal: 24 of the top 50 slots are pages with impressions and zero clicks, which all still record sessions - a measurement contradiction, not a content problem, so no writer is sent at them",
       "capstone.ipynb runs top to bottom and ends in 14 assertions that fail the run rather than print a warning; no client name, URL, query or raw row appears anywhere in the public repo",
+    ],
+  },
+  {
+    title: "Fox, Not Wolf - Matching Images to Blog Posts by Meaning",
+    groups: ["Backend"],
+    description:
+      "FlyRank backend capstone: a service that looks at an image library, works out what is in each photo, and matches images to blog posts by meaning instead of filenames. A red-fox post gets a red-fox photo; a wolf that looks similar is refused with a reason, and when nothing fits it says 'no confident match' and explains why. A local vision model (qwen3.5:4b through Ollama, $0, no API key) describes every image as validated JSON with a confidence read from its own token probabilities, posts and images become embeddings, and a mismatch guard checks each candidate for the wrong animal, a weak match or a doubtful label before anything is suggested. The numbers that mattered were the ones against me: similarity alone cannot separate the animals - 28 of 52 wolf and coyote pairings scored above the weakest real fox image - so the refusals come from the guard's kind check, not a threshold. Thresholds were tuned on 9 posts only and the result is reported with its sample size: 13 of 13 correct first suggestions on 16 posts and six well-separated animals, which shows the pipeline works end to end, not that it would score 100% on a real blog.",
+    tags: ["FastAPI", "PostgreSQL", "Ollama", "Embeddings", "Computer Vision", "Docker", "Python"],
+    metric: "13/13 correct first suggestions, 0 wrong, 3/3 correct refusals",
+    category: "FlyRank Backend Capstone - Vision - Semantic Matching",
+    date: "2026",
+    image: "/projects/image-matching-1.jpg",
+    images: ["/projects/image-matching-1.jpg"],
+    imagesLight: ["/projects/image-matching-light-1.jpg"],
+    link: "https://github.com/Zeref538/AI-Image-Understanding-and-Content-Matching-Engine",
+    demo: "https://zeref538.github.io/AI-Image-Understanding-and-Content-Matching-Engine/",
+    demoLabel: "case study",
+    highlights: [
+      "Top-1 precision 13/13 on posts that have a correct image (held-out 6/6), zero wrong suggestions, and all 3 posts with no suitable image correctly refused",
+      "Mismatch guard with three reasons a candidate is turned down: the image's label is doubtful, the animal is the wrong kind, or similarity is under 0.45 - no wolf or coyote was ever suggested for a fox post",
+      "Caught the vision model naming 3 of 8 wolves as something else ('arctic fox', 'fox', 'white dog'); a 0.80 label-confidence floor flags all three so none can be suggested",
+      "Batch jobs with validated JSON, 3 retries then fail-and-alert, a per-call cost log and a budget guard: 50/50 images tagged, about half a cent at reference prices, $0 actually spent",
+      "6 acceptance probes and 33 tests against a fake model server; every requirement proved in EVIDENCE.md",
+    ],
+  },
+  {
+    title: "Count Once - Usage Metering & Billing Engine",
+    groups: ["Backend"],
+    description:
+      "FlyRank backend capstone: the backend every paid API needs - how much has this customer used, what does it cost, and have they hit their limit. Every billable request carries an idempotency key and is decided under a per-tenant row lock, with a UNIQUE constraint as the backstop, so a retried request is never billed twice: ten simultaneous retries of the same call record exactly one event. Over-quota requests get honest answers - 402 when upgrading would fix it, 429 with Retry-After when nothing higher exists - and every refusal says which limit, how much is used and when it resets. AI tokens are priced in integer micro-dollars with the real cached-input and reasoning rules, because summing all four counts as input would have billed less than half (5,400 instead of 12,100 micro-dollars on the worked example). Plans stay in sync with Stripe test mode through signature-checked, deduplicated webhooks applied by a background worker with retries and alerts.",
+    tags: ["FastAPI", "PostgreSQL", "Stripe", "Idempotency", "Webhooks", "Docker", "Python"],
+    metric: "10 simultaneous retries, 1 billed event - 5/5 probes, 30 tests",
+    category: "FlyRank Backend Capstone - Metering - Billing",
+    date: "2026",
+    image: "/projects/metering-1.jpg",
+    images: ["/projects/metering-1.jpg"],
+    imagesLight: ["/projects/metering-light-1.jpg"],
+    link: "https://github.com/Zeref538/Usage-Metering-and-Billing-Engine",
+    demo: "https://zeref538.github.io/Usage-Metering-and-Billing-Engine/",
+    demoLabel: "case study",
+    highlights: [
+      "Exactly-once metering: the same request sent twice returns the first response byte for byte and records one event; ten threads retrying at once still leave one row",
+      "Exact quota boundary over real HTTP: call 1,000 on Free is allowed, call 1,001 is a 402 that names the limit and the reset date",
+      "Token pricing in integer micro-dollars - cached input counted once, reasoning billed as output, rounding done once per month so it can't drift",
+      "Stripe test mode: forged webhook signatures get 400 and change nothing, replayed events are marked duplicate, and a real checkout flipped a tenant from Free to Pro",
+      "5 acceptance probes and 30 tests in a separate test database; every requirement proved in EVIDENCE.md",
     ],
   },
   {
