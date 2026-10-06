@@ -75,7 +75,7 @@ h3 { letter-spacing: -0.03em; }
   text-transform: uppercase; letter-spacing: 0.12em;
 }
 /* other small UI text that was monospace: plain Schibsted */
-.tag, .stack-tile-name, .cert-filter, .exp-track-verify, .exp-track-toggle, .pj-showmore, .pj3-links,
+.tag, .stack-tile-name, .cert-filter, .exp-track-verify, .exp-track-link, .exp-track-toggle, .pj-showmore, .pj3-links,
 .badge-verify, .nav-icon::after, .contact-icon::after, .pm-links a { font-family: var(--font-body); }
 .section-label::after { flex: 1; width: auto; background: var(--border); }
 .section-out { opacity: 1; }

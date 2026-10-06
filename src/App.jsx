@@ -184,6 +184,15 @@ function ExpTrack({ t }) {
         )}
       </div>
       <p className="exp-track-summary">{t.summary}</p>
+      {t.links?.length > 0 && (
+        <div className="exp-track-links">
+          {t.links.map((l) => (
+            <a key={l.url} className="exp-track-link" href={l.url} target="_blank" rel="noreferrer">
+              {l.label} <LuArrowUpRight aria-hidden="true" />
+            </a>
+          ))}
+        </div>
+      )}
       {t.more?.length > 0 && (
         <>
           <button

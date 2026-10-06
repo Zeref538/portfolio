@@ -38,6 +38,10 @@ export const experience = [
       {
         name: "Backend AI Engineering",
         status: "in progress",
+        links: [
+          { label: "Fox, Not Wolf case study", url: "https://zeref538.github.io/AI-Image-Understanding-and-Content-Matching-Engine/" },
+          { label: "Count Once case study", url: "https://zeref538.github.io/Usage-Metering-and-Billing-Engine/" },
+        ],
         summary:
           "Moving from training models to serving them: nine backend assignments shipped, then two capstones that each prove their claims with acceptance probes.",
         more: [
