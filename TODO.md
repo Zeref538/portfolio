@@ -2,7 +2,7 @@
 
 ## Agent Tasks
 
-- [ ] Publish the supplied one-page CV and verify the live download matches it
+- [x] Publish the supplied one-page CV and verify the live download matches it
 - [x] Update the CV in its existing format: backend AI internship, one fewer certificate, and verify the rendered PDF
 - [x] Draft a reply to Madeline about the AI Architect opportunity
 - [x] Fox, Not Wolf card: 3 more screenshots from the case study, dark and light
