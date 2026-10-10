@@ -18,6 +18,7 @@ from reportlab.lib.pagesizes import LETTER
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas as _canvas
+from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.platypus import (
     BaseDocTemplate, Flowable, Frame, PageTemplate, Paragraph, Spacer,
 )
@@ -97,13 +98,19 @@ PROJECTS = [
      "scikit-learn, DuckDB, pandas, Causal Inference, Python", "2026", [
          "Ranked which pages to refresh first from real search-console data, "
          "reaching 0.88 Precision@50 against a 0.86 recency baseline.",
-         "Ran a leakage audit and bootstrap confidence intervals so the gain was "
-         "shown to be real rather than an artefact of the split.",
+         "Audited label leakage and used bootstrap confidence intervals to show "
+         "that the initial result was a tie with the baseline.",
      ]),
 ]
 
 # (role, org, dates, [bullets])
 EXPERIENCE = [
+    ("Backend AI Engineering Intern", "FlyRank AI", "2026 - Present", [
+        "Built backend APIs with database persistence and authentication, "
+        "plus background jobs and an LLM endpoint across nine assignments.",
+        "Developed capstones for usage metering and Stripe test-mode billing, "
+        "and semantic image matching with a guard against mismatched images.",
+    ]),
     ("ML Engineering Intern", "FlyRank AI", "2026 - Present", [
         "Prepare and validate datasets, support model testing, and automate "
         "workflow steps in Python.",
@@ -132,7 +139,6 @@ CERTS = [
     ("Introduction to Model Context Protocol", "Anthropic", "2026"),
     ("Oracle Cloud Infrastructure Certified AI Foundations Associate",
      "Oracle University", "July 2025"),
-    ("Google Data Analytics Professional Certificate", "Coursera", "May 2025"),
 ]
 
 ACTIVITIES = (
@@ -237,7 +243,11 @@ def entry_block(title, rows, project=False):
             out.append(Head(name, date, sub=f"Tech: {tech}"))
         else:
             role, org, date, bl = row
-            out.append(Head(f"{role} - {org}", date))
+            title_line = f"{role} - {org}"
+            if stringWidth(title_line, "Helvetica-Bold", 9.6) + stringWidth(date, "Helvetica", 8.6) + 12 > FULL:
+                out.append(Head(role, date, sub=org))
+            else:
+                out.append(Head(title_line, date))
         out.append(Spacer(1, 1))
         out += bullets(bl)
         out.append(Spacer(1, 5))

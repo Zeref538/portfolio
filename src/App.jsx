@@ -460,7 +460,7 @@ export default function App() {
               <a
                 href="/cv.pdf"
                 className="nav-icon"
-                download
+                download="John-Andrei-Martinez-CV.pdf"
                 aria-label="Download CV"
                 data-label="Download CV"
               >
@@ -548,7 +548,7 @@ export default function App() {
             <Magnet padding={60} magnetStrength={4}>
               <a href="#contact" className="btn btn-primary">Get in Touch</a>
             </Magnet>
-            <a href="/cv.pdf" className="btn btn-ghost btn-cv" download>
+            <a href="/cv.pdf" className="btn btn-ghost btn-cv" download="John-Andrei-Martinez-CV.pdf">
               Download CV
             </a>
           </div>
