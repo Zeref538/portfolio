@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import ChatText from "./ChatText";
 import ThoughtLine from "./ThoughtLine.jsx";
@@ -68,19 +68,25 @@ export default function ChatWidget({ windowed = false, onClose, ask }) {
   const [closed, setClosed] = useState(false); // embedded-only "exit" state
   const [pos, setPos] = useState(null); // drag offset {x,y} when minimized
   const bodyRef = useRef(null);
+  const followLatest = useRef(true);
   const inputRef = useRef(null);
   const dragRef = useRef(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    followLatest.current = true;
+  }, [closed, fullscreen, minimized]);
+
+  useLayoutEffect(() => {
     const el = bodyRef.current;
-    if (el) el.scrollTop = el.scrollHeight;
-  }, [messages, busy, minimized]);
+    if (el && followLatest.current) el.scrollTop = el.scrollHeight;
+  }, [messages, busy, closed, fullscreen, minimized]);
 
   // project and before come straight from an ask button: state set in the same
   // moment would not be readable yet, so they are passed in, not read back
   const send = async (text, project = focus, before = []) => {
     const content = (text ?? input).trim();
     if (!content || busy) return;
+    followLatest.current = true;
     setInput("");
     const next = [...messages, ...before, { role: "user", content }];
     // The answer bubble opens at once with a thinking line in it. Its steps
@@ -287,7 +293,16 @@ export default function ChatWidget({ windowed = false, onClose, ask }) {
 
       {!minimized && (
         <>
-          <div className="chat-body" ref={bodyRef}>
+          <div
+            className="chat-body"
+            ref={bodyRef}
+            tabIndex={0}
+            role="region"
+            aria-label="Chat transcript"
+            onScroll={({ currentTarget: body }) => {
+              followLatest.current = body.scrollHeight - body.clientHeight - body.scrollTop <= 8;
+            }}
+          >
             {messages.map((m, i) => (
               <div key={i} className={`chat-msg chat-${m.role}${m.note ? " chat-note" : ""}`}>
                 {!m.note && <span className="chat-prefix">{m.role === "user" ? "you $" : "bot #"}</span>}
