@@ -176,9 +176,16 @@ function ExpTrack({ t }) {
         <span className={`exp-track-dot ${done ? "done" : "wip"}`} />
         <span className="exp-track-name">{t.name}</span>
         {t.verify ? (
-          <a className="exp-track-verify" href={t.verify} target="_blank" rel="noreferrer">
-            <LuBadgeCheck /> verify
-          </a>
+          <div className="exp-track-links">
+            <a className="exp-track-verify" href={t.verify} target="_blank" rel="noreferrer" aria-label={`Verify ${t.name}`}>
+              <LuBadgeCheck /> verify
+            </a>
+            {t.certificate && (
+              <a className="exp-track-verify" href={t.certificate} target="_blank" rel="noreferrer" aria-label={`${t.name} certificate PDF`}>
+                <LuFileText /> certificate
+              </a>
+            )}
+          </div>
         ) : (
           <span className="exp-track-status">{t.status}</span>
         )}
@@ -507,7 +514,7 @@ export default function App() {
         <div className="container">
           <div className="hero-status">
             <span className="dot" />
-            <span className="status-lead">training - </span>Backend AI Engineering @ FlyRank AI
+            <span className="status-lead">completed - </span>Backend AI Engineering @ FlyRank AI
           </div>
           <div className="boot-log" aria-hidden="true">
             <span>[ ok ] modules loaded - cv · ml · data</span>

@@ -16,7 +16,7 @@ export const profile = {
     { label: "LinkedIn", url: "https://linkedin.com/in/john-andrei-martinez-499a0b343" },
   ],
   about: [
-    "Computer Science student at Our Lady of Fatima University, Dean's Lister since 2023, currently an ML engineering intern at FlyRank AI. I own the whole pipeline - data, model, evaluation, deployment.",
+    "Computer Science student at Our Lady of Fatima University, Dean's Lister since 2023. I completed three tracks at FlyRank AI: AI Fluency, ML Engineering, and Backend AI Engineering. I own the whole pipeline - data, model, evaluation, deployment.",
     "20 projects across agentic AI, RAG, and LLMs: a 12.5M-parameter language model written from scratch in PyTorch, a 32.8M Taglish model trained on code-switched Filipino, a receipt checker that runs as a step inside an n8n workflow, an air-quality forecaster for 29 Philippine cities, and the chatbot you're talking to now. 18 of them are live.",
     "What ties them together is the second number. My FlyRank model scored 0.88 to a hand-written five-line rule's 0.86 on 9 test clients - a gap a bootstrap put at [-0.26, +0.14], so I reported a tie. Then I re-tested on all 29 clients with the pass mark written down first: a blend of the rule and the model beat the rule on every seed, 0.853 to 0.764. Looking for internship or entry-level AI/ML engineering roles.",
   ],
@@ -28,18 +28,19 @@ export const experience = [
     // not "FlyRank AI" again - the role line already says it, and the card was
     // printing the company name twice, one above the other
     company: "AI/ML engineering program",
-    period: "Jun 2026 - Present",
+    period: "Jun 2026 - Nov 2026",
     location: "Remote",
     // Three tracks under one role, not three jobs. Each opens with the single
     // line that matters and hides the rest behind a toggle - the card was four
     // long bullets tall before, which buried the two tracks underneath it.
-    // Backend AI stays marked in progress because it IS in progress.
     tracks: [
       {
         name: "Backend AI Engineering",
-        status: "in progress",
+        status: "completed",
+        verify: "https://internship.flyrank.ai/verify/FR-D11-A8139-6FCF1?first_name=John",
+        certificate: "https://internship.flyrank.ai/api/documents/5a597999-9f5c-46cb-b846-4517e58c081a/pdf#navpanes=0&pagemode=none",
         summary:
-          "Moving from training models to serving them: nine backend assignments shipped, then two capstones that each prove their claims with acceptance probes.",
+          "Completed nine backend assignments and two capstones: a usage metering and billing engine and an image matching service, both validated with acceptance tests.",
         more: [
           "Built a usage metering and billing engine that counts every call exactly once under client retries, answers over-quota with an honest 402 or 429, prices AI tokens in integer micro-dollars, and syncs plans from Stripe webhooks. A real Stripe test-mode checkout flipped a tenant from Free to Pro; 30 tests and 5 acceptance probes pass.",
           "Built an image matching engine that tags 50 images with a local vision model, matches them to blog posts by meaning, and refuses a wolf photo on a fox post with a reason. Top-1 precision 13/13 on a small 16-post test set, 6/6 on the held-out posts.",
