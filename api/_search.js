@@ -72,11 +72,12 @@ export function belongs(r, key) {
 // "ask about this project" buttons, or undefined.
 export function search(records, kw, query, qv, { mode = "hybrid", k = 6, focus } = {}) {
   let ids = records.map((_, i) => i);
+  let currentProject = -1;
   if (focus) {
     const key = projectKey(focus);
     const mine = ids.filter((i) => belongs(records[i], key));
-    // a project with almost nothing indexed falls back to everything
-    if (mine.length >= 2) ids = mine;
+    if (mine.length) ids = mine;
+    currentProject = records.findIndex((r) => r.source === "project" && r.title === focus);
   }
   const rank = (scores) => [...ids].sort((a, b) => scores[b] - scores[a]);
   const lists = [];
@@ -84,11 +85,13 @@ export function search(records, kw, query, qv, { mode = "hybrid", k = 6, focus }
     const s = keywordScores(kw, focus ? `${focus} ${query}` : query);
     lists.push(rank(s).filter((i) => s[i] > 0));
   }
-  if (mode !== "keyword" && qv) {
-    const s = records.map((r) => cosine(qv, r.embedding));
-    lists.push(rank(s));
+  if (mode !== "keyword" && qv?.length) {
+    const s = records.map((r) => r.embedding?.length === qv.length ? cosine(qv, r.embedding) : -Infinity);
+    lists.push(rank(s).filter((i) => s[i] !== -Infinity));
   }
   const fused = new Map();
   for (const list of lists) list.forEach((i, r) => fused.set(i, (fused.get(i) || 0) + 1 / (RRF_K + r + 1)));
-  return [...fused.entries()].sort((a, b) => b[1] - a[1]).slice(0, k).map(([i]) => records[i]);
+  const ranked = [...fused.keys()].sort((a, b) => fused.get(b) - fused.get(a));
+  const results = currentProject < 0 ? ranked : [currentProject, ...ranked.filter((i) => i !== currentProject)];
+  return results.slice(0, k).map((i) => records[i]);
 }

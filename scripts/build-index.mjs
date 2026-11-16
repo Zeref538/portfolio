@@ -5,7 +5,8 @@
 //
 // Run locally (needs the Azure key + an embeddings deployment):
 //   node scripts/build-index.mjs
-// Then commit api/_index.json. No external vector DB - retrieval is cosine similarity.
+// Use --offline to sync text and reuse vectors for identical chunks without Azure.
+// Then commit api/_index.json.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -17,8 +18,10 @@ const ENDPOINT = process.env.AZURE_OPENAI_ENDPOINT?.replace(/\/$/, "");
 const KEY = process.env.AZURE_OPENAI_KEY;
 const EMBED_DEPLOYMENT = process.env.AZURE_OPENAI_EMBED_DEPLOYMENT || "text-embedding-3-small";
 const API_VERSION = "2024-02-01";
+const INDEX_PATH = path.join(ROOT, "api", "_index.json");
+const offline = process.argv.includes("--offline");
 
-if (!ENDPOINT || !KEY) {
+if (!offline && (!ENDPOINT || !KEY)) {
   console.error("Missing AZURE_OPENAI_ENDPOINT / AZURE_OPENAI_KEY. Set them (e.g. in .env.local) and retry.");
   process.exit(1);
 }
@@ -41,7 +44,7 @@ async function loadDocs() {
     docs.push({
       source: "experience",
       title: `${e.role} @ ${e.company}`,
-      text: `${e.role} at ${e.company} (${e.period}, ${e.location}).\n${
+      text: `${e.role} at ${e.company} (${e.period}, ${e.location}).\n\n${
         (e.bullets
           ? e.bullets.map((b) => `- ${b}`)
           : (e.tracks || []).flatMap((t) => [
@@ -58,7 +61,7 @@ async function loadDocs() {
     docs.push({
       source: "project",
       title: p.title,
-      text: `${p.title} [${p.category}, ${p.date}] - ${p.description}\nTech: ${p.tags.join(", ")}\nHighlights:\n${p.highlights.map((h) => `- ${h}`).join("\n")}\nRepo: ${p.link}${p.demo ? ` | Demo: ${p.demo}` : ""}`,
+      text: `${p.title} [${p.category}, ${p.date}] - ${p.description}\nTech: ${p.tags.join(", ")}\nHighlights:\n${p.highlights.map((h) => `- ${h}`).join("\n")}\nRepo: ${p.link}${p.live ? ` | Live app: ${p.live}` : ""}${p.demo ? ` | Demo: ${p.demo}` : ""}`,
     });
   }
 
@@ -158,22 +161,36 @@ for (const d of docs) {
     records.push({ source: d.source, title: d.title, text: c });
   }
 }
-console.log(`Embedding ${records.length} chunks from ${docs.length} docs via ${EMBED_DEPLOYMENT} ...`);
-
-// batch to stay well under request limits
-const BATCH = 16;
-for (let i = 0; i < records.length; i += BATCH) {
-  const batch = records.slice(i, i + BATCH);
-  const vecs = await embed(batch.map((b) => b.text));
-  batch.forEach((b, j) => (b.embedding = vecs[j]));
-  process.stdout.write(`  ${Math.min(i + BATCH, records.length)}/${records.length}\r`);
+if (offline) {
+  const prev = fs.existsSync(INDEX_PATH) ? JSON.parse(fs.readFileSync(INDEX_PATH, "utf8")) : null;
+  const vectors = new Map();
+  if (prev?.model === EMBED_DEPLOYMENT) {
+    for (const { text, embedding } of prev.records) {
+      if (Array.isArray(embedding) && embedding.length === prev.dim) vectors.set(text, embedding);
+    }
+  }
+  for (const record of records) {
+    const embedding = vectors.get(record.text);
+    if (embedding) record.embedding = embedding;
+  }
+} else {
+  console.log(`Embedding ${records.length} chunks from ${docs.length} docs via ${EMBED_DEPLOYMENT} ...`);
+  // Batch to stay well under request limits.
+  const BATCH = 16;
+  for (let i = 0; i < records.length; i += BATCH) {
+    const batch = records.slice(i, i + BATCH);
+    const vecs = await embed(batch.map((b) => b.text));
+    batch.forEach((b, j) => (b.embedding = vecs[j]));
+    process.stdout.write(`  ${Math.min(i + BATCH, records.length)}/${records.length}\r`);
+  }
 }
 
 const out = {
   model: EMBED_DEPLOYMENT,
-  dim: records[0]?.embedding.length || 0,
+  dim: records.find((record) => record.embedding)?.embedding.length || 0,
   built_at: new Date().toISOString(),
   records,
 };
-fs.writeFileSync(path.join(ROOT, "api", "_index.json"), JSON.stringify(out));
-console.log(`\nWrote api/_index.json - ${records.length} chunks, dim ${out.dim}`);
+fs.writeFileSync(INDEX_PATH, JSON.stringify(out));
+const embedded = records.filter((record) => record.embedding).length;
+console.log(`\nWrote api/_index.json - ${records.length} chunks, ${embedded} with embeddings`);

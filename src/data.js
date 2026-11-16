@@ -17,7 +17,7 @@ export const profile = {
   ],
   about: [
     "Computer Science student at Our Lady of Fatima University, Dean's Lister since 2023. I completed three tracks at FlyRank AI: AI Fluency, ML Engineering, and Backend AI Engineering. I own the whole pipeline - data, model, evaluation, deployment.",
-    "20 projects across agentic AI, RAG, and LLMs: a 12.5M-parameter language model written from scratch in PyTorch, a 32.8M Taglish model trained on code-switched Filipino, a receipt checker that runs as a step inside an n8n workflow, an air-quality forecaster for 29 Philippine cities, and the chatbot you're talking to now. 18 of them are live.",
+    "My projects span applied ML, agentic AI, and backend engineering, including a 12.5M-parameter language model written from scratch in PyTorch, a 32.8M-parameter Taglish model, a receipt checker that runs inside an n8n workflow, and an air-quality forecaster for 29 Philippine cities.",
     "What ties them together is the second number. My FlyRank model scored 0.88 to a hand-written five-line rule's 0.86 on 9 test clients - a gap a bootstrap put at [-0.26, +0.14], so I reported a tie. Then I re-tested on all 29 clients with the pass mark written down first: a blend of the rule and the model beat the rule on every seed, 0.853 to 0.764. Looking for internship or entry-level AI/ML engineering roles.",
   ],
 };

@@ -78,14 +78,14 @@ A: Defined thresholds up front - mAP50, precision, recall, F1 - with minimum and
 **Q: Have you worked on a team? How do you handle code review, disagreements, and communication?**
 A: Yes - I usually end up as project manager. I run rigorous testing and QA, and I over-communicate rather than assume. Disagreements get settled with evidence: show the metric, show the test, move on.
 
-**Q: Describe your work at FlyRank AI - what are you actually building/contributing?**
-A: My capstone there is on Google Search ranking and discoverability - understanding what actually moves visibility and building around it.
+**Q: What did you build at FlyRank AI?**
+A: In ML Engineering, I built Fix First, a ranker that prioritizes which web pages to refresh. In Backend AI Engineering, I built Count Once, a usage metering and billing service tested against simultaneous retries, and Fox, Not Wolf, an image matching service that can decline weak matches. In AI Fluency, I built a tool that checks numerical claims against their sources.
 
 **Q: What FlyRank AI programs have you completed?**
-A: I completed three tracks: AI Fluency (https://internship.flyrank.ai/verify/FR-D11-32B85-20FD0), ML Engineering (Sep 2026, https://internship.flyrank.ai/verify/FR-D11-2BABA-10084), and Backend AI Engineering (Nov 2026, https://internship.flyrank.ai/verify/FR-D11-A8139-6FCF1?first_name=John).
+A: I completed AI Fluency, ML Engineering, and Backend AI Engineering. FlyRank verification is available for all three tracks: https://internship.flyrank.ai/verify/FR-D11-32B85-20FD0?first_name=John, https://internship.flyrank.ai/verify/FR-D11-2BABA-10084?first_name=John, and https://internship.flyrank.ai/verify/FR-D11-A8139-6FCF1?first_name=John.
 
 **Q: Is the FlyRank ML Engineering internship still ongoing?**
-A: The ML Engineering track ran from June to September 2026. I completed Backend AI Engineering in November 2026, wrapping up the FlyRank internship.
+A: The FlyRank internship ran from June to November 2026. I completed the ML Engineering track in September and Backend AI Engineering in November.
 
 **Q: How do you manage your time and stay productive in an async / remote setting?**
 A: A fixed schedule covering school, project work, and study. Everything has a slot. Efficiency isn't a mood for me; it's a system.
