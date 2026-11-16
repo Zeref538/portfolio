@@ -176,16 +176,9 @@ function ExpTrack({ t }) {
         <span className={`exp-track-dot ${done ? "done" : "wip"}`} />
         <span className="exp-track-name">{t.name}</span>
         {t.verify ? (
-          <div className="exp-track-links">
-            <a className="exp-track-verify" href={t.verify} target="_blank" rel="noreferrer" aria-label={`Verify ${t.name}`}>
-              <LuBadgeCheck /> verify
-            </a>
-            {t.certificate && (
-              <a className="exp-track-verify" href={t.certificate} target="_blank" rel="noreferrer" aria-label={`${t.name} certificate PDF`}>
-                <LuFileText /> certificate
-              </a>
-            )}
-          </div>
+          <a className="exp-track-verify" href={t.verify} target="_blank" rel="noreferrer" aria-label={`Verify ${t.name}`}>
+            <LuBadgeCheck /> verify
+          </a>
         ) : (
           <span className="exp-track-status">{t.status}</span>
         )}

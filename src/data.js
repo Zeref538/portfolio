@@ -38,7 +38,6 @@ export const experience = [
         name: "Backend AI Engineering",
         status: "completed",
         verify: "https://internship.flyrank.ai/verify/FR-D11-A8139-6FCF1?first_name=John",
-        certificate: "https://internship.flyrank.ai/api/documents/5a597999-9f5c-46cb-b846-4517e58c081a/pdf#navpanes=0&pagemode=none",
         summary:
           "Completed nine backend assignments and two capstones: a usage metering and billing engine and an image matching service, both validated with acceptance tests.",
         more: [
